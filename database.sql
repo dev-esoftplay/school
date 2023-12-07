@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.5
+-- version 4.9.11
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 07, 2023 at 10:37 AM
+-- Generation Time: Dec 07, 2023 at 01:20 PM
 -- Server version: 5.7.42-log
 -- PHP Version: 7.4.33
 
@@ -2072,7 +2072,7 @@ CREATE TABLE `bbc_user` (
 --
 
 INSERT INTO `bbc_user` (`id`, `group_ids`, `username`, `password`, `last_ip`, `last_ip_temp`, `last_login`, `last_login_temp`, `exp_checked`, `login_time`, `created`, `active`) VALUES
-(1, ',3,4,1,2,', 'admin', 'DOtGmGAQ9sEZA4nNBAgcw2MOp3eivB3SnbpgYhoYO1ibI93Egax7y9vMG9ThsPi6BMiZwx497sGjKYHyZvPv+A==', '127.0.0.1', '127.0.0.1', '2019-08-09 15:27:56', '2019-08-01 14:05:56', '0000-00-00 00:00:00', 18, '0000-00-00 00:00:00', 1),
+(1, ',3,4,1,2,', 'admin', 'DOtGmGAQ9sEZA4nNBAgcw2MOp3eivB3SnbpgYhoYO1ibI93Egax7y9vMG9ThsPi6BMiZwx497sGjKYHyZvPv+A==', '::1', '127.0.0.1', '2023-12-07 12:50:11', '2019-08-09 15:27:56', '2023-12-07 15:20:42', 19, '0000-00-00 00:00:00', 1),
 (2, ',2,1,3,4,', 'danang@fisip.net', 'DOtGmGAQ9sEZA4nNBAgcw2MOp3eivB3SnbpgYhoYO1ibI93Egax7y9vMG9ThsPi6BMiZwx497sGjKYHyZvPv+A==', '127.0.0.1', '127.0.0.1', '2016-05-03 23:35:44', '2016-05-03 23:32:34', '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 1);
 
 -- --------------------------------------------------------
@@ -2373,17 +2373,183 @@ CREATE TABLE `links_ad` (
 --
 
 CREATE TABLE `school` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `address` text,
+  `image` varchar(255) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  `created` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `active` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `school_attendance`
+--
+
+CREATE TABLE `school_attendance` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `address` text NOT NULL,
-  `image` varchar(255) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `phone` varchar(50) NOT NULL,
-  `created` datetime NOT NULL,
-  `updated` datetime NOT NULL,
-  `active` tinyint(1) NOT NULL,
-  `website` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `student_id` int(11) DEFAULT NULL,
+  `schedule_id` int(11) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT NULL,
+  `notes` varchar(255) DEFAULT NULL,
+  `created` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `school_attendance_report`
+--
+
+CREATE TABLE `school_attendance_report` (
+  `id` int(11) NOT NULL,
+  `class_id` int(11) DEFAULT NULL,
+  `schedule_id` int(11) DEFAULT NULL,
+  `total_present` int(11) DEFAULT NULL,
+  `total_s` int(11) DEFAULT NULL,
+  `total_i` int(11) DEFAULT NULL,
+  `total_a` int(11) DEFAULT NULL,
+  `date_day` tinyint(1) DEFAULT NULL,
+  `date_week` tinyint(1) DEFAULT NULL,
+  `date_month` tinyint(1) DEFAULT NULL,
+  `date_year` tinyint(1) DEFAULT NULL,
+  `created` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `school_class`
+--
+
+CREATE TABLE `school_class` (
+  `id` int(11) NOT NULL,
+  `teacher_id` int(11) DEFAULT NULL,
+  `grade` tinyint(2) DEFAULT NULL,
+  `label` varchar(10) DEFAULT NULL,
+  `major` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `school_course`
+--
+
+CREATE TABLE `school_course` (
+  `id` int(11) NOT NULL,
+  `name` varchar(225) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `school_parent`
+--
+
+CREATE TABLE `school_parent` (
+  `id` int(11) NOT NULL,
+  `user_id` varchar(255) DEFAULT NULL,
+  `name` int(11) DEFAULT NULL,
+  `nik` char(16) DEFAULT NULL,
+  `nokk` char(16) DEFAULT NULL,
+  `created` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `active` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `school_schedule`
+--
+
+CREATE TABLE `school_schedule` (
+  `id` int(11) NOT NULL,
+  `teacher_course_id` int(11) DEFAULT NULL,
+  `day` int(11) DEFAULT NULL,
+  `clock_start` char(5) DEFAULT NULL,
+  `clock_end` char(5) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `school_student`
+--
+
+CREATE TABLE `school_student` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `user_id` int(11) UNSIGNED DEFAULT NULL,
+  `parent_id_dad` int(11) UNSIGNED DEFAULT NULL,
+  `parent_id_mom` int(11) UNSIGNED DEFAULT NULL,
+  `parent_id_guard` int(11) UNSIGNED DEFAULT NULL,
+  `name` varchar(225) DEFAULT NULL,
+  `nis` varchar(225) DEFAULT NULL,
+  `nokk` char(16) DEFAULT NULL,
+  `created` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `school_student_class`
+--
+
+CREATE TABLE `school_student_class` (
+  `id` int(11) NOT NULL,
+  `student_id` int(11) DEFAULT NULL,
+  `class_id` int(11) DEFAULT NULL,
+  `number` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `school_student_parent`
+--
+
+CREATE TABLE `school_student_parent` (
+  `id` int(11) NOT NULL,
+  `student_id` int(11) DEFAULT NULL,
+  `parent_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `school_teacher`
+--
+
+CREATE TABLE `school_teacher` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `user_id` int(11) UNSIGNED DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `nip` varchar(255) DEFAULT NULL,
+  `position` varchar(255) DEFAULT NULL,
+  `created` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `school_teacher_course`
+--
+
+CREATE TABLE `school_teacher_course` (
+  `id` int(11) NOT NULL,
+  `teacher_id` int(11) DEFAULT NULL,
+  `course_id` int(11) DEFAULT NULL,
+  `class_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3167,6 +3333,72 @@ ALTER TABLE `school`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `school_attendance`
+--
+ALTER TABLE `school_attendance`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `school_attendance_report`
+--
+ALTER TABLE `school_attendance_report`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `school_class`
+--
+ALTER TABLE `school_class`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `school_course`
+--
+ALTER TABLE `school_course`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `school_parent`
+--
+ALTER TABLE `school_parent`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `school_schedule`
+--
+ALTER TABLE `school_schedule`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `school_student`
+--
+ALTER TABLE `school_student`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `school_student_class`
+--
+ALTER TABLE `school_student_class`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `school_student_parent`
+--
+ALTER TABLE `school_student_parent`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `school_teacher`
+--
+ALTER TABLE `school_teacher`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `school_teacher_course`
+--
+ALTER TABLE `school_teacher_course`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `survey_polling`
 --
 ALTER TABLE `survey_polling`
@@ -3526,10 +3758,16 @@ ALTER TABLE `links_ad`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `school`
+-- AUTO_INCREMENT for table `school_student`
 --
-ALTER TABLE `school`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `school_student`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `school_teacher`
+--
+ALTER TABLE `school_teacher`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `survey_polling`
