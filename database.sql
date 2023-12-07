@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 07, 2023 at 01:20 PM
+-- Generation Time: Dec 07, 2023 at 04:39 PM
 -- Server version: 5.7.42-log
 -- PHP Version: 7.4.33
 
@@ -2072,7 +2072,7 @@ CREATE TABLE `bbc_user` (
 --
 
 INSERT INTO `bbc_user` (`id`, `group_ids`, `username`, `password`, `last_ip`, `last_ip_temp`, `last_login`, `last_login_temp`, `exp_checked`, `login_time`, `created`, `active`) VALUES
-(1, ',3,4,1,2,', 'admin', 'DOtGmGAQ9sEZA4nNBAgcw2MOp3eivB3SnbpgYhoYO1ibI93Egax7y9vMG9ThsPi6BMiZwx497sGjKYHyZvPv+A==', '::1', '127.0.0.1', '2023-12-07 12:50:11', '2019-08-09 15:27:56', '2023-12-07 15:20:42', 19, '0000-00-00 00:00:00', 1),
+(1, ',3,4,1,2,', 'admin', 'DOtGmGAQ9sEZA4nNBAgcw2MOp3eivB3SnbpgYhoYO1ibI93Egax7y9vMG9ThsPi6BMiZwx497sGjKYHyZvPv+A==', '::1', '127.0.0.1', '2023-12-07 12:50:11', '2019-08-09 15:27:56', '2023-12-07 18:24:38', 19, '0000-00-00 00:00:00', 1),
 (2, ',2,1,3,4,', 'danang@fisip.net', 'DOtGmGAQ9sEZA4nNBAgcw2MOp3eivB3SnbpgYhoYO1ibI93Egax7y9vMG9ThsPi6BMiZwx497sGjKYHyZvPv+A==', '127.0.0.1', '127.0.0.1', '2016-05-03 23:35:44', '2016-05-03 23:32:34', '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 1);
 
 -- --------------------------------------------------------
@@ -2381,8 +2381,8 @@ CREATE TABLE `school` (
   `phone` varchar(50) DEFAULT NULL,
   `created` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `active` tinyint(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `active` tinyint(1) DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='menyimpan data sekolah';
 
 -- --------------------------------------------------------
 
@@ -2391,14 +2391,14 @@ CREATE TABLE `school` (
 --
 
 CREATE TABLE `school_attendance` (
-  `id` int(11) NOT NULL,
-  `student_id` int(11) DEFAULT NULL,
-  `schedule_id` int(11) DEFAULT NULL,
-  `presence` tinyint(1) DEFAULT NULL,
-  `notes` varchar(255) DEFAULT NULL,
+  `id` int(11) UNSIGNED NOT NULL,
+  `student_id` int(11) UNSIGNED DEFAULT NULL,
+  `schedule_id` int(11) UNSIGNED DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT '1' COMMENT '1=hadir, 2=sakit, 3=ijin, 4=tidak hadir',
+  `notes` varchar(255) DEFAULT NULL COMMENT 'ini adalah keterangan dari field sebelumnya',
   `created` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='daftar kehadiran';
 
 -- --------------------------------------------------------
 
@@ -2407,20 +2407,20 @@ CREATE TABLE `school_attendance` (
 --
 
 CREATE TABLE `school_attendance_report` (
-  `id` int(11) NOT NULL,
-  `class_id` int(11) DEFAULT NULL,
-  `schedule_id` int(11) DEFAULT NULL,
-  `total_present` int(11) DEFAULT NULL,
-  `total_s` int(11) DEFAULT NULL,
-  `total_i` int(11) DEFAULT NULL,
-  `total_a` int(11) DEFAULT NULL,
+  `id` int(11) UNSIGNED NOT NULL,
+  `class_id` int(11) UNSIGNED DEFAULT NULL,
+  `schedule_id` int(11) UNSIGNED DEFAULT NULL,
+  `total_present` int(11) UNSIGNED DEFAULT NULL COMMENT 'total kehadiran',
+  `total_s` int(11) UNSIGNED DEFAULT NULL COMMENT 'total sakit',
+  `total_i` int(11) UNSIGNED DEFAULT NULL COMMENT 'total ijin',
+  `total_a` int(11) UNSIGNED DEFAULT NULL COMMENT 'total tidak hadir',
   `date_day` tinyint(1) DEFAULT NULL,
   `date_week` tinyint(1) DEFAULT NULL,
   `date_month` tinyint(1) DEFAULT NULL,
   `date_year` tinyint(1) DEFAULT NULL,
   `created` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='hasil laporan kehadiran';
 
 -- --------------------------------------------------------
 
@@ -2429,12 +2429,12 @@ CREATE TABLE `school_attendance_report` (
 --
 
 CREATE TABLE `school_class` (
-  `id` int(11) NOT NULL,
+  `id` int(11) UNSIGNED NOT NULL,
   `teacher_id` int(11) DEFAULT NULL,
-  `grade` tinyint(2) DEFAULT NULL,
-  `label` varchar(10) DEFAULT NULL,
-  `major` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `grade` tinyint(2) DEFAULT NULL COMMENT 'tingkatan kelas (1,2,3)',
+  `label` varchar(10) DEFAULT NULL COMMENT 'setelah grade (a,b,c)',
+  `major` varchar(50) DEFAULT NULL COMMENT 'kejurusan kelas'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data kelas';
 
 -- --------------------------------------------------------
 
@@ -2443,9 +2443,9 @@ CREATE TABLE `school_class` (
 --
 
 CREATE TABLE `school_course` (
-  `id` int(11) NOT NULL,
+  `id` int(11) UNSIGNED NOT NULL,
   `name` varchar(225) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data mata pelajaran sekolah';
 
 -- --------------------------------------------------------
 
@@ -2454,15 +2454,15 @@ CREATE TABLE `school_course` (
 --
 
 CREATE TABLE `school_parent` (
-  `id` int(11) NOT NULL,
-  `user_id` varchar(255) DEFAULT NULL,
-  `name` int(11) DEFAULT NULL,
+  `id` int(11) UNSIGNED NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `name` int(11) UNSIGNED DEFAULT NULL,
   `nik` char(16) DEFAULT NULL,
   `nokk` char(16) DEFAULT NULL,
   `created` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `active` tinyint(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `active` tinyint(1) DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data orang tua siswa';
 
 -- --------------------------------------------------------
 
@@ -2471,12 +2471,12 @@ CREATE TABLE `school_parent` (
 --
 
 CREATE TABLE `school_schedule` (
-  `id` int(11) NOT NULL,
-  `teacher_course_id` int(11) DEFAULT NULL,
-  `day` int(11) DEFAULT NULL,
+  `id` int(11) UNSIGNED NOT NULL,
+  `teacher_course_id` int(11) UNSIGNED DEFAULT NULL,
+  `day` tinyint(1) DEFAULT NULL COMMENT '1=senin, 2=selasa, 3=rabu, 4=kamis,5=jumat, 6=sabtu, 7=ahad',
   `clock_start` char(5) DEFAULT NULL,
   `clock_end` char(5) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data jadwal';
 
 -- --------------------------------------------------------
 
@@ -2487,15 +2487,15 @@ CREATE TABLE `school_schedule` (
 CREATE TABLE `school_student` (
   `id` int(11) UNSIGNED NOT NULL,
   `user_id` int(11) UNSIGNED DEFAULT NULL,
-  `parent_id_dad` int(11) UNSIGNED DEFAULT NULL,
-  `parent_id_mom` int(11) UNSIGNED DEFAULT NULL,
-  `parent_id_guard` int(11) UNSIGNED DEFAULT NULL,
+  `parent_id_dad` int(11) UNSIGNED DEFAULT NULL COMMENT 'parent id ayah siswa',
+  `parent_id_mom` int(11) UNSIGNED DEFAULT NULL COMMENT 'parent id ibu siswa',
+  `parent_id_guard` int(11) UNSIGNED DEFAULT NULL COMMENT 'parent id wali siswa (jika ada)',
   `name` varchar(225) DEFAULT NULL,
-  `nis` varchar(225) DEFAULT NULL,
-  `nokk` char(16) DEFAULT NULL,
+  `nis` varchar(225) DEFAULT NULL COMMENT 'nomor induk siswa',
+  `nokk` char(16) DEFAULT NULL COMMENT 'nomor kartu keluarga',
   `created` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data siswa';
 
 -- --------------------------------------------------------
 
@@ -2504,11 +2504,11 @@ CREATE TABLE `school_student` (
 --
 
 CREATE TABLE `school_student_class` (
-  `id` int(11) NOT NULL,
-  `student_id` int(11) DEFAULT NULL,
-  `class_id` int(11) DEFAULT NULL,
-  `number` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` int(11) UNSIGNED NOT NULL,
+  `student_id` int(11) UNSIGNED DEFAULT NULL,
+  `class_id` int(11) UNSIGNED DEFAULT NULL,
+  `number` int(11) UNSIGNED DEFAULT NULL COMMENT 'nomor absent siswa'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data menyimpan siswa per kelas';
 
 -- --------------------------------------------------------
 
@@ -2517,10 +2517,10 @@ CREATE TABLE `school_student_class` (
 --
 
 CREATE TABLE `school_student_parent` (
-  `id` int(11) NOT NULL,
-  `student_id` int(11) DEFAULT NULL,
-  `parent_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` int(11) UNSIGNED NOT NULL,
+  `student_id` int(11) UNSIGNED DEFAULT NULL,
+  `parent_id` int(11) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data menghubungkan orang tua siswa dan siswa';
 
 -- --------------------------------------------------------
 
@@ -2532,11 +2532,11 @@ CREATE TABLE `school_teacher` (
   `id` int(11) UNSIGNED NOT NULL,
   `user_id` int(11) UNSIGNED DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `nip` varchar(255) DEFAULT NULL,
-  `position` varchar(255) DEFAULT NULL,
+  `nip` varchar(255) DEFAULT NULL COMMENT 'nomor induk pegawai',
+  `position` varchar(255) DEFAULT NULL COMMENT 'jabatan',
   `created` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data guru';
 
 -- --------------------------------------------------------
 
@@ -2545,11 +2545,11 @@ CREATE TABLE `school_teacher` (
 --
 
 CREATE TABLE `school_teacher_course` (
-  `id` int(11) NOT NULL,
-  `teacher_id` int(11) DEFAULT NULL,
-  `course_id` int(11) DEFAULT NULL,
-  `class_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` int(11) UNSIGNED NOT NULL,
+  `teacher_id` int(11) UNSIGNED DEFAULT NULL,
+  `course_id` int(11) UNSIGNED DEFAULT NULL,
+  `class_id` int(11) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='mengkelompokan guru dengan mata pelajaran dan kelas ';
 
 -- --------------------------------------------------------
 
@@ -3336,7 +3336,8 @@ ALTER TABLE `school`
 -- Indexes for table `school_attendance`
 --
 ALTER TABLE `school_attendance`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `student_id` (`student_id`);
 
 --
 -- Indexes for table `school_attendance_report`
@@ -3758,15 +3759,75 @@ ALTER TABLE `links_ad`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `school`
+--
+ALTER TABLE `school`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `school_attendance`
+--
+ALTER TABLE `school_attendance`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `school_attendance_report`
+--
+ALTER TABLE `school_attendance_report`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `school_class`
+--
+ALTER TABLE `school_class`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `school_course`
+--
+ALTER TABLE `school_course`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `school_parent`
+--
+ALTER TABLE `school_parent`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `school_schedule`
+--
+ALTER TABLE `school_schedule`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `school_student`
 --
 ALTER TABLE `school_student`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `school_student_class`
+--
+ALTER TABLE `school_student_class`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `school_student_parent`
+--
+ALTER TABLE `school_student_parent`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `school_teacher`
 --
 ALTER TABLE `school_teacher`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `school_teacher_course`
+--
+ALTER TABLE `school_teacher_course`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
