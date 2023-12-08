@@ -1,27 +1,5 @@
--- MySQL dump 10.13  Distrib 5.7.42, for Linux (x86_64)
---
--- Host: localhost    Database: school
--- ------------------------------------------------------
--- Server version	5.7.42-log
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Table structure for table `agenda`
---
-
+SET foreign_key_checks = 0;
 DROP TABLE IF EXISTS `agenda`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `agenda` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `cat_id` int(255) NOT NULL DEFAULT '0',
@@ -38,25 +16,9 @@ CREATE TABLE `agenda` (
   KEY `publish` (`publish`),
   FULLTEXT KEY `start_date` (`start_date`,`end_date`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `agenda`
---
-
-LOCK TABLES `agenda` WRITE;
-/*!40000 ALTER TABLE `agenda` DISABLE KEYS */;
 INSERT INTO `agenda` VALUES (1,1,6,'2009-07-01',0,0,'2012-06-30',0,0,1);
-/*!40000 ALTER TABLE `agenda` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_account`
---
-
 DROP TABLE IF EXISTS `bbc_account`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_account` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) unsigned DEFAULT '0',
@@ -71,25 +33,9 @@ CREATE TABLE `bbc_account` (
   KEY `email` (`email`),
   FULLTEXT KEY `name` (`username`,`name`,`email`,`params`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `bbc_account`
---
-
-LOCK TABLES `bbc_account` WRITE;
-/*!40000 ALTER TABLE `bbc_account` DISABLE KEYS */;
 INSERT INTO `bbc_account` VALUES (1,1,'admin','Administrator','','tmp@fisip.net','{\"Alamat Lengkap\":\"Indonesia\",\"Phone\":\"0818550122\"}'),(2,2,'danang@fisip.net','Danang Widiantoro','','danang@fisip.net','{\"Nick Name\":\"Danang\",\"Company\":\"Fisip.net\",\"Company Position\":\"Programmer\",\"Address\":\"Jl. Janti no.10 B\",\"City\":\"Bantul\",\"State\":\"Jogjakarta\",\"Post Code\":\"55161\",\"Country\":\"ID\",\"Phone\":\"0818550122\",\"Fax\":\"02743012336\",\"Email Alternate\":\"bbc_danang@yahoo.com\"}');
-/*!40000 ALTER TABLE `bbc_account` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_account_temp`
---
-
 DROP TABLE IF EXISTS `bbc_account_temp`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_account_temp` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `code` varchar(255) DEFAULT NULL,
@@ -104,24 +50,8 @@ CREATE TABLE `bbc_account_temp` (
   KEY `code` (`code`),
   FULLTEXT KEY `code_2` (`code`,`username`,`name`,`email`,`params`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bbc_account_temp`
---
-
-LOCK TABLES `bbc_account_temp` WRITE;
-/*!40000 ALTER TABLE `bbc_account_temp` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bbc_account_temp` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_alert`
---
 
 DROP TABLE IF EXISTS `bbc_alert`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_alert` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) unsigned DEFAULT '0' COMMENT 'user_id=0 && group_id=0 means all user',
@@ -141,24 +71,8 @@ CREATE TABLE `bbc_alert` (
   KEY `is_admin` (`is_admin`),
   KEY `created` (`created`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Jika ingin me-notif semua member dalam suatu group maka harus memasukkan satu2 tiap user_id dalam group tersebut, karena jika mengunakan group_id maka jika salah satu user dalam group_id tsb membuka maka alert untuk yg lain akan hilang';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bbc_alert`
---
-
-LOCK TABLES `bbc_alert` WRITE;
-/*!40000 ALTER TABLE `bbc_alert` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bbc_alert` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_block`
---
 
 DROP TABLE IF EXISTS `bbc_block`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_block` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `template_id` int(255) NOT NULL DEFAULT '0',
@@ -180,74 +94,26 @@ CREATE TABLE `bbc_block` (
   KEY `template_id` (`template_id`),
   KEY `active` (`active`)
 ) ENGINE=MyISAM AUTO_INCREMENT=122 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `bbc_block`
---
-
-LOCK TABLES `bbc_block` WRITE;
-/*!40000 ALTER TABLE `bbc_block` DISABLE KEYS */;
 INSERT INTO `bbc_block` VALUES (1,1,4,10,0,'',900,1,',all,',',all,','','','','{\"content\":\"%3Ch1%3EIni+adalah+sample+atau+demo+produk+e-profile+untuk+Company+Profile+dari+fisip.net.+Design+tampilan+situs+bisa+diubah+sesuai+dengan+permintaan+anda.%3C%2Fh1%3E\",\"type\":\"none\"}',1,1),(2,1,14,7,0,'',900,1,',all,',',all,','','','','{\"cat_id\":\"1\",\"template\":\"\"}',1,1),(3,1,3,9,1,'',900,2,',all,',',-1,','','','','{\"template\":\"default\",\"kind_id\":\"-1\",\"type_id\":\"1\",\"cat_id\":\"1\",\"ids\":\"\",\"popular\":\"\",\"limit_title\":\"75\",\"limit_title_by\":\"char\",\"title\":\"1\",\"title_link\":\"1\",\"intro\":\"intro\",\"created\":\"1\",\"modified\":\"1\",\"author\":\"1\",\"tag\":\"1\",\"tag_link\":\"1\",\"rating\":\"1\",\"read_more\":\"0\",\"tot_list\":\"2\",\"thumbnail\":\"1\"}',2,1),(4,1,10,3,0,'',0,4,',all,',',all,','','','','{\"template\":\"menu-horizontal\",\"cat_id\":\"1\",\"submenu\":\"bottom+right\"}',1,1),(5,1,9,5,0,'',900,1,',all,',',all,','','','','{\"image\":\"templates%2Fcampus_blue%2Fimages%2Fsite_logo.gif\",\"size\":\"\",\"is_link\":\"1\",\"link\":\"\",\"title\":\"\"}',1,1),(6,1,10,1,0,'',900,4,',all,',',all,','','','','{\"template\":\"menu-vertical\",\"cat_id\":\"2\",\"submenu\":\"bottom+right\"}',3,0),(7,1,6,2,0,'',0,3,',all,',',all,','','','','{\"task\":\"searchForm\",\"caption\":\"keyword+here...\"}',1,1),(8,1,12,2,1,'',0,2,',all,',',all,','','','','{\"total_visit\":\"1\",\"total_member\":\"1\",\"member_online\":\"1\",\"user_online\":\"1\",\"active_days\":\"1\",\"start_days\":\"2014-11-14\",\"interval_time\":\"900\"}',4,1),(9,1,2,1,1,'',900,2,',all,',',all,','','','','{\"template\":\"\",\"type\":\"default\"}',4,0),(10,1,8,1,1,'',0,2,',unassigned,',',all,','','','','{\"forget\":\"1\",\"register\":\"1\"}',1,1),(11,1,6,8,0,'',0,1,',all,',',all,',',-1,','','','{\"task\":\"Navigation\",\"caption\":\"\"}',1,1),(12,1,7,1,1,'',900,2,',all,',',all,','','','','{\"show\":\"0\",\"limit\":\"4\"}',6,1),(13,1,10,1,1,'',900,2,',logged,',',all,','','','','{\"template\":\"menu-vertical\",\"cat_id\":\"3\",\"submenu\":\"bottom+right\"}',2,1),(14,1,1,1,0,'',900,3,',all,',',all,','','','','{\"type\":\"6\",\"show\":\"5\"}',5,1),(15,1,10,4,0,'',900,5,',all,',',all,','','','','{\"template\":\"menu-horizontal\",\"cat_id\":\"2\",\"submenu\":\"top+left\"}',1,1),(16,1,6,11,0,'',0,1,',all,',',all,','','','','{\"task\":\"debug\",\"caption\":\"\"}',1,1),(17,1,11,2,1,'',0,2,',all,',',all,','','','','{\"ids\":[\"2\",\"1\"],\"limit\":\"1\"}',3,1),(18,1,6,2,1,'',0,2,',all,',',all,','','','','{\"task\":\"templates\",\"caption\":\"\"}',2,1),(19,1,3,9,0,'',0,1,',all,','',',-1,',',4,','','{\"type_id\":\"-1\",\"cat_id\":\"-1\",\"ids\":\"\",\"limit_title\":\"75\",\"limit_title_by\":\"char\",\"template\":\"related\",\"title\":\"1\",\"title_link\":\"1\",\"intro\":\"intro\",\"created\":\"1\",\"modified\":\"0\",\"author\":\"1\",\"tag\":\"0\",\"tag_link\":\"0\",\"rating\":\"1\",\"read_more\":\"1\",\"tot_list\":\"5\",\"thumbnail\":\"1\"}',1,1),(20,1,13,9,1,'',900,2,',all,',',-1,','','','','{\"limit\":\"2\",\"avatar\":\"1\",\"orderby\":\"1\",\"readmore\":\"1\"}',4,1),(21,1,4,7,0,'',900,1,',all,',',all,','','','','{\"content\":\"%3Cdiv+class%3D%22slidemask%22%3E%3C%2Fdiv%3E\",\"type\":\"none\"}',2,1),(22,6,9,3,0,'',0,14,',all,',',all,','','','','{\"image\":\"templates%2Fcobweb_blue%2Fimages%2Fmain_image.jpg\",\"size\":\"\",\"is_link\":\"0\",\"link\":\"\",\"title\":\"\"}',2,1),(23,6,4,10,0,'',0,13,',all,',',all,','','','','{\"content\":\"%3Ch1%3EIni+adalah+sample+atau+demo+produk+e-profile+untuk+Company+Profile+dari+fisip.net.+Design+tampilan+situs+bisa+diubah+sesuai+dengan+permintaan+anda.%3C%2Fh1%3E\",\"type\":\"none\"}',1,1),(24,6,9,7,0,'',0,14,',all,',',all,','','','','{\"image\":\"templates%2Fcobweb_blue%2Fimages%2Fsite_logo.gif\",\"size\":\"\",\"is_link\":\"1\",\"link\":\"\",\"title\":\"\"}',1,1),(25,6,13,9,1,'',0,9,',all,',',-1,','','','','{\"limit\":\"2\",\"avatar\":\"1\",\"orderby\":\"1\",\"readmore\":\"1\"}',4,1),(26,6,3,9,0,'',0,12,',all,','',',-1,',',4,','','{\"type_id\":\"1\",\"cat_id\":\"4\",\"ids\":\"\",\"limit_title\":\"75\",\"limit_title_by\":\"char\",\"template\":\"related\",\"title\":\"1\",\"title_link\":\"1\",\"intro\":\"intro\",\"created\":\"1\",\"modified\":\"0\",\"author\":\"1\",\"tag\":\"0\",\"tag_link\":\"0\",\"rating\":\"1\",\"read_more\":\"1\",\"tot_list\":\"5\",\"thumbnail\":\"1\"}',1,1),(27,6,10,1,0,'',0,7,',all,',',all,','','','','{\"template\":\"menu-vertical\",\"cat_id\":\"2\",\"submenu\":\"bottom+right\"}',1,1),(28,6,10,3,0,'',0,10,',all,',',all,','','','','{\"template\":\"menu-horizontal\",\"cat_id\":\"1\",\"submenu\":\"bottom+right\"}',1,1),(29,6,3,9,1,'',0,12,',all,',',-1,','','','','{\"type_id\":\"1\",\"cat_id\":\"3\",\"ids\":\"\",\"limit_title\":\"75\",\"limit_title_by\":\"char\",\"template\":\"content\",\"title\":\"1\",\"title_link\":\"1\",\"intro\":\"intro\",\"created\":\"1\",\"modified\":\"1\",\"author\":\"1\",\"tag\":\"1\",\"tag_link\":\"1\",\"rating\":\"1\",\"read_more\":\"1\",\"tot_list\":\"2\",\"thumbnail\":\"1\"}',2,1),(30,6,10,2,1,'',0,16,',logged,',',all,','','','','{\"template\":\"menu-vertical\",\"cat_id\":\"3\",\"submenu\":\"bottom+left\"}',2,1),(31,6,8,2,1,'',0,11,',unassigned,',',all,','','','','{\"forget\":\"1\",\"register\":\"1\"}',3,1),(32,6,6,8,0,'',0,13,',all,',',all,',',-1,','','','{\"task\":\"Navigation\",\"caption\":\"\"}',1,1),(33,6,2,1,1,'',0,11,',all,',',all,','','','','',4,1),(34,6,12,2,1,'',0,11,',all,',',all,','','','','{\"total_visit\":\"1\",\"total_member\":\"1\",\"member_online\":\"1\",\"user_online\":\"1\",\"active_days\":\"1\",\"start_days\":\"2014-11-14\",\"interval_time\":\"900\"}',5,1),(35,6,10,4,0,'',0,8,',all,',',all,','','','','{\"template\":\"menu-horizontal\",\"cat_id\":\"2\",\"submenu\":\"top+right\"}',1,1),(36,6,7,1,1,'',0,11,',all,',',all,','','','','{\"show\":\"0\",\"limit\":\"4\"}',3,1),(37,6,1,1,0,'',0,6,',all,',',all,','','','','{\"type\":\"6\",\"show\":\"5\"}',2,1),(38,6,6,11,0,'',0,13,',all,',',all,','','','','{\"task\":\"debug\",\"caption\":\"\"}',1,1),(39,6,6,2,1,'',0,11,',all,',',all,','','','','{\"task\":\"templates\",\"caption\":\"\"}',1,1),(40,6,11,2,1,'',0,11,',all,',',all,','','','','{\"ids\":[\"2\",\"1\"],\"limit\":\"1\"}',4,1),(41,6,6,5,0,'',0,15,',all,',',all,','','','','{\"task\":\"searchForm\",\"caption\":\"Keyword+here....\"}',1,1),(42,2,4,10,0,'',0,17,',all,',',all,','','','','{\"content\":\"%3Ch1%3EIni+adalah+sample+atau+demo+produk+e-profile+untuk+Company+Profile+dari+fisip.net.+Design+tampilan+situs+bisa+diubah+sesuai+dengan+permintaan+anda.%3C%2Fh1%3E\",\"type\":\"none\"}',1,1),(43,2,3,9,1,'',0,21,',all,',',-1,','','','','{\"type_id\":\"1\",\"cat_id\":\"1\",\"ids\":\"\",\"limit_title\":\"75\",\"limit_title_by\":\"char\",\"template\":\"default\",\"title\":\"1\",\"title_link\":\"1\",\"intro\":\"intro\",\"created\":\"1\",\"modified\":\"1\",\"author\":\"1\",\"tag\":\"1\",\"tag_link\":\"1\",\"rating\":\"1\",\"read_more\":\"0\",\"tot_list\":\"2\",\"thumbnail\":\"1\"}',1,1),(44,2,10,3,0,'',0,19,',all,',',all,','','','','{\"template\":\"menu-horizontal\",\"cat_id\":\"1\",\"submenu\":\"bottom+right\"}',1,1),(45,2,9,7,0,'',0,17,',all,',',all,','','','','{\"image\":\"templates%2Flogistic_transport%2Fimages%2Flogo.gif\",\"size\":\"\",\"is_link\":\"1\",\"link\":\"\",\"title\":\"\"}',1,1),(46,2,10,1,1,'',0,20,',all,',',all,','','','','{\"cat_id\":\"1\",\"layout\":\"vertical\",\"submenu\":\"bottom+right\"}',3,0),(47,2,6,3,0,'',0,18,',all,',',all,','','','','{\"task\":\"searchForm\",\"caption\":\"keyword+here...\"}',2,1),(48,2,12,1,1,'',900,20,',all,',',all,','','','','{\"total_visit\":\"1\",\"total_member\":\"1\",\"member_online\":\"1\",\"user_online\":\"1\",\"active_days\":\"1\",\"start_days\":\"07%2F25%2F2010\",\"interval_time\":\"900\"}',8,1),(49,2,2,1,1,'',900,20,',all,',',all,','','','','',6,1),(50,2,6,8,0,'',0,17,',all,',',all,',',-1,','','','{\"task\":\"Navigation\",\"caption\":\"\"}',2,1),(51,2,7,1,1,'',900,20,',all,',',all,','','','','{\"show\":\"0\",\"limit\":\"4\"}',5,1),(52,2,10,1,1,'',0,20,',logged,',',all,','','','','{\"template\":\"menu-vertical\",\"cat_id\":\"3\",\"submenu\":\"bottom+left\"}',2,1),(53,2,10,4,0,'',0,17,',all,',',all,','','','','{\"template\":\"menu-horizontal\",\"cat_id\":\"2\",\"submenu\":\"top+right\"}',1,1),(54,2,6,11,0,'',0,17,',all,',',all,','','','','{\"task\":\"debug\",\"caption\":\"\"}',1,1),(55,2,11,1,1,'',900,20,',all,',',all,','','','','{\"ids\":[\"2\",\"1\"],\"limit\":\"1\"}',7,1),(56,2,6,1,1,'',0,20,',all,',',all,','','','','{\"task\":\"templates\",\"caption\":\"\"}',1,1),(57,2,9,5,0,'',0,17,',all,',',all,','','','','{\"image\":\"templates%2Flogistic_transport%2Fimages%2Fheader.jpg\",\"size\":\"\",\"is_link\":\"0\",\"link\":\"\",\"title\":\"\"}',1,1),(58,2,3,8,0,'',0,20,',all,','',',-1,',',4,','','{\"type_id\":\"-1\",\"cat_id\":\"-1\",\"ids\":\"\",\"limit_title\":\"75\",\"limit_title_by\":\"char\",\"template\":\"related\",\"title\":\"1\",\"title_link\":\"1\",\"intro\":\"intro\",\"created\":\"1\",\"modified\":\"1\",\"author\":\"1\",\"tag\":\"0\",\"tag_link\":\"0\",\"rating\":\"1\",\"read_more\":\"1\",\"tot_list\":\"5\",\"thumbnail\":\"1\"}',1,1),(59,2,13,9,1,'',0,20,',all,',',all,','','','','{\"limit\":\"2\",\"avatar\":\"1\",\"orderby\":\"1\",\"readmore\":\"0\"}',3,1),(60,3,4,10,0,'',0,22,',all,',',all,','','','','{\"content\":\"%3Ch1%3EIni+adalah+sample+atau+demo+produk+e-profile+untuk+Company+Profile+dari+fisip.net.+Design+tampilan+situs+bisa+diubah+sesuai+dengan+permintaan+anda.%3C%2Fh1%3E\",\"type\":\"none\"}',1,1),(61,3,3,9,1,'',0,26,',all,',',-1,','','','','{\"type_id\":\"1\",\"cat_id\":\"1\",\"ids\":\"\",\"limit_title\":\"75\",\"limit_title_by\":\"char\",\"template\":\"content\",\"title\":\"1\",\"title_link\":\"1\",\"intro\":\"intro\",\"created\":\"1\",\"modified\":\"1\",\"author\":\"1\",\"tag\":\"1\",\"tag_link\":\"1\",\"rating\":\"1\",\"read_more\":\"0\",\"tot_list\":\"2\",\"thumbnail\":\"1\"}',1,1),(62,3,10,3,0,'',0,22,',all,',',all,','','','','{\"template\":\"menu-horizontal\",\"cat_id\":\"2\",\"submenu\":\"bottom+right\"}',1,1),(63,3,9,7,0,'',0,22,',all,',',all,','','','','{\"image\":\"templates%2Fcloudy_season%2Fimages%2Flogo.gif\",\"size\":\"\",\"is_link\":\"1\",\"link\":\"\",\"title\":\"\"}',1,1),(64,3,6,5,0,'',0,23,',all,',',all,','','','','{\"template\":\"searchForm\",\"caption\":\"keyword+here...\"}',1,1),(65,3,12,2,1,'',900,25,',all,',',all,','','','','{\"total_visit\":\"1\",\"total_member\":\"1\",\"member_online\":\"1\",\"user_online\":\"1\",\"active_days\":\"1\",\"start_days\":\"07%2F25%2F2010\",\"interval_time\":\"900\"}',5,1),(66,3,2,1,1,'',900,25,',all,',',all,','','','','',2,1),(67,3,6,8,0,'',0,22,',all,',',all,',',-1,','','','{\"task\":\"Navigation\",\"caption\":\"\"}',1,1),(68,3,7,1,1,'',900,25,',all,',',all,','','','','{\"show\":\"0\",\"limit\":\"4\"}',5,1),(69,3,10,1,1,'',0,25,',logged,',',all,','','','','{\"template\":\"menu-vertical\",\"cat_id\":\"3\",\"submenu\":\"bottom+right\"}',1,1),(70,3,1,1,1,'',900,25,',all,',',all,','','','','{\"type\":\"6\",\"show\":\"5\"}',3,1),(71,3,10,4,0,'',0,22,',all,',',all,','','','','{\"template\":\"menu-horizontal\",\"cat_id\":\"1\",\"submenu\":\"top+right\"}',1,1),(72,3,6,11,0,'',0,22,',all,',',all,','','','','{\"task\":\"debug\",\"caption\":\"\"}',1,1),(73,3,11,2,1,'',900,25,',all,',',all,','','','','{\"ids\":[\"2\",\"1\"],\"limit\":\"1\"}',3,1),(74,3,6,2,1,'',0,25,',all,',',all,','','','','{\"task\":\"templates\",\"caption\":\"\"}',1,1),(75,3,9,1,0,'',0,24,',all,',',-1,','','','','{\"template\":\"\",\"image\":\"templates%2Fcloudy_season%2Fimages%2Funicef.jpg\",\"size\":\"\",\"is_link\":\"0\",\"link\":\"\",\"title\":\"\",\"attribute\":\"\"}',6,1),(76,3,8,2,1,'',0,25,',unassigned,',',all,','','','','{\"forget\":\"1\",\"register\":\"1\"}',2,1),(77,3,1,1,1,'',900,25,',unassigned,',',all,','','','','{\"template\":\"\",\"type\":\"1\",\"show\":\"5\"}',4,1),(78,3,3,12,0,'',0,26,',all,','',',-1,',',4,','','{\"type_id\":\"-1\",\"cat_id\":\"-1\",\"ids\":\"\",\"limit_title\":\"75\",\"limit_title_by\":\"char\",\"template\":\"related\",\"title\":\"1\",\"title_link\":\"1\",\"intro\":\"intro\",\"created\":\"1\",\"modified\":\"1\",\"author\":\"1\",\"tag\":\"0\",\"tag_link\":\"0\",\"rating\":\"1\",\"read_more\":\"0\",\"tot_list\":\"5\",\"thumbnail\":\"1\"}',1,1),(79,3,13,9,1,'',900,25,',all,',',-1,','','','','{\"template\":\"\",\"limit\":\"2\",\"avatar\":\"1\",\"orderby\":\"1\",\"readmore\":\"0\"}',3,1),(80,3,1,2,1,'',900,25,',logged,',',all,','','','','{\"template\":\"\",\"type\":\"1\",\"show\":\"5\"}',4,1),(81,4,3,12,1,'',0,28,',all,',',-1,','','','','{\"template\":\"default\",\"type_id\":\"1\",\"cat_id\":\"1\",\"ids\":\"\",\"limit_title\":\"75\",\"limit_title_by\":\"char\",\"title\":\"1\",\"title_link\":\"1\",\"intro\":\"intro\",\"created\":\"1\",\"modified\":\"1\",\"author\":\"1\",\"tag\":\"1\",\"tag_link\":\"1\",\"rating\":\"1\",\"read_more\":\"0\",\"tot_list\":\"2\",\"thumbnail\":\"1\"}',2,1),(82,4,10,3,0,'',0,30,',all,',',all,','','','','{\"cat_id\":\"1\",\"layout\":\"horizontal\",\"submenu\":\"bottom+right\"}',1,1),(83,4,9,7,0,'',0,27,',all,',',all,','','','','{\"image\":\"templates%2Fgreen_accountant%2Fimages%2Flogo.png\",\"size\":\"\",\"is_link\":\"1\",\"link\":\"\",\"title\":\"\"}',1,1),(84,4,6,5,0,'',0,29,',all,',',all,','','','','{\"task\":\"searchForm\",\"caption\":\"keyword+here...\"}',2,1),(85,4,12,2,1,'',900,28,',all,',',all,','','','','{\"template\":\"\",\"total_visit\":\"1\",\"total_member\":\"1\",\"member_online\":\"1\",\"user_online\":\"1\",\"active_days\":\"1\",\"start_days\":\"07%2F25%2F2010\",\"interval_time\":\"900\"}',4,1),(86,4,2,1,1,'',900,28,',all,',',all,','','','','{\"template\":\"\",\"type\":\"default\"}',3,1),(87,4,6,8,0,'',0,27,',all,',',all,',',-1,','','','{\"task\":\"Navigation\",\"caption\":\"\"}',1,1),(88,4,7,1,1,'',900,27,',all,',',all,','','','','{\"template\":\"\",\"show\":\"0\",\"limit\":\"3\"}',4,1),(89,4,1,1,0,'',900,28,',all,',',all,','','','','{\"template\":\"\",\"type\":\"6\",\"show\":\"5\"}',2,1),(90,4,6,11,0,'',0,27,',all,',',all,','','','','{\"task\":\"debug\",\"caption\":\"\"}',1,1),(91,4,11,2,1,'',900,28,',all,',',all,','','','','{\"template\":\"\",\"ids\":[\"2\",\"1\"],\"limit\":\"1\"}',3,1),(92,4,6,2,1,'',0,28,',all,',',all,','','','','{\"task\":\"templates\",\"caption\":\"\"}',1,1),(93,4,9,5,0,'',0,27,',all,',',all,','','','','{\"image\":\"templates%2Fgreen_accountant%2Fimages%2Fimg-header.jpg\",\"size\":\"\",\"is_link\":\"0\",\"link\":\"\",\"title\":\"\"}',1,1),(94,4,8,2,1,'',0,27,',all,',',all,','','','','{\"template\":\"\",\"forget\":\"1\",\"register\":\"1\"}',2,1),(95,4,10,4,0,'',0,27,',all,',',all,','','','','{\"template\":\"menu-horizontal\",\"cat_id\":\"2\",\"submenu\":\"top+right\"}',1,1),(96,4,4,10,0,'',0,27,',all,',',all,','','','','{\"content\":\"%3Ch1%3EIni+adalah+sample+atau+demo+produk+e-profile+untuk+Company+Profile+dari+fisip.net.+Design+tampilan+situs+bisa+diubah+sesuai+dengan+permintaan+anda.%3C%2Fh1%3E\",\"type\":\"none\"}',1,1),(97,4,3,12,1,'',0,27,',all,','',',-1,',',4,','','{\"template\":\"related\",\"type_id\":\"-1\",\"cat_id\":\"-1\",\"ids\":\"\",\"limit_title\":\"75\",\"limit_title_by\":\"char\",\"title\":\"1\",\"title_link\":\"1\",\"intro\":\"intro\",\"created\":\"1\",\"modified\":\"1\",\"author\":\"1\",\"tag\":\"0\",\"tag_link\":\"0\",\"rating\":\"1\",\"read_more\":\"0\",\"tot_list\":\"5\",\"thumbnail\":\"1\"}',1,1),(98,5,4,10,0,'',0,31,',all,',',all,','','','','{\"content\":\"%3Ch1%3EIni+adalah+sample+atau+demo+produk+e-profile+untuk+Company+Profile+dari+fisip.net.+Design+tampilan+situs+bisa+diubah+sesuai+dengan+permintaan+anda.%3C%2Fh1%3E\",\"type\":\"none\"}',1,1),(99,5,3,9,1,'',0,32,',all,',',-1,','','','','{\"template\":\"related\",\"type_id\":\"1\",\"cat_id\":\"1\",\"ids\":\"\",\"limit_title\":\"75\",\"limit_title_by\":\"char\",\"title\":\"1\",\"title_link\":\"1\",\"intro\":\"intro\",\"created\":\"1\",\"modified\":\"1\",\"author\":\"1\",\"tag\":\"1\",\"tag_link\":\"1\",\"rating\":\"1\",\"read_more\":\"0\",\"tot_list\":\"2\",\"thumbnail\":\"1\"}',1,1),(100,5,10,3,0,'',0,33,',all,',',all,','','','','{\"template\":\"menu-horizontal\",\"cat_id\":\"1\",\"submenu\":\"bottom+right\"}',1,1),(101,5,9,7,0,'',0,31,',all,',',all,','','','','{\"image\":\"templates%2Fdark_style%2Fimages%2Fsite_logo.gif\",\"size\":\"\",\"is_link\":\"1\",\"link\":\"\",\"title\":\"\"}',1,1),(102,5,6,5,0,'',0,36,',all,',',all,','','','','{\"template\":\"searchForm\",\"caption\":\"keyword+here...\"}',1,1),(103,5,12,2,1,'',900,32,',all,',',all,','','','','{\"template\":\"\",\"total_visit\":\"1\",\"total_member\":\"1\",\"member_online\":\"1\",\"user_online\":\"1\",\"active_days\":\"1\",\"start_days\":\"07%2F25%2F2010\",\"interval_time\":\"900\"}',4,1),(104,5,2,1,1,'',900,32,',all,',',all,','','','','{\"template\":\"\",\"type\":\"default\"}',1,1),(105,5,6,8,0,'',0,31,',all,',',all,',',-1,','','','{\"template\":\"Navigation\",\"caption\":\"\"}',1,1),(106,5,7,1,1,'',900,32,',all,',',all,','','','','{\"template\":\"\",\"show\":\"0\",\"limit\":\"4\"}',5,1),(107,5,10,1,0,'',0,31,',logged,',',all,','','','','{\"template\":\"menu-vertical\",\"cat_id\":\"3\",\"submenu\":\"bottom+right\"}',2,1),(108,5,1,1,1,'',900,32,',all,',',all,','','','','{\"template\":\"\",\"type\":\"6\",\"show\":\"5\"}',3,1),(109,5,10,4,0,'',0,34,',all,',',all,','','','','{\"template\":\"menu-horizontal\",\"cat_id\":\"2\",\"submenu\":\"top+right\"}',1,1),(110,5,6,11,0,'',0,31,',all,',',all,','','','','{\"task\":\"debug\",\"caption\":\"\"}',1,1),(111,5,11,2,1,'',900,32,',all,',',all,','','','','{\"template\":\"\",\"ids\":[\"2\",\"1\"],\"limit\":\"1\"}',3,1),(112,5,6,2,1,'',0,32,',all,',',all,','','','','{\"template\":\"templates\",\"caption\":\"\"}',1,1),(113,5,9,1,0,'',0,35,',all,',',-1,','','','','{\"template\":\"\",\"image\":\"images%2Fuploads%2Funicef.jpg\",\"size\":\"\",\"is_link\":\"0\",\"link\":\"\",\"title\":\"\",\"attribute\":\"\"}',6,1),(114,5,8,2,1,'',0,32,',all,',',all,','','','','{\"template\":\"\",\"forget\":\"1\",\"register\":\"1\"}',2,1),(115,5,3,12,0,'',0,31,',all,','',',-1,',',4,','','{\"template\":\"related\",\"type_id\":\"-1\",\"cat_id\":\"-1\",\"ids\":\"\",\"limit_title\":\"75\",\"limit_title_by\":\"char\",\"title\":\"1\",\"title_link\":\"1\",\"intro\":\"intro\",\"created\":\"1\",\"modified\":\"1\",\"author\":\"1\",\"tag\":\"0\",\"tag_link\":\"0\",\"rating\":\"1\",\"read_more\":\"0\",\"tot_list\":\"5\",\"thumbnail\":\"1\"}',1,1),(116,1,3,9,1,'',0,2,',all,',',-1,','','','','{\"template\":\"thumbnail-only\",\"kind_id\":\"1\",\"type_id\":\"1\",\"cat_id\":\"-2\",\"ids\":\"\",\"popular\":\"\",\"limit_title\":\"75\",\"limit_title_by\":\"char\",\"title\":\"1\",\"title_link\":\"1\",\"intro\":\"blank\",\"created\":\"0\",\"modified\":\"0\",\"author\":\"0\",\"tag\":\"0\",\"tag_link\":\"0\",\"rating\":\"0\",\"read_more\":\"0\",\"tot_list\":\"3\",\"thumbnail\":\"1\"}',3,1),(117,2,3,9,1,'',900,21,',all,',',-1,','','','','{\"template\":\"thumbnail-only\",\"kind_id\":\"1\",\"type_id\":\"1\",\"cat_id\":\"-2\",\"ids\":\"\",\"popular\":\"\",\"limit_title\":\"75\",\"limit_title_by\":\"char\",\"title\":\"0\",\"title_link\":\"0\",\"intro\":\"blank\",\"created\":\"0\",\"modified\":\"0\",\"author\":\"0\",\"tag\":\"0\",\"tag_link\":\"0\",\"rating\":\"0\",\"read_more\":\"0\",\"tot_list\":\"3\",\"thumbnail\":\"0\"}',2,1),(118,3,3,9,1,'',900,25,',all,',',-1,','','','','{\"template\":\"thumbnail-only\",\"kind_id\":\"1\",\"type_id\":\"1\",\"cat_id\":\"-2\",\"ids\":\"\",\"popular\":\"\",\"limit_title\":\"75\",\"limit_title_by\":\"char\",\"title\":\"0\",\"title_link\":\"0\",\"intro\":\"blank\",\"created\":\"0\",\"modified\":\"0\",\"author\":\"0\",\"tag\":\"0\",\"tag_link\":\"0\",\"rating\":\"0\",\"read_more\":\"0\",\"tot_list\":\"3\",\"thumbnail\":\"0\"}',2,1),(119,6,3,9,1,'',900,12,',all,',',-1,','','','','{\"template\":\"thumbnail-only\",\"kind_id\":\"1\",\"type_id\":\"1\",\"cat_id\":\"-2\",\"ids\":\"\",\"popular\":\"\",\"limit_title\":\"75\",\"limit_title_by\":\"char\",\"title\":\"0\",\"title_link\":\"0\",\"intro\":\"intro\",\"created\":\"0\",\"modified\":\"0\",\"author\":\"0\",\"tag\":\"0\",\"tag_link\":\"0\",\"rating\":\"0\",\"read_more\":\"0\",\"tot_list\":\"3\",\"thumbnail\":\"0\"}',3,1),(120,4,3,9,0,'',900,27,',all,',',-1,','','','','{\"template\":\"thumbnail-only\",\"kind_id\":\"1\",\"type_id\":\"1\",\"cat_id\":\"-2\",\"ids\":\"\",\"popular\":\"\",\"limit_title\":\"75\",\"limit_title_by\":\"char\",\"title\":\"0\",\"title_link\":\"0\",\"intro\":\"intro\",\"created\":\"0\",\"modified\":\"0\",\"author\":\"0\",\"tag\":\"0\",\"tag_link\":\"0\",\"rating\":\"0\",\"read_more\":\"0\",\"tot_list\":\"3\",\"thumbnail\":\"0\"}',1,1),(121,4,10,1,0,'',0,27,',logged,',',all,','','','','{\"template\":\"menu-vertical\",\"cat_id\":\"3\",\"submenu\":\"bottom+right\"}',1,1);
-/*!40000 ALTER TABLE `bbc_block` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_block_position`
---
-
 DROP TABLE IF EXISTS `bbc_block_position`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_block_position` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `bbc_block_position`
---
-
-LOCK TABLES `bbc_block_position` WRITE;
-/*!40000 ALTER TABLE `bbc_block_position` DISABLE KEYS */;
 INSERT INTO `bbc_block_position` VALUES (1,'left'),(2,'right'),(3,'top'),(4,'bottom'),(5,'header'),(6,'footer'),(7,'logo'),(8,'content_top'),(9,'content_bottom'),(10,'intro'),(11,'debug'),(12,'content');
-/*!40000 ALTER TABLE `bbc_block_position` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_block_ref`
---
-
 DROP TABLE IF EXISTS `bbc_block_ref`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_block_ref` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `bbc_block_ref`
---
-
-LOCK TABLES `bbc_block_ref` WRITE;
-/*!40000 ALTER TABLE `bbc_block_ref` DISABLE KEYS */;
 INSERT INTO `bbc_block_ref` VALUES (1,'agenda'),(2,'contact'),(3,'content'),(4,'custom'),(5,'language'),(6,'layout'),(7,'links'),(8,'login'),(9,'logo'),(10,'menu'),(11,'survey'),(12,'statistic'),(13,'testimonial'),(14,'imageslider'),(15,'content_list'),(16,'content_tag');
-/*!40000 ALTER TABLE `bbc_block_ref` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_block_text`
---
-
 DROP TABLE IF EXISTS `bbc_block_text`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_block_text` (
   `block_id` int(255) NOT NULL,
   `title` varchar(255) NOT NULL,
@@ -255,25 +121,9 @@ CREATE TABLE `bbc_block_text` (
   KEY `block_id` (`block_id`),
   KEY `lang_id` (`lang_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `bbc_block_text`
---
-
-LOCK TABLES `bbc_block_text` WRITE;
-/*!40000 ALTER TABLE `bbc_block_text` DISABLE KEYS */;
 INSERT INTO `bbc_block_text` VALUES (1,'Intro',1),(2,'Image Slider',1),(3,'Hotline News',1),(4,'Menu Top',1),(5,'Logo',1),(6,'Left Menu',1),(7,'Search :',1),(8,'Statistic',1),(9,'Online Support',1),(10,'Member Login',1),(11,'Navigation',1),(12,'Links',1),(13,'User Menu',1),(14,'Agenda',1),(15,'Menu Bottom',1),(16,'Debug',1),(17,'Polling',1),(18,'Pilih Template',1),(19,'Artikel Berhubungan',1),(20,'Testimonial',1),(21,'masking',1),(22,'Banner',1),(23,'Intro',1),(24,'Company Logo',1),(25,'<h3>Testimonial</h3>',1),(26,'Artikel Berhubungan',1),(27,'Left Menu',1),(28,'Menu Top',1),(29,'Hotline News',1),(30,'User Menu',1),(31,'Member Login',1),(32,'Navigation',1),(33,'Online Support',1),(34,'Statistic',1),(35,'Menu Bottom',1),(36,'Links',1),(37,'Agenda',1),(38,'Debug',1),(39,'Pilih Template',1),(40,'Polling',1),(41,'Search',1),(42,'Intro',1),(43,'Hotline News',1),(44,'Menu Top',1),(45,'Logo',1),(46,'Left Menu',1),(47,'Search :',1),(48,'Statistic',1),(49,'Online Support',1),(50,'Navigation',1),(51,'Links',1),(52,'User Menu',1),(53,'Menu Bottom',1),(54,'Debug',1),(55,'Polling',1),(56,'Pilih Template',1),(57,'Header',1),(58,'Artikel Berhubungan',1),(59,'Testimoni',1),(60,'Intro',1),(61,'Hotline News',1),(62,'Menu Top',1),(63,'Logo',1),(64,'Search :',1),(65,'Statistic',1),(66,'Online Support',1),(67,'Navigation',1),(68,'Links',1),(69,'User Menu',1),(70,'Agenda',1),(71,'Menu Bottom',1),(72,'Debug',1),(73,'Polling',1),(74,'Pilih Template',1),(75,'Unicef Ad',1),(76,'Member Login',1),(77,'Event',1),(78,'Artikel Berhubungan',1),(79,'Testimonial',1),(80,'Event',1),(81,'Hotline News',1),(82,'Menu Top',1),(83,'Logo',1),(84,'Search :',1),(85,'Statistic',1),(86,'Online Support',1),(87,'Navigation',1),(88,'Links',1),(89,'Agenda',1),(90,'Debug',1),(91,'Polling',1),(92,'Pilih Template',1),(93,'Header',1),(94,'Member Login',1),(95,'Bottom Menu',1),(96,'Intro',1),(97,'Artikel Berhubungan',1),(98,'Intro',1),(99,'Hotline News',1),(100,'Menu Top',1),(101,'Logo',1),(102,'Search :',1),(103,'Statistic',1),(104,'Online Support',1),(105,'Navigation',1),(106,'Links',1),(107,'User Menu',1),(108,'Agenda',1),(109,'Menu Bottom',1),(110,'Debug',1),(111,'Polling',1),(112,'Pilih Template',1),(113,'Header',1),(114,'Member Login',1),(115,'Artikel Berhubungan',1),(116,'Gallery',1),(117,'Gallery',1),(118,'Gallery',1),(119,'Gallery',1),(120,'Gallery',1),(121,'User menu',1);
-/*!40000 ALTER TABLE `bbc_block_text` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_block_theme`
---
-
 DROP TABLE IF EXISTS `bbc_block_theme`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_block_theme` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `template_id` int(255) NOT NULL DEFAULT '0',
@@ -285,25 +135,9 @@ CREATE TABLE `bbc_block_theme` (
   KEY `active` (`active`),
   FULLTEXT KEY `name` (`name`,`content`)
 ) ENGINE=MyISAM AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `bbc_block_theme`
---
-
-LOCK TABLES `bbc_block_theme` WRITE;
-/*!40000 ALTER TABLE `bbc_block_theme` DISABLE KEYS */;
 INSERT INTO `bbc_block_theme` VALUES (1,1,'none','[title][content]',1),(2,1,'default-heading','<div class=\"panel panel-default\">\r\n  <div class=\"panel-heading\"><h3 class=\"panel-title\">[title]</h3></div>\r\n  <div class=\"panel-body\">\r\n    [content]\r\n  </div>\r\n</div>',1),(3,1,'default','<div class=\"panel panel-default\">\r\n  [title]\r\n  <div class=\"panel-body\">\r\n    [content]\r\n  </div>\r\n</div>',1),(4,1,'menu top','<div class=\"block_menu_top\">\r\n  <nav class=\"navbar navbar-default\" role=\"navigation\">\r\n    <div class=\"navbar-header\">\r\n      <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".navbar-menu-top\">\r\n        <span class=\"icon-bar\"></span>\r\n        <span class=\"icon-bar\"></span>\r\n        <span class=\"icon-bar\"></span>\r\n      </button>\r\n      [<a class=\"navbar-brand\" href=\"\">title</a>]\r\n    </div>\r\n    <div class=\"collapse navbar-collapse navbar-menu-top\">\r\n      [content]\r\n    </div>\r\n  </nav>\r\n</div>',1),(5,1,'menu bottom','<div class=\"widget_bottom\">\r\n  [content]\r\n</div>',1),(6,6,'widget_agenda','<div class=\"widget_agenda\">\n[<label>title</label>][content]\n</div>',1),(7,6,'widget_menu','<div class=\"widget_menu\">\n[<label>title</label>][content]\n</div>',1),(8,6,'widget_bottom','<div class=\"widget_bottom\">\n[<label>title</label>][content]\n</div>',1),(9,6,'widget_testimoni','<div class=\"widget_testimoni\">\n[<label>title</label>][content]\n</div>',1),(10,6,'widget_menutop','<div class=\"widget_menutop\">\r\n  <div class=\"navbar navbar-default\" role=\"navigation\">\r\n    <div class=\"navbar-header\">\r\n      <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".navbar-collapse\">\r\n        <span class=\"icon-bar\"></span>\r\n        <span class=\"icon-bar\"></span>\r\n        <span class=\"icon-bar\"></span>\r\n      </button>\r\n      [<a class=\"navbar-brand\" href=\"/\">title</a>]\r\n    </div>\r\n    <div class=\"collapse navbar-collapse\">\r\n        [content]\r\n    </div>\r\n  </div>\r\n</div>',1),(11,6,'info','<div class=\"panel panel-info\">\n  [<div class=\"panel-heading\"><h3 class=\"panel-title\">title</h3> </div>]\n  <div class=\"panel-body\">\n    [content]\n  </div>\n</div>',1),(12,6,'default','<div class=\"panel panel-default\">\r\n  [<div class=\"panel-heading\"><h3 class=\"panel-title\">title</h3> </div>]\r\n  <div class=\"panel-body\">\r\n    [content]\r\n  </div>\r\n</div>',1),(13,6,'none','[title][content]',1),(14,6,'banner','<div class=\"banner\">\n[title][content]\n</div>',1),(15,6,'search','<div class=\"block_search\">\n[<label>title</label>][content]\n</div>',1),(16,6,'menu side','<div class=\"block_menu_side\">\n[<h3>title</h3>][content]\n</div>',1),(17,2,'none','[title][content]',1),(18,2,'search','<div class=\"block_search\">\r\n[<label>title</label>][content]\r\n</div>',1),(19,2,'menu top','<div class=\"block_menu_top\">\r\n  <div class=\"navbar navbar-default\" role=\"navigation\">\r\n    <div class=\"navbar-header\">\r\n      <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".navbar-collapse\">\r\n        <span class=\"icon-bar\"></span>\r\n        <span class=\"icon-bar\"></span>\r\n        <span class=\"icon-bar\"></span>\r\n      </button>\r\n      [<a class=\"navbar-brand\" href=\"/\">title</a>]\r\n    </div>\r\n    <div class=\"collapse navbar-collapse\">\r\n        [content]\r\n    </div>\r\n  </div>\r\n</div>',1),(20,2,'info','<div class=\"panel panel-info\">\r\n  [<div class=\"panel-heading\"><h3 class=\"panel-title\">title</h3> </div>]\r\n  <div class=\"panel-body\">\r\n    [content]\r\n  </div>\r\n</div>',1),(21,2,'default','<div class=\"panel panel-default\">\r\n  [<div class=\"panel-heading\"><h3 class=\"panel-title\">title</h3> </div>]\r\n  <div class=\"panel-body\">\r\n    [content]\r\n  </div>\r\n</div>',1),(22,3,'none','[title][content]',1),(23,3,'search','<div class=\"block_search\">\r\n[<label>title</label>][content]\r\n</div>',1),(24,3,'banner','<div class=\"banner\">\r\n[title][content]\r\n</div>',1),(25,3,'info','<div class=\"panel panel-info\">\r\n  [<div class=\"panel-heading\"><h3 class=\"panel-title\">title</h3> </div>]\r\n  <div class=\"panel-body\">\r\n    [content]\r\n  </div>\r\n</div>',1),(26,3,'default','<div class=\"panel panel-default\">\r\n  [<div class=\"panel-heading\"><h3 class=\"panel-title\">title</h3> </div>]\r\n  <div class=\"panel-body\">\r\n    [content]\r\n  </div>\r\n</div>',1),(27,4,'none','[title][content]',1),(28,4,'accountant style','<div class=\"accountant_style\">\r\n[<h3>title</h3>][content]\r\n</div>',1),(29,4,'search','<div class=\"block_search\">\r\n[<label>title</label>][content]\r\n</div>',1),(30,4,'top menu','<div class=\"block_menu_top\">\r\n  <nav class=\"navbar navbar-default\" role=\"navigation\">\r\n    <div class=\"navbar-header\">\r\n      <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".navbar-menu-top\">\r\n        <span class=\"icon-bar\"></span>\r\n        <span class=\"icon-bar\"></span>\r\n        <span class=\"icon-bar\"></span>\r\n      </button>\r\n      [<a class=\"navbar-brand\" href=\"\">title</a>]\r\n    </div>\r\n    <div class=\"collapse navbar-collapse navbar-menu-top\">\r\n      [content]\r\n    </div>\r\n  </nav>\r\n</div>',1),(31,5,'none','[title][content]',1),(32,5,'dark','<div class=\"dark_panel\">\r\n  <h3>[title]</h3>\r\n  [content]\r\n</div>',1),(33,5,'nav','<nav class=\"navbar navbar-default\" role=\"navigation\">\r\n  <div class=\"navbar-header\">\r\n    <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".navbar-menu-top\">\r\n      <span class=\"icon-bar\"></span>\r\n      <span class=\"icon-bar\"></span>\r\n      <span class=\"icon-bar\"></span>\r\n    </button>\r\n    [<a class=\"navbar-brand\" href=\"\">title</a>]\r\n  </div>\r\n  <div class=\"collapse navbar-collapse navbar-menu-top\">\r\n    [content]\r\n  </div>\r\n</nav>',1),(34,5,'menu_bottom','<div class=\"nav_bottom\">\r\n  [content]\r\n</div>',1),(35,5,'dark_img','<div class=\"dark_img\">\r\n  [content]\r\n</div>',1),(36,5,'search','<div class=\"search\">\r\n  [content]\r\n</div>',1);
-/*!40000 ALTER TABLE `bbc_block_theme` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_config`
---
-
 DROP TABLE IF EXISTS `bbc_config`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_config` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `module_id` int(255) NOT NULL DEFAULT '0',
@@ -313,25 +147,9 @@ CREATE TABLE `bbc_config` (
   KEY `module_id` (`module_id`),
   KEY `name` (`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `bbc_config`
---
-
-LOCK TABLES `bbc_config` WRITE;
-/*!40000 ALTER TABLE `bbc_config` DISABLE KEYS */;
 INSERT INTO `bbc_config` VALUES (1,0,'site','{\"title\":\"Demo+e-profile+untuk+Company+Profile%2C+Design+tampilan+bisa+diubah+sesuai+permintaan\",\"desc\":\"Ini+adalah+web-demo+bagi+anda+yang+ingin+membuat+Profile+Perusahaan+secara+online.+Anda+bisa+menentukan+sendiri+tampilan+design+dari+web+mengikuti+permintaan+anda\",\"keyword\":\"web+murah%2C+web+berkualitas%2C+demo+e-profile%2C+web+ilustrasi+untuk+coorperate%2C+contoh+web+profile\",\"url\":\"localhost\",\"icon\":\"favicon.ico\",\"logo\":\"home.png\",\"footer\":\"Copyright+%26copy%3B+2010+E-Profile+Enterprise+-+All+rights+reserved.+Powered+by+%3Ca+href%3D%22http%3A%2F%2Fesoftplay.com%2F%22%3Eesoftplay.com%3C%2Fa%3E\",\"debug\":\"0\"}'),(2,0,'logged','{\"duration\":\"2\",\"period\":\"HOUR\",\"duration_admin\":\"2\",\"period_admin\":\"HOUR\",\"method_admin\":\"0\"}'),(3,0,'activation','{\"html\":\"ini+adalah+licensi+dari+fisip.net+%2F+silahka+diubah+sesukanya..%3Cbr+%2F%3E\",\"active\":\"1\"}'),(4,0,'rules','{\"content_max\":\"1000\",\"content_date\":\"M+jS%2C+Y+H%3Ai%3As\",\"content_rss\":\"12\",\"num_rows\":\"30\",\"register_auto\":\"1\",\"register_expired\":\"6\",\"register_monitor\":\"1\",\"register_groups\":[\"4\"],\"disable_user_del\":\"0\",\"lang_default\":\"1\",\"lang_auto\":\"0\",\"permitted_uri\":\"a-z0-9%7E%25%5C.%3A_%5C-\",\"uri_separator\":\"-\"}'),(5,0,'email','{\"name\":\"E-Profile\",\"address\":\"tmp%40fisip.net\",\"subject\":\"%5Be-profile%5D\",\"footer\":\"Hormat+Kami%2C%0D%0AAdministrator\"}'),(6,0,'template','\"campus_blue\"'),(7,3,'search','{\"from\":\"1\",\"module\":\"0\",\"per_page\":\"12\"}'),(8,4,'entry','{\"groups\":[\"4\"],\"auto\":\"1\",\"alert\":\"1\",\"address\":\"\",\"delete\":\"1\",\"type_id\":\"1\",\"show_cat\":\"1\",\"tot\":\"12\",\"animated\":\"0\",\"orderby\":\"4\"}'),(9,4,'detail','{\"template\":\"detail.html.php\",\"title\":\"1\",\"created\":\"1\",\"modified\":\"1\",\"author\":\"1\",\"tag\":\"1\",\"tag_link\":\"1\",\"rating\":\"1\",\"rating_vote\":\"1\",\"thumbsize\":\"250\",\"comment\":\"1\",\"comment_auto\":\"1\",\"comment_list\":\"9\",\"comment_form\":\"1\",\"comment_emoticons\":\"1\",\"comment_spam\":\"0\",\"comment_email\":\"1\",\"pdf\":\"1\",\"print\":\"1\",\"email\":\"1\",\"share\":\"1\"}'),(10,4,'list','{\"template\":\"list.html.php\",\"title\":\"1\",\"title_link\":\"1\",\"intro\":\"1\",\"created\":\"1\",\"modified\":\"1\",\"author\":\"1\",\"tag\":\"1\",\"tag_link\":\"1\",\"rating\":\"1\",\"read_more\":\"1\",\"tot_list\":\"12\",\"thumbnail\":\"1\"}'),(11,4,'manage','{\"webtype\":\"1\",\"image_size\":\"800\",\"images\":\"none.gif\",\"is_nested\":\"0\",\"cat_img\":\"1\",\"disqus\":\"fisipnet\"}'),(12,4,'frontpage','{\"auto\":\"0\",\"title\":\"1\",\"title_link\":\"1\",\"intro\":\"0\",\"created\":\"0\",\"modified\":\"0\",\"author\":\"0\",\"tag\":\"0\",\"tag_link\":\"0\",\"rating\":\"0\",\"read_more\":\"0\",\"tot_list\":\"1\",\"thumbnail\":\"1\"}'),(14,6,'form','{\"email\":\"\",\"address\":\"CONTOH+ALAMAT%26nbsp%3BPERUSAHAAN%26nbsp%3BANDA%3Cbr+%2F%3E%0D%0AJl.+Pedakbaru+425C+Gowok%3Cbr+%2F%3E%0D%0Abaguntapan%2C+Bantul%2C+Yogyakarta.%3Cbr+%2F%3E%0D%0ATelp%3A+%280274%29+XXXXX%3Cbr+%2F%3E%0D%0AEmail%3A+XXXXXXXX%3Cbr+%2F%3E%0D%0A%3Cbr+%2F%3E\"}'),(15,6,'widget','{\"auto_check\":\"1\",\"ym_show\":\"5\",\"icon\":\"1\",\"name\":\"1\",\"address\":\"0\"}'),(18,7,'guestbook','{\"alert\":\"1\",\"email\":\"\",\"approved\":\"1\",\"tot\":\"12\",\"avatar\":\"1\",\"animated\":\"1\",\"orderby\":\"1\"}'),(19,9,'main','{\"template\":\"\",\"noreentry\":\"1\",\"publish\":\"1\",\"alert\":\"1\",\"email\":\"\"}'),(20,10,'testimonial','{\"alert\":\"1\",\"email\":\"\",\"approved\":\"1\",\"tot\":\"12\",\"avatar\":\"1\",\"animated\":\"0\",\"orderby\":\"1\"}');
-/*!40000 ALTER TABLE `bbc_config` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_content`
---
-
 DROP TABLE IF EXISTS `bbc_content`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_content` (
   `id` int(255) unsigned NOT NULL AUTO_INCREMENT,
   `par_id` int(255) DEFAULT '0',
@@ -374,25 +192,9 @@ CREATE TABLE `bbc_content` (
   KEY `publish` (`publish`),
   FULLTEXT KEY `title` (`caption`,`created_by_alias`)
 ) ENGINE=MyISAM AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `bbc_content`
---
-
-LOCK TABLES `bbc_content` WRITE;
-/*!40000 ALTER TABLE `bbc_content` DISABLE KEYS */;
 INSERT INTO `bbc_content` VALUES (1,0,1,0,'','','',0,0,0,'0000-00-00 00:00:00','','','','home-page.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,16,',all,',603,'0,0,1,2,0','2016-05-17 11:52:10',1,1,0,'',1),(2,0,1,1,'','','',0,0,0,'0000-00-00 00:00:00','','','','images/modules/content/2/alam-6.jpg','','[{\"image\":\"alam-6.jpg\",\"title\":\"\",\"description\":\"\"},{\"image\":\"alam-5.jpg\",\"title\":\"\",\"description\":\"\"},{\"image\":\"alam-4.jpg\",\"title\":\"\",\"description\":\"\"},{\"image\":\"alam-3.jpg\",\"title\":\"\",\"description\":\"\"},{\"image\":\"alam-2.jpg\",\"title\":\"\",\"description\":\"\"},{\"image\":\"alam-1.jpg\",\"title\":\"\",\"description\":\"\"}]','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,8,',all,',312,'0','2016-05-25 00:04:32',1,0,0,'',1),(3,0,1,1,'','','',0,0,0,'0000-00-00 00:00:00','','','','images/modules/content/3/art-2.jpg','','[{\"image\":\"art-2.jpg\",\"title\":\"\",\"description\":\"\"},{\"image\":\"art-6.jpg\",\"title\":\"\",\"description\":\"\"},{\"image\":\"art-5.jpg\",\"title\":\"\",\"description\":\"\"},{\"image\":\"art-4.jpg\",\"title\":\"\",\"description\":\"\"},{\"image\":\"art-3.jpg\",\"title\":\"\",\"description\":\"\"},{\"image\":\"art-1.jpg\",\"title\":\"\",\"description\":\"\"}]','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,6,',all,',38,'0','2019-06-14 08:24:31',1,0,0,'',1),(4,0,1,1,'','','',0,0,0,'0000-00-00 00:00:00','','','','images/modules/content/4/drone-6.jpg','','[{\"image\":\"drone-6.jpg\",\"title\":\"\",\"description\":\"\"},{\"image\":\"drone-5.jpg\",\"title\":\"\",\"description\":\"\"},{\"image\":\"drone-4.jpg\",\"title\":\"\",\"description\":\"\"},{\"image\":\"drone-3.jpg\",\"title\":\"\",\"description\":\"\"},{\"image\":\"drone-2.jpg\",\"title\":\"\",\"description\":\"\"},{\"image\":\"drone-1.jpg\",\"title\":\"\",\"description\":\"\"}]','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,10,',all,',312,'0','2016-05-25 00:03:53',0,0,0,'',1),(5,0,1,2,'sample_document.docx','','word',0,0,3,'2016-05-03 21:08:25','127.0.0.1','','','sample-download-file-satu.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,8,',all,',45,'0','2016-05-25 00:06:05',1,0,0,'',1),(6,0,1,2,'sample_document.xlsx','','excel',0,0,2,'2016-05-03 21:08:09','127.0.0.1','','','sample-download-file-dua.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,10,',all,',56,'0','2019-06-14 08:24:55',0,0,0,'',1),(7,0,1,2,'sample_document.pptx','','powerpoint',0,1,0,'0000-00-00 00:00:00','','','','sample-download-file-tiga.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,13,',all,',355,'0,1,0,1,0','2019-07-04 22:32:15',1,0,0,'',1),(8,0,1,3,'','','',0,0,0,'0000-00-00 00:00:00','','u_orGF2zM5o','','http://i2.ytimg.com/vi/u_orGF2zM5o/0.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,9,',all,',258,'0','2016-05-25 00:06:22',1,0,0,'',1),(9,0,1,3,'','','',0,0,0,'0000-00-00 00:00:00','','qREKP9oijWI','','http://i2.ytimg.com/vi/qREKP9oijWI/0.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,7,',all,',294,'0','2016-05-25 00:06:10',1,0,0,'',1),(10,0,1,3,'','','',0,0,0,'0000-00-00 00:00:00','','-dNp7DQJMP8','','http://i2.ytimg.com/vi/-dNp7DQJMP8/0.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,7,',all,',422,'0','2016-05-25 00:04:53',1,0,0,'',1),(11,0,1,4,'','','',0,0,0,'0000-00-00 00:00:00','','','87616772','https://i1.sndcdn.com/artworks-000045363067-gy0gm1-t500x500.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,12,',all,',301,'0','2016-05-25 00:06:15',1,0,0,'',1),(12,0,1,4,'','','',0,0,0,'0000-00-00 00:00:00','','','62576046','https://i1.sndcdn.com/artworks-000031744302-0730nk-t500x500.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,14,',all,',308,'0','2016-05-03 21:07:17',1,0,0,'',1),(13,0,1,4,'','','',0,0,0,'0000-00-00 00:00:00','','','24600650','https://i1.sndcdn.com/artworks-000012244956-xfjnke-t500x500.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,7,',all,',290,'0','2016-05-25 00:05:15',1,0,0,'',1),(14,0,1,0,'','','',0,0,0,'0000-00-00 00:00:00','','','','penandatanganan-bantuan-kapal-penyebrangan.jpg','Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,12,',all,',284,'0','2019-06-14 08:25:30',1,0,0,'',1),(15,0,1,0,'','','',0,0,0,'0000-00-00 00:00:00','','','','merevitalisasi-sektor-pelayaran.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,7,',all,',342,'0,0,0,0,1','2016-04-15 18:49:27',0,0,0,'',1),(16,0,1,0,'','','',0,0,0,'0000-00-00 00:00:00','','','','transportasi-yang-efisien.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,6,',all,',381,'0','2015-09-03 02:36:44',1,0,0,'',1),(17,0,1,0,'','','',0,0,0,'0000-00-00 00:00:00','','','','8-langkah-hindari-kehilangan-mobil.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,8,',all,',404,'0','2016-04-15 18:49:19',0,0,0,'',1),(18,0,1,0,'','','',0,0,0,'0000-00-00 00:00:00','','','','indahnya-indonesia-dengan-menyelam.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,5,',all,',307,'0','2016-04-15 18:49:16',0,0,0,'',1),(19,0,1,0,'','','',0,0,0,'0000-00-00 00:00:00','','','','bertahan-dengan-inovasi.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,8,',all,',228,'0','2016-05-03 17:01:41',1,0,0,'',1),(20,0,1,0,'','','',0,0,0,'0000-00-00 00:00:00','','','','optimis-melangkah-ditahun-depan.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,8,',all,',367,'0,0,0,1,0','2015-09-03 04:57:43',1,0,0,'',1),(21,0,1,0,'','','',0,0,0,'0000-00-00 00:00:00','','','','bisnis-penyeberangan-potensi-yang-terabaikan.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,6,',all,',244,'0','2015-05-20 08:54:49',1,0,0,'',1),(22,0,1,0,'','','',0,0,0,'0000-00-00 00:00:00','','','','dukung-konektivitas-asean.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,6,',all,',657,'1,0,0,1,1','2016-05-04 01:43:42',0,0,0,'',1),(23,0,1,0,'','','',0,0,0,'0000-00-00 00:00:00','','','','tantangan-transportasi-di-kota-1001-gua.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,5,',all,',494,'0','2016-04-15 18:53:06',1,0,0,'',1),(24,0,1,0,'','','',0,0,0,'0000-00-00 00:00:00','','','','keselamatan-harus-jadi-icon.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,15,',all,',394,'0,0,0,0,1','2015-09-03 03:03:31',1,0,0,'',1),(25,0,1,0,'','','',0,0,0,'0000-00-00 00:00:00','','','','tingkatkan-pengawasan-perairan-kkp-akan-perkuat-dengan-kapal-induk.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,7,',all,',43,'0','2011-11-24 02:41:35',1,0,0,'',1),(26,0,1,0,'','','',0,0,0,'0000-00-00 00:00:00','','','','gencar-tertibkan-knalpot-bising-ratusan-motor-dipretelin-polisi.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,5,',all,',39,'0','2011-12-12 05:20:57',1,0,0,'',1),(27,0,1,0,'','','',0,0,0,'0000-00-00 00:00:00','','','','quo-vadis-perkeretaapian-nasional.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,6,',all,',38,'0','2013-04-13 18:13:45',1,0,0,'',1),(28,0,1,0,'','','',0,0,0,'0000-00-00 00:00:00','','','','mrt-jadi-pertaruhan.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,4,',all,',33,'0','2011-04-25 13:07:36',1,0,0,'',1),(29,0,1,0,'','','',0,0,0,'0000-00-00 00:00:00','','','','meneropong-redesign-juanda.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,4,',all,',40,'0','2011-04-25 13:08:38',1,0,0,'',1),(30,0,1,0,'','','',0,0,0,'0000-00-00 00:00:00','','','','apa-kabar-sistranas.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,3,',all,',41,'0','2011-04-25 13:09:44',1,0,0,'',1),(31,0,1,0,'','','',0,0,0,'0000-00-00 00:00:00','','','','konektivitas-nusantara.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,18,',all,',40,'0','2011-04-25 13:09:53',1,0,0,'',1),(32,0,1,0,'','','',0,0,0,'0000-00-00 00:00:00','','','','membumikan-transportasi-ke-ranah-lokal.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,5,',all,',117,'0','2016-04-16 04:03:32',0,0,0,'',0),(33,0,1,0,'','','',0,0,0,'0000-00-00 00:00:00','','','','nikmat-teh-di-pasar-terapung.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,7,',all,',314,'0','2016-04-15 23:24:10',1,0,0,'',1),(34,0,1,0,'','','',0,0,0,'0000-00-00 00:00:00','','','','tol-semakin-dikebut.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,12,',all,',389,'0','2012-03-15 02:57:55',1,0,0,'',1),(35,0,1,0,'','','',0,0,0,'0000-00-00 00:00:00','','','','dermaga-batubara-terbesar.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,5,',all,',323,'0','2016-04-15 18:48:35',0,0,0,'',1),(36,0,1,0,'','','',0,0,0,'0000-00-00 00:00:00','','','','belawan-terus-berbenah.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,10,',all,',409,'0','2015-09-09 10:08:33',1,0,0,'',1),(37,0,1,0,'','','',0,0,0,'0000-00-00 00:00:00','','','','pasar-perintis-kian-seksi.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-04 03:11:39',1,17,',all,',211,'0','2018-10-24 07:19:44',1,0,0,'',1),(38,0,1,0,'','','',0,0,0,'0000-00-00 00:00:00','','','','garuda-buka-rute-surabaya-jeddah.jpg','','','2016-05-04 03:11:39',1,'Administrator','2016-05-21 16:46:21',1,53,',all,',188,'0,0,0,1,0','2018-10-23 13:06:55',1,0,0,'',1);
-/*!40000 ALTER TABLE `bbc_content` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_content_ad`
---
-
 DROP TABLE IF EXISTS `bbc_content_ad`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_content_ad` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `cat_id` int(11) DEFAULT '0' COMMENT 'based on bbc_content_cat',
@@ -415,24 +217,8 @@ CREATE TABLE `bbc_content_ad` (
   KEY `expire_time` (`expire_date`),
   KEY `active` (`active`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bbc_content_ad`
---
-
-LOCK TABLES `bbc_content_ad` WRITE;
-/*!40000 ALTER TABLE `bbc_content_ad` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bbc_content_ad` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_content_cat`
---
 
 DROP TABLE IF EXISTS `bbc_content_cat`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_content_cat` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `par_id` int(255) DEFAULT '0',
@@ -445,25 +231,9 @@ CREATE TABLE `bbc_content_cat` (
   KEY `publish` (`publish`),
   KEY `type_id` (`type_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `bbc_content_cat`
---
-
-LOCK TABLES `bbc_content_cat` WRITE;
-/*!40000 ALTER TABLE `bbc_content_cat` DISABLE KEYS */;
 INSERT INTO `bbc_content_cat` VALUES (1,0,1,'1151210920.png',0,'',1),(2,0,1,'936556321.png',1,'{\"template\":\"list-grid3.html.php\",\"title\":\"1\",\"title_link\":\"1\",\"intro\":\"1\",\"created\":\"0\",\"modified\":\"0\",\"author\":\"0\",\"tag\":\"0\",\"tag_link\":\"0\",\"rating\":\"0\",\"read_more\":\"0\",\"tot_list\":\"12\",\"thumbnail\":\"1\"}',1),(3,0,1,'808535225.png',0,'',1),(4,0,1,'2122945692.png',0,'',1),(5,0,1,'277845280.png',0,'',1),(6,0,1,'1685082208.png',0,'',1),(7,6,1,'1089586799.png',0,'',1),(8,6,1,'1049295436.png',0,'',1),(9,6,1,'25760023.png',0,'',1);
-/*!40000 ALTER TABLE `bbc_content_cat` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_content_cat_text`
---
-
 DROP TABLE IF EXISTS `bbc_content_cat_text`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_content_cat_text` (
   `cat_id` int(255) NOT NULL DEFAULT '0',
   `title` varchar(255) DEFAULT NULL,
@@ -474,25 +244,9 @@ CREATE TABLE `bbc_content_cat_text` (
   KEY `lang_id` (`lang_id`),
   FULLTEXT KEY `title` (`title`,`description`,`keyword`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `bbc_content_cat_text`
---
-
-LOCK TABLES `bbc_content_cat_text` WRITE;
-/*!40000 ALTER TABLE `bbc_content_cat_text` DISABLE KEYS */;
 INSERT INTO `bbc_content_cat_text` VALUES (1,'Article','','',1),(2,'Gallery','','',1),(3,'Download','','',1),(4,'Videos','','',1),(5,'Sound Audio','','',1),(6,'Berita','','',1),(7,'Relaxing','','',1),(8,'Information','','',1),(9,'Hot List','','',1);
-/*!40000 ALTER TABLE `bbc_content_cat_text` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_content_category`
---
-
 DROP TABLE IF EXISTS `bbc_content_category`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_content_category` (
   `category_id` int(255) NOT NULL AUTO_INCREMENT,
   `content_id` int(255) NOT NULL DEFAULT '0',
@@ -505,25 +259,9 @@ CREATE TABLE `bbc_content_category` (
   KEY `pruned` (`pruned`),
   KEY `active` (`active`)
 ) ENGINE=MyISAM AUTO_INCREMENT=111 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `bbc_content_category`
---
-
-LOCK TABLES `bbc_content_category` WRITE;
-/*!40000 ALTER TABLE `bbc_content_category` DISABLE KEYS */;
 INSERT INTO `bbc_content_category` VALUES (1,2,2,0,1),(2,2,6,0,1),(3,2,7,0,1),(4,3,2,0,1),(5,3,6,0,1),(6,3,8,0,1),(7,4,2,0,1),(8,4,6,0,1),(9,4,8,0,1),(10,5,3,0,1),(11,5,6,0,1),(12,5,7,0,1),(13,6,3,0,1),(14,6,6,0,1),(15,6,8,0,1),(16,7,3,0,1),(17,7,6,0,1),(18,7,8,0,1),(19,8,4,0,1),(20,8,6,0,1),(21,8,8,0,1),(22,9,4,0,1),(23,9,6,0,1),(24,9,8,0,1),(25,10,4,0,1),(26,10,6,0,1),(27,10,8,0,1),(28,11,5,0,1),(29,11,6,0,1),(30,11,7,0,1),(31,12,5,0,1),(32,12,6,0,1),(33,12,7,0,1),(34,13,5,0,1),(35,13,6,0,1),(36,13,8,0,1),(37,14,1,0,1),(38,14,6,0,1),(39,14,9,0,1),(40,15,1,0,1),(41,15,6,0,1),(42,15,7,0,1),(43,16,1,0,1),(44,16,6,0,1),(45,16,8,0,1),(46,17,1,0,1),(47,17,7,0,1),(48,18,1,0,1),(49,18,6,0,1),(50,18,8,0,1),(51,19,1,0,1),(52,19,6,0,1),(53,19,9,0,1),(54,20,1,0,1),(55,20,6,0,1),(56,20,9,0,1),(57,21,1,0,1),(58,21,6,0,1),(59,21,7,0,1),(60,22,1,0,1),(61,22,6,0,1),(62,22,8,0,1),(63,23,1,0,1),(64,23,6,0,1),(65,23,8,0,1),(66,24,1,0,1),(67,24,6,0,1),(68,24,9,0,1),(69,25,1,0,1),(70,25,6,0,1),(71,25,8,0,1),(72,26,1,0,1),(73,26,6,0,1),(74,26,7,0,1),(75,27,1,0,1),(76,27,6,0,1),(77,27,8,0,1),(78,28,1,0,1),(79,28,6,0,1),(80,28,9,0,1),(81,29,1,0,1),(82,29,6,0,1),(83,29,8,0,1),(84,30,1,0,1),(85,30,6,0,1),(86,30,9,0,1),(87,31,1,0,1),(88,31,6,0,1),(89,31,8,0,1),(90,32,1,0,1),(91,32,6,0,1),(92,32,9,0,1),(93,33,1,0,1),(94,33,6,0,1),(95,33,7,0,1),(96,34,1,0,1),(97,34,6,0,1),(98,34,8,0,1),(99,35,1,0,1),(100,35,6,0,1),(101,35,8,0,1),(102,36,1,0,1),(103,36,6,0,1),(104,36,9,0,1),(105,37,1,0,1),(106,37,6,0,1),(107,37,9,0,1),(108,38,1,0,1),(109,38,6,0,1),(110,38,8,0,1);
-/*!40000 ALTER TABLE `bbc_content_category` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_content_comment`
---
-
 DROP TABLE IF EXISTS `bbc_content_comment`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_content_comment` (
   `id` int(255) unsigned NOT NULL AUTO_INCREMENT,
   `par_id` int(11) DEFAULT '0',
@@ -548,25 +286,9 @@ CREATE TABLE `bbc_content_comment` (
   KEY `publish` (`publish`),
   FULLTEXT KEY `title` (`content_title`,`name`,`email`,`website`,`content`)
 ) ENGINE=MyISAM AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `bbc_content_comment`
---
-
-LOCK TABLES `bbc_content_comment` WRITE;
-/*!40000 ALTER TABLE `bbc_content_comment` DISABLE KEYS */;
 INSERT INTO `bbc_content_comment` VALUES (1,0,0,0,0,14,'Sample Content Detail','yaya','http://graph.facebook.com/100005476120332/picture','melsa@yahoo.com','','kalo misal\'ny dari ank ips bisa tdk masuk ke perusahaan\nterimakasih','2010-10-10 19:06:31',1),(2,0,0,0,0,34,'Tol Semakin Dikebut','maya','http://graph.facebook.com/100001164127152/picture','maialail@yahoo.com','','bagaimana cara mendaftar & mendapatkan beasiswa disini??','2010-10-11 15:03:31',1),(3,0,0,0,0,14,'Sample Content Detail','Rizka Octa','http://graph.facebook.com/1259376413/picture','octa.rizka@yahoo.co.id','','kalau 5 semester berturut-turut nilai nya di atas 75 tapi tinggi nya tidak mencapai 150 apa tidak boleh masuk PERUSAHAAN ?\nterimakasih','2010-10-13 17:30:21',1),(4,0,0,0,0,14,'Sample Content Detail','nandha','http://graph.facebook.com/100000073777335/picture','nandafogbow@yahoo.com','','cara pendfatrannya langsung kkampusnya atau ada prasana lain?????','2010-10-15 11:34:18',1),(5,0,0,0,0,34,'Tol Semakin Dikebut','NANDHA','http://graph.facebook.com/100000073777335/picture','nandafogbow@yahoo.com','','cara untuk mendapatkan beasiswanya bagaimana yaa????','2010-10-15 11:46:32',1),(6,0,0,0,0,34,'Tol Semakin Dikebut','chris','http://graph.facebook.com/100000824915296/picture','christina_imuet@yahoo.com','','biayanya mahal banget ,,, ada biasiswa ngk??? n bagaimana caranya ndaftar  biasiswa n apa saja syarat-syarat nya.................?','2010-10-16 11:58:31',1),(7,0,0,0,0,23,'Tantangan Transportasi di Kota 1001 Gua','Dea','http://graph.facebook.com/100000920641908/picture','dhea_imutz77@yahoo.com','http://www.perusahaan.ac.id','saya mau bertanya,akbid ini merupakan akbid Negri yang dikelola pemerintah atau swasta yang dikelola lembaga..\nmohon,penjelasannya\nterima kasih','2010-10-18 17:48:46',1),(8,0,0,0,0,14,'Sample Content Detail','endang','http://graph.facebook.com/100000477046097/picture','endangrokama@yahoo.co.id','','klu tinggi badan kurang dari 150 gmna? misal 148','2010-10-20 13:29:04',1),(9,0,0,0,0,34,'Tol Semakin Dikebut','dheena','http://graph.facebook.com/100001512649744/picture','dina_ikayanti@yahoo.com','','yang mau saya tanyakan adalah siapa saja yang berhak untuk mendapatkan beasiswa tersebut?\n','2010-10-20 18:20:02',0),(10,0,0,0,0,2,'Sample Gallery Satu','NANDHA','http://graph.facebook.com/100000073777335/picture','nandafogbow@yahoo.com','','rincian uang stiap semesternya ko gugh dtampilkan????\n.,dtampilkan donk','2010-10-20 18:32:12',1),(11,0,0,0,0,14,'Sample Content Detail','patricia','http://graph.facebook.com/1243958560/picture','lianpatriciabolung@yahoo.com','','batasan umur untuk masuk akademi ada ga sih?','2010-10-23 17:37:39',1),(12,0,0,0,0,14,'Sample Content Detail','iin','http://graph.facebook.com/100002248209591/picture','prettycure_31@ymail.com','','klo\' anak ips bsa msk gak?\nn ada tes tulisnya?\n','2010-10-24 14:06:51',1),(13,0,0,0,0,14,'Sample Content Detail','devi','http://graph.facebook.com/100001277183678/picture','cup_punk@rocketmail.com','','kalo smk nya jurusan pemasaran bisa gak.maksh','2010-10-29 11:17:44',1),(14,0,0,0,0,14,'Sample Content Detail','haryati purnama sari','http://graph.facebook.com/100001067155465/picture','haryatitoanugrah@rocketmail.com','','kalo smk jurusan akutansi bisa msuk gak?????\n','2010-11-03 19:47:19',1),(15,0,0,0,0,36,'Belawan Terus Berbenah','lusiana','http://graph.facebook.com/100001659436537/picture','cicilusiana@ymail.com','','bsa nggak..ijasah nya pkai paket C ?','2010-11-08 16:28:12',1),(16,0,0,0,0,2,'Sample Gallery Satu','Perusahaan','http://graph.facebook.com/100011328960689/picture','info@perusahaan.ac.id','','@Nanda: Kami memberikan informasi biaya via email berdasarkan permintaan. :)','2010-11-10 12:43:13',1),(17,0,0,0,0,34,'Tol Semakin Dikebut','Perusahaan','http://graph.facebook.com/100011328960689/picture','info@perusahaan.ac.id','','@Maya: Pendaftaran bisa dilakuan secara online (lihat menu sipenmaru) atau datang langsung ke kampus Perusahaan d.a. Jl. Parangtritis Km.6 Sewon.\n@All: untuk untuk mendapatkan beasiswa harus terdaftar dulu sebagai mahasiswa Perusahaan, setelah itu dilihat prestasi akademik mahasiswa yang bersangkutan.','2010-11-10 13:01:33',1),(18,0,0,0,0,36,'Belawan Terus Berbenah','Perusahaan','http://graph.facebook.com/100011328960689/picture','info@perusahaan.ac.id','','@Lusiana: Bisa ','2010-11-10 13:03:50',1),(19,0,0,0,0,23,'Tantangan Transportasi di Kota 1001 Gua','Perusahaan','http://graph.facebook.com/100011328960689/picture','info@perusahaan.ac.id','','@Dea: Perusahaan adalah lembaga swasta','2010-11-10 13:08:45',1),(20,0,0,0,0,1,'Home page','andi','http://graph.facebook.com/1685135329/picture','kak.andi@yahoo.com','','untuk alumni smk akuntansi bisa masuk apa tidak?','2010-11-12 16:17:58',1),(21,0,0,0,0,36,'Belawan Terus Berbenah','nandha','http://graph.facebook.com/100000073777335/picture','nandafogbow@yahoo.com','','kalo pndftran buat siswa baru yg angkatan 2011 kpan ya??trus bsa gugh persyaratan yg di inginkan untuk wilayah luar jawa kita kirim lewat pos??','2010-11-14 10:30:53',1),(23,0,0,0,0,23,'Tantangan Transportasi di Kota 1001 Gua','ghita','http://graph.facebook.com/100000167977393/picture','immuudt@yahoo.com','','perusahaan kapan bika PMB TA.2011/2012 ?','2010-11-16 12:05:40',1),(24,0,0,0,0,20,'Optimis Melangkah ditahun depan','fd','http://graph.facebook.com/100003509649001/picture','ap.fedri@yahoo.com','','program study nya apa saja.\nada S1 tidak?','2010-11-17 17:33:44',1),(25,0,0,0,0,14,'Sample Content Detail','tusi minasari','http://graph.facebook.com/100001636105240/picture','thoesiygemini@yahoo.co.id','','klo ank akntnsi bsa g msuk akbid,,?','2010-11-18 12:56:59',1),(26,0,0,0,0,14,'Sample Content Detail','tusi minasari','http://graph.facebook.com/100001636105240/picture','thoesiygemini@yahoo.co.id','','klo ank akntnsi bs g msuk akbid','2010-11-18 12:58:27',1),(27,0,0,0,0,14,'Sample Content Detail','wien','http://graph.facebook.com/100001721082833/picture','jelex_poenyakoe@yahoo.com','','kalau anak SMK dari akuntansi bisa gak ya?\nmakasih sblmnya','2010-11-18 21:04:56',1),(28,0,0,0,0,14,'Sample Content Detail','fithri','http://graph.facebook.com/100000110940380/picture','vich_zhuity@yahoo.com','','saya mau tanYa, tes kesehatan\'y meliputi apa aja sih?\ntrus kalau nilai 5 semester di ats 75 beneran cuma ikut tes kesehatan aja????','2010-11-20 15:54:51',1),(29,0,0,0,0,14,'Sample Content Detail','putri ','http://graph.facebook.com/100000134050510/picture','may_ang21@yahoo.co.id','','apa tidak disediakan S1?','2010-11-20 20:24:48',1),(30,0,0,0,0,23,'Tantangan Transportasi di Kota 1001 Gua','nur','http://graph.facebook.com/100000215624909/picture','daimnh@gmail.com','','mohon minta rincian biaya pendidikan di perusahaan. kirim k email y . . .\nsaya ingin masuk akbid.','2010-11-21 10:59:41',1),(31,0,0,0,0,2,'Sample Gallery Satu','nandha','http://graph.facebook.com/100000073777335/picture','nandafogbow@yahoo.com','','alamat emailnya apa ya???\ntrus bagaimana dengan calon siswa baru yg berada d luar jawa??\napa bisa melalui pos ya?\napa ada no yg bisa di hub untuk konsultasi k perusahaan??','2010-11-22 17:17:44',1),(32,0,0,0,0,23,'Tantangan Transportasi di Kota 1001 Gua','eka','http://graph.facebook.com/100006096697514/picture','cha_muky@yahoo.com','','mau tanya pendaftaran dibuka kapan dan tolong minta rincian biayanya \nterimakasih','2010-11-23 16:03:20',1),(33,0,0,0,0,36,'Belawan Terus Berbenah','rindy','http://graph.facebook.com/100000302388141/picture','rfriezca@yahoo.com','','bwt pendaftarn tahun 2011\nkpn yah!!!!','2010-11-23 19:19:22',1),(34,0,0,0,0,10,'Sample Youtube Video Tiga','rahma','http://graph.facebook.com/100001533960031/picture','rahmaflayyer@yahoo.com','','kalau mahasiswanya tidak adrama, apakah diperbolehkan????','2010-11-26 11:22:36',1),(35,0,0,0,0,14,'Sample Content Detail','rahma','http://graph.facebook.com/100001533960031/picture','rahmaflayyer@yahoo.com','','ini dah bulan november...\npendaftaran masih buka kan????','2010-11-26 11:26:34',1),(36,0,0,0,0,35,'Dermaga Batubara Terbesar','Tuti','http://graph.facebook.com/100003894631547/picture','tutyclara@ymail.com','','umch bagus juga,,,,','2010-11-30 10:06:58',1),(37,0,0,0,0,14,'Sample Content Detail','lia','http://graph.facebook.com/100000083907730/picture','hakeshy_hatsuden@yahoo.co.id','',' =; maaf, saya lulusan smk pariwisata apakah bisa mendaftar?\nterimakasih.','2010-11-30 22:10:29',1),(38,0,0,0,0,36,'Belawan Terus Berbenah','mita','http://graph.facebook.com/100010192572668/picture','mita_kissing@yahoo.com','','apa gag ada saringan masuknya menggunakan PMDK????','2010-12-03 12:35:30',1),(39,0,0,0,0,34,'Tol Semakin Dikebut','hendrikawati ','http://graph.facebook.com/100002013531460/picture','rickacipoet@yahoo.com','','kapan nih penerimaan beasiswa diknas tahun 2010. 28 sept 2010 kemarin kan udah sosialisasi di diknas.. tapi kok lum ada juga pengumuman lagi. ten-temen yang dapat beasiswa pada bertnya-tanya ni.. :(( ','2010-12-04 17:44:10',1),(40,0,0,0,0,16,'Transportasi Yang Efisien','ajeng','http://graph.facebook.com/100000213226955/picture','ajen9m0et_morfabregas@yahoo.com','','sy mau tanya,apa akadibyo ini ada kerjasama dg Rumah sakit2? kira2 mana saja? n apakah lulusan akadibyo terjamin pkerjaannya? misalkan di transfer ke RS? Dan apakah ada program magang di rumah sakit?  sy mnta tolong di balas via email saja dan dikirimkan total biaya selama pendidikan. terimakasih','2010-12-09 20:23:09',1),(41,0,0,0,0,14,'Sample Content Detail','tusi','http://graph.facebook.com/100001636105240/picture','thoesiygemini@yahoo.co.id','','klo dr akuntansi bsa msuk akbid,, pa ujian tulisnya tetap sama','2010-12-15 12:59:29',1),(42,0,0,0,0,1,'Home page','Perusahaan','http://graph.facebook.com/100011328960689/picture','info@perusahaan.ac.id','','[ untuk alumni smk akuntansi bisa masuk apa tidak? ]\nOwh tentu saja bisa, perusahaan menerima semua jurusan untuk SMU atau sederajat.. :)','2011-03-23 13:59:17',1);
-/*!40000 ALTER TABLE `bbc_content_comment` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_content_registrant`
---
-
 DROP TABLE IF EXISTS `bbc_content_registrant`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_content_registrant` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `content_id` int(255) NOT NULL,
@@ -579,24 +301,8 @@ CREATE TABLE `bbc_content_registrant` (
   KEY `content_id` (`content_id`),
   KEY `email` (`email`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bbc_content_registrant`
---
-
-LOCK TABLES `bbc_content_registrant` WRITE;
-/*!40000 ALTER TABLE `bbc_content_registrant` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bbc_content_registrant` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_content_related`
---
 
 DROP TABLE IF EXISTS `bbc_content_related`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_content_related` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `content_id` int(255) NOT NULL,
@@ -604,25 +310,9 @@ CREATE TABLE `bbc_content_related` (
   PRIMARY KEY (`id`),
   KEY `content_id` (`content_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=68 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `bbc_content_related`
---
-
-LOCK TABLES `bbc_content_related` WRITE;
-/*!40000 ALTER TABLE `bbc_content_related` DISABLE KEYS */;
 INSERT INTO `bbc_content_related` VALUES (1,22,31),(2,14,2),(3,14,3),(4,14,4),(5,14,5),(6,14,6),(7,4,2),(8,4,3),(9,4,7),(10,4,10),(11,4,13),(12,7,5),(13,7,6),(14,7,4),(15,7,10),(16,7,13),(17,6,5),(18,6,7),(19,6,2),(20,6,3),(21,6,4),(22,1,2),(23,1,3),(24,1,4),(25,1,5),(26,1,6),(27,37,33),(28,10,8),(29,10,9),(30,10,4),(31,10,7),(32,10,13),(33,2,3),(34,2,4),(35,2,5),(36,2,8),(37,2,11),(38,13,4),(39,13,7),(40,13,10),(41,13,11),(42,13,12),(43,5,6),(44,5,7),(45,5,2),(46,5,8),(47,5,11),(48,9,8),(49,9,10),(50,9,2),(51,9,3),(52,9,4),(53,11,2),(54,11,5),(55,11,8),(56,11,12),(57,11,13),(58,8,9),(59,8,10),(60,8,2),(61,8,5),(62,8,11),(63,3,2),(64,3,4),(65,3,5),(66,3,6),(67,3,7);
-/*!40000 ALTER TABLE `bbc_content_related` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_content_schedule`
---
-
 DROP TABLE IF EXISTS `bbc_content_schedule`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_content_schedule` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `content_id` int(11) unsigned DEFAULT '0',
@@ -633,24 +323,8 @@ CREATE TABLE `bbc_content_schedule` (
   KEY `content_id` (`content_id`),
   KEY `action_time` (`action_time`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bbc_content_schedule`
---
-
-LOCK TABLES `bbc_content_schedule` WRITE;
-/*!40000 ALTER TABLE `bbc_content_schedule` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bbc_content_schedule` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_content_tag`
---
 
 DROP TABLE IF EXISTS `bbc_content_tag`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_content_tag` (
   `id` int(255) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT '',
@@ -659,48 +333,16 @@ CREATE TABLE `bbc_content_tag` (
   `updated` datetime DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bbc_content_tag`
---
-
-LOCK TABLES `bbc_content_tag` WRITE;
-/*!40000 ALTER TABLE `bbc_content_tag` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bbc_content_tag` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_content_tag_list`
---
 
 DROP TABLE IF EXISTS `bbc_content_tag_list`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_content_tag_list` (
   `tag_id` int(255) DEFAULT '0',
   `content_id` int(255) DEFAULT '0',
   KEY `tag_id` (`tag_id`),
   KEY `content_id` (`content_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bbc_content_tag_list`
---
-
-LOCK TABLES `bbc_content_tag_list` WRITE;
-/*!40000 ALTER TABLE `bbc_content_tag_list` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bbc_content_tag_list` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_content_text`
---
 
 DROP TABLE IF EXISTS `bbc_content_text`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_content_text` (
   `content_id` int(255) NOT NULL DEFAULT '0',
   `title` varchar(255) DEFAULT NULL,
@@ -714,25 +356,9 @@ CREATE TABLE `bbc_content_text` (
   KEY `lang_id` (`lang_id`),
   FULLTEXT KEY `title` (`title`,`description`,`keyword`,`tags`,`intro`,`content`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `bbc_content_text`
---
-
-LOCK TABLES `bbc_content_text` WRITE;
-/*!40000 ALTER TABLE `bbc_content_text` DISABLE KEYS */;
 INSERT INTO `bbc_content_text` VALUES (1,'Home page','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',1),(2,'Sample Gallery Satu','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(3,'Sample Gallery Dua','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(4,'Sample Gallery Tiga','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(5,'Sample Download File Satu','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(6,'Sample Download File Dua','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the ','Diresmikan, Rumah Bersalin Laras Hati, Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(7,'Sample Download File Tiga','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(8,'Sample Youtube Video Satu','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(9,'Sample Youtube Video Dua','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(10,'Sample Youtube Video Tiga','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(11,'Sample Audio Satu','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(12,'Sample Audio Dua','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(13,'Sample Audio Tiga','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(14,'Sample Content Detail','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(15,'Merevitalisasi Sektor Pelayaran','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(16,'Transportasi Yang Efisien','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(17,'8 Langkah Hindari Kehilangan Mobil','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever  since the 1500s, when an unknown printer took a galley of type and  scrambled it to make a type specimen book.','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever  since the 1500s, when an unknown printer took a galley of type and  scrambled it to make a type specimen book. It has survived not only five  centuries, but also the leap into electronic typesetting, remaining  essentially unchanged. It was popularised in the 1960s with the release  of Letraset sheets containing Lorem Ipsum passages, and more recently  with desktop publishing software like Aldus PageMaker including versions  of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  using Lorem Ipsum is that it has a more-or-less normal distribution of  letters, as opposed to using \'Content here, content here\', making it  look like readable English. Many desktop publishing packages and web  page editors now use Lorem Ipsum as their default model text, and a  search for \'lorem ipsum\' will uncover many web sites still in their  infancy. Various versions have evolved over the years, sometimes by  accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It  has roots in a piece of classical Latin literature from 45 BC, making it  over 2000 years old. Richard McClintock, a Latin professor at  Hampden-Sydney College in Virginia, looked up one of the more obscure  Latin words, consectetur, from a Lorem Ipsum passage, and going through  the cites of the word in classical literature, discovered the  undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33  of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by  Cicero, written in 45 BC. This book is a treatise on the theory of  ethics, very popular during the Renaissance. The first line of Lorem  Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section  1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced  below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de  Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact  original form, accompanied by English versions from the 1914  translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the  majority have suffered alteration in some form, by injected humour, or  randomised words which don\'t look even slightly believable. If you are  going to use a passage of Lorem Ipsum, you need to be sure there isn\'t  anything embarrassing hidden in the middle of text. All the Lorem Ipsum  generators on the Internet tend to repeat predefined chunks as  necessary, making this the first true generator on the Internet. It uses  a dictionary of over 200 Latin words, combined with a handful of model  sentence structures, to generate Lorem Ipsum which looks reasonable. The  generated Lorem Ipsum is therefore always free from repetition,  injected humour, or non-characteristic words etc.',1),(18,'Indahnya Indonesia dengan menyelam','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(19,'Bertahan dengan Inovasi','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(20,'Optimis Melangkah ditahun depan','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(21,'Bisnis Penyeberangan Potensi yang Terabaikan','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(22,'Dukung Konektivitas ASEAN','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(23,'Tantangan Transportasi di Kota 1001 Gua','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(24,'Keselamatan Harus Jadi Icon','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(25,'Tingkatkan Pengawasan Perairan, KKP akan Perkuat dengan Kapal Induk','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(26,'Gencar Tertibkan Knalpot Bising, Ratusan Motor Dipretelin Polisi','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(27,'Quo Vadis Perkeretaapian Nasional?','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(28,'MRT Jadi Pertaruhan','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(29,'Meneropong Redesign Juanda','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(30,'Apa Kabar Sistranas?','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(31,'Konektivitas Nusantara','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(32,'Membumikan Transportasi Ke Ranah Lokal','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(33,'Nikmat Teh di Pasar Terapung','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ips<img alt=\"ooooh\" src=\"includes/smiley/ooooh.gif\" style=\"height:18px; width:18px\" title=\"ooooh\" />um as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular be<object classid=\"clsid:d27cdb6e-ae6d-11cf-96b8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0\"><param name=\"quality\" value=\"high\" /><param name=\"movie\" value=\"images/modules/content/BannerBatam.swf\" /><embed pluginspage=\"http://www.macromedia.com/go/getflashplayer\" quality=\"high\" src=\"images/modules/content/BannerBatam.swf\" type=\"application/x-shockwave-flash\"></embed></object>lief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et M<object classid=\"clsid:d27cdb6e-ae6d-11cf-96b8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0\"><param name=\"quality\" value=\"high\" /><param name=\"movie\" value=\"images/modules/content/bannerpameran.swf\" /><embed pluginspage=\"http://www.macromedia.com/go/getflashplayer\" quality=\"high\" src=\"images/modules/content/bannerpameran.swf\" type=\"application/x-shockwave-flash\"></embed></object>alorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are al<img alt=\"\" src=\"images/modules/content/bannerbatam.jpg\" style=\"height:158px; width:181px\" />so reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If yo<img alt=\"\" src=\"images/modules/content/IMG_5883.jpg\" style=\"height:300px; width:400px\" />u are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(34,'Tol Semakin Dikebut','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(35,'Dermaga Batubara Terbesar','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(36,'Belawan Terus Berbenah','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(37,'Pasar Perintis Kian Seksi','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ha','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1),(38,'Garuda Buka Rute Surabaya - Jeddah','Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry\'s standard dummy text ever','keyword yang bisa di ganti sendiri','','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\nWhy do we use it?<br />\r\n<br />\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br />\r\n&nbsp;<br />\r\nWhere does it come from?<br />\r\n<br />\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.<br />\r\n<br />\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &quot;de Finibus Bonorum et Malorum&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br />\r\nWhere can I get some?<br />\r\n<br />\r\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',1);
-/*!40000 ALTER TABLE `bbc_content_text` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_content_trash`
---
-
 DROP TABLE IF EXISTS `bbc_content_trash`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_content_trash` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
@@ -745,24 +371,8 @@ CREATE TABLE `bbc_content_trash` (
   KEY `restore` (`restore`),
   FULLTEXT KEY `title` (`title`,`image`,`params`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bbc_content_trash`
---
-
-LOCK TABLES `bbc_content_trash` WRITE;
-/*!40000 ALTER TABLE `bbc_content_trash` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bbc_content_trash` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_content_type`
---
 
 DROP TABLE IF EXISTS `bbc_content_type`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_content_type` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT NULL,
@@ -774,25 +384,9 @@ CREATE TABLE `bbc_content_type` (
   KEY `menu_id` (`menu_id`),
   KEY `active` (`active`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `bbc_content_type`
---
-
-LOCK TABLES `bbc_content_type` WRITE;
-/*!40000 ALTER TABLE `bbc_content_type` DISABLE KEYS */;
 INSERT INTO `bbc_content_type` VALUES (1,'General Content','{\"template\":\"detail.html.php\",\"title\":\"1\",\"created\":\"1\",\"modified\":\"1\",\"author\":\"1\",\"tag\":\"1\",\"tag_link\":\"1\",\"rating\":\"1\",\"rating_vote\":\"1\",\"thumbsize\":\"250\",\"comment\":\"1\",\"comment_auto\":\"1\",\"comment_list\":\"9\",\"comment_form\":\"1\",\"comment_emoticons\":\"1\",\"comment_spam\":\"0\",\"comment_email\":\"1\",\"pdf\":\"1\",\"print\":\"1\",\"email\":\"1\",\"share\":\"1\"}','{\"template\":\"list.html.php\",\"title\":\"1\",\"title_link\":\"1\",\"intro\":\"1\",\"created\":\"1\",\"modified\":\"1\",\"author\":\"1\",\"tag\":\"1\",\"tag_link\":\"1\",\"rating\":\"1\",\"read_more\":\"1\",\"tot_list\":\"12\",\"thumbnail\":\"1\"}',0,1);
-/*!40000 ALTER TABLE `bbc_content_type` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_cpanel`
---
-
 DROP TABLE IF EXISTS `bbc_cpanel`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_cpanel` (
   `id` int(255) unsigned NOT NULL AUTO_INCREMENT,
   `par_id` int(255) DEFAULT '0',
@@ -807,25 +401,9 @@ CREATE TABLE `bbc_cpanel` (
   KEY `is_shortcut` (`is_shortcut`),
   KEY `active` (`active`)
 ) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `bbc_cpanel`
---
-
-LOCK TABLES `bbc_cpanel` WRITE;
-/*!40000 ALTER TABLE `bbc_cpanel` DISABLE KEYS */;
 INSERT INTO `bbc_cpanel` VALUES (1,0,'Configuration','config.png','config','index.php?mod=_cpanel.config',0,2,1),(2,0,'User Manager','user.png','user','index.php?mod=_cpanel.user',0,14,1),(3,0,'Manage Content','content.png','main','index.php?mod=_cpanel.content',0,7,1),(4,0,'Block Manager','block.png','block','index.php?mod=_cpanel.block',0,1,1),(5,0,'Site Template','template.png','template','index.php?mod=_cpanel.template',0,10,1),(6,0,'User Group','group.png','group','index.php?mod=_cpanel.group',0,13,1),(7,0,'Menu Manager','menu.png','menu','index.php?mod=_cpanel.menu',0,8,1),(8,0,'Welcome Message','home.png','home','index.php?mod=_cpanel.home',0,15,1),(9,0,'Third Party App','application.png','application','index.php?mod=_cpanel.application',0,12,1),(10,0,'Modules Manager','modules.png','modules','index.php?mod=_cpanel.module',0,9,1),(11,0,'Language','language.png','language','index.php?mod=_cpanel.language',0,6,1),(12,0,'Content Trash','trash.png','trash','index.php?mod=_cpanel.trash',0,3,1),(13,0,'Email Template','email.png','email','index.php?mod=_cpanel.email',0,4,1),(14,0,'File Manager','filemanager.png','main','index.php?mod=_cpanel.filemanager',0,5,1),(15,0,'System Tools','tools.png','tools','index.php?mod=_cpanel.tools',0,11,1),(16,2,'User Field','field.png','field','index.php?mod=_cpanel.user&act=field',0,1,1),(17,4,'Block Theme','theme.png','block','index.php?mod=_cpanel.block&act=theme',0,2,1),(18,4,'Block Position','block_position.png','block','index.php?mod=_cpanel.block&act=block_position',1,1,1),(19,5,'Edit CSS Style','editcss.png','template','index.php?mod=_cpanel.template&act=editCSS',0,1,1),(20,7,'Menu Position','position.png','menu','index.php?mod=_cpanel.menu&act=position',0,1,1),(21,11,'Language Reference','reference.png','language','index.php?mod=_cpanel.language&act=reference',0,1,1);
-/*!40000 ALTER TABLE `bbc_cpanel` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_email`
---
-
 DROP TABLE IF EXISTS `bbc_email`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_email` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `module_id` int(255) DEFAULT NULL,
@@ -842,25 +420,9 @@ CREATE TABLE `bbc_email` (
   KEY `name_2` (`name`),
   FULLTEXT KEY `name` (`name`,`from_email`,`from_name`,`description`)
 ) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `bbc_email`
---
-
-LOCK TABLES `bbc_email` WRITE;
-/*!40000 ALTER TABLE `bbc_email` DISABLE KEYS */;
 INSERT INTO `bbc_email` VALUES (1,2,'comment_post','1','1','1','','',0,'when visitor post the comment '),(2,2,'password','1','1','1','','',0,'password reminder'),(3,2,'register_confirm','1','1','1','','',0,'registration complete and Global Configuration in \"auto approval\" is ON'),(4,2,'register_pending','1','1','1','','',0,'registration complete and Global Configuration in \"auto approval\" is OFF'),(5,2,'register_success','1','1','1','','',0,'Validate Registration is success'),(6,4,'entry_post','1','1','1','','',0,'if public user post a new article'),(7,4,'download_register','1','1','1','','',0,'register to download'),(8,6,'contact','1','1','1','','',0,'auto reply from Contact Us Form.'),(12,7,'guestbook','1','1','1','','',0,'auto reply from Guestbook Form.'),(13,9,'entry','1','1','1','','',0,'posted survey'),(14,10,'testimonial','1','1','1','','',0,'auto reply from Testimonial Form.');
-/*!40000 ALTER TABLE `bbc_email` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_email_text`
---
-
 DROP TABLE IF EXISTS `bbc_email_text`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_email_text` (
   `email_id` int(255) NOT NULL,
   `subject` varchar(255) NOT NULL,
@@ -870,50 +432,18 @@ CREATE TABLE `bbc_email_text` (
   KEY `lang_id` (`lang_id`),
   FULLTEXT KEY `subject` (`subject`,`content`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `bbc_email_text`
---
-
-LOCK TABLES `bbc_email_text` WRITE;
-/*!40000 ALTER TABLE `bbc_email_text` DISABLE KEYS */;
 INSERT INTO `bbc_email_text` VALUES (1,'Dear [name], thank for your comment','Dear [name]\r\n\r\n[date]\r\nTitle   : [title]\r\nLink    : [link]\r\nName    : [name]\r\nEmail   : [email]\r\nWebsite : [website]\r\nComment :\r\n   [message]\r\n\r\n\r\n[status]',1),(2,'Password reminder','Dear [name],\r\n\r\n/* INFORMATION LOGIN */\r\nUSERNAME : [username]\r\nPASSWORD: [password]\r\n\r\nThank You for stay in touch with us.',1),(3,'Link Validasi Pendaftaran','dear [name],\r\n\r\nProses pendaftaran telah selesai, account akan dibuat setelah anda mengakses halaman di bawah ini :\r\n[validateLink]\r\n\r\nApabila link diatas tidak bisa diakses, anda bisa mengaksesnya dengan cara kopi text di atas kemudian paste link tsb di bowser untuk mengaksesnya',1),(4,'Terimakasih, data anda telah kami simpan','dear [name],\r\n\r\nTerimakasih data diri pendaftaran anda telah kami simpan. Kami akan menghubungi anda secepatnya.\r\n\r\nBerikut data diri yang telah anda masukkan :\r\n[memberdata]',1),(5,'Pendaftaran Selesai, Account Telah Kami Buat','dear [name],\r\n\r\nTerimakasih proses pendaftaran telah selesai, data anda akan kami simpan sekaligus account untuk member telah kami buatkan\r\nBerikut Data Diri Yang Telah anda masukkan :\r\n[memberdata]\r\n\r\n/* LOGIN INFORMATION */\r\nUSERNAME :  [username]\r\nPASSWORD : [password]\r\nGunakan account informasi di atas untuk login ke situs, password di atas bersifat temporary. Anda bisa mengganti password sesuai keinginan anda dengan cara login ke situs kami.',1),(6,'New entry has been posted by user','[title]\r\n\r\n[intro]\r\n\r\n[status]\r\n[link]',1),(7,'Download Your File ([title])','Silahkan download file anda dengan klik link dibawah ini\r\n[url]\r\n\r\n',1),(8,'Thank for your concern','Thank you [name] for your concern to our site.\r\n\r\n[detail]\r\nYour message :\r\n [message]\r\n\r\nyour email has been sent to our mailbox, and will be process in 1x24hours.\r\n',1),(12,'Thank for your concern','Thank you [name] for your concern to our site.\r\n\r\n[detail]\r\n',1),(13,'thank you [name] for your time','dear [name],\r\n\r\nThank you for your time to fulfill our form survey, we will take all incoming opinions and suggestions from visitor as our priority reference in expanding our offering services.\r\n\r\nThank You',1),(14,'Thank for your concern','Thank you [name] for your concern to our site.\r\n\r\n[detail]\r\n',1);
-/*!40000 ALTER TABLE `bbc_email_text` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_lang`
---
-
 DROP TABLE IF EXISTS `bbc_lang`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_lang` (
   `id` int(25) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT NULL,
   `code` varchar(2) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `bbc_lang`
---
-
-LOCK TABLES `bbc_lang` WRITE;
-/*!40000 ALTER TABLE `bbc_lang` DISABLE KEYS */;
 INSERT INTO `bbc_lang` VALUES (1,'Indonesia','id');
-/*!40000 ALTER TABLE `bbc_lang` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_lang_code`
---
-
 DROP TABLE IF EXISTS `bbc_lang_code`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_lang_code` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `module_id` int(255) NOT NULL DEFAULT '0',
@@ -921,25 +451,9 @@ CREATE TABLE `bbc_lang_code` (
   PRIMARY KEY (`id`),
   KEY `module_id` (`module_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=212 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `bbc_lang_code`
---
-
-LOCK TABLES `bbc_lang_code` WRITE;
-/*!40000 ALTER TABLE `bbc_lang_code` DISABLE KEYS */;
 INSERT INTO `bbc_lang_code` VALUES (1,0,'total visitor'),(2,0,'visitors'),(3,0,'total member'),(4,0,'members'),(5,0,'online member'),(6,0,'user'),(7,0,'online user'),(8,0,'year'),(9,0,'months'),(10,0,'weeks'),(11,0,'actived'),(12,0,'search'),(13,0,'home'),(14,0,'users'),(15,0,'day'),(16,0,'select template option'),(17,2,'not found'),(18,2,'my profile'),(19,2,'username'),(20,2,'name'),(21,2,'nick name'),(22,2,'company'),(23,2,'company position'),(24,2,'address'),(25,2,'city'),(26,2,'state'),(27,2,'post code'),(28,2,'country'),(29,2,'phone'),(30,2,'fax'),(31,2,'email alternate'),(32,2,'email'),(33,2,'validation code'),(34,2,' must not empty'),(35,2,'registration form'),(36,2,'fill form below'),(37,2,'register finish pending'),(38,2,'register finish auto'),(39,2,'register success expired'),(40,2,'register success commit'),(41,2,'register success failed'),(42,2,'email is already registered'),(43,3,'search result'),(44,3,'results'),(45,3,'of'),(46,3,'for'),(47,4,'author'),(48,4,'created'),(49,4,'read more'),(50,4,'tags'),(51,4,'modified'),(52,4,'last modified'),(53,4,'convert to pdf'),(54,4,'tell friends'),(55,4,'print preview'),(56,4,'comment feed'),(57,4,'comments'),(58,4,'post your comment'),(59,4,'name'),(60,4,'email'),(61,4,'website'),(62,4,'comment'),(63,4,'insert code above'),(64,4,'failed to submit comment'),(65,4,'validation code is incorrect'),(66,4,'name is empty'),(67,4,'email is empty'),(68,4,'email is invalid'),(69,4,'url is invalid'),(70,4,'comment is empty'),(71,4,'comment approved auto'),(72,4,'category feed'),(73,4,'print'),(74,4,'close'),(75,4,'email tool message default'),(76,4,'email tool from empty'),(77,4,'email tool from invalid'),(78,4,'email tool to empty'),(79,4,'email tool subject empty'),(80,4,'email tool from'),(81,4,'email tool to'),(82,4,'email tool subject'),(83,4,'email tool message'),(84,4,'email tool'),(85,4,'Found'),(86,4,'match data'),(87,4,'listed'),(88,4,'item'),(89,4,'search not found'),(90,4,'insert keyword'),(91,4,'not found'),(92,4,'posted list'),(93,4,'content inactive'),(94,4,'edit content'),(95,4,'entry approved auto'),(96,4,'entry approved manual'),(97,4,'succeed to update content'),(98,4,'failed to update content'),(99,4,'entry edit'),(100,4,'entry add'),(101,4,'email tool success'),(102,4,'comment approved manual'),(103,4,'related articles'),(104,4,'content list'),(105,4,'article list'),(106,4,'page'),(107,4,'of'),(108,4,'pages'),(109,4,'voter'),(110,4,'keyword here...'),(111,4,'please insert keyword!'),(112,4,'username'),(113,4,'password'),(114,4,'remember me'),(115,4,'forget password ?'),(116,4,'register'),(117,4,'login'),(118,4,'gallery list'),(119,4,'download list'),(120,4,'voters'),(121,4,'video list'),(122,4,'audio list'),(123,5,'cal_august'),(124,5,'cal_su'),(125,5,'cal_mo'),(126,5,'cal_tu'),(127,5,'cal_we'),(128,5,'cal_th'),(129,5,'cal_fr'),(130,5,'cal_sa'),(131,5,'agenda calendar'),(132,5,'cal_july'),(133,5,'no schedule'),(134,5,'weekly agenda'),(135,5,'cal_september'),(136,5,'cal_october'),(137,5,'cal_november'),(138,5,'cal_december'),(139,5,'cal_january'),(140,5,'cal_february'),(141,5,'cal_march'),(142,5,'cal_april'),(143,5,'cal_may'),(144,5,'cal_june'),(145,5,'cal_sunday'),(146,5,'cal_monday'),(147,5,'cal_tuesday'),(148,5,'cal_wednesday'),(149,5,'cal_thursday'),(150,5,'cal_friday'),(151,5,'cal_saturday'),(152,6,'contact form'),(153,6,'name'),(154,6,'nick name'),(155,6,'address'),(156,6,'city'),(157,6,'state'),(158,6,'post code'),(159,6,'country'),(160,6,'phone'),(161,6,'fax'),(162,6,'company'),(163,6,'company position'),(164,6,'email'),(165,6,'message'),(166,6,'validation code'),(167,6,'title'),(168,6,' must not empty'),(169,7,'guestbook'),(170,7,'add guestbook'),(171,7,'post guestbook'),(172,7,'name'),(173,7,'company'),(174,7,'address'),(175,7,'email'),(176,7,'message'),(177,7,'validation code'),(178,7,'use form below'),(179,7,' must not empty'),(180,7,'guestbook empty'),(181,7,'guest book sent'),(182,7,'finished'),(183,8,'link exchange'),(184,9,'polling finished'),(185,9,'polling result'),(186,9,'check input'),(187,9,'checkbox option'),(188,9,'error'),(189,9,'insert notes'),(190,9,'multiple option'),(191,9,'no selection'),(192,9,'please select'),(193,9,'radio option'),(194,9,'select option'),(195,9,'thank you'),(196,9,'submit'),(197,9,'view result'),(198,10,'testimonial'),(199,10,'add testimonial'),(200,10,'post testimonial'),(201,10,'name'),(202,10,'company'),(203,10,'address'),(204,10,'email'),(205,10,'message'),(206,10,'validation code'),(207,10,'use form below'),(208,10,' must not empty'),(209,10,'finished'),(210,10,'testimonial empty'),(211,10,'testimonial sent');
-/*!40000 ALTER TABLE `bbc_lang_code` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_lang_text`
---
-
 DROP TABLE IF EXISTS `bbc_lang_text`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_lang_text` (
   `text_id` int(255) NOT NULL AUTO_INCREMENT,
   `code_id` int(255) NOT NULL,
@@ -949,25 +463,9 @@ CREATE TABLE `bbc_lang_text` (
   KEY `code_id` (`code_id`),
   KEY `lang_id` (`lang_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=212 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `bbc_lang_text`
---
-
-LOCK TABLES `bbc_lang_text` WRITE;
-/*!40000 ALTER TABLE `bbc_lang_text` DISABLE KEYS */;
 INSERT INTO `bbc_lang_text` VALUES (1,1,1,'Total Pengunjung'),(2,2,1,'Pengunjung'),(3,3,1,'Jumlah Member'),(4,4,1,'member'),(5,5,1,'Member Aktif'),(6,6,1,'User'),(7,7,1,'User aktif'),(8,8,1,'Tahun'),(9,9,1,'Bulan'),(10,10,1,'Minggu'),(11,11,1,'Aktif'),(12,12,1,'Cari'),(13,13,1,'Home'),(14,14,1,'users'),(15,15,1,'Hari'),(16,16,1,'Gantilah opsi di bawah untuk melihat website dalam tampilan lain<br />\r\n'),(17,17,1,'Maaf, halaman yang ingin anda akses tidak ditemukan dalam situs. Silahkan kunjungi halaman berdasarkan menu yang telah disediakan.'),(18,18,1,'Profile Saya'),(19,19,1,'Username'),(20,20,1,'Nama'),(21,21,1,'Nama Panggilan'),(22,22,1,'Nama Perusahaan'),(23,23,1,'Jabatan'),(24,24,1,'Alamat'),(25,25,1,'Kota'),(26,26,1,'Provinsi'),(27,27,1,'Kode Pos'),(28,28,1,'Negara'),(29,29,1,'Telepon'),(30,30,1,'Fax'),(31,31,1,'Email Alternatif'),(32,32,1,'Email'),(33,33,1,'Kode Validasi'),(34,34,1,' tidak boleh kosong'),(35,35,1,'Form Pendaftaran Member'),(36,36,1,'Silahkan isi form di bawah untuk mendaftarkan diri sebagai member kami '),(37,37,1,'Terimakasih,<br />\r\n<br />\r\nData diri anda telah kami simpan sebagai bahan review, <br />\r\nKami akan memberikan kabar selanjutnya apabila proses review telah selesai<br />\r\n<br />\r\nBest Regards,<br />\r\nAdmin'),(38,38,1,'Terimakasih,<br />\r\n<br />\r\nProses pendaftaran telah kami simpan.<br />\r\nLink validasi telah kami kirim ke email anda, proses pendaftaran akan selesai dengan cara mengklik link yang telah kami kirimkan.<br />\r\n<br />\r\nSilahkan check inbox email anda !'),(39,39,1,'Link validasi telah expired, silahkan ulangi proses pendaftaran dan masukkan kembali data diri anda <a href=\\\\\\\"user/register\\\\\\\">klik di sini</a> untuk pendaftaran ulang.'),(40,40,1,'Dear [name],<br />\r\n<br />\r\nProses pendaftaran telah selesai, dan data diri anda telah kami kirim ke email.<br />\r\nUntuk melakukan login ke situs anda bisa menggunakan account yang telah kami kirimkan.<br />\r\n<br />\r\nTerimakasih.'),(41,41,1,'Maaf, validasi pendaftaran telah gagal.<br />\r\n<br />\r\n<a href=\\\\\\\"user/register\\\\\\\">Klik di sini</a> untuk mengulangi proses pendaftaran'),(42,42,1,'Email yang anda masukkan telah teregister, silahkan tunggu respon dari admin'),(43,43,1,'Hasil Pencarian'),(44,44,1,'Hasil'),(45,45,1,'dari'),(46,46,1,'Untuk'),(47,47,1,'Author : '),(48,48,1,'Dibuat : '),(49,49,1,'Selanjutnya'),(50,50,1,'Tags :'),(51,51,1,'Disunting : '),(52,52,1,'Terakhir disunting : '),(53,53,1,'Konversi ke pdf'),(54,54,1,'Kasih tahu teman'),(55,55,1,'Print Preview'),(56,56,1,'RSS Komentar'),(57,57,1,'Komentar'),(58,58,1,'Berikan komentar anda'),(59,59,1,'Nama'),(60,60,1,'Email'),(61,61,1,'Website'),(62,62,1,'Komentar'),(63,63,1,'Masukkan kode diatas'),(64,64,1,'Maaf komentar anda gagal dimasukkan'),(65,65,1,'Kode validasi tidak benar'),(66,66,1,'Mohon masukkan nama anda'),(67,67,1,'Alamat email anda masih kosong'),(68,68,1,'Mohon masukkan email yang valid untuk validasi'),(69,69,1,'URL anda tidak valid'),(70,70,1,'Silahkan masukkan komentar anda'),(71,71,1,'Komentar anda telah di publikasikan, Terimakasih atas perhatian anda'),(72,72,1,'RSS Halaman'),(73,73,1,'Print'),(74,74,1,'Tutup'),(75,75,1,'Silahkan lihat content yang bagus ini !'),(76,76,1,'Silahkan masukkan email anda pada field Dari'),(77,77,1,'Anda memasukkan email yang tidak valid'),(78,78,1,'Email tujuan masih kosong'),(79,79,1,'Maaf judul anda masih kosong'),(80,80,1,'Dari email'),(81,81,1,'Ke email'),(82,82,1,'Judul'),(83,83,1,'Pesan'),(84,84,1,'NB : Beritahukan artikel ini kepada kawan anda melalui email. Anda bisa memasukkan alamat email lebih dari satu dengan dipisahkan dengan koma \\\\\\\",\\\\\\\"'),(85,85,1,'Ditemukan'),(86,86,1,'Data yang cocok'),(87,87,1,'Daftar'),(88,88,1,'item'),(89,89,1,'Kata kunci yang anda cari tidak ditemukan silahkan masukkan kata kunci yang lain !'),(90,90,1,'Silahkan masukkan kata kunci yang ingin cari di form field di atas !'),(91,91,1,'Daftar halaman masih kosong, silahkan pilih halaman berdasarkan menu yang telah disediakan'),(92,92,1,'Artikel artikel anda'),(93,93,1,'halaman tidak aktif'),(94,94,1,'Ubah artikel ini'),(95,95,1,'Halaman baru yang anda masukan telah di publish'),(96,96,1,'Posting baru anda menunggu di approved oleh admin'),(97,97,1,'Update halaman telah berhasil'),(98,98,1,'Update halaman telah gagal'),(99,99,1,'Edit Halaman'),(100,100,1,'Posting Halaman Baru'),(101,101,1,'Email anda telah diproses.'),(102,102,1,'Terimakasih komentar anda akan di approved oleh admin dan akan terpublish secepatnya'),(103,103,1,'Artikel Berhubungan'),(104,104,1,'Daftar Content'),(105,105,1,'Daftar Artikel'),(106,106,1,'halaman'),(107,107,1,'dari'),(108,108,1,'halaman'),(109,109,1,'voter'),(110,110,1,'kata kunci di sini...'),(111,111,1,'Silahkan masukkan kata kunci!'),(112,112,1,'Username'),(113,113,1,'Password'),(114,114,1,'Ingat saya'),(115,115,1,'Lupa Password ?'),(116,116,1,'Registrasi'),(117,117,1,'Login'),(118,118,1,'Daftar Gallery'),(119,119,1,'Daftar File Download'),(120,120,1,'voters'),(121,121,1,'Daftar Video'),(122,122,1,'Daftar Audio'),(123,123,1,'Agustus'),(124,124,1,'Mi'),(125,125,1,'Se'),(126,126,1,'Se'),(127,127,1,'Ra'),(128,128,1,'Ka'),(129,129,1,'Ju'),(130,130,1,'Sa'),(131,131,1,'Kalender Agenda'),(132,132,1,'Juli'),(133,133,1,'Tidak ada jadwal atau jadwal masih kosong'),(134,134,1,'Agenda Mingguan'),(135,135,1,'September'),(136,136,1,'Oktober'),(137,137,1,'November'),(138,138,1,'Desember'),(139,139,1,'Januari'),(140,140,1,'Febuari'),(141,141,1,'Maret'),(142,142,1,'April'),(143,143,1,'Mei'),(144,144,1,'Juni'),(145,145,1,'Minggu'),(146,146,1,'Senin'),(147,147,1,'Selasa'),(148,148,1,'Rabu'),(149,149,1,'Kamis'),(150,150,1,'Jumat'),(151,151,1,'Sabtu'),(152,152,1,'Formulir Hubungi Kami'),(153,153,1,'Nama'),(154,154,1,'Nama Panggilan'),(155,155,1,'Alamat'),(156,156,1,'Kota'),(157,157,1,'Propinsi'),(158,158,1,'Kodepos'),(159,159,1,'Negara'),(160,160,1,'Telepon'),(161,161,1,'Fax'),(162,162,1,'Nama Perusahaan'),(163,163,1,'Jabatan'),(164,164,1,'Email'),(165,165,1,'Pesan'),(166,166,1,'Kode Validasi'),(167,167,1,'Lengkapi Form Di Bawah untuk menghubungi kami melalui email'),(168,168,1,' Tidak boleh kosong'),(169,169,1,'Buku Tamu'),(170,170,1,'Tambah Buku Tamu'),(171,171,1,'Masukkan Buku Tamu'),(172,172,1,'Nama'),(173,173,1,'Nama Perusahaan'),(174,174,1,'Alamat'),(175,175,1,'Email'),(176,176,1,'Pesan'),(177,177,1,'Kode Validasi'),(178,178,1,'Gunakan formulir di bawah untuk mengisi buku tamu'),(179,179,1,'tidak boleh kosong'),(180,180,1,'Maaf, daftar buku tamu masih kosong atau tidak ada yg dipublikasikan. Silahkan masukkan data diri anda dengan cara meng-klik link dibawah !'),(181,181,1,'Buku tamu terkirim'),(182,182,1,'Dear [name],<br />\r\n<br />\r\nTerimakasih telah menyempatkan waktu anda untuk mengisi formulir buku tamu ini. Data diri anda telah kami simpan dalam database kami. Adapun data buku tamu yang telah anda berikan akan kami publikasikan tanpa menampilkan data personal anda seperti email / nomor telpon / alamat demi menjaga privasi anda.<br />\r\n<br />\r\nSalam hormat'),(183,183,1,'Exchange Links'),(184,184,1,'Proses Polling telah selesai, terimakasih atas waktu anda'),(185,185,1,'Hasil Polling'),(186,186,1,'Salah satu jawaban yang anda berikan tidak valid, mohon perbaiki jawaban anda !'),(187,187,1,'Pilih jawaban yang menurut anda benar :'),(188,188,1,'Pesan Error :'),(189,189,1,'Masukkan catatan mengenai jawaban anda :'),(190,190,1,'Check pilihan yang menurut anda benar :'),(191,191,1,'Mohon perbaiki jawaban anda !'),(192,192,1,'Silahkan pilih tema yang ingin anda voting !'),(193,193,1,'Silahkan pilih salah satu opsi :'),(194,194,1,'Tentukan Pilihan :'),(195,195,1,'Dear [name],<br />\r\n<br />\r\nTerimakasih atas waktu anda dalam mengisi formulir survey kami, kami akan menerima semua pendapat dan saran dari pengunjung demi peningkatan kinerja kami. Dengan mengisikan form survey berarti anda membantu kami dalam meningkatkan kualitas layanan dari kami.<br />\r\n<br />\r\nHormat Kami,<br />\r\nAdministrator'),(196,196,1,'Submit'),(197,197,1,'View Result'),(198,198,1,'Testimonial User'),(199,199,1,'Tambahkan Testimoni'),(200,200,1,'Post Testimoni'),(201,201,1,'Nama'),(202,202,1,'Nama Perusahaan'),(203,203,1,'Alamat'),(204,204,1,'Email'),(205,205,1,'Pesan'),(206,206,1,'Kode Validasi'),(207,207,1,'Silahkan isi form di bawah untuk memberikan testimoni ke kami. Testimoni dari anda sangat lah membantu kami dalam peningkatan kinerja'),(208,208,1,'tidak boleh kosong'),(209,209,1,'Dear [name],<br />\r\n<br />\r\nTerimakasih telah menyempatkan waktu anda untuk mengisi formulir testimoni ini. Testimoni anda telah kami simpan dalam database kami, respon secepatnya akan kami berikan jika testimoni anda adalah pertanyaan. Adapun testimoni yang telah anda berikan akan kami publikasikan tanpa menampilkan data personal anda seperti email / nomor telpon / alamat demi menjaga privasi anda.<br />\r\n<br />\r\nSalam hormat'),(210,210,1,'Maaf, daftar testimonial masih kosong atau tidak ada yg dipublikasikan. Silahkan masukkan testimoni anda dengan cara meng-klik link dibawah !'),(211,211,1,'Testimoni terkirim');
-/*!40000 ALTER TABLE `bbc_lang_text` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_log`
---
-
 DROP TABLE IF EXISTS `bbc_log`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_log` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
@@ -977,24 +475,8 @@ CREATE TABLE `bbc_log` (
   KEY `datetime` (`datetime`),
   KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bbc_log`
---
-
-LOCK TABLES `bbc_log` WRITE;
-/*!40000 ALTER TABLE `bbc_log` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bbc_log` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_menu`
---
 
 DROP TABLE IF EXISTS `bbc_menu`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_menu` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `par_id` int(255) NOT NULL DEFAULT '0',
@@ -1023,75 +505,27 @@ CREATE TABLE `bbc_menu` (
   KEY `is_shortcut` (`is_shortcut`),
   KEY `active` (`active`)
 ) ENGINE=MyISAM AUTO_INCREMENT=72 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `bbc_menu`
---
-
-LOCK TABLES `bbc_menu` WRITE;
-/*!40000 ALTER TABLE `bbc_menu` DISABLE KEYS */;
 INSERT INTO `bbc_menu` VALUES (1,0,4,'','index.php?mod=content.main',1,1,1,1,0,0,0,0,0,1),(2,1,4,'','index.php?mod=content.content',1,1,1,1,1,0,0,0,0,1),(3,1,4,'','index.php?mod=content.content_add',2,1,1,1,1,0,0,0,0,1),(4,1,4,'','index.php?mod=content.category',3,1,1,1,0,0,0,0,0,1),(5,1,4,'','index.php?mod=content.comment',4,1,1,1,0,0,0,0,0,1),(6,1,4,'','index.php?mod=content.type',5,1,1,1,0,0,0,0,0,1),(7,1,4,'','index.php?mod=content.tag',6,1,1,1,0,0,0,0,0,1),(8,1,4,'','index.php?mod=content.config',7,1,1,1,0,0,0,0,0,1),(9,0,5,'','index.php?mod=agenda.main',2,1,1,1,0,0,0,0,0,1),(10,0,6,'','index.php?mod=contact.main',3,1,1,1,0,0,0,0,0,1),(11,10,6,'','index.php?mod=contact.posted',1,1,1,1,0,0,0,0,0,1),(12,10,6,'','index.php?mod=contact.messenger',2,1,1,1,0,0,0,0,0,1),(13,10,6,'','index.php?mod=contact.setting',3,1,1,1,0,0,0,0,0,1),(14,0,7,'','index.php?mod=guestbook.main',4,1,1,1,0,0,0,0,0,1),(15,14,7,'','index.php?mod=guestbook.list',1,1,1,1,0,0,0,0,0,1),(16,14,7,'','index.php?mod=guestbook.setting',2,1,1,1,0,0,0,0,0,1),(17,0,11,'','index.php?mod=imageslider.main',5,1,1,1,0,0,0,0,0,1),(18,17,11,'','index.php?mod=imageslider.list',1,1,1,1,0,0,0,0,0,1),(19,17,11,'','index.php?mod=imageslider.category',2,1,1,1,0,0,0,0,0,1),(20,0,8,'','index.php?mod=links.main',6,1,1,1,0,0,0,0,0,1),(21,20,8,'','index.php?mod=links.list',1,1,1,1,0,0,0,0,0,1),(22,20,8,'','index.php?mod=links.share',2,1,1,1,0,0,0,0,0,1),(23,20,8,'','index.php?mod=links.advertise',3,1,1,1,0,0,0,0,0,1),(24,0,9,'','index.php?mod=survey.main',7,1,1,1,0,0,0,0,0,1),(25,24,9,'','index.php?mod=survey.posted',1,1,1,1,0,0,0,0,0,1),(26,24,9,'','index.php?mod=survey.question',2,1,1,1,0,0,0,0,0,1),(27,24,9,'','index.php?mod=survey.polling',3,1,1,1,0,0,0,0,0,1),(28,24,9,'','index.php?mod=survey.config',4,1,1,1,0,0,0,0,0,1),(29,0,10,'','index.php?mod=testimonial.main',8,1,1,1,0,0,0,0,0,1),(30,29,10,'','index.php?mod=testimonial.list',1,1,1,1,0,0,0,0,0,1),(31,29,10,'','index.php?mod=testimonial.add',2,1,1,1,0,0,0,0,0,1),(32,29,10,'','index.php?mod=testimonial.setting',3,1,1,1,0,0,0,0,0,1),(33,0,3,'','index.php?mod=search.main',9,1,1,1,0,0,0,0,0,1),(34,0,2,'','index.php?mod=user.password',10,1,1,1,0,0,0,0,0,0),(35,0,1,'','index.php?mod=_cpanel.main',11,1,1,1,0,0,0,0,0,1),(36,0,5,'home','',1,1,0,0,0,0,0,0,0,1),(37,0,10,'testimonial','index.php?mod=testimonial.main',1,2,0,0,0,0,0,0,0,1),(38,0,2,'my-profile','index.php?mod=user.account',1,3,1,0,0,0,0,0,0,1),(39,0,4,'my-content','index.php?mod=content.posted',2,3,1,0,0,0,0,0,0,1),(40,0,5,'agenda','index.php?mod=agenda.main',2,2,0,0,0,0,0,0,0,1),(41,40,5,'kalender','index.php?mod=agenda.calendar',1,2,0,0,0,0,0,0,0,1),(42,40,5,'rutinitas','index.php?mod=agenda.routine',2,2,0,0,0,0,0,0,0,1),(43,40,5,'event','index.php?mod=agenda.events',3,2,0,0,0,0,0,0,0,1),(44,40,5,'harian','index.php?mod=agenda.daily',4,2,0,0,0,0,0,0,0,1),(45,40,5,'mingguan','index.php?mod=agenda.weekly',5,2,0,0,0,0,0,0,0,1),(46,40,5,'bulanan','index.php?mod=agenda.monthly',6,2,0,0,0,0,0,0,0,1),(47,40,5,'tahunan','index.php?mod=agenda.yearly',7,2,0,0,0,0,0,0,0,1),(48,0,4,'about-us','index.php?mod=content.detail&id=14&title=Penandatanganan Bantuan Kapal Penyebrangan',2,1,0,0,0,1,0,0,14,1),(49,0,4,'content','index.php?mod=content.latest',3,1,0,0,0,0,0,0,0,1),(50,49,4,'artikel','index.php?mod=content.article',1,1,0,0,0,0,0,0,0,1),(51,49,4,'gallery','index.php?mod=content.gallery',2,1,0,0,0,0,0,0,0,1),(52,49,4,'download','index.php?mod=content.download',3,1,0,0,0,0,0,0,0,1),(53,49,4,'video','index.php?mod=content.video',4,1,0,0,0,0,0,0,0,1),(54,49,4,'audio','index.php?mod=content.audio',5,1,0,0,0,0,0,0,0,1),(55,0,4,'create-content','index.php?mod=content.posted_form',3,3,1,0,0,0,0,0,0,1),(56,0,9,'survey','index.php?mod=survey.main',3,2,0,0,0,0,0,0,0,1),(57,0,2,'change-password','index.php?mod=user.password',4,3,1,0,0,0,0,0,0,1),(58,0,4,'pencarian','index.php?mod=content.search',4,1,0,0,0,0,0,0,0,1),(59,0,6,'contact-us','index.php?mod=contact.main',4,2,0,0,0,0,0,0,0,1),(60,0,2,'logout','index.php?mod=user.logout',5,3,1,0,0,0,0,0,0,1),(61,0,4,'berita','index.php?mod=content.list&id=6&title=Berita',5,1,0,0,0,0,1,6,0,1),(62,61,4,'hot-list','index.php?mod=content.list&id=9&title=Hot+List',1,1,0,0,0,0,1,9,0,1),(63,61,4,'information','index.php?mod=content.list&id=8&title=Information',2,1,0,0,0,0,1,8,0,1),(64,61,4,'relaxing','index.php?mod=content.list&id=7&title=Relaxing',3,1,0,0,0,0,1,7,0,1),(65,0,11,'search','index.php?mod=search.main',5,2,0,0,0,0,0,0,0,1),(66,0,4,'galleries','index.php?mod=content.list&id=2&title=Gallery',6,1,0,0,0,0,1,2,0,1),(67,0,4,'downloads','index.php?mod=content.list&id=3&title=Download',7,1,0,0,0,0,1,3,0,1),(68,0,4,'audios','index.php?mod=content.list&id=5&title=Sound+Audio',8,1,0,0,0,0,1,5,0,1),(69,0,4,'videos','index.php?mod=content.list&id=4&title=Videos',9,1,0,0,0,0,1,4,0,1),(70,0,2,'registrasi','index.php?mod=user.register',10,1,0,0,0,0,0,0,0,1),(71,0,8,'links','index.php?mod=links.main',11,1,0,0,0,0,0,0,0,1);
-/*!40000 ALTER TABLE `bbc_menu` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_menu_cat`
---
-
 DROP TABLE IF EXISTS `bbc_menu_cat`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_menu_cat` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `orderby` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `bbc_menu_cat`
---
-
-LOCK TABLES `bbc_menu_cat` WRITE;
-/*!40000 ALTER TABLE `bbc_menu_cat` DISABLE KEYS */;
 INSERT INTO `bbc_menu_cat` VALUES (1,'top',1),(2,'bottom',2),(3,'usermenu',3);
-/*!40000 ALTER TABLE `bbc_menu_cat` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_menu_text`
---
-
 DROP TABLE IF EXISTS `bbc_menu_text`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_menu_text` (
   `menu_id` int(255) NOT NULL,
   `title` varchar(255) NOT NULL DEFAULT '',
   `lang_id` int(255) NOT NULL DEFAULT '0',
   KEY `menu_id` (`menu_id`,`lang_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `bbc_menu_text`
---
-
-LOCK TABLES `bbc_menu_text` WRITE;
-/*!40000 ALTER TABLE `bbc_menu_text` DISABLE KEYS */;
 INSERT INTO `bbc_menu_text` VALUES (1,'Content',1),(2,'Content List',1),(3,'Add Content',1),(4,'Category',1),(5,'Comments',1),(6,'Content Type',1),(7,'Content Tags',1),(8,'Configuration',1),(9,'Agenda',1),(10,'Contact Us',1),(11,'List Contact Us',1),(12,'YM Account',1),(13,'Configuration',1),(14,'Guest Book',1),(15,'List Guest Book',1),(16,'Configuration',1),(17,'Image Slider',1),(18,'List Images',1),(19,'Category',1),(20,'Links',1),(21,'Ad List',1),(22,'Share Links',1),(23,'Advertise',1),(24,'Survey',1),(25,'Posted',1),(26,'Question',1),(27,'Polling',1),(28,'Configuration',1),(29,'Testimonial',1),(30,'List Testimonial',1),(31,'Add Testimonial',1),(32,'Configuration',1),(33,'Search',1),(34,'Change Password',1),(35,'Control Panel',1),(36,'Home',1),(37,'Testimonial',1),(38,'My Profile',1),(39,'My Content',1),(40,'Agenda',1),(41,'Kalender',1),(42,'Rutinitas',1),(43,'Event',1),(44,'Harian',1),(45,'Mingguan',1),(46,'Bulanan',1),(47,'Tahunan',1),(48,'About Us',1),(49,'Content',1),(50,'Artikel',1),(51,'Gallery',1),(52,'Download',1),(53,'Video',1),(54,'Audio',1),(55,'Create Content',1),(56,'Survey',1),(57,'Change Password',1),(58,'Pencarian',1),(59,'Contact Us',1),(60,'Logout',1),(61,'Berita',1),(62,'Hot List',1),(63,'Information',1),(64,'Relaxing',1),(65,'Search',1),(66,'Gallery',1),(67,'Download',1),(68,'Audio',1),(69,'Video',1),(70,'Registrasi',1),(71,'Links',1);
-/*!40000 ALTER TABLE `bbc_menu_text` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_module`
---
-
 DROP TABLE IF EXISTS `bbc_module`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_module` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
@@ -1118,25 +552,9 @@ CREATE TABLE `bbc_module` (
   KEY `is_config` (`is_config`),
   FULLTEXT KEY `name` (`name`,`site_title`,`site_desc`,`site_keyword`,`allow_group`,`order_func_pre`,`order_func_post`,`account_func_pre`,`account_func_post`)
 ) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `bbc_module`
---
-
-LOCK TABLES `bbc_module` WRITE;
-/*!40000 ALTER TABLE `bbc_module` DISABLE KEYS */;
 INSERT INTO `bbc_module` VALUES (1,'_cpanel','','','','0000-00-00 00:00:00',0,',all,','','','','','',1,1),(2,'user','','','','0000-00-00 00:00:00',0,',all,','','','','','',0,1),(3,'search','','','','0000-00-00 00:00:00',0,',all,','','','','','',0,1),(4,'content','','','','0000-00-00 00:00:00',0,',all,','','','','','content_search_link_list#bbc_content',1,1),(5,'agenda','','','','2008-10-14 22:38:12',0,',all,','','','','','',0,1),(6,'contact','','','','2008-10-14 22:38:12',0,',all,','','','','','',0,1),(7,'guestbook','','','','2008-10-14 22:40:58',0,',all,','','','','','',0,1),(8,'links','','','','2008-10-14 22:40:58',0,',all,','','','','','',0,1),(9,'survey','','','','2009-01-09 04:05:01',0,',all,','','','','','',0,1),(10,'testimonial','','','','2009-01-11 20:18:32',0,',all,','','','','','',0,1),(11,'imageslider','','','','2010-07-25 04:52:28',0,',all,','','','','','',0,1),(12,'tools','','','','2011-11-16 02:50:48',0,',all,','','','','','',0,1);
-/*!40000 ALTER TABLE `bbc_module` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_template`
---
-
 DROP TABLE IF EXISTS `bbc_template`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_template` (
   `id` int(255) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
@@ -1147,25 +565,9 @@ CREATE TABLE `bbc_template` (
   PRIMARY KEY (`id`),
   KEY `name` (`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `bbc_template`
---
-
-LOCK TABLES `bbc_template` WRITE;
-/*!40000 ALTER TABLE `bbc_template` DISABLE KEYS */;
 INSERT INTO `bbc_template` VALUES (1,'campus_blue','2010-07-26 00:46:08',0,0,0),(2,'logistic_transport','2011-02-06 04:53:52',0,0,0),(3,'cloudy_season','2011-02-07 06:52:19',0,0,0),(4,'green_accountant','2011-02-09 16:52:43',0,0,0),(5,'dark_style','2011-02-09 16:54:58',0,0,0),(6,'cobweb_blue','2011-02-09 18:52:59',0,0,0);
-/*!40000 ALTER TABLE `bbc_template` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_user`
---
-
 DROP TABLE IF EXISTS `bbc_user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_user` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `group_ids` varchar(255) DEFAULT NULL,
@@ -1185,25 +587,9 @@ CREATE TABLE `bbc_user` (
   KEY `active` (`active`),
   KEY `exp_checked` (`exp_checked`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `bbc_user`
---
-
-LOCK TABLES `bbc_user` WRITE;
-/*!40000 ALTER TABLE `bbc_user` DISABLE KEYS */;
-INSERT INTO `bbc_user` VALUES (1,',3,4,1,2,','admin','DOtGmGAQ9sEZA4nNBAgcw2MOp3eivB3SnbpgYhoYO1ibI93Egax7y9vMG9ThsPi6BMiZwx497sGjKYHyZvPv+A==','::1','::1','2023-12-08 09:15:29','2023-12-07 12:50:11','2023-12-08 17:56:11',20,'0000-00-00 00:00:00',1),(2,',2,1,3,4,','danang@fisip.net','DOtGmGAQ9sEZA4nNBAgcw2MOp3eivB3SnbpgYhoYO1ibI93Egax7y9vMG9ThsPi6BMiZwx497sGjKYHyZvPv+A==','127.0.0.1','127.0.0.1','2016-05-03 23:35:44','2016-05-03 23:32:34','0000-00-00 00:00:00',0,'0000-00-00 00:00:00',1);
-/*!40000 ALTER TABLE `bbc_user` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_user_field`
---
-
+INSERT INTO `bbc_user` VALUES (1,',3,4,1,2,','admin','DOtGmGAQ9sEZA4nNBAgcw2MOp3eivB3SnbpgYhoYO1ibI93Egax7y9vMG9ThsPi6BMiZwx497sGjKYHyZvPv+A==','::1','::1','2023-12-08 09:15:29','2023-12-07 12:50:11','2023-12-08 18:15:59',20,'0000-00-00 00:00:00',1),(2,',2,1,3,4,','danang@fisip.net','DOtGmGAQ9sEZA4nNBAgcw2MOp3eivB3SnbpgYhoYO1ibI93Egax7y9vMG9ThsPi6BMiZwx497sGjKYHyZvPv+A==','127.0.0.1','127.0.0.1','2016-05-03 23:35:44','2016-05-03 23:32:34','0000-00-00 00:00:00',0,'0000-00-00 00:00:00',1);
 DROP TABLE IF EXISTS `bbc_user_field`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_user_field` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `group_id` int(11) NOT NULL DEFAULT '0',
@@ -1220,25 +606,9 @@ CREATE TABLE `bbc_user_field` (
   PRIMARY KEY (`id`),
   KEY `active` (`active`)
 ) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `bbc_user_field`
---
-
-LOCK TABLES `bbc_user_field` WRITE;
-/*!40000 ALTER TABLE `bbc_user_field` DISABLE KEYS */;
 INSERT INTO `bbc_user_field` VALUES (5,0,'textarea','Alamat Lengkap','','any','','','',2,1,1),(6,0,'text','Phone','','phone','','','',1,1,1);
-/*!40000 ALTER TABLE `bbc_user_field` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bbc_user_group`
---
-
 DROP TABLE IF EXISTS `bbc_user_group`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bbc_user_group` (
   `id` int(255) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
@@ -1251,25 +621,9 @@ CREATE TABLE `bbc_user_group` (
   PRIMARY KEY (`id`),
   KEY `is_admin` (`is_admin`)
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `bbc_user_group`
---
-
-LOCK TABLES `bbc_user_group` WRITE;
-/*!40000 ALTER TABLE `bbc_user_group` DISABLE KEYS */;
 INSERT INTO `bbc_user_group` VALUES (1,'root','this is the highest degree of user level in system',',all,',',all,',0,0,1),(2,'administrator','administrator','',',2,15,16,',0,0,1),(3,'Customer','Customer',',all,','',0,1,0),(4,'Registered','lowest level of member site','','',0,0,0);
-/*!40000 ALTER TABLE `bbc_user_group` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `contact`
---
-
 DROP TABLE IF EXISTS `contact`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `contact` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
@@ -1284,24 +638,8 @@ CREATE TABLE `contact` (
   KEY `followed` (`followed`),
   FULLTEXT KEY `name` (`name`,`email`,`params`,`message`,`answer`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `contact`
---
-
-LOCK TABLES `contact` WRITE;
-/*!40000 ALTER TABLE `contact` DISABLE KEYS */;
-/*!40000 ALTER TABLE `contact` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `contact_field`
---
 
 DROP TABLE IF EXISTS `contact_field`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `contact_field` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` varchar(255) NOT NULL,
@@ -1317,25 +655,9 @@ CREATE TABLE `contact_field` (
   PRIMARY KEY (`id`),
   KEY `active` (`active`)
 ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `contact_field`
---
-
-LOCK TABLES `contact_field` WRITE;
-/*!40000 ALTER TABLE `contact_field` DISABLE KEYS */;
 INSERT INTO `contact_field` VALUES (1,'textarea','any','Address','','','','',1,0,1),(2,'text','any','City','','','','',2,0,1),(3,'text','any','State','','','','',3,0,1),(4,'text','number','Post Code','','','','',4,0,1),(5,'text','phone','Phone','','','','',6,0,1);
-/*!40000 ALTER TABLE `contact_field` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `contact_messenger`
---
-
 DROP TABLE IF EXISTS `contact_messenger`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `contact_messenger` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
@@ -1348,25 +670,9 @@ CREATE TABLE `contact_messenger` (
   KEY `publish` (`publish`),
   KEY `online` (`online`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `contact_messenger`
---
-
-LOCK TABLES `contact_messenger` WRITE;
-/*!40000 ALTER TABLE `contact_messenger` DISABLE KEYS */;
 INSERT INTO `contact_messenger` VALUES (1,'Cust.Support','bbc_danang','',1,1,1);
-/*!40000 ALTER TABLE `contact_messenger` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `guestbook`
---
-
 DROP TABLE IF EXISTS `guestbook`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `guestbook` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
@@ -1379,24 +685,8 @@ CREATE TABLE `guestbook` (
   KEY `publish` (`publish`),
   FULLTEXT KEY `name` (`name`,`email`,`params`,`message`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `guestbook`
---
-
-LOCK TABLES `guestbook` WRITE;
-/*!40000 ALTER TABLE `guestbook` DISABLE KEYS */;
-/*!40000 ALTER TABLE `guestbook` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `guestbook_field`
---
 
 DROP TABLE IF EXISTS `guestbook_field`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `guestbook_field` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` varchar(255) NOT NULL,
@@ -1412,25 +702,9 @@ CREATE TABLE `guestbook_field` (
   PRIMARY KEY (`id`),
   KEY `active` (`active`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `guestbook_field`
---
-
-LOCK TABLES `guestbook_field` WRITE;
-/*!40000 ALTER TABLE `guestbook_field` DISABLE KEYS */;
 INSERT INTO `guestbook_field` VALUES (1,'textarea','any','Address','','rows=3 cols=34','','',2,0,1),(2,'text','any','Company','','size=34','','',1,0,1);
-/*!40000 ALTER TABLE `guestbook_field` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `imageslider`
---
-
 DROP TABLE IF EXISTS `imageslider`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `imageslider` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `cat_id` int(255) NOT NULL DEFAULT '0',
@@ -1443,25 +717,9 @@ CREATE TABLE `imageslider` (
   KEY `publish` (`publish`),
   FULLTEXT KEY `image` (`image`,`link`)
 ) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `imageslider`
---
-
-LOCK TABLES `imageslider` WRITE;
-/*!40000 ALTER TABLE `imageslider` DISABLE KEYS */;
 INSERT INTO `imageslider` VALUES (1,1,'4c4c675c0b71e.jpg','',10,1),(2,1,'4c4c677194c62.jpg','',9,0),(3,1,'4c4c678e57bd3.jpg','',8,0),(4,1,'4c4c679a89547.jpg','',7,0),(5,1,'4c4c67c972711.jpg','',6,0),(6,1,'4c4c67e41e84b.jpg','',5,0),(7,1,'4c4c67ffca2e0.jpg','',4,0),(8,1,'4c4c681035682.jpg','',3,0),(9,1,'4c4c681f6ea08.jpg','',2,0),(10,1,'4c4c682aaf7a1.jpg','',1,1);
-/*!40000 ALTER TABLE `imageslider` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `imageslider_cat`
---
-
 DROP TABLE IF EXISTS `imageslider_cat`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `imageslider_cat` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT NULL,
@@ -1469,50 +727,18 @@ CREATE TABLE `imageslider_cat` (
   `height` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `imageslider_cat`
---
-
-LOCK TABLES `imageslider_cat` WRITE;
-/*!40000 ALTER TABLE `imageslider_cat` DISABLE KEYS */;
 INSERT INTO `imageslider_cat` VALUES (1,'Header',500,150);
-/*!40000 ALTER TABLE `imageslider_cat` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `imageslider_text`
---
-
 DROP TABLE IF EXISTS `imageslider_text`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `imageslider_text` (
   `imageslider_id` int(255) NOT NULL,
   `title` varchar(255) NOT NULL DEFAULT '',
   `lang_id` int(255) NOT NULL DEFAULT '0',
   KEY `imageslider_id` (`imageslider_id`,`lang_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `imageslider_text`
---
-
-LOCK TABLES `imageslider_text` WRITE;
-/*!40000 ALTER TABLE `imageslider_text` DISABLE KEYS */;
 INSERT INTO `imageslider_text` VALUES (1,'Gedung',1),(2,'Praktikum',1),(3,'Kelas',1),(4,'Laboratorium',1),(5,'Praktek',1),(6,'Penyerahan Hadiah',1),(7,'Pengajaran',1),(8,'Belajar Kelompok',1),(9,'Perpustakaan',1),(10,'Wisuda',1);
-/*!40000 ALTER TABLE `imageslider_text` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `links`
---
-
 DROP TABLE IF EXISTS `links`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `links` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT NULL,
@@ -1523,25 +749,9 @@ CREATE TABLE `links` (
   PRIMARY KEY (`id`),
   KEY `publish` (`publish`)
 ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `links`
---
-
-LOCK TABLES `links` WRITE;
-/*!40000 ALTER TABLE `links` DISABLE KEYS */;
 INSERT INTO `links` VALUES (1,'Dirjen Pendidikan Tinggi','http://dikti.go.id/','',1,1),(2,'Departemen Kesehatan RI','http://depkes.go.id/','',4,1),(3,'Pusat Informasi dan Konseling Kesehatan Reproduksi (PIKKR)','http://pikkr.wordpress.com/','',2,1),(4,'Dinas Kesehatan Provinsi DIY','http://fisip.net/','',3,1),(5,'Download','http://www.ifwdb.com/','',5,1);
-/*!40000 ALTER TABLE `links` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `links_ad`
---
-
 DROP TABLE IF EXISTS `links_ad`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `links_ad` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(80) NOT NULL,
@@ -1552,24 +762,8 @@ CREATE TABLE `links_ad` (
   UNIQUE KEY `name` (`name`),
   KEY `publish` (`publish`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `links_ad`
---
-
-LOCK TABLES `links_ad` WRITE;
-/*!40000 ALTER TABLE `links_ad` DISABLE KEYS */;
-/*!40000 ALTER TABLE `links_ad` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `school`
---
 
 DROP TABLE IF EXISTS `school`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `school` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
@@ -1582,24 +776,8 @@ CREATE TABLE `school` (
   `active` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='menyimpan data sekolah';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `school`
---
-
-LOCK TABLES `school` WRITE;
-/*!40000 ALTER TABLE `school` DISABLE KEYS */;
-/*!40000 ALTER TABLE `school` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `school_attendance`
---
 
 DROP TABLE IF EXISTS `school_attendance`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `school_attendance` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `student_id` int(11) unsigned DEFAULT NULL,
@@ -1610,26 +788,44 @@ CREATE TABLE `school_attendance` (
   `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `student_id` (`student_id`),
-  KEY `schedule_id` (`schedule_id`)
+  KEY `schedule_id` (`schedule_id`),
+  CONSTRAINT `school_attendance_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
+  CONSTRAINT `school_attendance_ibfk_10` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
+  CONSTRAINT `school_attendance_ibfk_11` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
+  CONSTRAINT `school_attendance_ibfk_12` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
+  CONSTRAINT `school_attendance_ibfk_13` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
+  CONSTRAINT `school_attendance_ibfk_14` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
+  CONSTRAINT `school_attendance_ibfk_15` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
+  CONSTRAINT `school_attendance_ibfk_16` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
+  CONSTRAINT `school_attendance_ibfk_17` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
+  CONSTRAINT `school_attendance_ibfk_18` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
+  CONSTRAINT `school_attendance_ibfk_19` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
+  CONSTRAINT `school_attendance_ibfk_2` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
+  CONSTRAINT `school_attendance_ibfk_20` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
+  CONSTRAINT `school_attendance_ibfk_21` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
+  CONSTRAINT `school_attendance_ibfk_22` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
+  CONSTRAINT `school_attendance_ibfk_23` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
+  CONSTRAINT `school_attendance_ibfk_24` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
+  CONSTRAINT `school_attendance_ibfk_25` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
+  CONSTRAINT `school_attendance_ibfk_26` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
+  CONSTRAINT `school_attendance_ibfk_27` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
+  CONSTRAINT `school_attendance_ibfk_28` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
+  CONSTRAINT `school_attendance_ibfk_29` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
+  CONSTRAINT `school_attendance_ibfk_3` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
+  CONSTRAINT `school_attendance_ibfk_30` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
+  CONSTRAINT `school_attendance_ibfk_31` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
+  CONSTRAINT `school_attendance_ibfk_32` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
+  CONSTRAINT `school_attendance_ibfk_33` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
+  CONSTRAINT `school_attendance_ibfk_34` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
+  CONSTRAINT `school_attendance_ibfk_4` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
+  CONSTRAINT `school_attendance_ibfk_5` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
+  CONSTRAINT `school_attendance_ibfk_6` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
+  CONSTRAINT `school_attendance_ibfk_7` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
+  CONSTRAINT `school_attendance_ibfk_8` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
+  CONSTRAINT `school_attendance_ibfk_9` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='daftar kehadiran';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `school_attendance`
---
-
-LOCK TABLES `school_attendance` WRITE;
-/*!40000 ALTER TABLE `school_attendance` DISABLE KEYS */;
-/*!40000 ALTER TABLE `school_attendance` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `school_attendance_report`
---
 
 DROP TABLE IF EXISTS `school_attendance_report`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `school_attendance_report` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `class_id` int(11) unsigned DEFAULT NULL,
@@ -1647,76 +843,35 @@ CREATE TABLE `school_attendance_report` (
   PRIMARY KEY (`id`),
   KEY `schedule_id` (`schedule_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='hasil laporan kehadiran';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `school_attendance_report`
---
-
-LOCK TABLES `school_attendance_report` WRITE;
-/*!40000 ALTER TABLE `school_attendance_report` DISABLE KEYS */;
-/*!40000 ALTER TABLE `school_attendance_report` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `school_class`
---
 
 DROP TABLE IF EXISTS `school_class`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `school_class` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `teacher_id` int(11) DEFAULT NULL,
+  `teacher_id` int(11) unsigned DEFAULT NULL,
   `grade` tinyint(2) DEFAULT NULL COMMENT 'tingkatan kelas (1,2,3)',
   `label` varchar(10) DEFAULT NULL COMMENT 'setelah grade (a,b,c)',
   `major` varchar(50) DEFAULT NULL COMMENT 'kejurusan kelas',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `teacher_id` (`teacher_id`),
+  CONSTRAINT `school_class_ibfk_1` FOREIGN KEY (`teacher_id`) REFERENCES `school_teacher` (`id`),
+  CONSTRAINT `school_class_ibfk_2` FOREIGN KEY (`teacher_id`) REFERENCES `school_teacher` (`id`),
+  CONSTRAINT `school_class_ibfk_3` FOREIGN KEY (`teacher_id`) REFERENCES `school_teacher` (`id`),
+  CONSTRAINT `school_class_ibfk_4` FOREIGN KEY (`teacher_id`) REFERENCES `school_teacher` (`id`),
+  CONSTRAINT `school_class_ibfk_5` FOREIGN KEY (`teacher_id`) REFERENCES `school_teacher` (`id`),
+  CONSTRAINT `school_class_ibfk_6` FOREIGN KEY (`teacher_id`) REFERENCES `school_teacher` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data kelas';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `school_class`
---
-
-LOCK TABLES `school_class` WRITE;
-/*!40000 ALTER TABLE `school_class` DISABLE KEYS */;
-/*!40000 ALTER TABLE `school_class` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `school_course`
---
 
 DROP TABLE IF EXISTS `school_course`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `school_course` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(225) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data mata pelajaran sekolah';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `school_course`
---
-
-LOCK TABLES `school_course` WRITE;
-/*!40000 ALTER TABLE `school_course` DISABLE KEYS */;
-/*!40000 ALTER TABLE `school_course` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `school_parent`
---
 
 DROP TABLE IF EXISTS `school_parent`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `school_parent` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) unsigned DEFAULT NULL,
+  `user_id` bigint(20) unsigned DEFAULT '0',
   `name` int(11) unsigned DEFAULT NULL,
   `nik` char(16) DEFAULT NULL,
   `nokk` char(16) DEFAULT NULL,
@@ -1727,24 +882,8 @@ CREATE TABLE `school_parent` (
   UNIQUE KEY `nik` (`nik`),
   KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data orang tua siswa';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `school_parent`
---
-
-LOCK TABLES `school_parent` WRITE;
-/*!40000 ALTER TABLE `school_parent` DISABLE KEYS */;
-/*!40000 ALTER TABLE `school_parent` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `school_schedule`
---
 
 DROP TABLE IF EXISTS `school_schedule`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `school_schedule` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `teacher_course_id` int(11) unsigned DEFAULT NULL,
@@ -1753,29 +892,15 @@ CREATE TABLE `school_schedule` (
   `clock_end` char(5) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `teacher_course_id` (`teacher_course_id`),
-  KEY `day` (`day`)
+  KEY `day` (`day`),
+  CONSTRAINT `school_schedule_ibfk_1` FOREIGN KEY (`teacher_course_id`) REFERENCES `school_teacher_course` (`id`),
+  CONSTRAINT `school_schedule_ibfk_2` FOREIGN KEY (`teacher_course_id`) REFERENCES `school_teacher_course` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data jadwal';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `school_schedule`
---
-
-LOCK TABLES `school_schedule` WRITE;
-/*!40000 ALTER TABLE `school_schedule` DISABLE KEYS */;
-/*!40000 ALTER TABLE `school_schedule` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `school_student`
---
 
 DROP TABLE IF EXISTS `school_student`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `school_student` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) unsigned DEFAULT NULL,
+  `user_id` bigint(20) unsigned DEFAULT '0',
   `parent_id_dad` int(11) unsigned DEFAULT NULL COMMENT 'parent id ayah siswa',
   `parent_id_mom` int(11) unsigned DEFAULT NULL COMMENT 'parent id ibu siswa',
   `parent_id_guard` int(11) unsigned DEFAULT NULL COMMENT 'parent id wali siswa (jika ada)',
@@ -1786,78 +911,48 @@ CREATE TABLE `school_student` (
   `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nis` (`nis`),
-  KEY `name` (`name`)
+  KEY `name` (`name`),
+  KEY `parent_id_dad` (`parent_id_dad`),
+  KEY `parent_id_mom` (`parent_id_mom`),
+  KEY `parent_id_guard` (`parent_id_guard`),
+  CONSTRAINT `school_student_ibfk_1` FOREIGN KEY (`parent_id_dad`) REFERENCES `school_parent` (`id`),
+  CONSTRAINT `school_student_ibfk_2` FOREIGN KEY (`parent_id_mom`) REFERENCES `school_parent` (`id`),
+  CONSTRAINT `school_student_ibfk_3` FOREIGN KEY (`parent_id_guard`) REFERENCES `school_parent` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data siswa';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `school_student`
---
-
-LOCK TABLES `school_student` WRITE;
-/*!40000 ALTER TABLE `school_student` DISABLE KEYS */;
-/*!40000 ALTER TABLE `school_student` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `school_student_class`
---
 
 DROP TABLE IF EXISTS `school_student_class`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `school_student_class` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `student_id` int(11) unsigned DEFAULT NULL,
   `class_id` int(11) unsigned DEFAULT NULL,
   `number` int(11) unsigned DEFAULT NULL COMMENT 'nomor absent siswa',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `student_id` (`student_id`),
+  KEY `class_id` (`class_id`),
+  CONSTRAINT `school_student_class_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
+  CONSTRAINT `school_student_class_ibfk_2` FOREIGN KEY (`class_id`) REFERENCES `school_class` (`id`),
+  CONSTRAINT `school_student_class_ibfk_3` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
+  CONSTRAINT `school_student_class_ibfk_4` FOREIGN KEY (`class_id`) REFERENCES `school_class` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data menyimpan siswa per kelas';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `school_student_class`
---
-
-LOCK TABLES `school_student_class` WRITE;
-/*!40000 ALTER TABLE `school_student_class` DISABLE KEYS */;
-/*!40000 ALTER TABLE `school_student_class` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `school_student_parent`
---
 
 DROP TABLE IF EXISTS `school_student_parent`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `school_student_parent` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `student_id` int(11) unsigned DEFAULT NULL,
   `parent_id` int(11) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `student_id` (`student_id`),
+  KEY `parent_id` (`parent_id`),
+  CONSTRAINT `school_student_parent_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
+  CONSTRAINT `school_student_parent_ibfk_2` FOREIGN KEY (`parent_id`) REFERENCES `school_parent` (`id`),
+  CONSTRAINT `school_student_parent_ibfk_3` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
+  CONSTRAINT `school_student_parent_ibfk_4` FOREIGN KEY (`parent_id`) REFERENCES `school_parent` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data menghubungkan orang tua siswa dan siswa';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `school_student_parent`
---
-
-LOCK TABLES `school_student_parent` WRITE;
-/*!40000 ALTER TABLE `school_student_parent` DISABLE KEYS */;
-/*!40000 ALTER TABLE `school_student_parent` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `school_teacher`
---
 
 DROP TABLE IF EXISTS `school_teacher`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `school_teacher` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) unsigned DEFAULT NULL,
+  `user_id` bigint(20) unsigned DEFAULT '0',
   `name` varchar(255) DEFAULT NULL,
   `nip` varchar(255) DEFAULT NULL COMMENT 'nomor induk pegawai',
   `position` varchar(255) DEFAULT NULL COMMENT 'jabatan',
@@ -1867,49 +962,23 @@ CREATE TABLE `school_teacher` (
   UNIQUE KEY `nip` (`nip`),
   KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data guru';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `school_teacher`
---
-
-LOCK TABLES `school_teacher` WRITE;
-/*!40000 ALTER TABLE `school_teacher` DISABLE KEYS */;
-/*!40000 ALTER TABLE `school_teacher` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `school_teacher_course`
---
 
 DROP TABLE IF EXISTS `school_teacher_course`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `school_teacher_course` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `teacher_id` int(11) unsigned DEFAULT NULL,
   `course_id` int(11) unsigned DEFAULT NULL,
   `class_id` int(11) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `teacher_id` (`teacher_id`),
+  KEY `course_id` (`course_id`),
+  KEY `class_id` (`class_id`),
+  CONSTRAINT `school_teacher_course_ibfk_1` FOREIGN KEY (`teacher_id`) REFERENCES `school_teacher` (`id`),
+  CONSTRAINT `school_teacher_course_ibfk_2` FOREIGN KEY (`course_id`) REFERENCES `school_course` (`id`),
+  CONSTRAINT `school_teacher_course_ibfk_3` FOREIGN KEY (`class_id`) REFERENCES `school_class` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='mengkelompokan guru dengan mata pelajaran dan kelas ';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `school_teacher_course`
---
-
-LOCK TABLES `school_teacher_course` WRITE;
-/*!40000 ALTER TABLE `school_teacher_course` DISABLE KEYS */;
-/*!40000 ALTER TABLE `school_teacher_course` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `survey_polling`
---
 
 DROP TABLE IF EXISTS `survey_polling`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `survey_polling` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `result` varchar(255) DEFAULT NULL,
@@ -1917,25 +986,9 @@ CREATE TABLE `survey_polling` (
   PRIMARY KEY (`id`),
   KEY `publish` (`publish`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `survey_polling`
---
-
-LOCK TABLES `survey_polling` WRITE;
-/*!40000 ALTER TABLE `survey_polling` DISABLE KEYS */;
 INSERT INTO `survey_polling` VALUES (1,NULL,1),(2,NULL,1);
-/*!40000 ALTER TABLE `survey_polling` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `survey_polling_option`
---
-
 DROP TABLE IF EXISTS `survey_polling_option`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `survey_polling_option` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `polling_id` int(255) DEFAULT NULL,
@@ -1946,25 +999,9 @@ CREATE TABLE `survey_polling_option` (
   KEY `polling_id` (`polling_id`),
   KEY `publish` (`publish`)
 ) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `survey_polling_option`
---
-
-LOCK TABLES `survey_polling_option` WRITE;
-/*!40000 ALTER TABLE `survey_polling_option` DISABLE KEYS */;
 INSERT INTO `survey_polling_option` VALUES (1,1,1,1,1),(2,1,0,2,1),(3,1,0,3,1),(4,1,0,4,1),(5,2,0,1,1),(6,2,0,2,1),(7,2,0,3,1),(8,2,0,4,1);
-/*!40000 ALTER TABLE `survey_polling_option` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `survey_polling_option_text`
---
-
 DROP TABLE IF EXISTS `survey_polling_option_text`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `survey_polling_option_text` (
   `polling_option_id` int(255) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
@@ -1973,25 +1010,9 @@ CREATE TABLE `survey_polling_option_text` (
   KEY `lang_id` (`lang_id`),
   FULLTEXT KEY `title` (`title`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `survey_polling_option_text`
---
-
-LOCK TABLES `survey_polling_option_text` WRITE;
-/*!40000 ALTER TABLE `survey_polling_option_text` DISABLE KEYS */;
 INSERT INTO `survey_polling_option_text` VALUES (1,'E-Commerce',1),(2,'Enterprise (Web Company)',1),(3,'Web Iklan',1),(4,'Web Sekolahan',1),(5,'God Father',1),(6,'Armagedon',1),(7,'Titanic',1),(8,'Dendam Nyi Pelet',1);
-/*!40000 ALTER TABLE `survey_polling_option_text` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `survey_polling_text`
---
-
 DROP TABLE IF EXISTS `survey_polling_text`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `survey_polling_text` (
   `polling_id` int(255) NOT NULL DEFAULT '0',
   `question` text,
@@ -2000,25 +1021,9 @@ CREATE TABLE `survey_polling_text` (
   KEY `lang_id` (`lang_id`),
   FULLTEXT KEY `question` (`question`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `survey_polling_text`
---
-
-LOCK TABLES `survey_polling_text` WRITE;
-/*!40000 ALTER TABLE `survey_polling_text` DISABLE KEYS */;
 INSERT INTO `survey_polling_text` VALUES (1,'Web aplikasi jenis manakah yang menurut anda paling laku dijual untuk publik ?',1),(2,'Diantara film-film di bawah, manakah menurut anda paling bagus untuk dinikmati?',1);
-/*!40000 ALTER TABLE `survey_polling_text` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `survey_posted`
---
-
 DROP TABLE IF EXISTS `survey_posted`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `survey_posted` (
   `id` int(255) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(255) NOT NULL DEFAULT '0',
@@ -2036,25 +1041,9 @@ CREATE TABLE `survey_posted` (
   KEY `publish` (`publish`),
   FULLTEXT KEY `name` (`name`,`email`,`params`,`question_titles`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `survey_posted`
---
-
-LOCK TABLES `survey_posted` WRITE;
-/*!40000 ALTER TABLE `survey_posted` DISABLE KEYS */;
 INSERT INTO `survey_posted` VALUES (1,0,1,'Rahma','rahma@fisip.net','a:2:{s:7:\"Address\";s:53:\"Jl.+Pedakbaru+425c+Gowok+banguntapan+Bantul+DIY+55161\";s:5:\"Phone\";s:14:\"0856+2289+4334\";}','1,2,3,4,5','Perceived Ease Of Use<br />Perceived Usefulnes<br />Attitude Toward Using<br />Behavioral Intention to Use<br />Actual Usage Behavior','0000-00-00 00:00:00',0),(2,3,1,'Pengunjung','anonymous@anonymous.com','a:2:{s:7:\"Address\";s:9:\"Indonesia\";s:5:\"Phone\";s:15:\"+62+00+0000+000\";}','6','Demografi','2011-01-28 18:17:23',0),(3,3,1,'Pengunjung','anonymous@anonymous.com','a:2:{s:7:\"Address\";s:9:\"Indonesia\";s:5:\"Phone\";s:15:\"+62+00+0000+000\";}','1,2,3,4,5,6','Perceived Ease Of Use<br />Perceived Usefulnes<br />Attitude Toward Using<br />Behavioral Intention to Use<br />Actual Usage Behavior<br />Demografi','2011-01-28 18:43:18',0);
-/*!40000 ALTER TABLE `survey_posted` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `survey_posted_question`
---
-
 DROP TABLE IF EXISTS `survey_posted_question`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `survey_posted_question` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `posted_id` int(255) NOT NULL DEFAULT '0',
@@ -2067,25 +1056,9 @@ CREATE TABLE `survey_posted_question` (
   KEY `posted_id` (`posted_id`),
   KEY `question_id` (`question_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `survey_posted_question`
---
-
-LOCK TABLES `survey_posted_question` WRITE;
-/*!40000 ALTER TABLE `survey_posted_question` DISABLE KEYS */;
 INSERT INTO `survey_posted_question` VALUES (1,1,1,'Saya dengan mudah dapat mengakses situs berita online dari mana pun<br />Saya dengan mudah dapat mengakses situs berita online dengan menggunakan fasilitas/alat/gadget yang saya miliki<br />Saya dengan mudah dapat mempelajari cara menggunakan/mengakses situs berita online<br />Saya dengan mudah dapat memahami menu atau susunan rubik pada situs berita online<br />Saya dengan mudah dapat menggunakan fasilitas/fitur (contoh: layanan komentar, dll) yang ada pada situs berita online<br />Saya bisa dengan mudah mendapatkan berita yang saya cari ketika mengakses situs berita online<br />Saya dengan mudah dapat berinteraksi dengan pengelola situs berita online<br />Saya dengan mudah dapat berinteraksi dengan sesama pembaca situs berita online','1,8,7,6,5','1.Sangat Tidak Setuju<br />2.Tidak Setuju<br />3.Netral<br />4.Setuju<br />5.Sangat Setuju<br />4.Setuju<br />3.Netral<br />2.Tidak Setuju',''),(2,1,2,'Penggunaan situs berita online meningkatkan efektivitas saya dalam mencari informasi atau sebuah berita dibanding media cetak, televisi atau media yang lain<br />Dengan mengakses situs berita online saya dapat dengan mudah mencari informasi atau berita yang sudah lama berlalu<br />Melalui situs berita online saya mendapatkan informasi/berita yang saya butuhkan<br />Melalui situs berita online saya mendapatkan informasi tambahan yang saya butuhkan<br />Dengan mengakses situs berita online memungkinkan saya lebih cepat dalam mendapatkan berita yang saya butuhkan<br />Dengan mengakses situs berita online memungkinkan saya lebih mudah dalam mendapatkan berita yang saya butuhkan<br />Saya menghemat waktu dalam mencari sebuah informasi/berita jika melalui situs berita online<br />Saya menghemat biaya dalam mencari sebuah informasi/berita jika melalui situs berita online','16,14,13,12,15','5.Sangat Setuju<br />4.Setuju<br />3.Netral<br />2.Tidak Setuju<br />3.Netral<br />4.Setuju<br />1.Sangat Tidak Setuju<br />5.Sangat Setuju',''),(3,1,3,'Saya senang mengakses situs berita online karena tak perlu berlangganan media cetak<br />Saya senang mengakses situs berita online karena tidak perlu memberikan data pribadi<br />Saya senang mengakses situs berita online karena saya dapat mengomentari berita yang saya baca<br />Saya tidak suka situs berita online yang beritanya jarang/tidak diperbaharui (update)<br />Saya tidak suka situs berita online yang penyajian beritanya terlalu formal atau menggunakan bahasa yang terlalu baku<br />Saya bosan dengan tampilan (interface) situs berita online yang saya kunjungi<br />Saya lebih suka situs berita online yang dilengkapi dengan foto/ilustrasi/grafik','17,23,22,20,21','1.Sangat Tidak Setuju<br />5.Sangat Setuju<br />2.Tidak Setuju<br />4.Setuju<br />3.Netral<br />2.Tidak Setuju<br />5.Sangat Setuju',''),(4,1,4,'Saya lebih suka situs berita online yang memperbolehkan saya untuk berkomentar<br />Saya lebih suka situs berita online yang memperbolehkan saya untuk berkontribusi menyumbangkan berita<br />Sekalipun saya telah membaca media cetaknya, saya akan tetap mengakses situs berita secara online untuk mendapatkan informasi/berita yang saya butuhkan<br />Saya akan mengakses situs berita online jika ingin mengetahui berita terbaru mengenai suatu hal<br />Saya akan menyarankan/mengajak teman saya untuk mengakses situs berita online<br />Saya akan mengajak teman untuk berinteraksi/berdiskusi mengenai sebuah berita/informasi melalui fasilitas comment yang ada di situs berita online','28,25,26,27,29','5.Sangat Setuju<br />2.Tidak Setuju<br />4.Setuju<br />1.Sangat Tidak Setuju<br />5.Sangat Setuju<br />3.Netral',''),(5,1,5,'Saya mengakses situs berita online setiap saya terkoneksi dengan internet<br />Saya akan mengakses situs berita online ketika ada peristiwa yang menarik atau yang sedang tren di masyarakat<br />Saya mengakses situs berita online hampir setiap hari<br />Rata-rata, saya mengakses situs berita online selama minimal 10 menit setiap kali mengunjunginya<br />Secara keseluruhan saya merasa puas dengan kinerja situs berita online<br />Saya menyampaikan kepuasan terhadap sebuah situs berita online, kepada teman saya','32,31,33,34,35','1.Sangat Tidak Setuju<br />4.Setuju<br />1.Sangat Tidak Setuju<br />2.Tidak Setuju<br />5.Sangat Setuju<br />3.Netral',''),(6,3,1,'Saya dengan mudah dapat mengakses situs berita online dari mana pun<br />Saya dengan mudah dapat mengakses situs berita online dengan menggunakan fasilitas/alat/gadget yang saya miliki<br />Saya dengan mudah dapat mempelajari cara menggunakan/mengakses situs berita online<br />Saya dengan mudah dapat memahami menu atau susunan rubik pada situs berita online<br />Saya dengan mudah dapat menggunakan fasilitas/fitur (contoh: layanan komentar, dll) yang ada pada situs berita online<br />Saya bisa dengan mudah mendapatkan berita yang saya cari ketika mengakses situs berita online<br />Saya dengan mudah dapat berinteraksi dengan pengelola situs berita online<br />Saya dengan mudah dapat berinteraksi dengan sesama pembaca situs berita online','7,6,5,4,8','4.Setuju<br />3.Netral<br />2.Tidak Setuju<br />1.Sangat Tidak Setuju<br />2.Tidak Setuju<br />3.Netral<br />4.Setuju<br />5.Sangat Setuju',''),(7,3,2,'Penggunaan situs berita online meningkatkan efektivitas saya dalam mencari informasi atau sebuah berita dibanding media cetak, televisi atau media yang lain<br />Dengan mengakses situs berita online saya dapat dengan mudah mencari informasi atau berita yang sudah lama berlalu<br />Melalui situs berita online saya mendapatkan informasi/berita yang saya butuhkan<br />Melalui situs berita online saya mendapatkan informasi tambahan yang saya butuhkan<br />Dengan mengakses situs berita online memungkinkan saya lebih cepat dalam mendapatkan berita yang saya butuhkan<br />Dengan mengakses situs berita online memungkinkan saya lebih mudah dalam mendapatkan berita yang saya butuhkan<br />Saya menghemat waktu dalam mencari sebuah informasi/berita jika melalui situs berita online<br />Saya menghemat biaya dalam mencari sebuah informasi/berita jika melalui situs berita online','15,14,13,12,16','4.Setuju<br />3.Netral<br />2.Tidak Setuju<br />1.Sangat Tidak Setuju<br />2.Tidak Setuju<br />3.Netral<br />4.Setuju<br />5.Sangat Setuju',''),(8,3,3,'Saya senang mengakses situs berita online karena tak perlu berlangganan media cetak<br />Saya senang mengakses situs berita online karena tidak perlu memberikan data pribadi<br />Saya senang mengakses situs berita online karena saya dapat mengomentari berita yang saya baca<br />Saya tidak suka situs berita online yang beritanya jarang/tidak diperbaharui (update)<br />Saya tidak suka situs berita online yang penyajian beritanya terlalu formal atau menggunakan bahasa yang terlalu baku<br />Saya bosan dengan tampilan (interface) situs berita online yang saya kunjungi<br />Saya lebih suka situs berita online yang dilengkapi dengan foto/ilustrasi/grafik','23,22,21,20','4.Setuju<br />3.Netral<br />2.Tidak Setuju<br />1.Sangat Tidak Setuju<br />2.Tidak Setuju<br />3.Netral<br />4.Setuju',''),(9,3,4,'Saya lebih suka situs berita online yang memperbolehkan saya untuk berkomentar<br />Saya lebih suka situs berita online yang memperbolehkan saya untuk berkontribusi menyumbangkan berita<br />Sekalipun saya telah membaca media cetaknya, saya akan tetap mengakses situs berita secara online untuk mendapatkan informasi/berita yang saya butuhkan<br />Saya akan mengakses situs berita online jika ingin mengetahui berita terbaru mengenai suatu hal<br />Saya akan menyarankan/mengajak teman saya untuk mengakses situs berita online<br />Saya akan mengajak teman untuk berinteraksi/berdiskusi mengenai sebuah berita/informasi melalui fasilitas comment yang ada di situs berita online','24,25,26,29,28','5.Sangat Setuju<br />4.Setuju<br />3.Netral<br />2.Tidak Setuju<br />1.Sangat Tidak Setuju<br />2.Tidak Setuju',''),(10,3,5,'Saya mengakses situs berita online setiap saya terkoneksi dengan internet<br />Saya akan mengakses situs berita online ketika ada peristiwa yang menarik atau yang sedang tren di masyarakat<br />Saya mengakses situs berita online hampir setiap hari<br />Rata-rata, saya mengakses situs berita online selama minimal 10 menit setiap kali mengunjunginya<br />Secara keseluruhan saya merasa puas dengan kinerja situs berita online<br />Saya menyampaikan kepuasan terhadap sebuah situs berita online, kepada teman saya','34,33,32,35','3.Netral<br />4.Setuju<br />5.Sangat Setuju<br />4.Setuju<br />3.Netral<br />2.Tidak Setuju',''),(11,3,6,'Tahun lahir','1','2423',''),(12,3,6,'Jenis kelamin','2','Perempuan',''),(13,3,6,'Asal kota','3','kudus',''),(14,3,6,'Status','4','Menikah',''),(15,3,6,'Pendidikan terakhir','5','Sarjana S1',''),(16,3,6,'Pekerjaan','6','Mahasiswa D3/S1',''),(17,3,6,'Pengeluaran per bulan','7','234',''),(18,3,6,'Berapa uang saku','8','234',''),(19,3,6,'Mengakses situs berita online pertama kali (tahun)','9','3423',''),(20,3,6,'Tempat mengakses situs berita online tersering','10','Kampus',''),(21,3,6,'Selain tempat tersebut pada nomor 10. dimana lagi?','11','Warung Internet, Rumah, Kos',''),(22,3,6,'Rata-rata, berapa jam dalam seminggu Anda mengakses situs berita online','12','23',''),(23,3,6,'Rata-rata, berapa berita yang Anda baca setiap membuka sebuah situs berita online','13','12',''),(24,3,6,'Rata-rata, berapa lama Anda membaca satu berita di sebuah situs berita online','14','231',''),(25,3,6,'Rata-rata, selama mengakses situs berita online, jika dihitung dengan uang, berapa banyak uang yang harus Anda keluarkan untuk akses situs berita online dalam satu bulan?','15','12324324',''),(26,3,6,'Walaupun Anda mengakses situs berita online, apakah Anda tetap berlangganan koran, majalah, tabloid, dll, tetap menonton televisi, dan mendengarkan radio untuk mendapatkan sebuah berita/informasi?','16','Ya, alasanya dsfsdfsdg ',''),(27,3,6,'Selama mengakses situs berita online, tema rubrik/berita apa yang paling sering Anda baca ?','17','terkait dengan pendidikan, terkait dengan politik, terkait dengan ekonomi/bisnis, hiburan/hobi (musik, film, fotografi), terkait dengan kuliner, sdgfdg',''),(28,3,6,'Sebutkan 3 rubrik atau tema berita yang paling sering Anda baca (urutkan dari yang paling sering, contoh: politik, kuliner dsb.)','18','dfgdfgdf, dfgfhgf, fghfdghf',''),(29,3,6,'Sebutkan 5 situs berita (media massa) online yang paling sering Anda kunjungi, urutkan dari yang paling sering, tidak harus berbahasa Indonesia','19','fdgdsfgdg, dfgdf, dfgdfg, gdfgdf, gdfgdf',''),(30,3,6,'Alasan mengapa Anda mengakses situs tersebut','20','1. Beritanya selalu ada yang baru (update)<br />2. Beritanya dapat dipercaya, tidak memihak, dan komprehensif <br />3. Beritanya memenuhi unsur 5W+1H (What, Why, When, Where, Who, How)<br />4. Lembaga/pengelola situsnya kredibel<br />5. Beritanya mudah/enak dibaca<br />6. Bahasa yang digunakan mudah/enak dibaca<br />7. Situsnya mudah diakses<br />8. Nama atau alamat situs (URL)-nya mudah diingat<br />9. Tata letak atau desain situsnya tidak membosankan<br />10. Akses ke situs tersebut cepat dibanding situs lainnya<br />11. Beritanya selalu dilengkapi dengan foto/gambar/ilustrasi<br />12. Berita dan rubriknya lengkap<br />13. Penulisan judul beritanya menarik saya untuk membaca beritanya secara lengkap<br />14. sdfsdf<br />15. sdfsdfdgts<br />16. yjfghjfhgjgh',''),(31,3,6,'Alat atau gadget yang paling sering Anda gunakan untuk akses situs tersebut','21','1. Komputer Personal (dengan CPU)<br />2. Laptop (notebook)<br />3. Laptop (netbook)<br />4. Blackberry<br />5. Handphone (dengan fasilitas GPRS, 3G, dll)<br />6. gfehfgjhg<br />7. fgjfjhghjg','');
-/*!40000 ALTER TABLE `survey_posted_question` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `survey_question`
---
-
 DROP TABLE IF EXISTS `survey_question`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `survey_question` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `par_id` int(255) DEFAULT '0',
@@ -2099,25 +1072,9 @@ CREATE TABLE `survey_question` (
   PRIMARY KEY (`id`),
   KEY `publish` (`publish`)
 ) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `survey_question`
---
-
-LOCK TABLES `survey_question` WRITE;
-/*!40000 ALTER TABLE `survey_question` DISABLE KEYS */;
 INSERT INTO `survey_question` VALUES (1,0,'custom','questionary',2,1,0,1,1),(2,0,'custom','questionary',2,2,0,1,1),(3,0,'custom','questionary',2,3,0,1,1),(4,0,'custom','questionary',2,4,0,1,1),(5,0,'custom','questionary',2,5,0,1,1),(6,0,'custom','demografi',2,6,0,1,1);
-/*!40000 ALTER TABLE `survey_question` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `survey_question_option`
---
-
 DROP TABLE IF EXISTS `survey_question_option`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `survey_question_option` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `question_id` int(255) NOT NULL DEFAULT '0',
@@ -2129,24 +1086,8 @@ CREATE TABLE `survey_question_option` (
   KEY `question_id` (`question_id`),
   KEY `publish` (`publish`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `survey_question_option`
---
-
-LOCK TABLES `survey_question_option` WRITE;
-/*!40000 ALTER TABLE `survey_question_option` DISABLE KEYS */;
-/*!40000 ALTER TABLE `survey_question_option` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `survey_question_option_text`
---
 
 DROP TABLE IF EXISTS `survey_question_option_text`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `survey_question_option_text` (
   `option_id` int(255) NOT NULL DEFAULT '0',
   `title` varchar(255) DEFAULT NULL,
@@ -2155,24 +1096,8 @@ CREATE TABLE `survey_question_option_text` (
   KEY `lang_id` (`lang_id`),
   FULLTEXT KEY `title` (`title`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `survey_question_option_text`
---
-
-LOCK TABLES `survey_question_option_text` WRITE;
-/*!40000 ALTER TABLE `survey_question_option_text` DISABLE KEYS */;
-/*!40000 ALTER TABLE `survey_question_option_text` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `survey_question_text`
---
 
 DROP TABLE IF EXISTS `survey_question_text`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `survey_question_text` (
   `question_id` int(255) NOT NULL DEFAULT '0',
   `title` varchar(255) DEFAULT NULL,
@@ -2182,25 +1107,9 @@ CREATE TABLE `survey_question_text` (
   KEY `lang_id` (`lang_id`),
   FULLTEXT KEY `title` (`title`,`description`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `survey_question_text`
---
-
-LOCK TABLES `survey_question_text` WRITE;
-/*!40000 ALTER TABLE `survey_question_text` DISABLE KEYS */;
 INSERT INTO `survey_question_text` VALUES (1,'Perceived Ease Of Use','',1),(2,'Perceived Usefulnes','',1),(3,'Attitude Toward Using','',1),(4,'Behavioral Intention to Use','',1),(5,'Actual Usage Behavior','',1),(6,'Demografi','',1);
-/*!40000 ALTER TABLE `survey_question_text` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `survey_questionary`
---
-
 DROP TABLE IF EXISTS `survey_questionary`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `survey_questionary` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `question_id` int(11) DEFAULT NULL,
@@ -2211,25 +1120,9 @@ CREATE TABLE `survey_questionary` (
   KEY `question_id` (`question_id`),
   KEY `publish` (`publish`)
 ) ENGINE=MyISAM AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `survey_questionary`
---
-
-LOCK TABLES `survey_questionary` WRITE;
-/*!40000 ALTER TABLE `survey_questionary` DISABLE KEYS */;
 INSERT INTO `survey_questionary` VALUES (1,1,'Saya dengan mudah dapat mengakses situs berita online dari mana pun',1,1),(2,1,'Saya dengan mudah dapat mengakses situs berita online dengan menggunakan fasilitas/alat/gadget yang saya miliki',2,1),(3,1,'Saya dengan mudah dapat mempelajari cara menggunakan/mengakses situs berita online',3,1),(4,1,'Saya dengan mudah dapat memahami menu atau susunan rubik pada situs berita online',4,1),(5,1,'Saya dengan mudah dapat menggunakan fasilitas/fitur (contoh: layanan komentar, dll) yang ada pada situs berita online',5,1),(6,1,'Saya bisa dengan mudah mendapatkan berita yang saya cari ketika mengakses situs berita online',6,1),(7,1,'Saya dengan mudah dapat berinteraksi dengan pengelola situs berita online',7,1),(8,1,'Saya dengan mudah dapat berinteraksi dengan sesama pembaca situs berita online',8,1),(9,2,'Penggunaan situs berita online meningkatkan efektivitas saya dalam mencari informasi atau sebuah berita dibanding media cetak, televisi atau media yang lain',1,1),(10,2,'Dengan mengakses situs berita online saya dapat dengan mudah mencari informasi atau berita yang sudah lama berlalu',2,1),(11,2,'Melalui situs berita online saya mendapatkan informasi/berita yang saya butuhkan',3,1),(12,2,'Melalui situs berita online saya mendapatkan informasi tambahan yang saya butuhkan',4,1),(13,2,'Dengan mengakses situs berita online memungkinkan saya lebih cepat dalam mendapatkan berita yang saya butuhkan',5,1),(14,2,'Dengan mengakses situs berita online memungkinkan saya lebih mudah dalam mendapatkan berita yang saya butuhkan',6,1),(15,2,'Saya menghemat waktu dalam mencari sebuah informasi/berita jika melalui situs berita online',7,1),(16,2,'Saya menghemat biaya dalam mencari sebuah informasi/berita jika melalui situs berita online',8,1),(17,3,'Saya senang mengakses situs berita online karena tak perlu berlangganan media cetak',1,1),(18,3,'Saya senang mengakses situs berita online karena tidak perlu memberikan data pribadi',2,1),(19,3,'Saya senang mengakses situs berita online karena saya dapat mengomentari berita yang saya baca',3,1),(20,3,'Saya tidak suka situs berita online yang beritanya jarang/tidak diperbaharui (update)',4,1),(21,3,'Saya tidak suka situs berita online yang penyajian beritanya terlalu formal atau menggunakan bahasa yang terlalu baku',5,1),(22,3,'Saya bosan dengan tampilan (interface) situs berita online yang saya kunjungi',6,1),(23,3,'Saya lebih suka situs berita online yang dilengkapi dengan foto/ilustrasi/grafik',7,1),(24,4,'Saya lebih suka situs berita online yang memperbolehkan saya untuk berkomentar',1,1),(25,4,'Saya lebih suka situs berita online yang memperbolehkan saya untuk berkontribusi menyumbangkan berita',2,1),(26,4,'Sekalipun saya telah membaca media cetaknya, saya akan tetap mengakses situs berita secara online untuk mendapatkan informasi/berita yang saya butuhkan',3,1),(27,4,'Saya akan mengakses situs berita online jika ingin mengetahui berita terbaru mengenai suatu hal',4,1),(28,4,'Saya akan menyarankan/mengajak teman saya untuk mengakses situs berita online',5,1),(29,4,'Saya akan mengajak teman untuk berinteraksi/berdiskusi mengenai sebuah berita/informasi melalui fasilitas comment yang ada di situs berita online',6,1),(30,5,'Saya mengakses situs berita online setiap saya terkoneksi dengan internet',1,1),(31,5,'Saya akan mengakses situs berita online ketika ada peristiwa yang menarik atau yang sedang tren di masyarakat',2,1),(32,5,'Saya mengakses situs berita online hampir setiap hari',3,1),(33,5,'Rata-rata, saya mengakses situs berita online selama minimal 10 menit setiap kali mengunjunginya',4,1),(34,5,'Secara keseluruhan saya merasa puas dengan kinerja situs berita online',5,1),(35,5,'Saya menyampaikan kepuasan terhadap sebuah situs berita online, kepada teman saya',6,1);
-/*!40000 ALTER TABLE `survey_questionary` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `testimonial`
---
-
 DROP TABLE IF EXISTS `testimonial`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `testimonial` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
@@ -2242,25 +1135,9 @@ CREATE TABLE `testimonial` (
   KEY `publish` (`publish`),
   FULLTEXT KEY `name` (`name`,`email`,`params`,`message`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `testimonial`
---
-
-LOCK TABLES `testimonial` WRITE;
-/*!40000 ALTER TABLE `testimonial` DISABLE KEYS */;
 INSERT INTO `testimonial` VALUES (1,'Danang Widiantoro','comment@fisip.net','a:2:{s:7:\"Company\";s:9:\"Fisip.Net\";s:7:\"Address\";s:35:\"Gowok Banguntapan Bantul Yogyakarta\";}','It is easy to navigate this site because all of the links are right there on the left hand side, and people without image-loading browsers can access the links via the text at the bottom which is very handy and essential for a good site. It is a good idea having a shopping cart section right in the middle of the screen because it is obvious, and all important information can be accessed by the reader easily.','2012-04-22 03:00:40',1),(2,'Malaquina Aurelia Widiantoro','daloralove@yahoo.com','a:2:{s:7:\"Company\";s:17:\"www.bagikisah.com\";s:7:\"Address\";s:13:\"Denpasar Bali\";}','This site definitely appeals to the average person because the layout is so simple but very effective. It is a clean site with a flawless look, and someone without any technical background would definitely appreciate it. The layout makes anyone feel comfortable because it is so well done and clean looking. We feel as if we are in good hands and we know that we will be able to find anything we need on this site. Well done....','2012-04-22 03:08:47',1);
-/*!40000 ALTER TABLE `testimonial` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `testimonial_field`
---
-
 DROP TABLE IF EXISTS `testimonial_field`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `testimonial_field` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` varchar(255) NOT NULL,
@@ -2276,25 +1153,8 @@ CREATE TABLE `testimonial_field` (
   PRIMARY KEY (`id`),
   KEY `active` (`active`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `testimonial_field`
---
-
-LOCK TABLES `testimonial_field` WRITE;
-/*!40000 ALTER TABLE `testimonial_field` DISABLE KEYS */;
 INSERT INTO `testimonial_field` VALUES (1,'textarea','any','Address','','rows=3 cols=34','','',2,0,1),(2,'text','any','Company','','size=34','','',1,0,1);
-/*!40000 ALTER TABLE `testimonial_field` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-12-08 15:56:11
+SET foreign_key_checks = 1;
