@@ -788,41 +788,7 @@ CREATE TABLE `school_attendance` (
   `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `student_id` (`student_id`),
-  KEY `schedule_id` (`schedule_id`),
-  CONSTRAINT `school_attendance_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
-  CONSTRAINT `school_attendance_ibfk_10` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
-  CONSTRAINT `school_attendance_ibfk_11` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
-  CONSTRAINT `school_attendance_ibfk_12` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
-  CONSTRAINT `school_attendance_ibfk_13` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
-  CONSTRAINT `school_attendance_ibfk_14` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
-  CONSTRAINT `school_attendance_ibfk_15` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
-  CONSTRAINT `school_attendance_ibfk_16` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
-  CONSTRAINT `school_attendance_ibfk_17` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
-  CONSTRAINT `school_attendance_ibfk_18` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
-  CONSTRAINT `school_attendance_ibfk_19` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
-  CONSTRAINT `school_attendance_ibfk_2` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
-  CONSTRAINT `school_attendance_ibfk_20` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
-  CONSTRAINT `school_attendance_ibfk_21` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
-  CONSTRAINT `school_attendance_ibfk_22` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
-  CONSTRAINT `school_attendance_ibfk_23` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
-  CONSTRAINT `school_attendance_ibfk_24` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
-  CONSTRAINT `school_attendance_ibfk_25` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
-  CONSTRAINT `school_attendance_ibfk_26` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
-  CONSTRAINT `school_attendance_ibfk_27` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
-  CONSTRAINT `school_attendance_ibfk_28` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
-  CONSTRAINT `school_attendance_ibfk_29` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
-  CONSTRAINT `school_attendance_ibfk_3` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
-  CONSTRAINT `school_attendance_ibfk_30` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
-  CONSTRAINT `school_attendance_ibfk_31` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
-  CONSTRAINT `school_attendance_ibfk_32` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
-  CONSTRAINT `school_attendance_ibfk_33` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
-  CONSTRAINT `school_attendance_ibfk_34` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
-  CONSTRAINT `school_attendance_ibfk_4` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
-  CONSTRAINT `school_attendance_ibfk_5` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
-  CONSTRAINT `school_attendance_ibfk_6` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
-  CONSTRAINT `school_attendance_ibfk_7` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
-  CONSTRAINT `school_attendance_ibfk_8` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`),
-  CONSTRAINT `school_attendance_ibfk_9` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`)
+  KEY `schedule_id` (`schedule_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='daftar kehadiran';
 
 DROP TABLE IF EXISTS `school_attendance_report`;
@@ -852,13 +818,7 @@ CREATE TABLE `school_class` (
   `label` varchar(10) DEFAULT NULL COMMENT 'setelah grade (a,b,c)',
   `major` varchar(50) DEFAULT NULL COMMENT 'kejurusan kelas',
   PRIMARY KEY (`id`),
-  KEY `teacher_id` (`teacher_id`),
-  CONSTRAINT `school_class_ibfk_1` FOREIGN KEY (`teacher_id`) REFERENCES `school_teacher` (`id`),
-  CONSTRAINT `school_class_ibfk_2` FOREIGN KEY (`teacher_id`) REFERENCES `school_teacher` (`id`),
-  CONSTRAINT `school_class_ibfk_3` FOREIGN KEY (`teacher_id`) REFERENCES `school_teacher` (`id`),
-  CONSTRAINT `school_class_ibfk_4` FOREIGN KEY (`teacher_id`) REFERENCES `school_teacher` (`id`),
-  CONSTRAINT `school_class_ibfk_5` FOREIGN KEY (`teacher_id`) REFERENCES `school_teacher` (`id`),
-  CONSTRAINT `school_class_ibfk_6` FOREIGN KEY (`teacher_id`) REFERENCES `school_teacher` (`id`)
+  KEY `teacher_id` (`teacher_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data kelas';
 
 DROP TABLE IF EXISTS `school_course`;
@@ -892,9 +852,7 @@ CREATE TABLE `school_schedule` (
   `clock_end` char(5) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `teacher_course_id` (`teacher_course_id`),
-  KEY `day` (`day`),
-  CONSTRAINT `school_schedule_ibfk_1` FOREIGN KEY (`teacher_course_id`) REFERENCES `school_teacher_course` (`id`),
-  CONSTRAINT `school_schedule_ibfk_2` FOREIGN KEY (`teacher_course_id`) REFERENCES `school_teacher_course` (`id`)
+  KEY `day` (`day`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data jadwal';
 
 DROP TABLE IF EXISTS `school_student`;
@@ -914,10 +872,7 @@ CREATE TABLE `school_student` (
   KEY `name` (`name`),
   KEY `parent_id_dad` (`parent_id_dad`),
   KEY `parent_id_mom` (`parent_id_mom`),
-  KEY `parent_id_guard` (`parent_id_guard`),
-  CONSTRAINT `school_student_ibfk_1` FOREIGN KEY (`parent_id_dad`) REFERENCES `school_parent` (`id`),
-  CONSTRAINT `school_student_ibfk_2` FOREIGN KEY (`parent_id_mom`) REFERENCES `school_parent` (`id`),
-  CONSTRAINT `school_student_ibfk_3` FOREIGN KEY (`parent_id_guard`) REFERENCES `school_parent` (`id`)
+  KEY `parent_id_guard` (`parent_id_guard`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data siswa';
 
 DROP TABLE IF EXISTS `school_student_class`;
@@ -928,11 +883,7 @@ CREATE TABLE `school_student_class` (
   `number` int(11) unsigned DEFAULT NULL COMMENT 'nomor absent siswa',
   PRIMARY KEY (`id`),
   KEY `student_id` (`student_id`),
-  KEY `class_id` (`class_id`),
-  CONSTRAINT `school_student_class_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
-  CONSTRAINT `school_student_class_ibfk_2` FOREIGN KEY (`class_id`) REFERENCES `school_class` (`id`),
-  CONSTRAINT `school_student_class_ibfk_3` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
-  CONSTRAINT `school_student_class_ibfk_4` FOREIGN KEY (`class_id`) REFERENCES `school_class` (`id`)
+  KEY `class_id` (`class_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data menyimpan siswa per kelas';
 
 DROP TABLE IF EXISTS `school_student_parent`;
@@ -942,11 +893,7 @@ CREATE TABLE `school_student_parent` (
   `parent_id` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `student_id` (`student_id`),
-  KEY `parent_id` (`parent_id`),
-  CONSTRAINT `school_student_parent_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
-  CONSTRAINT `school_student_parent_ibfk_2` FOREIGN KEY (`parent_id`) REFERENCES `school_parent` (`id`),
-  CONSTRAINT `school_student_parent_ibfk_3` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`),
-  CONSTRAINT `school_student_parent_ibfk_4` FOREIGN KEY (`parent_id`) REFERENCES `school_parent` (`id`)
+  KEY `parent_id` (`parent_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data menghubungkan orang tua siswa dan siswa';
 
 DROP TABLE IF EXISTS `school_teacher`;
@@ -972,10 +919,7 @@ CREATE TABLE `school_teacher_course` (
   PRIMARY KEY (`id`),
   KEY `teacher_id` (`teacher_id`),
   KEY `course_id` (`course_id`),
-  KEY `class_id` (`class_id`),
-  CONSTRAINT `school_teacher_course_ibfk_1` FOREIGN KEY (`teacher_id`) REFERENCES `school_teacher` (`id`),
-  CONSTRAINT `school_teacher_course_ibfk_2` FOREIGN KEY (`course_id`) REFERENCES `school_course` (`id`),
-  CONSTRAINT `school_teacher_course_ibfk_3` FOREIGN KEY (`class_id`) REFERENCES `school_class` (`id`)
+  KEY `class_id` (`class_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='mengkelompokan guru dengan mata pelajaran dan kelas ';
 
 DROP TABLE IF EXISTS `survey_polling`;
