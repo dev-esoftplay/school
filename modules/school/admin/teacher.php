@@ -6,18 +6,9 @@ $position = array('Kepala Sekolah', 'Wakil Kepala Sekolah', 'Guru BK', 'Staff', 
 $form     = _lib('pea', 'school_teacher');
 $form->initSearch();
 
-//Yang di bawah ini dropdown buat filter position
-
-$q         = "SELECT id, position FROM school_teacher WHERE 1";
-$r_cat     = $db->getAssoc($q);
-$r_cat_key = array_keys($r_cat);
-
-if(count($r_cat_key) > 1)
-{
-	$form->search->addInput('position','select');
-	$form->search->input->position->addOption('Select Position', '');
-	$form->search->input->position->addOption($position);
-}
+$form->search->addInput('position','select');
+$form->search->input->position->addOption('Select Position', '');
+$form->search->input->position->addOption($position);
 
 $form->search->addInput('keyword','keyword');
 $form->search->input->keyword->addSearchField('name, nip',  false);
