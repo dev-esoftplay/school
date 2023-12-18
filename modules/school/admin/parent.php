@@ -54,7 +54,7 @@ $form->initAdd();
 
 $form->add->addInput('name','text');
 $form->add->input->name->setTitle('name');
-$form->add->input->name->setRequire($require='any', $is_mandatory=1);
+$form->add->input->name->setRequire($require='any', $is_mandatory=1); 
 
 $form->add->addInput('phone','text');
 $form->add->input->phone->setTitle('phone');
