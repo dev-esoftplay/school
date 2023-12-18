@@ -716,9 +716,9 @@ CREATE TABLE `imageslider` (
   KEY `cat_id` (`cat_id`),
   KEY `publish` (`publish`),
   FULLTEXT KEY `image` (`image`,`link`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
-INSERT INTO `imageslider` VALUES (1,1,'4c4c675c0b71e.jpg','',10,1),(2,1,'4c4c677194c62.jpg','',9,0),(3,1,'4c4c678e57bd3.jpg','',8,0),(4,1,'4c4c679a89547.jpg','',7,0),(5,1,'4c4c67c972711.jpg','',6,0),(6,1,'4c4c67e41e84b.jpg','',5,0),(7,1,'4c4c67ffca2e0.jpg','',4,0),(8,1,'4c4c681035682.jpg','',3,0),(9,1,'4c4c681f6ea08.jpg','',2,0),(10,1,'4c4c682aaf7a1.jpg','',1,1);
+INSERT INTO `imageslider` VALUES (1,1,'4c4c675c0b71e.jpg','',10,1),(2,1,'4c4c677194c62.jpg','',9,0),(3,1,'4c4c678e57bd3.jpg','',8,0),(4,1,'4c4c679a89547.jpg','',7,0),(5,1,'4c4c67c972711.jpg','',6,0),(6,1,'4c4c67e41e84b.jpg','',5,0),(7,1,'4c4c67ffca2e0.jpg','',4,0),(8,1,'4c4c681035682.jpg','',3,0),(9,1,'4c4c681f6ea08.jpg','',2,0),(10,1,'4c4c682aaf7a1.jpg','',1,1),(11,1,'','',11,1),(12,1,'','',12,1);
 DROP TABLE IF EXISTS `imageslider_cat`;
 CREATE TABLE `imageslider_cat` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
@@ -738,7 +738,7 @@ CREATE TABLE `imageslider_text` (
   KEY `imageslider_id` (`imageslider_id`,`lang_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `imageslider_text` VALUES (1,'Gedung',NULL,1),(2,'Praktikum',NULL,1),(3,'Kelas',NULL,1),(4,'Laboratorium',NULL,1),(5,'Praktek',NULL,1),(6,'Penyerahan Hadiah',NULL,1),(7,'Pengajaran',NULL,1),(8,'Belajar Kelompok',NULL,1),(9,'Perpustakaan',NULL,1),(10,'Wisuda',NULL,1);
+INSERT INTO `imageslider_text` VALUES (1,'Gedung',1),(2,'Praktikum',1),(3,'Kelas',1),(4,'Laboratorium',1),(5,'Praktek',1),(6,'Penyerahan Hadiah',1),(7,'Pengajaran',1),(8,'Belajar Kelompok',1),(9,'Perpustakaan',1),(10,'Wisuda',1),(11,'phs',1),(12,'lookism',1);
 DROP TABLE IF EXISTS `links`;
 CREATE TABLE `links` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
@@ -764,6 +764,22 @@ CREATE TABLE `links_ad` (
   KEY `publish` (`publish`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `links_share`;
+CREATE TABLE `links_share` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(150) DEFAULT NULL,
+  `description` text,
+  `image` varchar(255) DEFAULT NULL,
+  `link` varchar(255) DEFAULT NULL,
+  `total` bigint(20) DEFAULT '0',
+  `publish` tinyint(1) DEFAULT '1',
+  `created` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `total` (`total`),
+  KEY `publish` (`publish`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `school`;
 CREATE TABLE `school` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -788,8 +804,7 @@ CREATE TABLE `school_attendance` (
   `created` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `student_id` (`student_id`),
-  KEY `schedule_id` (`schedule_id`)
+  KEY `student_id` (`student_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='daftar kehadiran';
 
 DROP TABLE IF EXISTS `school_attendance_report`;
@@ -807,28 +822,28 @@ CREATE TABLE `school_attendance_report` (
   `date_year` tinyint(1) DEFAULT NULL,
   `created` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `schedule_id` (`schedule_id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='hasil laporan kehadiran';
 
 DROP TABLE IF EXISTS `school_class`;
 CREATE TABLE `school_class` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `teacher_id` int(11) unsigned DEFAULT NULL,
+  `teacher_id` int(11) DEFAULT NULL,
   `grade` tinyint(2) DEFAULT NULL COMMENT 'tingkatan kelas (1,2,3)',
   `label` varchar(10) DEFAULT NULL COMMENT 'setelah grade (a,b,c)',
   `major` varchar(50) DEFAULT NULL COMMENT 'kejurusan kelas',
-  PRIMARY KEY (`id`),
-  KEY `teacher_id` (`teacher_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data kelas';
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='data kelas';
 
+INSERT INTO `school_class` VALUES (1,1,7,'a','RPL');
 DROP TABLE IF EXISTS `school_course`;
 CREATE TABLE `school_course` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(225) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data mata pelajaran sekolah';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='data mata pelajaran sekolah';
 
+INSERT INTO `school_course` VALUES (1,'Matematika');
 DROP TABLE IF EXISTS `school_parent`;
 CREATE TABLE `school_parent` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -852,15 +867,14 @@ CREATE TABLE `school_schedule` (
   `day` tinyint(1) DEFAULT NULL COMMENT '1=senin, 2=selasa, 3=rabu, 4=kamis,5=jumat, 6=sabtu, 7=ahad',
   `clock_start` char(5) DEFAULT NULL,
   `clock_end` char(5) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `teacher_course_id` (`teacher_course_id`),
-  KEY `day` (`day`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data jadwal';
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='data jadwal';
 
+INSERT INTO `school_schedule` VALUES (1,1,1,'7.30','7.40');
 DROP TABLE IF EXISTS `school_student`;
 CREATE TABLE `school_student` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) unsigned DEFAULT '0',
+  `user_id` int(11) unsigned DEFAULT NULL,
   `parent_id_dad` int(11) unsigned DEFAULT NULL COMMENT 'parent id ayah siswa',
   `parent_id_mom` int(11) unsigned DEFAULT NULL COMMENT 'parent id ibu siswa',
   `parent_id_guard` int(11) unsigned DEFAULT NULL COMMENT 'parent id wali siswa (jika ada)',
@@ -884,9 +898,7 @@ CREATE TABLE `school_student_class` (
   `student_id` int(11) unsigned DEFAULT NULL,
   `class_id` int(11) unsigned DEFAULT NULL,
   `number` int(11) unsigned DEFAULT NULL COMMENT 'nomor absent siswa',
-  PRIMARY KEY (`id`),
-  KEY `student_id` (`student_id`),
-  KEY `class_id` (`class_id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data menyimpan siswa per kelas';
 
 DROP TABLE IF EXISTS `school_student_parent`;
@@ -903,29 +915,27 @@ INSERT INTO `school_student_parent` VALUES (1,1,1),(2,1,2),(3,2,1);
 DROP TABLE IF EXISTS `school_teacher`;
 CREATE TABLE `school_teacher` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) unsigned DEFAULT '0',
+  `user_id` int(11) unsigned DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `nip` varchar(255) DEFAULT NULL COMMENT 'nomor induk pegawai',
+  `phone` int(12) DEFAULT NULL,
   `position` varchar(255) DEFAULT NULL COMMENT 'jabatan',
   `created` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `nip` (`nip`),
-  KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data guru';
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='data guru';
 
+INSERT INTO `school_teacher` VALUES (1,2,'Agus','987654321',876582641,'Kepala Sekolah','2023-12-15 14:56:19',NULL),(2,NULL,'asep sebastian','695371515',82765934,'Staff','2023-12-15 14:58:37',NULL);
 DROP TABLE IF EXISTS `school_teacher_course`;
 CREATE TABLE `school_teacher_course` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `teacher_id` int(11) unsigned DEFAULT NULL,
   `course_id` int(11) unsigned DEFAULT NULL,
   `class_id` int(11) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `teacher_id` (`teacher_id`),
-  KEY `course_id` (`course_id`),
-  KEY `class_id` (`class_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='mengkelompokan guru dengan mata pelajaran dan kelas ';
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='mengkelompokan guru dengan mata pelajaran dan kelas ';
 
+INSERT INTO `school_teacher_course` VALUES (1,1,1,1);
 DROP TABLE IF EXISTS `survey_polling`;
 CREATE TABLE `survey_polling` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
