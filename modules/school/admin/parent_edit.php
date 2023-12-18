@@ -12,6 +12,11 @@ $form->edit->addInput('name','text');
 $form->edit->input->name->setTitle('name');
 $form->edit->input->name->setRequire($require='any', $is_mandatory=1);
 
+$form->edit->addInput('phone','text');
+$form->edit->input->phone->setTitle('phone');
+$form->edit->input->phone->setRequire($require='any', $is_mandatory=1);
+$form->edit->action();
+
 $form->edit->addInput('nokk','text');
 $form->edit->input->nokk->setTitle('nokk');
 $form->edit->input->nokk->setRequire($require='any', $is_mandatory=1);
@@ -26,8 +31,11 @@ $form->edit->input->user_id->setTitle('email');
 $form->edit->input->user_id->setDisplayFunction(
   function ($value) use($db)
   {
-    $email = $db->getOne('SELECT `email` FROM `bbc_account` WHERE `user_id`='. $value);
-    return $email;
+    if(!empty($value))
+    {
+      $email = $db->getOne('SELECT `email` FROM `bbc_account` WHERE `user_id`='. $value);
+      return $email;
+    }
   }
 );
 

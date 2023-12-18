@@ -588,7 +588,7 @@ CREATE TABLE `bbc_user` (
   KEY `exp_checked` (`exp_checked`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
-INSERT INTO `bbc_user` VALUES (1,',3,4,1,2,','admin','DOtGmGAQ9sEZA4nNBAgcw2MOp3eivB3SnbpgYhoYO1ibI93Egax7y9vMG9ThsPi6BMiZwx497sGjKYHyZvPv+A==','::1','::1','2023-12-18 09:45:40','2023-12-15 09:47:38','2023-12-18 13:16:45',26,'0000-00-00 00:00:00',1),(2,',2,1,3,4,','danang@fisip.net','DOtGmGAQ9sEZA4nNBAgcw2MOp3eivB3SnbpgYhoYO1ibI93Egax7y9vMG9ThsPi6BMiZwx497sGjKYHyZvPv+A==','127.0.0.1','127.0.0.1','2016-05-03 23:35:44','2016-05-03 23:32:34','0000-00-00 00:00:00',0,'0000-00-00 00:00:00',1);
+INSERT INTO `bbc_user` VALUES (1,',3,4,1,2,','admin','DOtGmGAQ9sEZA4nNBAgcw2MOp3eivB3SnbpgYhoYO1ibI93Egax7y9vMG9ThsPi6BMiZwx497sGjKYHyZvPv+A==','::1','::1','2023-12-18 11:57:08','2023-12-18 09:45:40','2023-12-18 14:59:30',27,'0000-00-00 00:00:00',1),(2,',2,1,3,4,','danang@fisip.net','DOtGmGAQ9sEZA4nNBAgcw2MOp3eivB3SnbpgYhoYO1ibI93Egax7y9vMG9ThsPi6BMiZwx497sGjKYHyZvPv+A==','127.0.0.1','127.0.0.1','2016-05-03 23:35:44','2016-05-03 23:32:34','0000-00-00 00:00:00',0,'0000-00-00 00:00:00',1);
 DROP TABLE IF EXISTS `bbc_user_field`;
 CREATE TABLE `bbc_user_field` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -848,15 +848,16 @@ CREATE TABLE `school_parent` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
+  `phone` char(13) NOT NULL,
   `nik` char(16) DEFAULT NULL,
   `nokk` char(16) DEFAULT NULL,
   `created` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `active` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='data orang tua siswa';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='data orang tua siswa';
 
-INSERT INTO `school_parent` VALUES (2,2,'agus','123456','9876532','2023-12-14 12:20:00','2023-12-18 11:16:25',1);
+INSERT INTO `school_parent` VALUES (2,2,'agus','234234234','123456','9876532','2023-12-14 12:20:00','2023-12-18 12:01:00',1),(4,1,'sumanto','082328753061','412341234134','565465465456','2023-12-18 12:03:38',NULL,1);
 DROP TABLE IF EXISTS `school_schedule`;
 CREATE TABLE `school_schedule` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -881,8 +882,9 @@ CREATE TABLE `school_student` (
   `created` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data siswa';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='data siswa';
 
+INSERT INTO `school_student` VALUES (2,2,1,2,NULL,'ilham maulana','04481','134123412','2023-12-18 11:59:46',NULL),(3,1,1,2,NULL,'rafi','31122','4123412341','2023-12-18 12:00:46',NULL),(4,2,1,2,NULL,'anjas','12311','1231232','2023-12-18 12:09:17',NULL);
 DROP TABLE IF EXISTS `school_student_class`;
 CREATE TABLE `school_student_class` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -898,22 +900,23 @@ CREATE TABLE `school_student_parent` (
   `student_id` int(11) unsigned DEFAULT NULL,
   `parent_id` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data menghubungkan orang tua siswa dan siswa';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='data menghubungkan orang tua siswa dan siswa';
 
+INSERT INTO `school_student_parent` VALUES (1,2,2),(2,3,2),(3,4,4);
 DROP TABLE IF EXISTS `school_teacher`;
 CREATE TABLE `school_teacher` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) unsigned DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `nip` varchar(255) DEFAULT NULL COMMENT 'nomor induk pegawai',
-  `phone` int(12) DEFAULT NULL,
+  `phone` char(13) DEFAULT NULL,
   `position` varchar(255) DEFAULT NULL COMMENT 'jabatan',
   `created` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='data guru';
 
-INSERT INTO `school_teacher` VALUES (1,2,'Agus','987654321',876582641,'Kepala Sekolah','2023-12-15 14:56:19',NULL),(2,NULL,'asep sebastian','695371515',82765934,'Staff','2023-12-15 14:58:37',NULL);
+INSERT INTO `school_teacher` VALUES (1,2,'Agus','987654321','876582641','Kepala Sekolah','2023-12-15 14:56:19',NULL),(2,NULL,'asep sebastian','695371515','82765934','Staff','2023-12-15 14:58:37',NULL);
 DROP TABLE IF EXISTS `school_teacher_course`;
 CREATE TABLE `school_teacher_course` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
