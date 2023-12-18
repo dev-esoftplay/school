@@ -588,7 +588,7 @@ CREATE TABLE `bbc_user` (
   KEY `exp_checked` (`exp_checked`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
-INSERT INTO `bbc_user` VALUES (1,',3,4,1,2,','admin','DOtGmGAQ9sEZA4nNBAgcw2MOp3eivB3SnbpgYhoYO1ibI93Egax7y9vMG9ThsPi6BMiZwx497sGjKYHyZvPv+A==','::1','::1','2023-12-18 09:45:40','2023-12-15 09:47:38','2023-12-18 12:18:40',26,'0000-00-00 00:00:00',1),(2,',2,1,3,4,','danang@fisip.net','DOtGmGAQ9sEZA4nNBAgcw2MOp3eivB3SnbpgYhoYO1ibI93Egax7y9vMG9ThsPi6BMiZwx497sGjKYHyZvPv+A==','127.0.0.1','127.0.0.1','2016-05-03 23:35:44','2016-05-03 23:32:34','0000-00-00 00:00:00',0,'0000-00-00 00:00:00',1);
+INSERT INTO `bbc_user` VALUES (1,',3,4,1,2,','admin','DOtGmGAQ9sEZA4nNBAgcw2MOp3eivB3SnbpgYhoYO1ibI93Egax7y9vMG9ThsPi6BMiZwx497sGjKYHyZvPv+A==','::1','::1','2023-12-18 09:45:40','2023-12-15 09:47:38','2023-12-18 13:16:45',26,'0000-00-00 00:00:00',1),(2,',2,1,3,4,','danang@fisip.net','DOtGmGAQ9sEZA4nNBAgcw2MOp3eivB3SnbpgYhoYO1ibI93Egax7y9vMG9ThsPi6BMiZwx497sGjKYHyZvPv+A==','127.0.0.1','127.0.0.1','2016-05-03 23:35:44','2016-05-03 23:32:34','0000-00-00 00:00:00',0,'0000-00-00 00:00:00',1);
 DROP TABLE IF EXISTS `bbc_user_field`;
 CREATE TABLE `bbc_user_field` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -847,7 +847,7 @@ DROP TABLE IF EXISTS `school_parent`;
 CREATE TABLE `school_parent` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
-  `name` int(11) unsigned DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
   `nik` char(16) DEFAULT NULL,
   `nokk` char(16) DEFAULT NULL,
   `created` datetime DEFAULT CURRENT_TIMESTAMP,
@@ -856,7 +856,7 @@ CREATE TABLE `school_parent` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='data orang tua siswa';
 
-INSERT INTO `school_parent` VALUES (2,2,2222222,'123456','9876532','2023-12-14 12:20:00','2023-12-14 12:22:51',1);
+INSERT INTO `school_parent` VALUES (2,2,'agus','123456','9876532','2023-12-14 12:20:00','2023-12-18 11:16:25',1);
 DROP TABLE IF EXISTS `school_schedule`;
 CREATE TABLE `school_schedule` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
