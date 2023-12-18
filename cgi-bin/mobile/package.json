@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.2.6",
     "@expo/vector-icons": "^13.0.0",
     "@react-native-async-storage/async-storage": "1.18.2",
     "@react-native-community/netinfo": "9.3.10",
@@ -17,7 +18,7 @@
     "@react-navigation/native-stack": "^6.9.17",
     "@react-navigation/stack": "^6.3.20",
     "@shopify/flash-list": "1.4.3",
-    "esoftplay": "^0.0.135-z",
+    "esoftplay": "^0.0.136-b",
     "expo": "~49.0.15",
     "expo-camera": "~13.4.4",
     "expo-clipboard": "~4.3.1",
@@ -50,7 +51,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "@types/react": "^18.2.42",
+    "@types/react": "^18.2.45",
     "typescript": "^5.3.2"
   },
   "private": true,
