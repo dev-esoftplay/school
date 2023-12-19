@@ -21,24 +21,25 @@ interface Slide {
 const { width, height } = Dimensions.get('window');
 
 const COLORS = { primary: '#282534', white: '#fff' };
-
+  
 const slides: Slide[] = [
   {
     id: '1',
-    image: require('/home/yasin/tmp/school/cgi-bin/mobile/assets/image1.png'),
+    
+    image: require('../../assets/image1.png'),
     title: 'Best Digital Solution',
     subtitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
   },
   
   {
     id: '2',
-    image: require('/home/yasin/tmp/school/cgi-bin/mobile/assets/image2.png'),
+    image: require('../../assets/image2.png'),
     title: 'Achieve Your Goals',
     subtitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
   },
   {
     id: '3',
-    image: require('/home/yasin/tmp/school/cgi-bin/mobile/assets/image3.png'),
+    image: require('../../assets/image3.png'),
     title: 'Increase Your Value',
     subtitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
   },

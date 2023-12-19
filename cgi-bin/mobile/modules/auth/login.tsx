@@ -1,13 +1,10 @@
 // withHooks
-import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
-import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import navigation from 'esoftplay/modules/lib/navigation';
 import { memo, useState } from 'react';
 
 import React from 'react';
 import { Image, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 export interface LoginIndexsArgs {
@@ -39,7 +36,7 @@ function m(props: LoginIndexsProps): any {
   return (
     <View style={{ flex: 1, backgroundColor: '#fce40e', alignContent: 'center',  }}>
       <ScrollView style={{ flex: 1,paddingHorizontal: 30 }} showsVerticalScrollIndicator={false}>
-      <Image source={require('/home/yasin/tmp/school/cgi-bin/mobile/assets/login.png')}
+      <Image source={require('../../assets/login.png')}
         style={{ alignSelf: 'center', marginTop: 75 }} />
       <Text style={{ fontSize: 24, fontWeight: 'bold', marginTop: 20 }}>Selamat datang kembali!</Text>
       <Text>Masuk dan jadilah pengajar dan orang tua
