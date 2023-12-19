@@ -35,8 +35,8 @@ function m(props: AuthForgotpassProps): any {
               // onChangeText={(text) => setUsername(text)}
             />
       </View>
-      <Pressable  onPress={()=>navigation.navigate('auth/otp')} style={{ width: '100%', height: 50, backgroundColor:schoolColors.primary, borderRadius: 10, marginTop: 10, opacity: 0.7, alignItems: 'center', justifyContent: 'center' }} >
-        <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Kirim Email</Text>
+      <Pressable  onPress={()=>navigation.navigate('auth/otp')} style={{ width: '100%', height: 50, backgroundColor:schoolColors.primary, borderRadius: 10, marginTop: 10, alignItems: 'center', justifyContent: 'center' }} >
+        <Text style={{ fontSize: 18, fontWeight: 'bold',color:"white" }}>Kirim Email</Text>
       </Pressable>
     </ScrollView>
     </View>

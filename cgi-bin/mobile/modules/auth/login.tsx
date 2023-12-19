@@ -5,6 +5,8 @@ import { memo, useState } from 'react';
 
 import React from 'react';
 import { Image, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
+import SchoolColors from '../utils/schoolcolor';
+import { UnderlineOutlined } from '@ant-design/icons';
 
 
 export interface LoginIndexsArgs {
@@ -14,6 +16,7 @@ export interface LoginIndexsProps {
 
 }
 function m(props: LoginIndexsProps): any {
+  const school=new SchoolColors();
   // const [isLogin, setIsLogin] = Auth.useSelector(data => [data.isLogin, { persistKey: 'auth' }])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -34,7 +37,7 @@ function m(props: LoginIndexsProps): any {
     }
   }
   return (
-    <View style={{ flex: 1, backgroundColor: '#fce40e', alignContent: 'center',  }}>
+    <View style={{ flex: 1, backgroundColor: 'white', alignContent: 'center',  }}>
       <ScrollView style={{ flex: 1,paddingHorizontal: 30 }} showsVerticalScrollIndicator={false}>
       <Image source={require('../../assets/login.png')}
         style={{ alignSelf: 'center', marginTop: 75 }} />
@@ -43,7 +46,7 @@ function m(props: LoginIndexsProps): any {
         terbaik bagi siswa dan anak anda</Text>
       
       <View style={{ marginTop: 20 }}/>
-      <View style={{ flexDirection: "row", width: '100%', height: 50, backgroundColor: 'white', borderRadius: 10, marginTop: 10, paddingLeft: 10, opacity: 0.7, alignItems: 'center' }} >
+      <View style={{ flexDirection: "row", width: '100%', height: 50, backgroundColor: 'white', borderRadius: 10, marginTop: 10, paddingLeft: 10, opacity: 0.7, alignItems: 'center', borderColor:"grey",borderWidth:2}} >
             <LibIcon.AntDesign name="user" size={25} color="gray" style={{ marginRight: 10 }} />
             <TextInput
               placeholder="Username"
@@ -52,7 +55,7 @@ function m(props: LoginIndexsProps): any {
               onChangeText={(text) => setUsername(text)}
             />
       </View>
-      <View style={{ flexDirection: "row", width: '100%', height: 50, backgroundColor: 'white', borderRadius: 10, marginTop: 10, paddingHorizontal: 10, opacity: 0.7, alignItems: 'center' }} >
+      <View style={{ flexDirection: "row", width: '100%', height: 50, backgroundColor: 'white', borderRadius: 10, marginTop: 10, paddingHorizontal: 10, opacity: 0.7, alignItems: 'center' ,borderColor:"grey",borderWidth:2}} >
             <LibIcon.EvilIcons name="lock" size={30} color="gray" style={{ marginRight: 10 }} />
             <TextInput
               placeholder="Password"
@@ -65,10 +68,10 @@ function m(props: LoginIndexsProps): any {
       </View>
       <View style={{ marginTop: 20 }}/>
       <Pressable onPress={() => {navigation.replace('auth/forgotpass') }}>
-        <Text style={{ fontSize: 14, fontWeight: 'bold', alignSelf: 'flex-end' }}>Lupa Password?</Text>
+        <Text style={{ fontSize: 14, fontWeight: 'bold', alignSelf: 'flex-end',color:school.primary,textDecorationLine: 'underline',}}>Lupa Password?</Text>
       </Pressable>
-      <View style={{ width: '100%', height: 50, backgroundColor: '#f9c815', borderRadius: 10, marginTop: 10, alignItems: 'center', justifyContent: 'center' }} >
-            <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Masuk</Text>
+      <View style={{ width: '100%', height: 50, backgroundColor: school.primary, borderRadius: 10, marginTop: 10, alignItems: 'center', justifyContent: 'center' }} >
+            <Text style={{ fontSize: 20, fontWeight: 'bold',color:"white"}}>Masuk</Text>
       </View>
     
       </ScrollView>
