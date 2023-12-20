@@ -1,19 +1,31 @@
 <?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');
-
+$data = array('params' => '');
 if (!empty($_FILES['file'])) {
   $output = _lib('excel')->read($_FILES['file']['tmp_name'])->sheet(1)->fetch();
   unset($output[1]);
-  foreach($output as $key => $value){
-    $q  = "INSERT INTO bbc_user (username) VALUES ('$value[C]')";
-    $db->Execute($q);
+  foreach ($output as $key => $value) {
+
+    $db->Insert('bbc_user', array(
+      'username'  => $value['C'],
+      'password'  => encode($data),
+    ));
 
     $y  = $db->getOne("SELECT `id` FROM `bbc_user` WHERE username = '$value[C]'");
 
-    $r  = "INSERT INTO bbc_account (`user_id`, `username`, `name`) VALUES ('$y', '$value[C]', '$value[B]')";
-    $db->Execute($r);
+    $db->Insert('bbc_account', array(
+      'user_id'  => $y,
+      'username' => $value['C'],
+      'name'     => $value['B'],
+    ));
 
-    $s  = "INSERT INTO school_teacher (`user_id`, `name`, `nip`, `phone`, `position`) VALUES ('$y', '$value[B]', '$value[C]', '$value[D]', '$value[E]')";
-    $db->Execute($s);
+    $db->Insert('school_teacher', array(
+      'user_id'  => $y,
+      'name'     => $value['B'],
+      'nip'      => $value['C'],
+      'phone'    => $value['D'],
+      'position' => $value['E'],
+    ));
+    
   }
 }
 ?>
