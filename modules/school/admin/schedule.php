@@ -29,32 +29,32 @@ $form->roll->input->day->addOption($days);
 $form->roll->input->day->setPlaintext(true);
 $form->roll->input->day->setDisplayColumn(true);
 
-$form->roll->addInput('teacher', 'sqlplaintext');
-$form->roll->input->teacher->setTitle('teacher');
-$form->roll->input->teacher->setFieldname('teacher_course_id');
-$form->roll->input->teacher->setDisplayFunction(function ($value) use($db)
-{
-	$teacher_id = $db->getone("SELECT teacher_id from school_teacher_course WHERE id=$value");
-	$name = $db->getone("SELECT name from school_teacher WHERE id=$teacher_id");
-	return $name;
-});
+// $form->roll->addInput('teacher', 'sqlplaintext');
+// $form->roll->input->teacher->setTitle('teacher');
+// $form->roll->input->teacher->setFieldname('subject_id');
+// $form->roll->input->teacher->setDisplayFunction(function ($value) use($db)
+// {
+// 	$teacher_id = $db->getone("SELECT teacher_id from school_teacher_subject WHERE id=$value");
+// 	$name = $db->getone("SELECT name from school_teacher WHERE id=$teacher_id");
+// 	return $name;
+// });
 
 $form->roll->addInput('course', 'sqlplaintext');
 $form->roll->input->course->setTitle('course');
-$form->roll->input->course->setFieldname('teacher_course_id');
+$form->roll->input->course->setFieldname('subject_id');
 $form->roll->input->course->setDisplayFunction(function ($value) use($db)
 {
-	$course_id = $db->getone("SELECT course_id from school_teacher_course WHERE id=$value");
+	$course_id = $db->getone("SELECT course_id from school_teacher_subject WHERE id=$value");
 	$name = $db->getone("SELECT name from school_course WHERE id=$course_id");
 	return $name;
 });
 
 $form->roll->addInput('class', 'sqlplaintext');
 $form->roll->input->class->setTitle('class');
-$form->roll->input->class->setFieldname('teacher_course_id');
+$form->roll->input->class->setFieldname('subject_id');
 $form->roll->input->class->setDisplayFunction(function ($value) use($db)
 {
-	$class_id = $db->getone("SELECT class_id from school_teacher_course WHERE id=$value");
+	$class_id = $db->getone("SELECT class_id from school_teacher_subject WHERE id=$value");
 	$name = $db->getone("SELECT CONCAT_WS(' ',`grade`, `major`, `label`) from school_class WHERE id=$class_id");
 	return $name;
 });
