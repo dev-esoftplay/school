@@ -20,27 +20,28 @@ interface Slide {
 
 const { width, height } = Dimensions.get('window');
 
-const COLORS = { primary: '#282534', white: '#fff' };
-
+const COLORS = { primary: '#ffffff', white: '#fff',default:"#146c94" ,black:"#000"};
+  
 const slides: Slide[] = [
   {
     id: '1',
-    image: require('/home/yasin/tmp/school/cgi-bin/mobile/assets/image1.png'),
-    title: 'Best Digital Solution',
-    subtitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    
+    image: require('../../assets/onboarding1.png'),
+    title: 'Selamat Datang',
+    subtitle: 'Selamat datang di School! Mari bersama-sama memudahkan pencatatan absensi siswa untuk pengalaman pembelajaran yang lebih baik.',
   },
   
   {
     id: '2',
-    image: require('/home/yasin/tmp/school/cgi-bin/mobile/assets/image2.png'),
-    title: 'Achieve Your Goals',
-    subtitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    image: require('../../assets/onboarding2.png'),
+    title: 'Absensi Mudah',
+    subtitle: 'Dengan School, guru mencatat absensi dengan cepat dan efisien, menciptakan lingkungan pembelajaran yang teratur.',
   },
   {
     id: '3',
-    image: require('/home/yasin/tmp/school/cgi-bin/mobile/assets/image3.png'),
-    title: 'Increase Your Value',
-    subtitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    image: require('../../assets/onboarding3.png'),
+    title: 'Pantau Kemajuan',
+    subtitle: 'Orang tua, kini Anda bisa memantau absensi anak secara real-time. Bersama, kita membangun komunikasi yang kuat antara sekolah dan rumah',
   },
 ];
 
@@ -50,10 +51,10 @@ interface SlideProps {
 
 const Slide: React.FC<SlideProps> = ({ item }) => {
   return (
-    <View style={{ alignItems: 'center' }}>
+    <View style={{ alignItems: 'center', width,padding:20}}>
       <Image
         source={item?.image}
-        style={{ height: '75%', width, resizeMode: 'contain' }}
+        style={{ height:"50%", width:"80%", resizeMode: 'contain',marginTop:80,marginBottom:20 }}
       />
       <View>
         <Text style={styles.title}>{item?.title}</Text>
@@ -113,7 +114,7 @@ const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ navigation }) => {
               style={[
                 styles.indicator,
                 currentSlideIndex === index && {
-                  backgroundColor: COLORS.white,
+                  backgroundColor: COLORS.default,
                   width: 25,
                 },
               ]}
@@ -132,15 +133,15 @@ const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ navigation }) => {
               </TouchableOpacity>
             </View>
           ) : (
-            <View style={{ flexDirection: 'row' }}>
+            <View style={{ flexDirection: 'row' ,marginBottom:30}}>
               <TouchableOpacity
                 activeOpacity={0.8}
                 style={[
                   styles.btn,
                   {
-                    borderColor: COLORS.white,
+                    borderColor: COLORS.black,
                     borderWidth: 1,
-                    backgroundColor: 'transparent',
+                    backgroundColor: '#cf717100',
                   },
                 ]}
                 onPress={skip}>
@@ -148,7 +149,7 @@ const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ navigation }) => {
                   style={{
                     fontWeight: 'bold',
                     fontSize: 15,
-                    color: COLORS.white,
+                    color: COLORS.black,
                   }}>
                   SKIP
                 </Text>
@@ -193,15 +194,15 @@ const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   subtitle: {
-    color: COLORS.white,
-    fontSize: 13,
+    color: "black",
+    fontSize: 15,
     marginTop: 10,
     maxWidth: '70%',
     textAlign: 'center',
     lineHeight: 23,
   },
   title: {
-    color: COLORS.white,
+    color: "black",
     fontSize: 22,
     fontWeight: 'bold',
     marginTop: 20,
@@ -217,6 +218,8 @@ const styles = StyleSheet.create({
   btn: {
     flex: 1,
     height: 50,
+    borderColor: COLORS.default,
+    borderWidth: 2,
     borderRadius: 5,
     backgroundColor: '#fff',
     justifyContent: 'center',
