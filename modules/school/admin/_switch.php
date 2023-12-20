@@ -24,6 +24,10 @@ switch( $Bbc->mod['task'] )
 		include 'teacher_edit.php';
 		break;
 
+		case 'teacher_add':
+			include 'teacher_add.php';
+			break;
+
 	case 'class':
 		include 'class.php';
 		break;
