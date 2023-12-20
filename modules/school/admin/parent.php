@@ -1,16 +1,15 @@
 <?php  if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
+/*==========================================
+* START LIST
+/*=========================================*/
+
 $form = _lib('pea', 'school_parent');
 $form->initSearch();
-
-/*==========================================
- * START LIST
-/*=========================================*/
 $form->search->addInput('publish','select');
 $form->search->input->publish->addOption('All Status', '');
 $form->search->input->publish->addOption('Published', '1');
 $form->search->input->publish->addOption('Not Published', '0');
-$tabs = array('parent' => '', 'Add parent' => '');
 
 $form->search->addInput('keyword','keyword');
 $form->search->input->keyword->addSearchField('name, nokk, nik', false); //true = fulltext in database field
@@ -20,16 +19,19 @@ $keyword = $form->search->keyword();
 echo $form->search->getForm();
 
 $form->initRoll("$add_sql ORDER BY `id` ASC", 'id'); 
+$form->roll->setSaveTool(false);
 
 $form->roll->addInput('id', 'sqlplaintext');
 $form->roll->input->id->setTitle('id');
+$form->roll->input->id->setDisplayColumn(true); 
 
 $form->roll->addInput('name', 'sqllinks');
-$form->roll->input->name->setTitle('name');
+$form->roll->input->name->setTitle('nama');
 $form->roll->input->name->setLinks($Bbc->mod['circuit'].'.parent_edit');
 
 $form->roll->addInput('user_id', 'sqlplaintext');
-$form->roll->input->user_id->setTitle('email');
+$form->roll->input->user_id->setTitle('surel');
+$form->roll->input->user_id->setDisplayColumn(true); 
 $form->roll->input->user_id->setDisplayFunction(
   function ($value) use($db)
   {
@@ -41,33 +43,8 @@ $form->roll->input->user_id->setDisplayFunction(
 $form->roll->addInput('nik', 'text');
 $form->roll->input->nik->setTitle('nik');
 $form->roll->input->nik->setPlainText(true);
+$form->roll->input->nik->setDisplayColumn(true); 
 
 $form->roll->action();
-$tabs['parent'] =  $form->roll->getForm();
+echo  $form->roll->getForm();
 
-/*==========================================
- * START ADD PARENT
-/*=========================================*/
-
-$form = _lib('pea', 'school_parent');
-$form->initAdd();
-
-$form->add->addInput('name','text');
-$form->add->input->name->setTitle('name');
-$form->add->input->name->setRequire($require='any', $is_mandatory=1); 
-
-$form->add->addInput('phone','text');
-$form->add->input->phone->setTitle('phone');
-$form->add->input->phone->setRequire($require='any', $is_mandatory=1);
-
-$form->add->addInput('nik','text');
-$form->add->input->nik->setTitle('nik');
-$form->add->input->nik->setRequire($require='any', $is_mandatory=1);
-
-$form->add->addInput('nokk','text');
-$form->add->input->nokk->setTitle('nokk');
-$form->add->input->nokk->setRequire($require='any', $is_mandatory=1);
-
-$form->add->action();
-$tabs['Add parent'] = $form->add->getForm();
-echo tabs($tabs, 1, 'tabs_links');

@@ -588,7 +588,7 @@ CREATE TABLE `bbc_user` (
   KEY `exp_checked` (`exp_checked`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
-INSERT INTO `bbc_user` VALUES (1,',3,4,1,2,','admin','DOtGmGAQ9sEZA4nNBAgcw2MOp3eivB3SnbpgYhoYO1ibI93Egax7y9vMG9ThsPi6BMiZwx497sGjKYHyZvPv+A==','::1','::1','2023-12-18 11:57:08','2023-12-18 09:45:40','2023-12-18 15:09:01',27,'0000-00-00 00:00:00',1),(2,',2,1,3,4,','danang@fisip.net','DOtGmGAQ9sEZA4nNBAgcw2MOp3eivB3SnbpgYhoYO1ibI93Egax7y9vMG9ThsPi6BMiZwx497sGjKYHyZvPv+A==','127.0.0.1','127.0.0.1','2016-05-03 23:35:44','2016-05-03 23:32:34','0000-00-00 00:00:00',0,'0000-00-00 00:00:00',1);
+INSERT INTO `bbc_user` VALUES (1,',3,4,1,2,','admin','DOtGmGAQ9sEZA4nNBAgcw2MOp3eivB3SnbpgYhoYO1ibI93Egax7y9vMG9ThsPi6BMiZwx497sGjKYHyZvPv+A==','::1','::1','2023-12-20 07:51:29','2023-12-20 05:22:12','2023-12-20 14:01:02',31,'0000-00-00 00:00:00',1),(2,',2,1,3,4,','danang@fisip.net','DOtGmGAQ9sEZA4nNBAgcw2MOp3eivB3SnbpgYhoYO1ibI93Egax7y9vMG9ThsPi6BMiZwx497sGjKYHyZvPv+A==','127.0.0.1','127.0.0.1','2016-05-03 23:35:44','2016-05-03 23:32:34','0000-00-00 00:00:00',0,'0000-00-00 00:00:00',1);
 DROP TABLE IF EXISTS `bbc_user_field`;
 CREATE TABLE `bbc_user_field` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -644,7 +644,7 @@ CREATE TABLE `contact_field` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` varchar(255) NOT NULL,
   `checked` enum('any','email','url','phone','number') DEFAULT 'any',
-  `title` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,	
   `tips` varchar(255) NOT NULL,
   `attr` varchar(255) NOT NULL,
   `default` text NOT NULL,
@@ -803,7 +803,10 @@ CREATE TABLE `school_attendance` (
   `created` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `student_id` (`student_id`)
+  KEY `attendance_schedule` (`schedule_id`),
+  KEY `attendance_student` (`student_id`),
+  CONSTRAINT `attendance_schedule` FOREIGN KEY (`schedule_id`) REFERENCES `school_schedule` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `attendance_student` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='daftar kehadiran';
 
 DROP TABLE IF EXISTS `school_attendance_report`;
@@ -811,6 +814,7 @@ CREATE TABLE `school_attendance_report` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `class_id` int(11) unsigned DEFAULT NULL,
   `schedule_id` int(11) unsigned DEFAULT NULL,
+  `course_id` int(11) unsigned DEFAULT NULL,
   `total_present` int(11) unsigned DEFAULT NULL COMMENT 'total kehadiran',
   `total_s` int(11) unsigned DEFAULT NULL COMMENT 'total sakit',
   `total_i` int(11) unsigned DEFAULT NULL COMMENT 'total ijin',
@@ -821,28 +825,32 @@ CREATE TABLE `school_attendance_report` (
   `date_year` tinyint(1) DEFAULT NULL,
   `created` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `course_id` (`course_id`),
+  KEY `schedule_id` (`schedule_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='hasil laporan kehadiran';
 
 DROP TABLE IF EXISTS `school_class`;
 CREATE TABLE `school_class` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `teacher_id` int(11) DEFAULT NULL,
+  `teacher_id` int(11) unsigned DEFAULT NULL,
   `grade` tinyint(2) DEFAULT NULL COMMENT 'tingkatan kelas (1,2,3)',
   `label` varchar(10) DEFAULT NULL COMMENT 'setelah grade (a,b,c)',
   `major` varchar(50) DEFAULT NULL COMMENT 'kejurusan kelas',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='data kelas';
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `teacher_id` (`teacher_id`),
+  CONSTRAINT `class_teacher` FOREIGN KEY (`teacher_id`) REFERENCES `school_teacher` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='data banyak kelas';
 
-INSERT INTO `school_class` VALUES (1,1,7,'a','RPL');
+INSERT INTO `school_class` VALUES (1,1,10,'A','RPL'),(2,2,10,'B','RPL'),(3,4,11,'A','TKJ'),(4,3,11,'B','TKJ');
 DROP TABLE IF EXISTS `school_course`;
 CREATE TABLE `school_course` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(225) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='data mata pelajaran sekolah';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='data mata pelajaran sekolah';
 
-INSERT INTO `school_course` VALUES (1,'Matematika');
+INSERT INTO `school_course` VALUES (1,'Bahasa Indonesia'),(2,'Bahasa Inggris'),(3,'Matematika'),(4,'IPA'),(5,'IPS');
 DROP TABLE IF EXISTS `school_parent`;
 CREATE TABLE `school_parent` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -855,20 +863,21 @@ CREATE TABLE `school_parent` (
   `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `active` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='data orang tua siswa';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data orang tua siswa';
 
-INSERT INTO `school_parent` VALUES (2,2,'agus','234234234','123456','9876532','2023-12-14 12:20:00','2023-12-18 12:01:00',1),(4,1,'sumanto','082328753061','412341234134','565465465456','2023-12-18 12:03:38',NULL,1),(6,NULL,'ilham','082645856654','082328753061','0987612340987','2023-12-18 13:02:50',NULL,1),(7,NULL,'ilham','082645856654','082328753061','0987612340987','2023-12-18 13:03:06',NULL,1),(8,NULL,'ilham','082645856654','082328753061','0987612340987','2023-12-18 13:03:35',NULL,1);
 DROP TABLE IF EXISTS `school_schedule`;
 CREATE TABLE `school_schedule` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `teacher_course_id` int(11) unsigned DEFAULT NULL,
+  `subject_id` int(11) unsigned DEFAULT NULL,
   `day` tinyint(1) DEFAULT NULL COMMENT '1=senin, 2=selasa, 3=rabu, 4=kamis,5=jumat, 6=sabtu, 7=ahad',
   `clock_start` char(5) DEFAULT NULL,
   `clock_end` char(5) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='data jadwal';
+  PRIMARY KEY (`id`),
+  KEY `schedule_subject` (`subject_id`),
+  CONSTRAINT `schedule_subject` FOREIGN KEY (`subject_id`) REFERENCES `school_teacher_subject` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='data jadwal';
 
-INSERT INTO `school_schedule` VALUES (1,1,1,'7.30','7.40');
+INSERT INTO `school_schedule` VALUES (1,1,1,'05.00','08.00'),(2,1,1,'08.00','09.00'),(3,2,2,'05.00','08.00'),(4,2,2,'08.00','09.00'),(5,1,2,'09.00','10.00'),(6,3,2,'10.00','12.00');
 DROP TABLE IF EXISTS `school_student`;
 CREATE TABLE `school_student` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -884,49 +893,61 @@ CREATE TABLE `school_student` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='data siswa';
 
-INSERT INTO `school_student` VALUES (2,2,1,2,NULL,'ilham maulana','04481','134123412','2023-12-18 11:59:46',NULL),(3,1,1,2,NULL,'rafi','31122','4123412341','2023-12-18 12:00:46',NULL),(4,2,1,2,NULL,'anjas','12311','1231232','2023-12-18 12:09:17',NULL);
+INSERT INTO `school_student` VALUES (1,NULL,NULL,NULL,NULL,'Surya','1234','12345678','2023-12-20 10:44:38',NULL),(2,NULL,NULL,NULL,NULL,'Ibrahim','12121212','123123123','2023-12-20 10:47:08',NULL),(3,NULL,NULL,NULL,NULL,'Muhammad','345678','123412341234','2023-12-20 10:50:14',NULL),(4,NULL,NULL,NULL,NULL,'Ninggen','321321','321321','2023-12-20 11:12:09',NULL);
 DROP TABLE IF EXISTS `school_student_class`;
 CREATE TABLE `school_student_class` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `student_id` int(11) unsigned DEFAULT NULL,
   `class_id` int(11) unsigned DEFAULT NULL,
   `number` int(11) unsigned DEFAULT NULL COMMENT 'nomor absent siswa',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data menyimpan siswa per kelas';
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_student` (`student_id`) USING BTREE,
+  KEY `class_class` (`class_id`),
+  CONSTRAINT `class_class` FOREIGN KEY (`class_id`) REFERENCES `school_class` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `class_student` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='data menyimpan siswa per kelas';
 
+INSERT INTO `school_student_class` VALUES (1,1,1,1),(2,2,1,2),(3,3,1,3),(4,4,2,1);
 DROP TABLE IF EXISTS `school_student_parent`;
 CREATE TABLE `school_student_parent` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `student_id` int(11) unsigned DEFAULT NULL,
   `parent_id` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='data menghubungkan orang tua siswa dan siswa';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data menghubungkan orang tua siswa dan siswa';
 
-INSERT INTO `school_student_parent` VALUES (1,2,2),(2,3,2),(3,4,4);
 DROP TABLE IF EXISTS `school_teacher`;
 CREATE TABLE `school_teacher` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) unsigned DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `nip` varchar(255) DEFAULT NULL COMMENT 'nomor induk pegawai',
+  `nip` char(18) DEFAULT NULL COMMENT 'nomor induk pegawai',
   `phone` char(13) DEFAULT NULL,
   `position` varchar(255) DEFAULT NULL COMMENT 'jabatan',
   `created` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='data guru';
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `phone` (`phone`),
+  UNIQUE KEY `nip` (`nip`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='data guru';
 
-INSERT INTO `school_teacher` VALUES (1,2,'Agus','987654321','876582641','Kepala Sekolah','2023-12-15 14:56:19',NULL),(2,NULL,'asep sebastian','695371515','82765934','Staff','2023-12-15 14:58:37',NULL);
-DROP TABLE IF EXISTS `school_teacher_course`;
-CREATE TABLE `school_teacher_course` (
+INSERT INTO `school_teacher` VALUES (1,NULL,'Agus','12345678','896001001','Kepala Sekolah','2023-12-20 10:13:06',NULL),(2,NULL,'Sumar','12121212','896123123','Wakil Kepala Sekolah','2023-12-20 10:13:28',NULL),(3,NULL,'Siti','12341234','89512341234','Guru BK','2023-12-20 10:13:46',NULL),(4,NULL,'Nur','121231234','896212121','Staff','2023-12-20 10:14:21',NULL);
+DROP TABLE IF EXISTS `school_teacher_subject`;
+CREATE TABLE `school_teacher_subject` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `teacher_id` int(11) unsigned DEFAULT NULL,
   `course_id` int(11) unsigned DEFAULT NULL,
   `class_id` int(11) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='mengkelompokan guru dengan mata pelajaran dan kelas ';
+  PRIMARY KEY (`id`),
+  KEY `subject_course` (`course_id`),
+  KEY `subject_teacher` (`teacher_id`),
+  KEY `subject_class` (`class_id`),
+  CONSTRAINT `subject_class` FOREIGN KEY (`class_id`) REFERENCES `school_class` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `subject_course` FOREIGN KEY (`course_id`) REFERENCES `school_course` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `subject_teacher` FOREIGN KEY (`teacher_id`) REFERENCES `school_teacher` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='mengkelompokan guru dengan mata pelajaran dan kelas ';
 
-INSERT INTO `school_teacher_course` VALUES (1,1,1,1);
+INSERT INTO `school_teacher_subject` VALUES (1,1,3,1),(2,1,1,2),(3,1,1,1);
 DROP TABLE IF EXISTS `survey_polling`;
 CREATE TABLE `survey_polling` (
   `id` int(255) NOT NULL AUTO_INCREMENT,

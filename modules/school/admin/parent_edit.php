@@ -1,24 +1,27 @@
 <?php  if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
+/*==========================================
+ * START EDIT
+/*=========================================*/
+
 $form = _lib('pea',  'school_parent');
 $form->initEdit(!empty($_GET['id']) ? 'WHERE id='.$_GET['id'] : '');
 $form->edit->setLanguage();
-
 
 $form->edit->addInput('header','header');
 $form->edit->input->header->setTitle(!empty($_GET['id']) ? 'Edit Parent' : 'Add Parent');
 
 $form->edit->addInput('name','text');
-$form->edit->input->name->setTitle('name');
+$form->edit->input->name->setTitle('nama');
 $form->edit->input->name->setRequire($require='any', $is_mandatory=1);
 
 $form->edit->addInput('phone','text');
-$form->edit->input->phone->setTitle('phone');
+$form->edit->input->phone->setTitle('Nomor telepon');
 $form->edit->input->phone->setRequire($require='any', $is_mandatory=1);
 $form->edit->action();
 
 $form->edit->addInput('nokk','text');
-$form->edit->input->nokk->setTitle('nokk');
+$form->edit->input->nokk->setTitle('no kk');
 $form->edit->input->nokk->setRequire($require='any', $is_mandatory=1);
 
 $form->edit->addInput('nik','text');

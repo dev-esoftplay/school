@@ -14,6 +14,10 @@ switch( $Bbc->mod['task'] )
 		
 	case 'student_edit':
 		include 'student_edit.php';
+		break;		
+		
+	case 'student_add':
+		include 'student_add.php';
 		break;
 		
 	case 'teacher':
@@ -55,7 +59,7 @@ switch( $Bbc->mod['task'] )
 	case 'parent_edit':
 		include 'parent_edit.php';
 		break;
-		
+			
 	case 'attendance':
 		include 'attendance.php';
 		break;
