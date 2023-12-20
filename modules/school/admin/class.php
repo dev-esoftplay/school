@@ -92,3 +92,6 @@ $form->edit->input->teacher->setRequire();
 
 $tabs['New Class'] =  $form->edit->getForm();
 echo tabs($tabs, 1, 'tabs_links');
+
+
+// test
