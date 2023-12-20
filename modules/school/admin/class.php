@@ -12,35 +12,16 @@ echo $form->search->getForm();
 $tabs = array('List Class' => '', 'New Class' => '');
 
 $form = _lib('pea', 'school_class');
-$form->initroll("WHERE 1 ORDER BY id ASC");
-$form->roll->setSaveTool(true);
+$form->initroll("WHERE 1 ORDER BY grade ASC");
+$form->roll->setSaveTool(false);
 
 $form->roll->addInput( 'id', 'sqlplaintext' );
-$form->roll->input->id->setFieldName( 'id AS page_id' );
+$form->roll->input->id->setFieldName( 'id AS class_id' );
 $form->roll->input->id->setDisplayColumn(true);
 
-$form->roll->addInput( 'grade', 'sqlplaintext' );
-$form->roll->input->grade->setFieldName( 'grade' );
-$form->roll->input->grade->setDisplayColumn(false);
-
-$form->roll->addInput( 'label', 'sqlplaintext' );
-$form->roll->input->label->setFieldName( 'label' );
-$form->roll->input->label->setDisplayColumn(false);
-
-$form->roll->addInput( 'major', 'sqlplaintext' );
-$form->roll->input->major->setFieldName( 'major' );
-$form->roll->input->major->setDisplayColumn(false);
-
-$form->roll->addInput('class', 'multiinput');
-$form->roll->input->class->setTitle('class');
-$form->roll->input->class->setDelimiter(' ');
-$form->roll->input->class->addInput('grade', 'sqllinks');
-$form->roll->input->class->addInput('major', 'sqllinks');
-$form->roll->input->class->addInput('label', 'sqllinks');
-
-$form->roll->input->grade->setLinks($Bbc->mod['circuit'].'.class_edit');
-$form->roll->input->major->setLinks($Bbc->mod['circuit'].'.class_edit');
-$form->roll->input->label->setLinks($Bbc->mod['circuit'].'.class_edit');
+$form->roll->addInput( 'classes', 'sqllinks' );
+$form->roll->input->classes->setFieldName( 'CONCAT_WS(" ",grade,label,major) AS classes' );
+$form->roll->input->classes->setLinks($Bbc->mod['circuit'].'.class_edit');
 
 $form->roll->addInput('teacher', 'selecttable');
 $form->roll->input->teacher->setTitle('teacher');

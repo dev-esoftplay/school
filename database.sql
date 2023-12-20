@@ -825,7 +825,9 @@ CREATE TABLE `school_attendance_report` (
   `date_year` tinyint(1) DEFAULT NULL,
   `created` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `course_id` (`course_id`),
+  KEY `schedule_id` (`schedule_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='hasil laporan kehadiran';
 
 DROP TABLE IF EXISTS `school_class`;
@@ -860,9 +862,12 @@ CREATE TABLE `school_parent` (
   `created` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `active` tinyint(1) DEFAULT '1',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data orang tua siswa';
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `phone` (`phone`),
+  UNIQUE KEY `nik` (`nik`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='data orang tua siswa';
 
+INSERT INTO `school_parent` VALUES (1,NULL,'Sumaryono','123456','123456','123456','2023-12-20 12:28:56',NULL,1);
 DROP TABLE IF EXISTS `school_schedule`;
 CREATE TABLE `school_schedule` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -888,7 +893,8 @@ CREATE TABLE `school_student` (
   `nokk` char(16) DEFAULT NULL COMMENT 'nomor kartu keluarga',
   `created` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `nis` (`nis`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='data siswa';
 
 INSERT INTO `school_student` VALUES (1,NULL,NULL,NULL,NULL,'Surya','1234','12345678','2023-12-20 10:44:38',NULL),(2,NULL,NULL,NULL,NULL,'Ibrahim','12121212','123123123','2023-12-20 10:47:08',NULL),(3,NULL,NULL,NULL,NULL,'Muhammad','345678','123412341234','2023-12-20 10:50:14',NULL),(4,NULL,NULL,NULL,NULL,'Ninggen','321321','321321','2023-12-20 11:12:09',NULL);
@@ -911,7 +917,11 @@ CREATE TABLE `school_student_parent` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `student_id` int(11) unsigned DEFAULT NULL,
   `parent_id` int(11) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `student_parent_student` (`student_id`),
+  KEY `student_parent_parent` (`parent_id`),
+  CONSTRAINT `student_parent_parent` FOREIGN KEY (`parent_id`) REFERENCES `school_parent` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `student_parent_student` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data menghubungkan orang tua siswa dan siswa';
 
 DROP TABLE IF EXISTS `school_teacher`;

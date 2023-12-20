@@ -1,6 +1,6 @@
 <?php  if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 pr($_GET['id'], $return = false);
-$class_id = $db->getCol('SELECT `id` FROM `school_teacher_course` WHERE `class_id`='.$_GET['id']);
+$class_id = $db->getCol('SELECT `id` FROM `school_teacher_subject` WHERE `class_id`='.$_GET['id']);
 
 $form = _lib('pea', 'school_class');
 $form->initSearch();
@@ -23,7 +23,7 @@ $form->edit->addInput('header', 'header');
 $form->edit->input->header->setTitle(!empty($_GET['id']) ? 'Edit Class' : 'Add Class');
 
 // $form->edit->addInput( 'id', 'text' );
-// $form->edit->input->id->setFieldName( 'id AS page_id' );
+// $form->edit->input->id->setFieldName( 'id AS class_id' );
 
 $form->edit->addInput( 'grade', 'text' );
 $form->edit->input->grade->setFieldName( 'grade' );
@@ -121,9 +121,9 @@ $tabs['Student'] =  $form->roll->getForm();
 if (!empty($class_id)) {
 	// code...
 	$form = _lib('pea', 'school_schedule');
-	// $form = _lib('pea', 'school_schedule ss LEFT JOIN school_teacher_course stc  ON (ss.teacher_course_id = stc.id)', 'ss.id');
+	// $form = _lib('pea', 'school_schedule ss LEFT JOIN school_teacher_subject stc  ON (ss.subject_id = stc.id)', 'ss.id');
 	$days = school_schedule_day();
-	$form->initroll(!empty($_GET['id']) ? 'WHERE  `teacher_course_id` IN ('.implode(',', $class_id).') ORDER BY `id` ASC' : '');
+	$form->initroll(!empty($_GET['id']) ? 'WHERE  `subject_id` IN ('.implode(',', $class_id).') ORDER BY `id` ASC' : '');
 	// $form->initroll(!empty($_GET['id']) ? 'WHERE stc.class_id='.$_GET['id']. ' ORDER BY id ASC' : '');
 	$form->roll->setSaveTool(true);
 
@@ -133,10 +133,10 @@ if (!empty($class_id)) {
 
 	$form->roll->addInput('course', 'sqlplaintext');
 	$form->roll->input->course->setTitle('course');
-	$form->roll->input->course->setFieldname('teacher_course_id AS course');
+	$form->roll->input->course->setFieldname('subject_id AS course');
 	$form->roll->input->course->setDisplayFunction(function ($value) use($db)
 	{
-		$course_id = $db->getone("SELECT course_id from school_teacher_course WHERE id=$value");
+		$course_id = $db->getone("SELECT course_id from school_teacher_subject WHERE id=$value");
 		$name = $db->getone("SELECT name from school_course WHERE id=$course_id");
 		return $name;
 	});
@@ -148,20 +148,20 @@ if (!empty($class_id)) {
 
 	$form->roll->addInput('teacher', 'sqlplaintext');
 	$form->roll->input->teacher->setTitle('teacher');
-	$form->roll->input->teacher->setFieldname('teacher_course_id AS course');
+	$form->roll->input->teacher->setFieldname('subject_id AS course');
 	$form->roll->input->teacher->setDisplayFunction(function ($value) use($db)
 	{
-		$teacher_id = $db->getone("SELECT teacher_id from school_teacher_course WHERE id=$value");
+		$teacher_id = $db->getone("SELECT teacher_id from school_teacher_subject WHERE id=$value");
 		$name = $db->getone("SELECT name from school_teacher WHERE id=$teacher_id");
 		return $name;
 	});
 
 	// $form->roll->addInput('class', 'sqlplaintext');
 	// $form->roll->input->class->setTitle('class');
-	// $form->roll->input->class->setFieldname('teacher_course_id AS class');
+	// $form->roll->input->class->setFieldname('subject_id AS class');
 	// $form->roll->input->class->setDisplayFunction(function ($value) use($db)
 	// {
-	// 	$class_id = $db->getone("SELECT class_id from school_teacher_course WHERE id=$value");
+	// 	$class_id = $db->getone("SELECT class_id from school_teacher_subject WHERE id=$value");
 	// 	$name = $db->getone("SELECT CONCAT_WS(' ',`grade`, `major`, `label`) from school_class WHERE id=$class_id");
 	// 	return $name;
 	// });
@@ -178,4 +178,3 @@ if (!empty($class_id)) {
 $tabs['Schedule'] =  $form->roll->getForm();
 
 echo tabs($tabs, 1, 'tabs_links');
-

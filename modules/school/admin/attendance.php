@@ -15,8 +15,8 @@ $form->search->input->course_id->addOption('Select course', '');
 $form->search->input->course_id->setReferenceTable('school_course');
 $form->search->input->course_id->setReferenceField('name', 'id');
 
-// $teacher_course_id = $db->getone('SELECT `teacher_course_id` FROM `school_schedule` WHERE `id`='.$_GET['schedule_id']);
-// $course_id = $db->getone('SELECT `course_id` FROM `school_teacher_course` WHERE `id`='. $teacher_course_id);
+// $subject_id = $db->getone('SELECT `subject_id` FROM `school_schedule` WHERE `id`='.$_GET['schedule_id']);
+// $course_id = $db->getone('SELECT `course_id` FROM `school_teacher_subject` WHERE `id`='. $subject_id);
 // $course_name = $db->getone('SELECT `name` FROM school_course WHERE `id`='.$course_id);
 
 $form->search->addInput('keyword','keyword');
@@ -59,8 +59,8 @@ $form->roll->input->course->textTip='';
 // $form->roll->input->course->setFieldname('schedule_id');
 // $form->roll->input->course->setDisplayFunction(function ($value) use($db)
 // {
-// 	$teacher_course_id = $db->getone("SELECT teacher_course_id from school_schedule Where id=$value");
-// 	$course_id = $db->getone("SELECT course_id from school_teacher_course WHERE id=$teacher_course_id");
+// 	$subject_id = $db->getone("SELECT subject_id from school_schedule Where id=$value");
+// 	$course_id = $db->getone("SELECT course_id from school_teacher_subject WHERE id=$subject_id");
 // 	$name = $db->getone("SELECT name from school_course WHERE id=$course_id");
 // 	return $name;
 // });
