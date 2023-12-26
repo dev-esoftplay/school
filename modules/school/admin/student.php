@@ -33,15 +33,6 @@ $form->roll->input->name->setTitle('nama');
 $form->roll->input->name->setLinks($Bbc->mod['circuit'].'.student_edit');
 $form->roll->addInput('user_id', 'sqlplaintext');
 
-$form->roll->input->user_id->setTitle('surel');
-$form->roll->input->user_id->setDisplayColumn(true);
-$form->roll->input->user_id->setDisplayFunction( function ($value) use($db)
-  {
-    $email = $db->getOne('SELECT `email` FROM `bbc_account` WHERE user_id='. $value);
-    return $email;
-  }
-);
-
 $form->roll->addInput('nis', 'text');
 $form->roll->input->nis->setTitle('nis');   
 $form->roll->input->nis->setPlainText(true);

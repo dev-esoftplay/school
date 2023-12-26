@@ -21,21 +21,22 @@ $form->edit->input->nis->setRequire($require='any', $is_mandatory=1);
 $form->edit->action();
 
 $form->edit->addInput('parent_id_dad', 'selecttable');
-$form->edit->input->parent_id_dad->setTitle('ayah');
+$form->edit->input->parent_id_dad->setTitle('parent dad');
 $form->edit->input->parent_id_dad->setReferenceTable('school_parent');
-$form->edit->input->parent_id_dad->setReferenceField('name','user_id');
+$form->edit->input->parent_id_dad->setReferenceField('name','id');
 $form->edit->input->parent_id_dad->setPlaintext(true);
 
 $form->edit->addInput('parent_id_mom', 'selecttable');
-$form->edit->input->parent_id_mom->setTitle('ibu');
+$form->edit->input->parent_id_mom->setTitle('parent mom');
 $form->edit->input->parent_id_mom->setReferenceTable('school_parent');
-$form->edit->input->parent_id_mom->setReferenceField('name','user_id');
+$form->edit->input->parent_id_mom->setReferenceField('name','id');
 $form->edit->input->parent_id_mom->setPlaintext(true);
 
 $form->edit->addInput('parent_id_guard', 'selecttable');
-$form->edit->input->parent_id_guard->setTitle('wali');
+$form->edit->input->parent_id_guard->setTitle('guard');
 $form->edit->input->parent_id_guard->setReferenceTable('school_parent');
-$form->edit->input->parent_id_guard->setReferenceField('name','user_id');
+$form->edit->input->parent_id_guard->setReferenceField('name','id');
 $form->edit->input->parent_id_guard->setPlaintext(true);
+
 
 echo $form->edit->getForm();

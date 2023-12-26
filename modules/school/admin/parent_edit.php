@@ -29,19 +29,6 @@ $form->edit->input->nik->setTitle('nik');
 $form->edit->input->nik->setRequire($require='any', $is_mandatory=1);
 $form->edit->action();
 
-$form->edit->addInput('user_id', 'sqlplaintext');
-$form->edit->input->user_id->setTitle('email');
-$form->edit->input->user_id->setDisplayFunction(
-  function ($value) use($db)
-  {
-    if(!empty($value))
-    {
-      $email = $db->getOne('SELECT `email` FROM `bbc_account` WHERE `user_id`='. $value);
-      return $email;
-    }
-  }
-);
-
 $form->edit->addInput('id', 'sqlplaintext');
 $form->edit->input->id->setTitle('child');
 $form->edit->input->id->setDisplayFunction(

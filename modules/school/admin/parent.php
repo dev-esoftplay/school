@@ -29,17 +29,6 @@ $form->roll->addInput('name', 'sqllinks');
 $form->roll->input->name->setTitle('nama');
 $form->roll->input->name->setLinks($Bbc->mod['circuit'].'.parent_edit');
 
-$form->roll->addInput('user_id', 'sqlplaintext');
-$form->roll->input->user_id->setTitle('surel');
-$form->roll->input->user_id->setDisplayColumn(true); 
-$form->roll->input->user_id->setDisplayFunction(
-  function ($value) use($db)
-  {
-    $email = $db->getOne('SELECT `email` FROM `bbc_account` WHERE `user_id`='. $value);
-    return $email;
-  }
-);
-
 $form->roll->addInput('nik', 'text');
 $form->roll->input->nik->setTitle('nik');
 $form->roll->input->nik->setPlainText(true);
