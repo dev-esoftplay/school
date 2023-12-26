@@ -1,5 +1,5 @@
 <?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');
-$data = array('params' => '');
+
 if (!empty($_FILES['file'])) {
   $output = _lib('excel')->read($_FILES['file']['tmp_name'])->sheet(1)->fetch();
   unset($output[1]);
@@ -7,7 +7,6 @@ if (!empty($_FILES['file'])) {
 
     $db->Insert('bbc_user', array(
       'username'  => $value['C'],
-      'password'  => encode($data),
     ));
 
     $y  = $db->getOne("SELECT `id` FROM `bbc_user` WHERE username = '$value[C]'");
