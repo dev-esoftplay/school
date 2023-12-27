@@ -15,8 +15,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") // HANDLE INSERT DATA FROM INPUT MANUA
 {
   if (!empty($_POST['nama_guru']) && !empty($_POST['nip']) && !empty($_POST['phone']) && !empty($_POST['position'])) {
 
-
-
     $guru_user_id = $db->Insert('bbc_user', array(
       'password'  => $password,
       'username'  => $data['nip'],
@@ -67,12 +65,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") // HANDLE INSERT DATA FROM INPUT MANUA
     </div>
   </form>
 </div>
-
 <?php
 
-
-
-// $data = array('params' => '');
 if (!empty($_FILES['file']) && (!empty($_POST) || isset($_POST))) {
   $output = _lib('excel')->read($_FILES['file']['tmp_name'])->sheet(1)->fetch();
   unset($output[1]);
@@ -85,10 +79,6 @@ if (!empty($_FILES['file']) && (!empty($_POST) || isset($_POST))) {
         'password'  => $password,
       ));
     }
-    // $db->Insert('bbc_user', array(
-    //   'username'  => $value['C'],
-    //   // 'password'  => encode($data),
-    // ));
 
     $r  = $db->getOne("SELECT username FROM bbc_account WHERE username = '" . $value[$data['nip']] . "'");
     $y  = $db->getOne("SELECT `id` FROM `bbc_user` WHERE username = '" . $value[$data['nip']] . "'");
