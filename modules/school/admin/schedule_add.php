@@ -94,13 +94,17 @@
 
 <!-- Input Schedule With Excel -->
 
-<!-- <div class="col-md-4">
+<div class="col-md-4">
 	<form method="POST" role="form" enctype="multipart/form-data" onsubmit="return validateForm()">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h1 class="panel-title">Add Schedule with Excel</h1>
 			</div>
 		  <div class="panel-body">
+				<div class="form-group">
+					<label for="">Field day</label>
+					<input type="text" name="day" class="form-control" id="" placeholder="Input field" value="<?php echo isset($_POST['day']) ? htmlspecialchars($_POST['day']) : ''; ?>">
+				</div>
 				<div class="form-group">
 					<label for="">Field Course</label>
 					<input type="text" name="course" class="form-control" id="" placeholder="Input field" value="<?php echo isset($_POST['course']) ? htmlspecialchars($_POST['course']) : ''; ?>">
@@ -135,10 +139,10 @@
       return false;
     }
   }
-</script> -->
+</script>
 
 <?php 
-/*	if (!empty($_FILES['file']) && (!empty($_POST) || isset($_POST))) {
+	if (!empty($_FILES['file']) && (!empty($_POST) || isset($_POST))) {
 	  $output = _lib('excel')->read($_FILES['file']['tmp_name'])->sheet(1)->fetch();
 		unset($output[1]);
 
@@ -150,7 +154,7 @@
 
 	  foreach ($output as $key => $value) {
 
-			if ((isset($value[$course]) || isset($value['C'])) && (isset($value[$teacher]) || isset($value['D'])) && (isset($value[$class]) || isset($value['E'])) && (isset($value[$clock]) || isset($value['F']))) {
+			if ((isset($value[$day]) || isset($value['B'])) && (isset($value[$course]) || isset($value['C'])) && (isset($value[$teacher]) || isset($value['D'])) && (isset($value[$class]) || isset($value['E'])) && (isset($value[$clock]) || isset($value['F']))) {
 
 		    $course_name = $db->getOne("SELECT `name` FROM `school_course` WHERE `name` = '" . ($value[$course] ?? $value['C']) . "' ");
 
@@ -238,7 +242,7 @@
 			  }
 			}
 	  }
-	}*/
+	}
 
 	if(isset($_POST['select_class_id'])) {
 	    $selected_class = $_POST['select_class_id'];
