@@ -127,7 +127,7 @@
 	                'label'      => $label,
 	                'major'      => $major,
 	            ));
-	            echo "Data berhasil ditambahkan\n";
+	            echo "Data Class berhasil ditambahkan\n";
 	        } else {
 	        	echo "class";
   		      $class_id   = $db->getOne("SELECT `id` FROM `school_class` WHERE `grade` = $grade AND `label` = '$label' AND `major` = '$major'");
@@ -144,7 +144,7 @@
 	                'course_id'  => $course_id,
 	                'class_id'   => $class_id,
 	            ));
-	            echo "Data berhasil ditambahkan\n";
+	            echo "Data Subject berhasil ditambahkan\n";
 	        } else {
 	            echo "Data sudah ada di database\n";
 	        }

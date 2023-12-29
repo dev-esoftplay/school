@@ -4,10 +4,10 @@ $form = _lib('pea', 'school_schedule');
 $form->initSearch();
 
 $days = school_schedule_day();
-$form->search->addInput('day','select');
-$form->search->input->day->setTitle('Search by days');
-$form->search->input->day->addOption('Select days', '');
-$form->search->input->day->addOption($days);
+// $form->search->addInput('day','select');
+// $form->search->input->day->setTitle('Search by days');
+// $form->search->input->day->addOption('Select days', '');
+// $form->search->input->day->addOption($days);
 
 $form->search->addInput('keyword','keyword');
 $form->search->input->keyword->addSearchField('keyword,day,clock_start,clock_end');
@@ -29,15 +29,6 @@ $form->roll->input->day->addOption($days);
 $form->roll->input->day->setPlaintext(true);
 $form->roll->input->day->setDisplayColumn(true);
 
-// $form->roll->addInput('teacher', 'sqlplaintext');
-// $form->roll->input->teacher->setTitle('teacher');
-// $form->roll->input->teacher->setFieldname('subject_id');
-// $form->roll->input->teacher->setDisplayFunction(function ($value) use($db)
-// {
-// 	$teacher_id = $db->getone("SELECT teacher_id from school_teacher_subject WHERE id=$value");
-// 	$name = $db->getone("SELECT name from school_teacher WHERE id=$teacher_id");
-// 	return $name;
-// });
 
 $form->roll->addInput('course', 'sqlplaintext');
 $form->roll->input->course->setTitle('course');
@@ -46,6 +37,16 @@ $form->roll->input->course->setDisplayFunction(function ($value) use($db)
 {
 	$course_id = $db->getone("SELECT course_id from school_teacher_subject WHERE id=$value");
 	$name = $db->getone("SELECT name from school_course WHERE id=$course_id");
+	return $name;
+});
+
+$form->roll->addInput('teacher', 'sqlplaintext');
+$form->roll->input->teacher->setTitle('teacher');
+$form->roll->input->teacher->setFieldname('subject_id');
+$form->roll->input->teacher->setDisplayFunction(function ($value) use($db)
+{
+	$teacher_id = $db->getone("SELECT teacher_id from school_teacher_subject WHERE id=$value");
+	$name = $db->getone("SELECT name from school_teacher WHERE id=$teacher_id");
 	return $name;
 });
 
@@ -70,3 +71,5 @@ $form->roll->input->clock_end->setDisplayColumn(true);
 
 $form->roll->action();
 echo $form->roll->getForm();
+
+include 'schedule_add.php';

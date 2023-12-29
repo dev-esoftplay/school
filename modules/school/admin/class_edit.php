@@ -104,10 +104,9 @@ $tabs['Student'] =  $form->roll->getForm();
 if (!empty($class_id)) {
 	// code...
 	$form = _lib('pea', 'school_schedule');
-	// $form = _lib('pea', 'school_schedule ss LEFT JOIN school_teacher_subject stc  ON (ss.subject_id = stc.id)', 'ss.id');
+
 	$days = school_schedule_day();
 	$form->initroll(!empty($_GET['id']) ? 'WHERE  `subject_id` IN ('.implode(',', $class_id).') ORDER BY `id` ASC' : '');
-	// $form->initroll(!empty($_GET['id']) ? 'WHERE stc.class_id='.$_GET['id']. ' ORDER BY id ASC' : '');
 	$form->roll->setSaveTool(true);
 
 	$form->roll->addInput( 'id', 'sqlplaintext' );
