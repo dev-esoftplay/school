@@ -6,11 +6,11 @@
 	if ($_SERVER["REQUEST_METHOD"] == "POST") // HANDLE INSERT DATA FROM INPUT MANUAL DATA
 	{
 		if (isset($_POST)) {
-		  $selected_class = $_POST['select_class_id'];
-	    $selected_subject = $_POST['add_subject_id'];
-	    $days = $_POST['add_days'];
-	    $clock_start = $_POST['clock_start'];
-	    $clock_end = $_POST['clock_end'];
+	    $selected_class = isset($_POST['select_class_id']) ? $_POST['select_class_id'] : null;
+	    $selected_subject = isset($_POST['add_subject_id']) ? $_POST['add_subject_id'] : null;
+	    $days = isset($_POST['add_days']) ? $_POST['add_days'] : null;
+	    $clock_start = isset($_POST['clock_start']) ? $_POST['clock_start'] : null;
+	    $clock_end = isset($_POST['clock_end']) ? $_POST['clock_end'] : null;
 
 		  if (!empty($_POST['add_days']) && !empty($_POST['clock_start']) && !empty($_POST['clock_end']) && !empty($_POST['add_subject_id'])) {
 		  	$schedule_row = $db->getrow("SELECT * FROM `school_schedule` WHERE `subject_id` = $selected_subject AND `day` = $days AND `clock_start` = $clock_start AND `clock_end` = $clock_end");
@@ -142,6 +142,12 @@
 </script>
 
 <?php 
+$datashown_course = false;
+$datashown_teacher = false;
+$datashown_class = false;
+$datashown_subject = false;
+$datashown_schedule = false;
+
 	if (!empty($_FILES['file']) && (!empty($_POST) || isset($_POST))) {
 	  $output = _lib('excel')->read($_FILES['file']['tmp_name'])->sheet(1)->fetch();
 		unset($output[1]);
@@ -154,9 +160,12 @@
 
 	  foreach ($output as $key => $value) {
 
-				if ((isset($value[$day]) || isset($value['B'])) && (isset($value[$course]) || isset($value['C'])) && (isset($value[$teacher]) || isset($value['D'])) && (isset($value[$class]) || isset($value['E'])) && (isset($value[$clock]) || isset($value['F']))) {
+				if ((isset($value[$day]) || isset($value['B'])) &&
+						(isset($value[$course]) || isset($value['C'])) &&
+						(isset($value[$teacher]) || isset($value['D'])) &&
+						(isset($value[$class]) || isset($value['E'])) &&
+						(isset($value[$clock]) || isset($value['F']))) {
 
-				//mencari course name 
 		    $course_name = $db->getOne("SELECT `name` FROM `school_course` WHERE `name` = '" . ($value[$course] ?? $value['C']) . "' ");
 
 		    if (!$course_name) {
@@ -166,6 +175,10 @@
 		        echo "Nama course berhasil ditambahkan\n";
 		    } else {
 					$course_id  = $db->getOne("SELECT `id` FROM `school_course` WHERE `name` = '" . ($value[$course] ?? $value['C']) . "'");
+					 if (!$datashown_course) {
+			        echo "Data course sudah ada di database\n";
+			        $datashown_course = true; // Set variabel penanda
+				    }
 		    }
 
 		    $teacher_name = $db->getOne("SELECT `name` FROM `school_teacher` WHERE `name` = '" . ($value[$teacher] ?? $value['D']) . "'");
@@ -177,6 +190,10 @@
 		        echo "Nama guru berhasil ditambahkan\n";
 		    } else {
 		      $teacher_id = $db->getOne("SELECT `id` FROM `school_teacher` WHERE `name` = '" . ($value[$teacher] ?? $value['D']) . "'");
+		       if (!$datashown_teacher) {
+			        echo "Data teacher sudah ada di database\n";
+			        $datashown_teacher = true; // Set variabel penanda
+				    }
 		    }
 
 		    if (isset($teacher_id) && $teacher_id !== null) {
@@ -198,6 +215,10 @@
 	            echo "Data Class berhasil ditambahkan\n";
 	        } else {
   		      $class_id   = $db->getOne("SELECT `id` FROM `school_class` WHERE `grade` = $grade AND `label` = '$label' AND `major` = '$major'");
+  		       if (!$datashown_class) {
+			        echo "Data class sudah ada di database\n";
+			        $datashown_class = true; // Set variabel penanda
+				    }
 	        }
 		    }
 
@@ -212,6 +233,10 @@
 	            echo "Data Subject berhasil ditambahkan\n";
 	        } else {
 	            $subject_id = $db->getone("SELECT `id` FROM `school_teacher_subject` WHERE `teacher_id` = '$teacher_id' AND `course_id` = '$course_id' AND `class_id` = '$class_id'");
+	          if (!$datashown_subject) {
+			        echo "Data Subject sudah ada di database\n";
+			        $datashown_subject = true; // Set variabel penanda
+				    }
 	        }
 		    }
 
@@ -219,11 +244,11 @@
 		    	$days_num = ($value[$day] ?? $value['B']);
 		    	$days_numeric = school_schedule_days_numeric($days_num);
 
-			  	$schedule = $db->getrow("SELECT * FROM `school_schedule` WHERE `subject_id` = $subject_id AND `day` = $days_numeric AND `clock_start` = '$clock_start' AND `clock_end` = '$clock_end'");
+			  	$clock_merge = explode(" - ", $value[$clock] ?? $value['F']);
+					$clock_start = $clock_merge[0];
+					$clock_end   = $clock_merge[1];
 
-			  	$clock = explode(" - ", $value[$clock] ?? $value['F']);
-					$clock_start = $clock[0];
-					$clock_end   = $clock[1];
+			  	$schedule = $db->getrow("SELECT * FROM `school_schedule` WHERE `subject_id` = $subject_id AND `day` = $days_numeric AND `clock_start` = '$clock_start' AND `clock_end` = '$clock_end'");
 
 			  	if (!$schedule) {
 				  	$schedule_id = $db->Insert('school_schedule', array(
@@ -233,7 +258,10 @@
 							'clock_end'   => $clock_end
 				  	));
 			  	} else {
-			  		echo "data jadwal sudah ada di database";
+	  		    if (!$datashown_schedule) {
+			        echo "Data schedule sudah ada di database\n";
+			        $datashown_schedule = true; // Set variabel penanda
+				    }
 			  	}
 			  }
 			}
