@@ -19,3 +19,18 @@ function school_schedule_day($day_id='none')
 		return $r;
 	}
 }
+
+function school_schedule_days_numeric($namaHari) {
+    $namaHari = strtolower($namaHari); // Pastikan nama hari dalam huruf kecil untuk kejelasan.
+    $hariNumerik = [
+        'senin' => 1,
+        'selasa' => 2,
+        'rabu' => 3,
+        'kamis' => 4,
+        'jumat' => 5,
+        'sabtu' => 6,
+        'minggu' => 7,
+    ];
+
+    return $hariNumerik[$namaHari] ?? null; // Mengembalikan nilai numerik atau null jika tidak ditemukan.
+}

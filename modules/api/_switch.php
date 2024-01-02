@@ -6,8 +6,8 @@ switch( $Bbc->mod['task'] )
 	case 'school':
 		include 'school.php';
 		break;
-	case 'school':
-		include 'school.php';
+	case 'teacher':
+		include 'teacher.php';
 		break;
 
 }

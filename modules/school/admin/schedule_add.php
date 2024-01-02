@@ -154,8 +154,9 @@
 
 	  foreach ($output as $key => $value) {
 
-			if ((isset($value[$day]) || isset($value['B'])) && (isset($value[$course]) || isset($value['C'])) && (isset($value[$teacher]) || isset($value['D'])) && (isset($value[$class]) || isset($value['E'])) && (isset($value[$clock]) || isset($value['F']))) {
+				if ((isset($value[$day]) || isset($value['B'])) && (isset($value[$course]) || isset($value['C'])) && (isset($value[$teacher]) || isset($value['D'])) && (isset($value[$class]) || isset($value['E'])) && (isset($value[$clock]) || isset($value['F']))) {
 
+				//mencari course name 
 		    $course_name = $db->getOne("SELECT `name` FROM `school_course` WHERE `name` = '" . ($value[$course] ?? $value['C']) . "' ");
 
 		    if (!$course_name) {
@@ -164,9 +165,7 @@
 		        ));
 		        echo "Nama course berhasil ditambahkan\n";
 		    } else {
-					echo "course";
 					$course_id  = $db->getOne("SELECT `id` FROM `school_course` WHERE `name` = '" . ($value[$course] ?? $value['C']) . "'");
-					pr($course_id, $return = false);
 		    }
 
 		    $teacher_name = $db->getOne("SELECT `name` FROM `school_teacher` WHERE `name` = '" . ($value[$teacher] ?? $value['D']) . "'");
@@ -177,10 +176,7 @@
 		        ));
 		        echo "Nama guru berhasil ditambahkan\n";
 		    } else {
-					echo "teacher";
 		      $teacher_id = $db->getOne("SELECT `id` FROM `school_teacher` WHERE `name` = '" . ($value[$teacher] ?? $value['D']) . "'");
-		      pr($teacher_id, $return = false);
-
 		    }
 
 		    if (isset($teacher_id) && $teacher_id !== null) {
@@ -201,9 +197,7 @@
 	            ));
 	            echo "Data Class berhasil ditambahkan\n";
 	        } else {
-	        	echo "class";
   		      $class_id   = $db->getOne("SELECT `id` FROM `school_class` WHERE `grade` = $grade AND `label` = '$label' AND `major` = '$major'");
-  		      pr($class_id, $return = false);
 	        }
 		    }
 
@@ -217,13 +211,15 @@
 	            ));
 	            echo "Data Subject berhasil ditambahkan\n";
 	        } else {
-	            echo "Data sudah ada di database\n";
 	            $subject_id = $db->getone("SELECT `id` FROM `school_teacher_subject` WHERE `teacher_id` = '$teacher_id' AND `course_id` = '$course_id' AND `class_id` = '$class_id'");
 	        }
 		    }
 
 		    if (isset($subject_id) && $subject_id !== null) {
-			  	$schedule = $db->getrow("SELECT * FROM `school_schedule` WHERE `subject_id` = $subject_id AND `day` = $value[$day] AND `clock_start` = $clock_start AND `clock_end` = $clock_end");
+		    	$days_num = ($value[$day] ?? $value['B']);
+		    	$days_numeric = school_schedule_days_numeric($days_num);
+
+			  	$schedule = $db->getrow("SELECT * FROM `school_schedule` WHERE `subject_id` = $subject_id AND `day` = $days_numeric AND `clock_start` = '$clock_start' AND `clock_end` = '$clock_end'");
 
 			  	$clock = explode(" - ", $value[$clock] ?? $value['F']);
 					$clock_start = $clock[0];
@@ -232,7 +228,7 @@
 			  	if (!$schedule) {
 				  	$schedule_id = $db->Insert('school_schedule', array(
 							'subject_id'  => $subject_id,
-							'day'         => $value[$day] ?? $value['B'],
+							'day'         => $days_numeric,
 							'clock_start' => $clock_start,
 							'clock_end'   => $clock_end
 				  	));
@@ -245,12 +241,12 @@
 	}
 
 	if(isset($_POST['select_class_id'])) {
-	    $selected_class = $_POST['select_class_id'];
-	    $course_id = $db->getcol("SELECT course_id FROM school_teacher_subject WHERE class_id = $selected_class");
+    $selected_class = $_POST['select_class_id'];
+    $course_id = $db->getcol("SELECT course_id FROM school_teacher_subject WHERE class_id = $selected_class");
 
-			$name = $db->getAssoc("SELECT id , name from school_course WHERE id IN (" .implode(',', $course_id) .")");
+		$name = $db->getAssoc("SELECT id , name from school_course WHERE id IN (" .implode(',', $course_id) .")");
 
-			$subject_id = $db->getAssoc("SELECT s.id, c.name  FROM school_teacher_subject s JOIN school_course c ON s.course_id = c.id WHERE class_id = $selected_class");
-			
-	    echo createOption($subject_id);
+		$subject_id = $db->getAssoc("SELECT s.id, c.name  FROM school_teacher_subject s JOIN school_course c ON s.course_id = c.id WHERE class_id = $selected_class");
+		
+    echo createOption($subject_id);
 	}
