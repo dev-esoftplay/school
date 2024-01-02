@@ -7,14 +7,36 @@ $data_excel = [];
 foreach ($field as $item) {
   $data[$item]        = isset($_POST[$item]) ? $_POST[$item] : null;
   $data_excel[$item]  = isset($_POST[$item]) ? htmlspecialchars($_POST[$item]) : '';
+
+  if (empty($data_excel[$item])) {
+    switch ($item) {
+      case 'nama_guru';
+        $data_excel['nama_guru'] = 'B';
+        break;
+      case 'nip';
+        $data_excel['nip']       = 'C';
+        break;
+      case 'phone';
+        $data_excel['phone']     = 'D';
+        break;
+      case 'position';
+        $data_excel['position']  = 'E';
+        break;
+    }
+  }
 }
 
 $password = encode($data['nama_guru']);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") // HANDLE INSERT DATA FROM INPUT MANUAL DATA
 {
-  if (!empty($_POST['nama_guru']) && !empty($_POST['nip']) && !empty($_POST['phone']) && !empty($_POST['position'])) {
+  if (isset($_POST['submit']) && $_POST['submit'] == 'submit_form1') {
+    $_POST[$item];
+  } elseif (isset($_POST['submit']) && $_POST['submit'] == 'submit_form2') {
+    unset($_POST[$item]);
+  }
 
+  if (!empty($_POST['nama_guru']) && !empty($_POST['nip']) && !empty($_POST['phone']) && !empty($_POST['position'])) {
     $guru_user_id = $db->Insert('bbc_user', array(
       'password'  => $password,
       'username'  => $data['nip'],
@@ -35,37 +57,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") // HANDLE INSERT DATA FROM INPUT MANUA
     ));
   }
 }
-?>
-
-<div class="col-md-8">
-  <form method="POST" role="form" enctype="multipart/form-data" class="col-md-12">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h1 class="panel-title">Tambah Guru</h1>
-      </div>
-      <div class="panel-body">
-        <div class="form-group">
-          <label for="">Field Nama Guru</label>
-          <input type="text" name="nama_guru" class="form-control input-file" id="" placeholder="Input field" required>
-        </div>
-        <div class="form-group">
-          <label for="">Field NIP Guru</label>
-          <input type="text" name="nip" class="form-control input-file" id="" placeholder="Input field" required>
-        </div>
-        <div class="form-group">
-          <label for="">Field No HP Guru</label>
-          <input type="text" name="phone" class="form-control input-file" id="" placeholder="Input field" required>
-        </div>
-        <div class="form-group">
-          <label for="">Field Posisi Guru</label>
-          <input type="text" name="position" class="form-control input-file" id="" placeholder="Input field" required>
-        </div>
-        <button type="submit" class="btn btn-primary" name="submit" value="submit">Submit</button>
-      </div>
-    </div>
-  </form>
-</div>
-<?php
 
 if (!empty($_FILES['file']) && (!empty($_POST) || isset($_POST))) {
   $output = _lib('excel')->read($_FILES['file']['tmp_name'])->sheet(1)->fetch();
@@ -103,38 +94,5 @@ if (!empty($_FILES['file']) && (!empty($_POST) || isset($_POST))) {
     }
   }
 }
-?>
 
-<div class="col-md-4">
-  <form method="POST" role="form" enctype="multipart/form-data">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h1 class="panel-title">Tambah Guru with Excel</h1>
-      </div>
-      <div class="panel-body">
-        <p>Hiraukan Kolom A</p>
-        <div class="form-group">
-          <label for="">Field Nama Guru</label>
-          <input type="text" name="nama_guru" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['nama_guru'] ?>">
-        </div>
-        <div class="form-group">
-          <label for="">Field NIP</label>
-          <input type="text" name="nip" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['nip'] ?>">
-        </div>
-        <div class="form-group">
-          <label for="">Field Phone</label>
-          <input type="text" name="phone" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['phone'] ?>">
-        </div>
-        <div class="form-group">
-          <label for="">Field Posisition</label>
-          <input type="text" name="position" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['position'] ?>">
-        </div>
-        <div class="form-group">
-          <label for="fileInput">Pilih File</label>
-          <input type="file" name="file" class="form-control">
-        </div>
-        <button type="submit" class="btn btn-primary" name="submit" value="submit">Submit</button>
-      </div>
-    </div>
-  </form>
-</div>
+include tpl('teacher_add.html.php');
