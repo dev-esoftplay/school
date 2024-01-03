@@ -1,15 +1,17 @@
 import React, { memo, useState, useMemo } from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import { Text, View, Pressable } from 'react-native';
-import Account from './account';
+
 import Attenreport from './attenreport';
 import Home from './home';
 import Notif from './notif';
 import Scan from './scan';
+
 import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import { IoniconsTypes } from '@expo/vector-icons/build/esoftplay_icons';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
+import Profil from './profile';
 
 
 
@@ -35,7 +37,7 @@ function m(props: TeacherindexProps): any {
       case 'Notifikasi':
         return <Notif />;
       case 'Akun':
-        return <Account />;
+        return <Profil/>;
       default:
         return <Home />;
     }
