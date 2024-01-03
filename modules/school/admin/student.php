@@ -27,7 +27,6 @@ $form->roll->setSaveTool(false);
 $form->roll->addInput('id', 'sqlplaintext');
 $form->roll->input->id->setTitle('id');
 $form->roll->input->id->setDisplayColumn(true);
-
 $form->roll->addInput('name', 'sqllinks');
 $form->roll->input->name->setTitle('nama');
 $form->roll->input->name->setLinks($Bbc->mod['circuit'].'.student_edit');
