@@ -1,5 +1,4 @@
 <?php  if (!defined('_VALID_BBC')) exit('No direct script access allowed');
-
 ?> 
 <div class="col-md-4">
 	<?php 
@@ -13,11 +12,9 @@
 		$form->edit->input->grade->setFieldName( 'grade' );
 		$form->edit->input->grade->setRequire();
 
-
 		$form->edit->addInput( 'label', 'text' );
 		$form->edit->input->label->setFieldName( 'label' );
 		$form->edit->input->label->setRequire();
-
 
 		$form->edit->addInput( 'major', 'text' );
 		$form->edit->input->major->setFieldName( 'major' );
@@ -31,19 +28,30 @@
 		$form->edit->input->teacher->setReferenceField('name', 'id');
 		$form->edit->input->teacher->setRequire();
 
-		// $form->edit->input->teacher->setReferenceNested();
-
 		echo $form->edit->getForm();
 	 ?>
 </div>
+<script>
+  function validateForm() {
+    var fileInput = document.querySelector('input[type="file"]');
+    if (fileInput.files.length === 0) {
+      alert("Masukkan file terlebih dahulu");
+      return false;
+    }
+  }
+</script>
 <div class="col-md-4">
-	<form method="POST" role="form" enctype="multipart/form-data">
+	<form method="POST" role="form" enctype="multipart/form-data" onsubmit="return validateForm()">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h1 class="panel-title">Add Class with Excel</h1>
 			</div>
 		  <div class="panel-body">
 				<div class="form-group">
+					<label for="">Field class</label>
+					<input type="text" name="class" class="form-control" id="" placeholder="Input field" value="<?php echo isset($_POST['class']) ? $_POST['class'] : ''; ?>">
+				</div>	
+				<!-- <div class="form-group">
 					<label for="">Field Grade</label>
 					<input type="text" name="grade" class="form-control" id="" placeholder="Input field" value="<?php echo isset($_POST['grade']) ? htmlspecialchars($_POST['grade']) : ''; ?>">
 				</div>	
@@ -54,7 +62,7 @@
 				<div class="form-group">
 					<label for="">Field Major</label>
 					<input type="text" name="major" class="form-control" id="" placeholder="Input field" value="<?php echo isset($_POST['major']) ? htmlspecialchars($_POST['major']) : ''; ?>">
-				</div>	
+				</div>	 -->
 				<div class="form-group">
 					<label for="">Field Teacher</label>
 					<input type="text" name="teacher" class="form-control" id="" placeholder="Input field" value="<?php echo isset($_POST['teacher']) ? htmlspecialchars($_POST['teacher']) : ''; ?>">
@@ -68,44 +76,47 @@
 		</div>
 	</form>
 </div>
-<?php 
+<?php 	
 	if (!empty($_FILES['file']) && (!empty($_POST) || isset($_POST))) {
 	  $output = _lib('excel')->read($_FILES['file']['tmp_name'])->sheet(1)->fetch();
 		unset($output[1]);
-		$grade   = isset($_POST['grade']) ? $_POST['grade'] : null;
-		$label   = isset($_POST['label']) ? $_POST['label'] : null;
-		$major   = isset($_POST['major']) ? $_POST['major'] : null;
-		$teacher = isset($_POST['teacher']) ? $_POST['teacher'] : null;
 
-		pr($grade, $return = false);
+		$teacher = isset($_POST['teacher']) ? $_POST['teacher'] : null ;
+		$class   = isset($_POST['class']) ? $_POST['class'] : null ;
 
 	  foreach ($output as $key => $value) {
-			$teacher_name  = $db->getOne("SELECT name FROM school_teacher WHERE name = '$value[$teacher]'");
 
-			if (!$teacher_name) {
-		  	$db->Insert('school_teacher' , array(
-		      'name' => $value[$teacher]
-		    ));
-		    echo "nama guru berhasil ditambahakan";
+			if ((isset($value[$teacher]) || isset($value['C'])) && (isset($value[$class]) || isset($value['B']))) {
+
+		    $teacher_name = $db->getOne("SELECT `name` FROM `school_teacher` WHERE `name` = '" . ($value[$teacher] ?? $value['C']) . "'");
+		    if (!$teacher_name) {
+	        $teacher_id = $db->Insert('school_teacher', array(
+	            'name' => $value[$teacher] ?? $value['C']
+	        ));
+	        echo "Nama guru berhasil ditambahkan\n";
+		    }
+
+		    if (isset($teacher_id) && $teacher_id !== null) {
+	        $classes = explode(" ", $value[$class] ?? $value['B']);
+	        $grade   = $classes[0];
+	        $major   = $classes[1];
+	        $label   = $classes[2];
+
+	        $ct         = $db->getrow("SELECT *  FROM `school_class` WHERE `teacher_id`='$teacher_id'");
+	        $class_name = $db->getrow("SELECT *  FROM `school_class` WHERE `grade` = $grade AND `label` = '$label' AND `major` = '$major'");
+
+	        if (!$class_name && !$ct) {
+            $db->Insert('school_class', array(
+                'teacher_id' => $teacher_id,
+                'grade'      => $grade,
+                'label'      => $label,
+                'major'      => $major,
+            ));
+            echo "Data berhasil ditambah\n";
+	        } else {
+            echo "Data sudah ada di database\n>";
+	        }
+		    }
 			}
-
-			$teacher_id  = $db->getOne("SELECT `id` FROM `school_teacher` WHERE `name` = '$value[$teacher]'");
-
-	  	$ct = $db->getrow("SELECT *  FROM `school_class` WHERE `teacher_id`='$teacher_id'");
-
-	  	$c = $db->getrow("SELECT `grade`, `label`, `major` FROM `school_class` WHERE `grade` = $value[$grade] AND `label` = '$value[$label]' AND `major` = '$value[$major]'");
-
-	  	if (!$ct && !$c) {
-		  	$db->Insert('school_class', array(
-			    'teacher_id' => $teacher_id,
-	        'grade'      => $value[$grade],
-	        'label'      => $value[$label],
-	        'major'      => $value[$major],
-	      ));    
-	      echo "data berhasil di tambah";
-	  	}
-	  	if ($c) {
-	  		echo "data terduplikasi";
-	  	}
 	  }
 	}

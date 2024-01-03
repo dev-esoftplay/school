@@ -1,5 +1,4 @@
 <?php  if (!defined('_VALID_BBC')) exit('No direct script access allowed');
-pr($_GET['id'], $return = false);
 $class_id = $db->getCol('SELECT `id` FROM `school_teacher_subject` WHERE `class_id`='.$_GET['id']);
 
 $form = _lib('pea', 'school_class');
@@ -34,32 +33,18 @@ $form->edit->input->label->setFieldName( 'label' );
 $form->edit->addInput( 'major', 'text' );
 $form->edit->input->major->setFieldName( 'major' );
 
-// $form->edit->addInput('class', 'multiinput');
-// $form->edit->input->class->setTitle('class');
-// $form->edit->input->class->setDelimiter(' ');
-// $form->edit->input->class->addInput('grade', 'sqllinks');
-// $form->edit->input->class->addInput('label', 'sqllinks');
-// $form->edit->input->class->addInput('major', 'sqllinks');
+$form->edit->addInput('teacher', 'selecttable');
+$form->edit->input->teacher->setTitle('teacher');
+$form->edit->input->teacher->setFieldName( 'teacher_id' );
+$form->edit->input->teacher->setReferenceTable('school_teacher');
+$form->edit->input->teacher->setReferenceField('name','id');
+$form->edit->input->teacher->textTip='';
 
-// $form->edit->input->grade->setLinks($Bbc->mod['circuit'].'.class_edit');
-// $form->edit->input->label->setLinks($Bbc->mod['circuit'].'.class_edit');
-// $form->edit->input->major->setLinks($Bbc->mod['circuit'].'.class_edit');
-
-// $form->edit->addInput('teacher', 'selecttable');
-// $form->edit->input->teacher->setTitle('teacher');
-// $form->edit->input->teacher->setFieldName( 'teacher_id' );
-// $form->edit->input->teacher->setReferenceTable('school_teacher');
-// $form->edit->input->teacher->setReferenceField('name','id');
-// $form->edit->input->teacher->setPlaintext(true);
-
-// $form->edit->input->teacher->textTip='';
 $form->edit->action();
 
 $tabs['Edit Class'] = $form->edit->getForm();
 
-/*
-	INI TABEL Student in class
-*/
+/* 	INI TABEL Student in class */
 
 // $class_id   = @intval($_GET['class_id']);
 $form = _lib('pea', 'school_student_class');
@@ -114,17 +99,14 @@ $form->roll->input->nokk->setPlaintext(true);
 $tabs['Student'] =  $form->roll->getForm();
 
 
-/*
-	Ini Form Schedule
-*/
+/* 	Ini Form Schedule */
 
 if (!empty($class_id)) {
 	// code...
 	$form = _lib('pea', 'school_schedule');
-	// $form = _lib('pea', 'school_schedule ss LEFT JOIN school_teacher_subject stc  ON (ss.subject_id = stc.id)', 'ss.id');
+
 	$days = school_schedule_day();
 	$form->initroll(!empty($_GET['id']) ? 'WHERE  `subject_id` IN ('.implode(',', $class_id).') ORDER BY `id` ASC' : '');
-	// $form->initroll(!empty($_GET['id']) ? 'WHERE stc.class_id='.$_GET['id']. ' ORDER BY id ASC' : '');
 	$form->roll->setSaveTool(true);
 
 	$form->roll->addInput( 'id', 'sqlplaintext' );

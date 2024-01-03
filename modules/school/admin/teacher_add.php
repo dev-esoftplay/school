@@ -1,109 +1,98 @@
 <?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');
-// $data = array('params' => '');
-if (!empty($_FILES['file'])) {
+
+$field      = ['nama_guru', 'nip', 'phone', 'position'];
+$data       = [];
+$data_excel = [];
+
+foreach ($field as $item) {
+  $data[$item]        = isset($_POST[$item]) ? $_POST[$item] : null;
+  $data_excel[$item]  = isset($_POST[$item]) ? htmlspecialchars($_POST[$item]) : '';
+
+  if (empty($data_excel[$item])) {
+    switch ($item) {
+      case 'nama_guru';
+        $data_excel['nama_guru'] = 'B';
+        break;
+      case 'nip';
+        $data_excel['nip']       = 'C';
+        break;
+      case 'phone';
+        $data_excel['phone']     = 'D';
+        break;
+      case 'position';
+        $data_excel['position']  = 'E';
+        break;
+    }
+  }
+}
+
+$password = encode($data['nama_guru']);
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") // HANDLE INSERT DATA FROM INPUT MANUAL DATA
+{
+  if (isset($_POST['submit']) && $_POST['submit'] == 'submit_form1') {
+    $_POST[$item];
+  } elseif (isset($_POST['submit']) && $_POST['submit'] == 'submit_form2') {
+    unset($_POST[$item]);
+  }
+
+  if (!empty($_POST['nama_guru']) && !empty($_POST['nip']) && !empty($_POST['phone']) && !empty($_POST['position'])) {
+    $guru_user_id = $db->Insert('bbc_user', array(
+      'password'  => $password,
+      'username'  => $data['nip'],
+    ));
+
+    $db->insert('bbc_account', array(
+      'user_id'   => $guru_user_id,
+      'username'  => $data['nip'],
+      'name'      => $data['nama_guru']
+    ));
+
+    $db->insert('school_teacher', array(
+      'user_id'   => $guru_user_id,
+      'name'      => $data['nama_guru'],
+      'nip'       => $data['nip'],
+      'phone'     => $data['phone'],
+      'position'  => $data['position']
+    ));
+  }
+}
+
+if (!empty($_FILES['file']) && (!empty($_POST) || isset($_POST))) {
   $output = _lib('excel')->read($_FILES['file']['tmp_name'])->sheet(1)->fetch();
   unset($output[1]);
   foreach ($output as $key => $value) {
-    $q = $db->getOne("SELECT username FROM bbc_user WHERE username = '$value[C]'");
+    $password = encode($value[$data['nama_guru']]);
+    $q = $db->getOne("SELECT username FROM bbc_user WHERE username = '" . $value[$data['nip']] . "'");
     if (!$q) {
       $db->Insert('bbc_user', array(
-        'username'  => $value['C'],
-        // 'password'  => encode($data),
+        'username'  => $value[$data['nip']],
+        'password'  => $password,
       ));
-      echo "Data Berhasil di tambahkan";
     }
-    // $db->Insert('bbc_user', array(
-    //   'username'  => $value['C'],
-    //   // 'password'  => encode($data),
-    // ));
 
-    $r  = $db->getOne("SELECT username FROM bbc_account WHERE username = '$value[C]'");
-    $y  = $db->getOne("SELECT `id` FROM `bbc_user` WHERE username = '$value[C]'");
+    $r  = $db->getOne("SELECT username FROM bbc_account WHERE username = '" . $value[$data['nip']] . "'");
+    $y  = $db->getOne("SELECT `id` FROM `bbc_user` WHERE username = '" . $value[$data['nip']] . "'");
 
     if (!$r) {
       $db->Insert('bbc_account', array(
         'user_id'  => $y,
-        'username' => $value['C'],
-        'name'     => $value['B'],
+        'username' => $value[$data['nip']],
+        'name'     => $value[$data['nama_guru']],
       ));
-      echo "Data berhasil ditambahkan";
     }
 
-    $s  = $db->getOne("SELECT nip FROM school_teacher WHERE nip = '$value[C]'");
-    if (!$s){
+    $s  = $db->getOne("SELECT nip FROM school_teacher WHERE nip = '" . $value[$data['nip']] . "'");
+    if (!$s) {
       $db->Insert('school_teacher', array(
         'user_id'  => $y,
-        'name'     => $value['B'],
-        'nip'      => $value['C'],
-        'phone'    => $value['D'],
-        'position' => $value['E'],
+        'name'     => $value[$data['nama_guru']],
+        'nip'      => $value[$data['nip']],
+        'phone'    => $value[$data['phone']],
+        'position' => $value[$data['position']],
       ));
-      echo "Data berhasil di tambahkan";
     }
   }
 }
-?>
 
-
-<div class="container">
-  <form method="POST" enctype="multipart/form-data">
-    <div class="form-group">
-      <h1>Tambah Data Guru</h1>
-      <label for="fileInput">Pilih File</label>
-      <input type="file" name="file">
-    </div>
-    <button type="submit" class="btn btn-primary" name="submit" value="submit">Submit</button>
-  </form>
-</div>
-
-<!-- <div class="container">
-  <h2>Formulir Bootstrap 3</h2>
-  <form>
-    <div class="form-group">
-      <label for="nama">Nama:</label>
-      <input type="text" class="form-control" id="nama" placeholder="Masukkan nama">
-    </div>
-    <div class="form-group">
-      <label for="email">Email:</label>
-      <input type="email" class="form-control" id="email" placeholder="Masukkan email">
-    </div>
-    <div class="form-group">
-      <label for="pesan">Pesan:</label>
-      <textarea class="form-control" id="pesan" rows="4" placeholder="Masukkan pesan"></textarea>
-    </div>
-    <button type="submit" class="btn btn-primary">Kirim</button>
-  </form>
-</div>
-
-<div class="container">
-  <h2>Formulir Bootstrap 3</h2>
-  <form>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="name">Nama</label>
-          <input type="text" class="form-control" id="nama" name="name" placeholder="Masukkan nama">
-        </div>
-        <div class="form-group">
-          <label for="nip">NIP</label>
-          <input type="text" class="form-control" id="nip" name="nip" placeholder="Masukkan nip">
-        </div>
-        <div class="form-group">
-          <label for="phone">No HP</label>
-          <input type="text" class="form-control" id="phone" name="phone" placeholder="Masukkan No Hp">
-        </div>
-        <div class="form-group">
-          <label for="position">Posisi</label>
-          <input type="text" class="form-control" id="position" name="position" placeholder="Masukkan Posisi">
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="file">File Excel</label>
-          <input type="file" class="form-control" id="file" name="file" placeholder="Masukkan File Excel">
-        </div>  
-      </div>
-    </div>
-    <button type="submit" class="btn btn-primary">Kirim</button>
-  </form>
-</div> -->
+include tpl('teacher_add.html.php');
