@@ -189,7 +189,7 @@ const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ navigation }) => {
       />
       <Footer />
     </SafeAreaView>
-  );
+  ); 
 };
 
 const styles = StyleSheet.create({
