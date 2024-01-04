@@ -13,6 +13,7 @@ import Icon from '@ant-design/icons/lib/components/Icon';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
+import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 
 
 export interface TeacherHomeArgs {
@@ -85,37 +86,53 @@ function m(props: TeacherHomeProps): any {
   const [error, setError] = useState<string | undefined>();
   const [response, setResponse] = useState<{ result: Product[] } | undefined>();
   const [products, setProducts] = useState<Product[]>([]);
-  useEffect(() => {
-    fetch('https://dummyjson.com/products')
-      .then((res) => res.json())
-      .then(
-        (result: { result: Product[] }) => {
-          setIsLoading(false);
-          setResponse(result);
-          setProducts(result.products);
-        },
-        (error) => {
-          setIsLoading(false);
-          setError(error);
-        }
-      );
-  }, []);
 
-  const getContent = () => {
-    if (isLoading) {
-      return <ActivityIndicator size="large" />;
-    }
+useEffect(() => {
 
-    if (error) {
-      return <Text>{error}</Text>;
-    }
+    
+		// const url:string="http://api.school.lc/"
+    
+    // new LibCurl(url,null,(result,msg)=>{ 
+		// 	console.log(result)
+		// },(err)=>{
+		// 	console.log("eror")
+		// })
 
-    console.log(products[0].title);
-    // const apires = response; // Not sure what this is supposed to be
+		  a()
 
-    // return <Text>{response.title}</Text>;
-    return null; // Modify this based on your actual use case
-  };
+
+  }, [])
+
+	const a =()=>{
+		const url:string="http://api.school.lc/"
+    console.log(url)
+
+
+    new LibCurl(url,null,(result,msg)=>{ 
+			console.log('oke',{result})
+		},(err)=>{
+			console.log("eror",err)
+		})
+		// new LibCurl()
+		console.log(1)
+new LibCurl().custom('http://api.school.lc',null,(res)=>{
+      console.log("resullt",{res})
+})
+		console.log(2)
+
+		// new LibCurl().custom(url, null, (res) => {
+    //   console.log("resullt",{res})
+    // }, 1)
+
+
+		fetch(url).then((v)=>{
+			console.log('ok')
+		}).catch((e)=>{
+			console.log('er')
+		})
+    
+	}
+
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white', padding: 10 }}>
@@ -125,7 +142,7 @@ function m(props: TeacherHomeProps): any {
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={
           <ScrollView showsVerticalScrollIndicator={false}>
-            <Pressable onPress={() => getContent()} style={{ width: 80, height: 40, backgroundColor: 'red', borderRadius: 10, justifyContent: 'center', alignContent: 'center', alignSelf: 'flex-end', marginTop: 30 }}>
+            <Pressable onPress={() => a()} style={{ width: 80, height: 40, backgroundColor: 'red', borderRadius: 10, justifyContent: 'center', alignContent: 'center', alignSelf: 'flex-end', marginTop: 30 }}>
               <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white', textAlign: 'center', }}>get api</Text>
             </Pressable>
             {/* welcome card */}
