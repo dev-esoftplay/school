@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") // HANDLE INSERT DATA FROM INPUT MANUA
     unset($_POST[$item]);
   }
 
-  if (!empty($_POST['nama_guru']) && !empty($_POST['nip']) && !empty($_POST['phone']) && !empty($_POST['position'])) {
+  if (!empty($_POST[$item])) {
     $guru_user_id = $db->Insert('bbc_user', array(
       'password'  => $password,
       'username'  => $data['nip'],
@@ -63,39 +63,34 @@ if (!empty($_FILES['file']) && (!empty($_POST) || isset($_POST))) {
   unset($output[1]);
   foreach ($output as $key => $value) {
     $password = encode(!empty($value[$data['nama_guru']]));
-    $q = $db->getOne("SELECT username FROM bbc_user WHERE username = '" . $value[$data['nip']] . "'");
+    $q = $db->getOne("SELECT `username` FROM `bbc_user`       WHERE `username` = '" . $value[$data['nip']] . "'");
+    $r = $db->getOne("SELECT `username` FROM `bbc_account`    WHERE `username` = '" . $value[$data['nip']] . "'");
+    $s = $db->getOne("SELECT `nip`      FROM `school_teacher` WHERE `nip`      = '" . $value[$data['nip']] . "'");
+
     if (!$q) {
-      $db->Insert('bbc_user', array(
-        'username'  => $value[$data['nip']],
-        'password'  => $password,
+      $guru_user_id_file = $db->Insert('bbc_user', array(
+        'username'       => $value[$data['nip']],
+        'password'       => $password,
       ));
     }
-
-    $r  = $db->getOne("SELECT username FROM bbc_account WHERE username = '" . $value[$data['nip']] . "'");
-    $y  = $db->getOne("SELECT `id` FROM `bbc_user` WHERE username = '" . $value[$data['nip']] . "'");
-
     if (!$r) {
       $db->Insert('bbc_account', array(
-        'user_id'  => $y,
-        'username' => $value[$data['nip']],
-        'name'     => $value[$data['nama_guru']],
+        'user_id'        => $guru_user_id_file,
+        'username'       => $value[$data['nip']],
+        'name'           => $value[$data['nama_guru']],
       ));
     }
-
-    $s  = $db->getOne("SELECT nip FROM school_teacher WHERE nip = '" . $value[$data['nip']] . "'");
     if (!$s) {
       $db->Insert('school_teacher', array(
-        'user_id'  => $y,
-        'name'     => $value[$data['nama_guru']],
-        'nip'      => $value[$data['nip']],
-        'phone'    => $value[$data['phone']],
-        'position' => $value[$data['position']],
+        'user_id'        => $guru_user_id_file,
+        'name'           => $value[$data['nama_guru']],
+        'nip'            => $value[$data['nip']],
+        'phone'          => $value[$data['phone']],
+        'position'       => $value[$data['position']],
       ));
-      echo "Data Guru berhasil ditambahkan\n";
-    } else {
-      echo "Data Sudah Ada\n";
     }
   }
+  echo '<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok-sign" title="ok sign"></span> Sukses Tambah data.</div>';
 }
 
 include tpl('teacher_add.html.php');
