@@ -1,9 +1,9 @@
 // withHooks
-import { memo } from 'react';
+import { memo, useEffect, useState } from 'react';
 
 import navigation from 'esoftplay/modules/lib/navigation';
 import React from 'react';
-import { Image, Pressable, Text, View } from 'react-native';
+import { ActivityIndicator, Image, Pressable, Text, View } from 'react-native';
 import { Auth } from '../auth/login';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import { UtilsDatepicker } from 'esoftplay/cache/utils/datepicker/import';
@@ -20,6 +20,12 @@ export interface TeacherHomeArgs {
 }
 export interface TeacherHomeProps {
 
+}
+interface Product {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
 }
 function m(props: TeacherHomeProps): any {
 
@@ -75,6 +81,42 @@ function m(props: TeacherHomeProps): any {
 
   ]
 
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | undefined>();
+  const [response, setResponse] = useState<{ result: Product[] } | undefined>();
+  const [products, setProducts] = useState<Product[]>([]);
+  useEffect(() => {
+    fetch('https://dummyjson.com/products')
+      .then((res) => res.json())
+      .then(
+        (result: { result: Product[] }) => {
+          setIsLoading(false);
+          setResponse(result);
+          setProducts(result.products);
+        },
+        (error) => {
+          setIsLoading(false);
+          setError(error);
+        }
+      );
+  }, []);
+
+  const getContent = () => {
+    if (isLoading) {
+      return <ActivityIndicator size="large" />;
+    }
+
+    if (error) {
+      return <Text>{error}</Text>;
+    }
+
+    console.log(products[0].title);
+    // const apires = response; // Not sure what this is supposed to be
+
+    // return <Text>{response.title}</Text>;
+    return null; // Modify this based on your actual use case
+  };
+
   return (
     <View style={{ flex: 1, backgroundColor: 'white', padding: 10 }}>
 
@@ -83,8 +125,8 @@ function m(props: TeacherHomeProps): any {
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={
           <ScrollView showsVerticalScrollIndicator={false}>
-            <Pressable onPress={() => logout()} style={{ width: 80, height: 40, backgroundColor: 'red', borderRadius: 10, justifyContent: 'center', alignContent: 'center', alignSelf: 'flex-end', marginTop: 30 }}>
-              <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white', textAlign: 'center', }}>Logout</Text>
+            <Pressable onPress={() => getContent()} style={{ width: 80, height: 40, backgroundColor: 'red', borderRadius: 10, justifyContent: 'center', alignContent: 'center', alignSelf: 'flex-end', marginTop: 30 }}>
+              <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white', textAlign: 'center', }}>get api</Text>
             </Pressable>
             {/* welcome card */}
             <View style={{ flexDirection: 'row', backgroundColor: 'white', alignItems: 'center', marginTop: 10 }}>
