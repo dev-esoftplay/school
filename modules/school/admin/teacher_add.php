@@ -62,7 +62,7 @@ if (!empty($_FILES['file']) && (!empty($_POST) || isset($_POST))) {
   $output = _lib('excel')->read($_FILES['file']['tmp_name'])->sheet(1)->fetch();
   unset($output[1]);
   foreach ($output as $key => $value) {
-    $password = encode($value[$data['nama_guru']]);
+    $password = encode(!empty($value[$data['nama_guru']]));
     $q = $db->getOne("SELECT username FROM bbc_user WHERE username = '" . $value[$data['nip']] . "'");
     if (!$q) {
       $db->Insert('bbc_user', array(
@@ -91,6 +91,9 @@ if (!empty($_FILES['file']) && (!empty($_POST) || isset($_POST))) {
         'phone'    => $value[$data['phone']],
         'position' => $value[$data['position']],
       ));
+      echo "Data Guru berhasil ditambahkan\n";
+    } else {
+      echo "Data Sudah Ada\n";
     }
   }
 }
