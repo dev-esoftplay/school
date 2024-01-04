@@ -12,7 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
 	$teacher_id = $_POST['teacher_id'];
 	$course_id  = $_POST['course_id'];
 	$class_id   = $_POST['class_id'];
@@ -20,7 +19,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$subjet_insert = $db->Insert('school_teacher_subject', array(
 		'teacher_id' => $teacher_id,
 		'course_id'  => $course_id,
-		'class_id'   => $class_id,
+		'class_id'   => $class_id
 	));
-	return api_ok($subject_insert);
+
+	$result = [
+		't' => $teacher_id,
+		'cr' => $course_id,
+		'cl' => $class_id
+	];
+
+	api_ok($result);
 }
