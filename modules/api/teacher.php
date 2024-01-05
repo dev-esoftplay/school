@@ -5,6 +5,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 	return api_ok($teacher);
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+	$teacher_name = $_POST['name'];
+
+	$teacher_insert = $db->Insert('school_teacher', array(
+		'name' => $teacher_name,
+	));
+	// $result = [
+	// 	'name' => $teacher_name,
+	// ];
+	// api_ok($result);
+
+	if ($teacher_insert) {
+		// api_ok($teacher_insert);
+		echo "masuk";
+	} else{
+		echo "gagal";
+		// api_no($teacher_insert);
+	}
+}
+
 // if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // 	// $teacher_name = $_POST['nama_guru'];
 

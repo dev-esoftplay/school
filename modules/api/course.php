@@ -1,20 +1,16 @@
 <?php  if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id'])) {
-	$course = $db->getAssoc("SELECT * FROM `school_course` WHERE 1");
-	return api_ok($course);
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
-	$id = $_GET['id'];
-	$course_id = $db->getAssoc("SELECT * FROM `school_course` WHERE id = $id");
-
-	$result = [
-		'id' => $id
-	];
-
-	return api_ok($result);
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+	if (isset($_GET['id'])) {
+		$id = $_GET['id'];
+		$course = $db->getAssoc("SELECT * FROM school_course WHERE id = $id");
+		return api_ok($course);
+	}	
+	if (!isset($_GET['id'])) {
+		$course = $db->getAssoc("SELECT * FROM school_course WHERE 1");
+		return api_ok($course);
+	}	
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_GET['id'])) {
