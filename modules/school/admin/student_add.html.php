@@ -1,6 +1,5 @@
-
 <body>
-  <h2 class="text-center">Form Siswa</h2>
+  <h2 class="text-center"><?php echo lang('Form Siswa');?></h2>
   <form method="post" enctype="multipart/form-data" class="col-md-7 form-import-excel">
     <!-- ========================================== -->
     <!-- START STUDENT -->
@@ -131,6 +130,7 @@
   <script>
     $(document).ready(function()
     {
+      $("#error-span").show();
       $("input[name='MyRadio']").on('change', function() 
       {
         let value = $("input[name='MyRadio']:checked").val();
@@ -167,10 +167,15 @@
         $(".wali").show();
         $(".ayah, .ibu").hide();
       }
+      $('input.input-file').on('input', function() {
+        var inputValue = $(this).val();
+        var uppercaseValue = inputValue.toUpperCase();
+        $(this).val(uppercaseValue);
+      });
 
       setTimeout(function () {
-            $("#error-span").hide();
-        }, 10000);
+          $("#error-span").hide();
+      }, 10000);
     });
   </script>
 </body>

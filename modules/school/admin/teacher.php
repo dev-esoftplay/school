@@ -1,6 +1,5 @@
 <?php  if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
-// $tabs     = array('Daftar Guru' => '', 'Tambah Guru' => '');
 $position = array('Kepala Sekolah', 'Wakil Kepala Sekolah', 'Guru BK', 'Staff', 'Tukang Kebun');
 
 $form     = _lib('pea', 'school_teacher');
@@ -47,30 +46,3 @@ $form->roll->input->position->setDisplayColumn(true);
 
 $form->roll->action();
 echo $form->roll->getForm();
-// $tabs['Daftar Guru'] = $form->roll->getForm();
-
-
-// //////
-// $form  = _lib('pea', 'school_teacher');
-// $form->initEdit(!empty($_GET['id']) ? 'WHERE id='.$_GET['id'] : '');
-
-// $form->edit->addInput('header', 'header');
-// $form->edit->input->header->setTitle('Add New Teacher');
-
-// $form->edit->addInput('name', 'text');
-// $form->edit->input->name->setRequire();
-
-// $form->edit->addInput('nip', 'text');
-// $form->edit->input->nip->setRequire();
-
-// $form->edit->addInput('phone', 'text');
-// $form->edit->input->phone->setRequire();
-
-// $form->edit->addInput('position', 'select');
-// $form->edit->input->position->setTitle('Position');
-// $form->edit->input->position->addOption('Select Position', '');
-// $form->edit->input->position->addOption($position);
-
-// $tabs['Tambah Guru'] = $form->edit->getForm();
-
-// echo tabs($tabs, 1, 'tabs_links');

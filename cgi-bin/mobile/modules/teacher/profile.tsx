@@ -7,6 +7,8 @@ import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 import { Image, Platform, View, Text, Pressable, TouchableOpacity } from 'react-native';
+import navigation from 'esoftplay/modules/lib/navigation';
+import { Auth } from '../auth/login';
 
 
 export interface TeacherProfileArgs {
@@ -23,6 +25,10 @@ function m(props: TeacherProfileProps): any {
         }
         return { elevation: value };
     }
+    const logout = () => {
+        Auth.reset()
+        navigation.navigate('auth/login')
+      }
     return (
         <View style={{ flex: 2, backgroundColor: '#FFFFFF', marginTop: LibStyle.STATUSBAR_HEIGHT }}>
             <View style={{ height: LibStyle.height / 2.5, backgroundColor: '#136B93', justifyContent: 'flex-start', alignItems: 'center', padding: 30, borderBottomLeftRadius: 40, borderBottomRightRadius: 40, ...elevation(6) }}>
@@ -71,7 +77,7 @@ function m(props: TeacherProfileProps): any {
             </View>
 
             <View style={{ alignItems: 'center', marginTop: 15 }}>
-            <Pressable onPress={()=>{LibNavigation.navigate('main/index')}} style={{ height: 55, width: LibStyle.width - 25, backgroundColor: '#136B93', justifyContent: 'center', flexDirection: 'row', alignItems: 'center', borderRadius: 15 }}>
+            <Pressable onPress={()=>logout()} style={{ height: 55, width: LibStyle.width - 25, backgroundColor: '#136B93', justifyContent: 'center', flexDirection: 'row', alignItems: 'center', borderRadius: 15 }}>
                     <Text style={{ color: '#FFFFFF', fontWeight: '400', fontSize: 18, marginRight: 275 }}>Keluar</Text>
                     <MaterialIcons name='logout' size={24} color='#FFFFFF'/>
             </Pressable>

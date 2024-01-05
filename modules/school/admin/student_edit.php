@@ -38,5 +38,4 @@ $form->edit->input->parent_id_guard->setReferenceTable('school_parent');
 $form->edit->input->parent_id_guard->setReferenceField('name','id');
 $form->edit->input->parent_id_guard->setPlaintext(true);
 
-
 echo $form->edit->getForm();

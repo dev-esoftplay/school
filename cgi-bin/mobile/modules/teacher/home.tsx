@@ -1,9 +1,9 @@
 // withHooks
-import { memo } from 'react';
+import { memo, useEffect, useState } from 'react';
 
 import navigation from 'esoftplay/modules/lib/navigation';
 import React from 'react';
-import { Image, Pressable, Text, View } from 'react-native';
+import { ActivityIndicator, Image, Pressable, Text, View } from 'react-native';
 import { Auth } from '../auth/login';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import { UtilsDatepicker } from 'esoftplay/cache/utils/datepicker/import';
@@ -13,6 +13,7 @@ import Icon from '@ant-design/icons/lib/components/Icon';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
+import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 
 
 export interface TeacherHomeArgs {
@@ -20,6 +21,12 @@ export interface TeacherHomeArgs {
 }
 export interface TeacherHomeProps {
 
+}
+interface Product {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
 }
 function m(props: TeacherHomeProps): any {
 
@@ -75,6 +82,58 @@ function m(props: TeacherHomeProps): any {
 
   ]
 
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | undefined>();
+  const [response, setResponse] = useState<{ result: Product[] } | undefined>();
+  const [products, setProducts] = useState<Product[]>([]);
+
+useEffect(() => {
+
+    
+		// const url:string="http://api.school.lc/"
+    
+    // new LibCurl(url,null,(result,msg)=>{ 
+		// 	console.log(result)
+		// },(err)=>{
+		// 	console.log("eror")
+		// })
+
+		  a()
+
+
+  }, [])
+
+	const a =()=>{
+		const url:string="http://api.school.lc/"
+    console.log(url)
+
+
+    new LibCurl(url,null,(result,msg)=>{ 
+			console.log('oke',{result})
+		},(err)=>{
+			console.log("eror",err)
+		})
+		// new LibCurl()
+		console.log(1)
+new LibCurl().custom('http://api.school.lc',null,(res)=>{
+      console.log("resullt",{res})
+})
+		console.log(2)
+
+		// new LibCurl().custom(url, null, (res) => {
+    //   console.log("resullt",{res})
+    // }, 1)
+
+
+		fetch(url).then((v)=>{
+			console.log('ok')
+		}).catch((e)=>{
+			console.log('er')
+		})
+    
+	}
+
+
   return (
     <View style={{ flex: 1, backgroundColor: 'white', padding: 10 }}>
 
@@ -83,8 +142,8 @@ function m(props: TeacherHomeProps): any {
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={
           <ScrollView showsVerticalScrollIndicator={false}>
-            <Pressable onPress={() => logout()} style={{ width: 80, height: 40, backgroundColor: 'red', borderRadius: 10, justifyContent: 'center', alignContent: 'center', alignSelf: 'flex-end', marginTop: 30 }}>
-              <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white', textAlign: 'center', }}>Logout</Text>
+            <Pressable onPress={() => a()} style={{ width: 80, height: 40, backgroundColor: 'red', borderRadius: 10, justifyContent: 'center', alignContent: 'center', alignSelf: 'flex-end', marginTop: 30 }}>
+              <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white', textAlign: 'center', }}>get api</Text>
             </Pressable>
             {/* welcome card */}
             <View style={{ flexDirection: 'row', backgroundColor: 'white', alignItems: 'center', marginTop: 10 }}>

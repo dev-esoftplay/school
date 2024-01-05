@@ -8,19 +8,19 @@
       </div>
       <div class="panel-body">
         <div class="form-group">
-          <label for="">Field Nama Guru</label>
+          <label for="">Nama Guru</label>
           <input type="text" name="nama_guru" class="form-control input-file" id="" placeholder="Input field" required>
         </div>
         <div class="form-group">
-          <label for="">Field NIP Guru</label>
+          <label for="">NIP Guru</label>
           <input type="text" name="nip" class="form-control input-file" id="" placeholder="Input field" required>
         </div>
         <div class="form-group">
-          <label for="">Field No HP Guru</label>
+          <label for="">No HP Guru</label>
           <input type="text" name="phone" class="form-control input-file" id="" placeholder="Input field" required>
         </div>
         <div class="form-group">
-          <label for="">Field Posisi Guru</label>
+          <label for="">Posisi Guru</label>
           <input type="text" name="position" class="form-control input-file" id="" placeholder="Input field" required>
         </div>
         <button type="submit" class="btn btn-primary" name="submit" value="submit_form1">Submit</button>
@@ -51,7 +51,7 @@
           <input type="text" name="phone" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['phone'] ?>">
         </div>
         <div class="form-group">
-          <label for="">Field Posisition</label>
+          <label for="">Field Posisi</label>
           <input type="text" name="position" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['position'] ?>">
         </div>
         <div class="form-group">
