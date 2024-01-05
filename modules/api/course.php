@@ -9,10 +9,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
 	$id = $_GET['id'];
 	$course_id = $db->getAssoc("SELECT * FROM `school_course` WHERE id = $id");
-	return api_ok($course_id);
+
+	$result = [
+		'id' => $id
+	];
+
+	return api_ok($result);
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_GET['id'])) {
 	$course_name = $_POST['name'];
 
 	$course_insert = $db->Insert('school_course', array(
@@ -26,21 +31,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	api_ok($result);
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
   // Misalkan API mengirim data dalam format JSON
- 	$input_data = file_get_contents("php://input");
-  parse_str($input_data, $parsed_data);
+ 	// $input_data = file_get_contents("php://input");
+  // parse_str($input_data, $parsed_data);
 
   // Ambil data dari API
-  $id = $parsed_data['id']; // ID data yang ingin diperbarui
-  $nama = $parsed_data['name']; //
-
+  $id = $_POST['id']; // ID data yang ingin diperbarui
+  // $id_post = $_POST['id'];
+  $name = $_POST['name']; //
+  // echo "wefwef";
   $course_update = $db->Update('school_course', array(
-		'name' => $nama,
+		'name' => $name,
 	), $id);
 
+	$result = [
+		'id' => $id,
+		'name' => $name,
+	];
+
 	if ($course_update) {
-		api_ok($course_update);
+		// api_ok($course_update);
+		api_ok($result);
 	} else {
 	    echo "Gagal memperbarui data di database";
 	}
