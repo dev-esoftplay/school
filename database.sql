@@ -32,7 +32,7 @@ CREATE TABLE `bbc_account` (
   KEY `user_id` (`user_id`),
   KEY `email` (`email`),
   FULLTEXT KEY `name` (`username`,`name`,`email`,`params`)
-) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 INSERT INTO `bbc_account` VALUES (1,1,'admin','Administrator','','tmp@fisip.net','{\"Alamat Lengkap\":\"Indonesia\",\"Phone\":\"0818550122\"}'),(2,2,'danang@fisip.net','Danang Widiantoro','','danang@fisip.net','{\"Nick Name\":\"Danang\",\"Company\":\"Fisip.net\",\"Company Position\":\"Programmer\",\"Address\":\"Jl. Janti no.10 B\",\"City\":\"Bantul\",\"State\":\"Jogjakarta\",\"Post Code\":\"55161\",\"Country\":\"ID\",\"Phone\":\"0818550122\",\"Fax\":\"02743012336\",\"Email Alternate\":\"bbc_danang@yahoo.com\"}');
 DROP TABLE IF EXISTS `bbc_account_temp`;
@@ -586,9 +586,9 @@ CREATE TABLE `bbc_user` (
   KEY `group_ids` (`group_ids`),
   KEY `active` (`active`),
   KEY `exp_checked` (`exp_checked`)
-) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
 
-INSERT INTO `bbc_user` VALUES (1,',3,4,1,2,','admin','DOtGmGAQ9sEZA4nNBAgcw2MOp3eivB3SnbpgYhoYO1ibI93Egax7y9vMG9ThsPi6BMiZwx497sGjKYHyZvPv+A==','::1','::1','2024-01-02 13:50:41','2023-12-28 21:14:30','2024-01-02 16:03:54',36,'0000-00-00 00:00:00',1),(2,',2,1,3,4,','danang@fisip.net','DOtGmGAQ9sEZA4nNBAgcw2MOp3eivB3SnbpgYhoYO1ibI93Egax7y9vMG9ThsPi6BMiZwx497sGjKYHyZvPv+A==','127.0.0.1','127.0.0.1','2016-05-03 23:35:44','2016-05-03 23:32:34','0000-00-00 00:00:00',0,'0000-00-00 00:00:00',1),(3,'4','987654','sumanto','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1),(4,'4','4564565','sumanti','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1),(5,'4','66666','jamet nih boss','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1),(6,'4','04481','intan','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1),(7,'4','123456','sukirman','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1),(8,'4','6545655','sukirmin','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1),(9,'4','55555','senggol dong','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1),(10,'4','04482','dina','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1),(11,'4','887997','ahmad','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1),(12,'4','23155','surya','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1),(13,'4','4556454','najib','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1),(14,'4','45546454','naufal','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1),(15,'4','4665488','reza','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1);
+INSERT INTO `bbc_user` VALUES (1,',3,4,1,2,','admin','DOtGmGAQ9sEZA4nNBAgcw2MOp3eivB3SnbpgYhoYO1ibI93Egax7y9vMG9ThsPi6BMiZwx497sGjKYHyZvPv+A==','::1','::1','2024-01-03 11:42:17','2024-01-02 13:50:41','2024-01-03 14:32:00',37,'0000-00-00 00:00:00',1),(2,',2,1,3,4,','danang@fisip.net','DOtGmGAQ9sEZA4nNBAgcw2MOp3eivB3SnbpgYhoYO1ibI93Egax7y9vMG9ThsPi6BMiZwx497sGjKYHyZvPv+A==','127.0.0.1','127.0.0.1','2016-05-03 23:35:44','2016-05-03 23:32:34','0000-00-00 00:00:00',0,'0000-00-00 00:00:00',1);
 DROP TABLE IF EXISTS `bbc_user_field`;
 CREATE TABLE `bbc_user_field` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -866,7 +866,7 @@ CREATE TABLE `school_parent` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `phone` (`phone`),
   UNIQUE KEY `nik` (`nik`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='data orang tua siswa';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data orang tua siswa';
 
 DROP TABLE IF EXISTS `school_schedule`;
 CREATE TABLE `school_schedule` (
@@ -896,7 +896,7 @@ CREATE TABLE `school_student` (
   `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nis` (`nis`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='data siswa';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data siswa';
 
 DROP TABLE IF EXISTS `school_student_class`;
 CREATE TABLE `school_student_class` (
@@ -921,7 +921,7 @@ CREATE TABLE `school_student_parent` (
   KEY `student_parent_parent` (`parent_id`),
   CONSTRAINT `student_parent_parent` FOREIGN KEY (`parent_id`) REFERENCES `school_parent` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `student_parent_student` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='data menghubungkan orang tua siswa dan siswa';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data menghubungkan orang tua siswa dan siswa';
 
 DROP TABLE IF EXISTS `school_teacher`;
 CREATE TABLE `school_teacher` (

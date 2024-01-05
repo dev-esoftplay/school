@@ -1,6 +1,6 @@
 
 <body>
-<h2 class="text-center">Form Siswa</h2>
+  <h2 class="text-center">Form Siswa</h2>
   <form method="post" enctype="multipart/form-data" class="col-md-7 form-import-excel">
     <!-- ========================================== -->
     <!-- START STUDENT -->
@@ -32,7 +32,6 @@
     <!-- ========================================== -->
     <!-- START AYAH -->
     <!-- ========================================== -->
-
     <div class="form-group ayah">
       <label for="nama_ayah">Nama Ayah :</label>
       <input type="text" class="form-control" name="nama_ayah" <?php echo $input_post['nama_ayah'] ?> required>
@@ -109,12 +108,12 @@
         </div>
         <div class="panel-body">
           <?php
-          foreach ($fields as $fieldName) {
+          foreach ($fields as $fieldName) 
+          {
             $label = ucwords(str_replace('_', ' ', $fieldName));
-            $value = "' . $input_post[$fieldName] . '_import_excel";
             echo '<div class="form-group">';
             echo '<label for="">' . 'Field ' . $label . '</label>';
-            echo '<input type="text" name="' . $fieldName . '_import_excel" class="form-control input-file" id="" placeholder="Input field" value="' . $input_post[$fieldName] . '">';
+            echo '<input type="text" name="' . $fieldName . '" class="form-control input-file" id="" placeholder="Input field" >';
             echo '</div>';
           }
           ?>
@@ -122,7 +121,7 @@
             <label for="fileInput">Pilih File</label>
             <input type="file" name="file" class="form-control">
           </div>
-          <button type="submit" class="btn btn-primary button-file col-md-11" name="import-excel" value="submit">Submit</button>
+          <button type="submit" class="btn btn-primary button-file col-md-11" name="import_excel" value="submit">Submit</button>
         </div>
       </div>
     </form>
@@ -132,17 +131,6 @@
   <script>
     $(document).ready(function()
     {
-      $('.form-import-excel').submit(function (event) {
-        // Cek setiap input field
-        var inputs = $('input[required]');
-        for (var i = 0; i < inputs.length; i++) {
-          if (!inputs[i].value) {
-            alert('Harap isi semua kolom!');
-            event.preventDefault(); // Menghentikan pengiriman formulir jika ada kolom yang kosong
-            break;
-          }
-        }
-      });
       $("input[name='MyRadio']").on('change', function() 
       {
         let value = $("input[name='MyRadio']:checked").val();
@@ -179,6 +167,10 @@
         $(".wali").show();
         $(".ayah, .ibu").hide();
       }
+
+      setTimeout(function () {
+            $("#error-span").hide();
+        }, 10000);
     });
   </script>
 </body>
