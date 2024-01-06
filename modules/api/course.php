@@ -1,6 +1,8 @@
 <?php  if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
-
+/*
+	GET 
+*/
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 	if (isset($_GET['id'])) {
 		$id = $_GET['id'];
@@ -13,59 +15,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 	}	
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_GET['id'])) {
-	$course_name = $_POST['name'];
+/*
+	INSERT AND UPDATE AND DELETE
+*/
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-	$course_insert = $db->Insert('school_course', array(
-		'name' => $course_name,
-	));
+	 if (isset($_POST['action'])) {
+  	$action = $_POST['action'];
+  	 if ($action === 'delete' && isset($_POST['id'])) {
+      $id = $_POST['id'];
 
-	$result = [
-		'course_name' => $course_name,
-	];
+      $delete_query = $db->Execute('DELETE FROM school_course WHERE id = '.$id.'');
 
-	api_ok($result);
-}
+      if ($delete_query) {
+        return api_ok(['message' => 'Data deleted successfully']);
+      } else {
+				return api_no(['message' => 'Failed to delete data']);
+      }
+    }
+  }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
-  // Misalkan API mengirim data dalam format JSON
- 	// $input_data = file_get_contents("php://input");
-  // parse_str($input_data, $parsed_data);
-
-  // Ambil data dari API
-  $id = $_POST['id']; // ID data yang ingin diperbarui
-  // $id_post = $_POST['id'];
-  $name = $_POST['name']; //
-  // echo "wefwef";
-  $course_update = $db->Update('school_course', array(
-		'name' => $name,
-	), $id);
-
-	$result = [
-		'id' => $id,
-		'name' => $name,
-	];
-
-	if ($course_update) {
-		// api_ok($course_update);
-		api_ok($result);
-	} else {
-	    echo "Gagal memperbarui data di database";
-	}
-}
-
-
-if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
-  // Mendapatkan ID data yang akan dihapus
-  parse_str(file_get_contents("php://input"), $delete_data);
-  $id_to_delete = $delete_data['id']; // ID data yang akan dihapus
-
-  // Melakukan proses penghapusan data dari database
-  $delete_result = $db->Execute("DELETE FROM school_course WHERE id = $id_to_delete");
-
-  if ($delete_result) {
-		api_ok($delete_result);
+  $result = ['message' => 'Name parameter is missing'];
+  if (isset($_POST['name'])) {
+    $name = $_POST['name'];
+    if (isset($_POST['id'])) {
+      $id = $_POST['id'];
+      $course_update = $db->Update('school_course', ['name' => $name], $id);
+      $result = [
+				'id' => $id,
+				'name' => $name
+      ];
+      return api_ok($result);
+    } 
+    if (!isset($_POST['id']))
+    {
+      $course_insert = $db->Insert('school_course', ['name' => $name]);
+      $result = [
+      	'message' => 'Name parameter is missing',
+				'id'   => $db->Insert_ID(),
+				'name' => $name
+      ];
+      return api_ok($result);
+    }
   } else {
-      echo "Gagal menghapus data dari database";
+    return api_no($result);
   }
 }
+
+// if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+//   parse_str(file_get_contents("php://input"), $delete_data);
+//   $id_to_delete = $delete_data['id']; // ID data yang akan dihapus
+
+//   $delete_result = $db->Execute("DELETE FROM school_course WHERE id = $id_to_delete");
+
+//   if ($delete_result) {
+// 		api_ok($delete_result);
+//   } else {
+//       echo "Gagal menghapus data dari database";
+//   }
+// }
