@@ -20,9 +20,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-	 if (isset($_POST['action'])) {
+  /*jika ingin melakukan delete harus ada params action=delete*/
+	if (isset($_POST['action'])) {
   	$action = $_POST['action'];
-  	 if ($action === 'delete' && isset($_POST['id'])) {
+    if ($action === 'delete' && isset($_POST['id'])) {
       $id = $_POST['id'];
 
       $delete_query = $db->Execute('DELETE FROM school_course WHERE id = '.$id.'');
@@ -30,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       if ($delete_query) {
         return api_ok(['message' => 'Data deleted successfully']);
       } else {
-				return api_no(['message' => 'Failed to delete data']);
+      	return api_no(['message' => 'Failed to delete data']);
       }
     }
   }
@@ -38,22 +39,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $result = ['message' => 'Name parameter is missing'];
   if (isset($_POST['name'])) {
     $name = $_POST['name'];
+
     if (isset($_POST['id'])) {
       $id = $_POST['id'];
+      $course_id = $db->getone("SELECT id FROM school_course WHERE id = $id");
+
+      if (!$course_id) {
+        return api_no(['message' => 'id not found']);
+      };
+
       $course_update = $db->Update('school_course', ['name' => $name], $id);
       $result = [
-				'id' => $id,
-				'name' => $name
+        'message' => 'data update succes',
+        'id' => $id,
+        'name' => $name
       ];
       return api_ok($result);
     } 
+
     if (!isset($_POST['id']))
     {
       $course_insert = $db->Insert('school_course', ['name' => $name]);
       $result = [
-      	'message' => 'Name parameter is missing',
-				'id'   => $db->Insert_ID(),
-				'name' => $name
+        'message' => 'data insert succes',
+        'id'      => $db->Insert_ID(),
+        'name'    => $name
       ];
       return api_ok($result);
     }
@@ -61,16 +71,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     return api_no($result);
   }
 }
-
-// if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
-//   parse_str(file_get_contents("php://input"), $delete_data);
-//   $id_to_delete = $delete_data['id']; // ID data yang akan dihapus
-
-//   $delete_result = $db->Execute("DELETE FROM school_course WHERE id = $id_to_delete");
-
-//   if ($delete_result) {
-// 		api_ok($delete_result);
-//   } else {
-//       echo "Gagal menghapus data dari database";
-//   }
-// }
