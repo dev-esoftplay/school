@@ -153,7 +153,7 @@ function m(props: ParenChildProps): any {
               </View>
             </View>
           )}
-        />
+           />
         
 
         </View>
