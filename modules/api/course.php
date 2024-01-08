@@ -6,11 +6,17 @@
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 	if (isset($_GET['id'])) {
 		$id = $_GET['id'];
-		$course = $db->getAssoc("SELECT * FROM school_course WHERE id = $id");
+		$course = $db->getAssoc("SELECT * FROM `school_course` WHERE `id` = $id");
+    if (!$course) {
+      return api_no(['message' => 'Data not found for the given ID']);
+    }
 		return api_ok($course);
 	}	
 	if (!isset($_GET['id'])) {
-		$course = $db->getAssoc("SELECT * FROM school_course WHERE 1");
+		$course = $db->getall("SELECT * FROM `school_course` WHERE 1");
+    if (!$course) {
+      return api_no(['message' => 'Data not found or empty']);
+    }
 		return api_ok($course);
 	}	
 }
@@ -26,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'delete' && isset($_POST['id'])) {
       $id = $_POST['id'];
 
-      $delete_query = $db->Execute('DELETE FROM school_course WHERE id = '.$id.'');
+      $delete_query = $db->Execute('DELETE FROM `school_course` WHERE `id` = '.$id.'');
 
       if ($delete_query) {
         return api_ok(['message' => 'Data deleted successfully']);
@@ -42,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (isset($_POST['id'])) {
       $id = $_POST['id'];
-      $course_id = $db->getone("SELECT id FROM school_course WHERE id = $id");
+      $course_id = $db->getone("SELECT id FROM `school_course` WHERE `id` = $id");
 
       if (!$course_id) {
         return api_no(['message' => 'id not found']);

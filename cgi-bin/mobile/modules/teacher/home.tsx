@@ -38,7 +38,7 @@ function m(props: TeacherHomeProps): any {
 
   const jadwal = [
 
-    {
+   {
       'nama kelas': 'kelas 8A',
       'jam': '07.00-08.00',
       'jamke': 'jam ke 1 -jam ke 2',
