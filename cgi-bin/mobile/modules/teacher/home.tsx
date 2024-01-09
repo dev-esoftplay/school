@@ -38,7 +38,7 @@ function m(props: TeacherHomeProps): any {
 
   const jadwal = [
 
-    {
+   {
       'nama kelas': 'kelas 8A',
       'jam': '07.00-08.00',
       'jamke': 'jam ke 1 -jam ke 2',
@@ -78,7 +78,7 @@ function m(props: TeacherHomeProps): any {
       'jumlah siswa': '30/30',
       'color': 'green'
     }
-    
+
 
   ]
 
@@ -87,58 +87,58 @@ function m(props: TeacherHomeProps): any {
   const [response, setResponse] = useState<{ result: Product[] } | undefined>();
   const [products, setProducts] = useState<Product[]>([]);
 
-useEffect(() => {
+  useEffect(() => {
 
-    
-		// const url:string="http://api.school.lc/"
-    
+
+    // const url:string="http://api.school.lc/"
+
     // new LibCurl(url,null,(result,msg)=>{ 
-		// 	console.log(result)
-		// },(err)=>{
-		// 	console.log("eror")
-		// })
+    // 	console.log(result)
+    // },(err)=>{
+    // 	console.log("eror")
+    // })
 
-		  a()
+    a()
 
 
   }, [])
 
-	const a =()=>{
-		const url:string="http://api.school.lc/"
+  const a = () => {
+    const url: string = "https://jsonplaceholder.typicode.com/todos/1"
     console.log(url)
 
 
-    new LibCurl(url,null,(result,msg)=>{ 
-			console.log('oke',{result})
-		},(err)=>{
-			console.log("eror",err)
-		})
-		// new LibCurl()
-		console.log(1)
-new LibCurl().custom('http://api.school.lc',null,(res)=>{
-      console.log("resullt",{res})
-})
-		console.log(2)
+    new LibCurl(url, null, (result, msg) => {
+      console.log('oke', { result })
+    }, (err) => {
+      console.log("eror", err)
+    })
+    // new LibCurl()
+    console.log(1)
+    new LibCurl().custom('https://jsonplaceholder.typicode.com/todos/1', null, (res) => {
+      console.log("resullt", { res })
+    })
+    console.log(2)
 
-		// new LibCurl().custom(url, null, (res) => {
+    // new LibCurl().custom(url, null, (res) => {
     //   console.log("resullt",{res})
     // }, 1)
 
 
-		fetch(url).then((v)=>{
-			console.log('ok')
-		}).catch((e)=>{
-			console.log('er')
-		})
-    
-	}
+    fetch(url).then((v) => {
+      console.log('ok')
+    }).catch((e) => {
+      console.log('er')
+    })
+
+  }
 
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white', padding: 10 }}>
 
       <FlatList data={jadwal}
-      style={{height:'auto',}}
+        style={{ height: 'auto', }}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={
           <ScrollView showsVerticalScrollIndicator={false}>
@@ -162,29 +162,29 @@ new LibCurl().custom('http://api.school.lc',null,(res)=>{
         renderItem={
           ({ item, index }) => {
             return (
-                                        // LibNavigation.navigate('teacher/attandence', { data: {data} });
-            <Pressable onPress={()=>LibNavigation.navigate('teacher/attandence',{data:item['nama kelas']})} style={{ backgroundColor: item['color'], borderRadius: 10, marginTop: 10, flexDirection:'row', }}>
+              // LibNavigation.navigate('teacher/attandence', { data: {data} });
+              <Pressable onPress={() => LibNavigation.navigate('teacher/attandence', { data: item['nama kelas'] })} style={{ backgroundColor: item['color'], borderRadius: 10, marginTop: 10, flexDirection: 'row', }}>
 
-              <View style={{ backgroundColor: 'white',  padding: 10 ,marginLeft:30,width:'80%',opacity:0.7}}>
-                
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                  <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black' }}>{item['nama kelas']} | {item['materi']}</Text>
-                  <View style={{ height: 30, width: 'auto', borderRadius: 8, backgroundColor: item['color'], justifyContent: 'center', alignItems: 'center' ,paddingHorizontal:10}}>
+                <View style={{ backgroundColor: 'white', padding: 10, marginLeft: 30, width: '80%', opacity: 0.7 }}>
 
-                  <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item['jumlah siswa']}</Text>
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black' }}>{item['nama kelas']} | {item['materi']}</Text>
+                    <View style={{ height: 30, width: 'auto', borderRadius: 8, backgroundColor: item['color'], justifyContent: 'center', alignItems: 'center', paddingHorizontal: 10 }}>
+
+                      <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item['jumlah siswa']}</Text>
+                    </View>
+                  </View>
+
+                  <View style={{ height: 30, }} />
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black' }}>{item['jamke']}</Text>
+                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black' }}>{item['jam']}</Text>
                   </View>
                 </View>
 
-                <View style={{ height: 30,   }} />
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black' }}>{item['jamke']}</Text>
-                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black' }}>{item['jam']}</Text>
-                </View>
-              </View>
+                <LibIcon.AntDesign name="right" size={25} color="white" style={{ alignSelf: 'center', marginLeft: 10 }} />
 
-              <LibIcon.AntDesign name="right" size={25} color="white" style={{ alignSelf:'center', marginLeft:10}} />
-             
-            </Pressable>
+              </Pressable>
             )
           }
         } />

@@ -6,11 +6,11 @@
 	if ($_SERVER["REQUEST_METHOD"] == "POST") // HANDLE INSERT DATA FROM INPUT MANUAL DATA
 	{
 		if (isset($_POST)) {
-	    $selected_class = isset($_POST['select_class_id']) ? $_POST['select_class_id'] : null;
+	    $selected_class   = isset($_POST['select_class_id']) ? $_POST['select_class_id'] : null;
 	    $selected_subject = isset($_POST['add_subject_id']) ? $_POST['add_subject_id'] : null;
-	    $days = isset($_POST['add_days']) ? $_POST['add_days'] : null;
-	    $clock_start = isset($_POST['clock_start']) ? $_POST['clock_start'] : null;
-	    $clock_end = isset($_POST['clock_end']) ? $_POST['clock_end'] : null;
+	    $days             = isset($_POST['add_days']) ? $_POST['add_days'] : null;
+	    $clock_start      = isset($_POST['clock_start']) ? $_POST['clock_start'] : null;
+	    $clock_end        = isset($_POST['clock_end']) ? $_POST['clock_end'] : null;
 
 		  if (!empty($_POST['add_days']) && !empty($_POST['clock_start']) && !empty($_POST['clock_end']) && !empty($_POST['add_subject_id'])) {
 		  	$schedule_row = $db->getrow("SELECT * FROM `school_schedule` WHERE `subject_id` = $selected_subject AND `day` = $days AND `clock_start` = $clock_start AND `clock_end` = $clock_end");
@@ -161,10 +161,10 @@ $datashown_schedule = false;
 	  foreach ($output as $key => $value) {
 
 				if ((isset($value[$day]) || isset($value['B'])) &&
-						(isset($value[$course]) || isset($value['C'])) &&
+						(isset($value[$course])  || isset($value['C'])) &&
 						(isset($value[$teacher]) || isset($value['D'])) &&
-						(isset($value[$class]) || isset($value['E'])) &&
-						(isset($value[$clock]) || isset($value['F']))) {
+						(isset($value[$class])   || isset($value['E'])) &&
+						(isset($value[$clock])   || isset($value['F']))) {
 
 		    $course_name = $db->getOne("SELECT `name` FROM `school_course` WHERE `name` = '" . ($value[$course] ?? $value['C']) . "' ");
 
@@ -175,25 +175,25 @@ $datashown_schedule = false;
 		        echo "Nama course berhasil ditambahkan\n";
 		    } else {
 					$course_id  = $db->getOne("SELECT `id` FROM `school_course` WHERE `name` = '" . ($value[$course] ?? $value['C']) . "'");
-					 if (!$datashown_course) {
-			        echo "Data course sudah ada di database\n";
-			        $datashown_course = true; // Set variabel penanda
-				    }
+					if (!$datashown_course) {
+		        echo "Data course sudah ada di database\n";
+		        $datashown_course = true; // Set variabel penanda
+				  }
 		    }
 
 		    $teacher_name = $db->getOne("SELECT `name` FROM `school_teacher` WHERE `name` = '" . ($value[$teacher] ?? $value['D']) . "'");
 
 		    if (!$teacher_name) {
-		        $teacher_id = $db->Insert('school_teacher', array(
-		            'name' => $value[$teacher] ?? $value['D']
-		        ));
-		        echo "Nama guru berhasil ditambahkan\n";
+	        $teacher_id = $db->Insert('school_teacher', array(
+	          'name' => $value[$teacher] ?? $value['D']
+	        ));
+	        echo "Nama guru berhasil ditambahkan\n";
 		    } else {
 		      $teacher_id = $db->getOne("SELECT `id` FROM `school_teacher` WHERE `name` = '" . ($value[$teacher] ?? $value['D']) . "'");
-		       if (!$datashown_teacher) {
-			        echo "Data teacher sudah ada di database\n";
-			        $datashown_teacher = true; // Set variabel penanda
-				    }
+		      if (!$datashown_teacher) {
+		        echo "Data teacher sudah ada di database\n";
+		        $datashown_teacher = true; // Set variabel penanda
+				 	}
 		    }
 
 		    if (isset($teacher_id) && $teacher_id !== null) {

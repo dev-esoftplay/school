@@ -1,0 +1,187 @@
+{
+  "ok": 1,
+  "status_code": 200,
+  "message": "success",
+  "result": [
+    {
+      "id": "1",
+      "subject_id": {
+        "id": "1",
+        "teacher_id": {
+          "id": "2",
+          "user_id": null,
+          "name": "Sumar",
+          "nip": "12121212",
+          "phone": "896123123",
+          "position": "Wakil Kepala Sekolah",
+          "created": "2023-12-20 10:13:28",
+          "updated": null
+        },
+        "course_id": {
+          "id": "3",
+          "name": "Matematika"
+        },
+        "class_id": {
+          "id": "1",
+          "teacher_id": "1",
+          "grade": "11",
+          "label": "3",
+          "major": "DKV"
+        }
+      },
+      "day": "1",
+      "clock_start": "05.00",
+      "clock_end": "08.00"
+    },
+    {
+      "id": "2",
+      "subject_id": {
+        "id": "1",
+        "teacher_id": {
+          "id": "2",
+          "user_id": null,
+          "name": "Sumar",
+          "nip": "12121212",
+          "phone": "896123123",
+          "position": "Wakil Kepala Sekolah",
+          "created": "2023-12-20 10:13:28",
+          "updated": null
+        },
+        "course_id": {
+          "id": "3",
+          "name": "Matematika"
+        },
+        "class_id": {
+          "id": "1",
+          "teacher_id": "1",
+          "grade": "11",
+          "label": "3",
+          "major": "DKV"
+        }
+      },
+      "day": "1",
+      "clock_start": "08.00",
+      "clock_end": "09.00"
+    },
+    {
+      "id": "3",
+      "subject_id": {
+        "id": "2",
+        "teacher_id": {
+          "id": "1",
+          "user_id": null,
+          "name": "Agus",
+          "nip": "12345678",
+          "phone": "896001001",
+          "position": "Kepala Sekolah",
+          "created": "2023-12-20 10:13:06",
+          "updated": null
+        },
+        "course_id": {
+          "id": "1",
+          "name": "Bahasa Indonesia"
+        },
+        "class_id": {
+          "id": "2",
+          "teacher_id": "2",
+          "grade": "10",
+          "label": "B",
+          "major": "RPL"
+        }
+      },
+      "day": "2",
+      "clock_start": "05.00",
+      "clock_end": "08.00"
+    },
+    {
+      "id": "4",
+      "subject_id": {
+        "id": "2",
+        "teacher_id": {
+          "id": "1",
+          "user_id": null,
+          "name": "Agus",
+          "nip": "12345678",
+          "phone": "896001001",
+          "position": "Kepala Sekolah",
+          "created": "2023-12-20 10:13:06",
+          "updated": null
+        },
+        "course_id": {
+          "id": "1",
+          "name": "Bahasa Indonesia"
+        },
+        "class_id": {
+          "id": "2",
+          "teacher_id": "2",
+          "grade": "10",
+          "label": "B",
+          "major": "RPL"
+        }
+      },
+      "day": "2",
+      "clock_start": "08.00",
+      "clock_end": "09.00"
+    },
+    {
+      "id": "5",
+      "subject_id": {
+        "id": "1",
+        "teacher_id": {
+          "id": "2",
+          "user_id": null,
+          "name": "Sumar",
+          "nip": "12121212",
+          "phone": "896123123",
+          "position": "Wakil Kepala Sekolah",
+          "created": "2023-12-20 10:13:28",
+          "updated": null
+        },
+        "course_id": {
+          "id": "3",
+          "name": "Matematika"
+        },
+        "class_id": {
+          "id": "1",
+          "teacher_id": "1",
+          "grade": "11",
+          "label": "3",
+          "major": "DKV"
+        }
+      },
+      "day": "2",
+      "clock_start": "09.00",
+      "clock_end": "10.00"
+    },
+    {
+      "id": "6",
+      "subject_id": {
+        "id": "3",
+        "teacher_id": {
+          "id": "1",
+          "user_id": null,
+          "name": "Agus",
+          "nip": "12345678",
+          "phone": "896001001",
+          "position": "Kepala Sekolah",
+          "created": "2023-12-20 10:13:06",
+          "updated": null
+        },
+        "course_id": {
+          "id": "1",
+          "name": "Bahasa Indonesia"
+        },
+        "class_id": {
+          "id": "1",
+          "teacher_id": "1",
+          "grade": "11",
+          "label": "3",
+          "major": "DKV"
+        }
+      },
+      "day": "2",
+      "clock_start": "10.00",
+      "clock_end": "12.00"
+    }
+  ]
+}

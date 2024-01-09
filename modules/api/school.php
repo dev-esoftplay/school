@@ -4,7 +4,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 	$out = array(
 		'1' => 'halo',
 		'2' => 'test',
-		'3'   => 'API' 
+		'3' => 'API' 
 	);
 
 	return api_ok($out);

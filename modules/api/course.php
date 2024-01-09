@@ -1,75 +1,126 @@
 <?php  if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id'])) {
-	$course = $db->getAssoc("SELECT * FROM `school_course` WHERE 1");
+  /*DETAIL*/
+	if (isset($_GET['id'])) {
+		$id     = $_GET['id'];
+		$course = $db->getAssoc('SELECT * FROM `school_course` WHERE `id` = '.$id);
+    if (!$course) {
+      return api_no(['message' => 'Data not found for the given ID']);
+    }
+		return api_ok($course);
+	}	
+
+  /*GET ALL*/
+	$course = $db->getall('SELECT * FROM `school_course` WHERE 1');
+  if (!$course) {
+    return api_no(['message' => 'Data not found or empty']);
+  }
 	return api_ok($course);
+
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
-	$id = $_GET['id'];
-	$course_id = $db->getAssoc("SELECT * FROM `school_course` WHERE id = $id");
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-	$result = [
-		'id' => $id
-	];
+  /*DELETE*/
+	if (isset($_POST['action'])) {
+  	$action = $_POST['action'];
+    if ($action === 'delete' && isset($_POST['id'])) {
+      $id = $_POST['id'];
 
-	return api_ok($result);
-}
+      $course_id = $db->getone('SELECT id FROM `school_course` WHERE `id` = '.$id);
+      if (!$course_id) {
+        return api_no(['message' => 'Id not Found']);
+      };
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_GET['id'])) {
-	$course_name = $_POST['name'];
+      $course_delete = $db->Execute('DELETE FROM `school_course` WHERE `id` = '.$course_id);
 
-	$course_insert = $db->Insert('school_course', array(
-		'name' => $course_name,
-	));
+      if ($course_delete) {
+        return api_ok(['message' => 'Data deleted successfully']);
+      } else {
+      	return api_no(['message' => 'Failed to delete data']);
+      }
+    }
+  }
 
-	$result = [
-		'course_name' => $course_name,
-	];
+  if (isset($_POST['name'])) {
+    $name = $_POST['name'];
+    $course_row = $db->getrow("SELECT * FROM `school_course` WHERE `name` = '$name'");
 
-	api_ok($result);
-}
+    $required_params = ['name'];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
-  // Misalkan API mengirim data dalam format JSON
- 	// $input_data = file_get_contents("php://input");
-  // parse_str($input_data, $parsed_data);
+    foreach ($required_params as $param) {
+      if (!isset($_POST[$param])) {
+        return api_no(['message' => "Parameter '$param' is missing"]);
+      }
+    }
 
-  // Ambil data dari API
-  $id = $_POST['id']; // ID data yang ingin diperbarui
-  // $id_post = $_POST['id'];
-  $name = $_POST['name']; //
-  // echo "wefwef";
-  $course_update = $db->Update('school_course', array(
-		'name' => $name,
-	), $id);
+    /*UPDATE*/
+    if (isset($_POST['id'])) {
+      $id = $_POST['id'];
 
-	$result = [
-		'id' => $id,
-		'name' => $name,
-	];
+      $course_id = $db->getone('SELECT id FROM `school_course` WHERE `id` = '.$id);
 
-	if ($course_update) {
-		// api_ok($course_update);
-		api_ok($result);
-	} else {
-	    echo "Gagal memperbarui data di database";
-	}
-}
+      if (!$course_id) {
+        return api_no(['message' => 'Id not Found']);
+      };
+
+      $update_data = [];
+      if (isset($name)) {
+        $update_data['name'] = $name;
+      }
+      if (empty($update_data)) {
+        return api_no(['message' => 'No data to update']);
+      }
+
+      if (!$course_row) {
+        $course_update = $db->Update('school_course', ['name' => $name], $id);
+      } else {
+        return api_no(['message' => 'Mungkin data sudah ada di database']);
+      }
+
+      if (!$course_update) {
+        return api_no(['message' => 'Failed to update data']);
+      }    
+      $result = [
+        'message'             => 'Data Update Succes',
+        'id'                  => $id,
+        'data_updated_fields' => $update_data
+      ];
+      return api_ok($result);
+    } 
 
 
-if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
-  // Mendapatkan ID data yang akan dihapus
-  parse_str(file_get_contents("php://input"), $delete_data);
-  $id_to_delete = $delete_data['id']; // ID data yang akan dihapus
+    /*INSERT*/
+    $missing_fields = [];
+    if (!isset($_POST['name'])) {
+      $missing_fields[] = 'name';
+    }
+    if (!empty($missing_fields)) {
+      $message = 'Required field(s) missing or incomplete: ' . implode(', ', $missing_fields);
+      return api_no(['message' => $message]);
+    }
 
-  // Melakukan proses penghapusan data dari database
-  $delete_result = $db->Execute("DELETE FROM school_course WHERE id = $id_to_delete");
+    // $course_row = $db->getrow('SELECT * FROM `school_course` WHERE `name` = '.$name);
 
-  if ($delete_result) {
-		api_ok($delete_result);
+    if (!$course_row) {
+      $course_insert = $db->Insert('school_course', ['name' => $name]);
+    } else {
+      return api_no(['message' => 'Mungkin data sudah ada di database']);
+    }
+
+    if (!$course_insert) {
+      return api_no(['message' => 'Failed to insert data']);
+    }
+
+    $result = $db->getrow('SELECT * FROM `school_course` WHERE `id` = ' . $db->Insert_ID());
+    return api_ok([
+      'message' => 'Data Insert Succes',
+      $result
+    ]);
+
   } else {
-      echo "Gagal menghapus data dari database";
+    return api_no($result);
   }
 }

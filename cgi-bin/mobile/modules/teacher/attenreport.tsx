@@ -24,8 +24,6 @@ function m(props: TeacherAttenreportProps): any {
   const [klsSelected, setKlsSelected] = React.useState(false)
   const Absensi = [
 
-
-
     {
       'nama kelas': 'XII IPA 1',
       'jam': '07.00-08.00',
@@ -203,8 +201,7 @@ function m(props: TeacherAttenreportProps): any {
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                     <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item['nama kelas']} | {item['materi']}</Text>
                     <View style={{ height: 30, width: 'auto', borderRadius: 8, backgroundColor: item['color'], justifyContent: 'center', alignItems: 'center', paddingHorizontal: 10 }}>
-
-                      <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item['jumlah siswa']}</Text>
+                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item['jumlah siswa']}</Text>
                     </View>
                   </View>
 
@@ -214,9 +211,6 @@ function m(props: TeacherAttenreportProps): any {
                     <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item['jam']}</Text>
                   </View>
                 </View>
-
-
-
               </Pressable>
             )
           }
