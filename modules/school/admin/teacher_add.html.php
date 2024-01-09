@@ -9,7 +9,7 @@
       <div class="panel-body">
         <div class="form-group">
           <label for="">Nama Guru</label>
-          <input type="text" name="nama_guru" class="form-control input-file" id="" placeholder="Input field" required>
+          <input type="text" name="name" class="form-control input-file" id="" placeholder="Input field" required>
         </div>
         <div class="form-group">
           <label for="">NIP Guru</label>
@@ -40,7 +40,7 @@
         <p>Jika Field dibawah ini tidak diisi, maka Nama Guru akan mengambil kolom B, NIP kolom C, NoHp kolom D, Posisi kolom E </p>
         <div class="form-group">
           <label for="">Field Nama Guru</label>
-          <input type="text" name="nama_guru" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['nama_guru'] ?>">
+          <input type="text" name="name" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['name'] ?>">
         </div>
         <div class="form-group">
           <label for="">Field NIP</label>
