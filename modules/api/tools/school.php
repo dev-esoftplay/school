@@ -31,7 +31,7 @@ if (!empty($_POST['path']))
 	{
 		if (!empty($post['username'])) $post['username'] = _class('crypt')->encode($post['username']);
 	  if (!empty($post['password'])) $post['password'] = _class('crypt')->encode($post['password']);
-	  if (!empty($post['email'])) $post['email'] = _class('crypt')->encode($post['email']);
+	  if (!empty($post['email'])) $post['email']       = _class('crypt')->encode($post['email']);
 	}
 
 	$debug = !empty($_POST['is_debug']) ? true : false;
@@ -60,6 +60,7 @@ $sys->set_layout('blank.php');
 $file  = _ROOT.'modules/api/_switch.php';
 _func('file');
 $text  = file_read($file);
+// pr($text, $return = false);
 $cases = array();
 $tags  = array();
 if (preg_match_all('~case\s+\'(.*?)\'(?:[^a-z]+//(?:\s+)?([^\n]+)?)?~', $text, $match))
