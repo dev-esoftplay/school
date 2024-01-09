@@ -155,7 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       }
       if (isset($class_id)) {
         $update_data['class_id'] = $class_id;
-      }id not found
+      }
 
       if (empty($update_data)) {
         return api_no(['message' => 'No data to update']);
