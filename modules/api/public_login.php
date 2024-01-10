@@ -24,13 +24,19 @@ if (empty($data_output['ok']))
 $result   = (array) $data_output['result'];
 
 
-$teacherdata = $db->getRow('SELECT id FROM school_student WHERE id= ' .$resul['id']);
-
+$teacherdata = $db->getRow('SELECT * FROM school_teacher WHERE user_id= ' .$result['id']);
+$course_id   = $db->getcol('SELECT course_id FROM school_teacher_subject WHERE teacher_id = ' .$teacherdata['id']);
+$course_name = $db->getcol('SELECT name FROM school_course WHERE id IN ('.implode(',', $course_id).');');
+// $obj = (object) $course_name;
+// if (empty($course_id)) {
+// 	return api_no('data belum ada');
+// }
 $userdata = [
  'id'      => $result['id'],
  'name'    => $result['name'],
  'email'   => $result['email'],
- 'teacher' => $teacherdata
+ 'teacher' => $teacherdata,
+ 'course'  => !empty($course_id) ? $course_name : api_no(['message' => 'Data not found for the given ID'])
 ];
 
 api_ok($userdata);
