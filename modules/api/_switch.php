@@ -36,5 +36,9 @@ switch( $Bbc->mod['task'] )
 		include 'subject.php';
 		break;
 
+	case 'public_login':
+		include 'public_login.php';
+		break;
+
 }
 output_json($output);

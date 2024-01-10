@@ -1,6 +1,6 @@
 <?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
-$user_id   = $merchant_id = $member_id = $mitra_id = 0;
+$user_id   = 0;
 $user_args = [];
 $output    = array(
 	'ok'          => 0,
