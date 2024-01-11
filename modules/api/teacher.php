@@ -3,10 +3,10 @@
 $teacher_id = 5;
 
 if ($teacher_id) {
-	$id 				= $teacher_id;
-	$result 		= ['id' => $id]; // Initialize result with id
-	$teacher_id = $db->getRow("SELECT * FROM school_teacher WHERE id = $id");
-	$result 		= [
+	$id 					= $teacher_id;
+	$result 			= ['id' => $id]; // Initialize result with id
+	$teacher_id 	= $db->getRow("SELECT * FROM school_teacher WHERE id = $id");
+	$result 			= [
 		'id' 				=> $teacher_id['id'],
 		'user_id' 	=> $teacher_id['user_id'],
 		'name' 			=> $teacher_id['name'],
