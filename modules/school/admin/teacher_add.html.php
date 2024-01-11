@@ -21,7 +21,12 @@
         </div>
         <div class="form-group">
           <label for="">Posisi Guru</label>
-          <input type="text" name="position" class="form-control input-file" id="" placeholder="Input field" required>
+          <select class="form-control" id="" name="position" required>
+            <option value="Staff">Staff</option>
+            <option value="Guru BK">Guru BK</option>
+            <option value="Kepala Sekolah">Kepala Sekolah</option>
+            <option value="Wakil Kepala Sekolah">Wakil Kepala Sekolah</option>
+          </select>
         </div>
         <button type="submit" class="btn btn-primary" name="submit" value="submit_form1">Submit</button>
       </div>

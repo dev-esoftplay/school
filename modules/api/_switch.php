@@ -39,6 +39,10 @@ switch( $Bbc->mod['task'] )
 	case 'public_login':
 		include 'public_login.php';
 		break;
+	
+	case 'teacher_update':
+		include 'teacher_update.php';
+		break;
 
 }
 output_json($output);

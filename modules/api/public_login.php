@@ -21,22 +21,25 @@ if (empty($data_output['ok']))
  return api_no('invalid login');
 }
 
-$result   = (array) $data_output['result'];
+$result      = (array) $data_output['result'];
 
-
-$teacherdata = $db->getRow('SELECT * FROM school_teacher WHERE user_id= ' .$result['id']);
+$teacherdata = $db->getRow('SELECT *         FROM school_teacher         WHERE user_id    = ' .$result['id']);
+$parentdata  = $db->getRow('SELECT *         FROM school_parent          WHERE user_id    = ' .$result['id']);
+$studentdata = $db->getRow('SELECT *         FROM school_student         WHERE user_id    = ' .$result['id']);
 $course_id   = $db->getcol('SELECT course_id FROM school_teacher_subject WHERE teacher_id = ' .$teacherdata['id']);
-$course_name = $db->getcol('SELECT name FROM school_course WHERE id IN ('.implode(',', $course_id).');');
+$course_name = $db->getcol('SELECT name      FROM school_course          WHERE id IN ('.implode(',', $course_id).');');
 // $obj = (object) $course_name;
 // if (empty($course_id)) {
 // 	return api_no('data belum ada');
 // }
-$userdata = [
+$userdata  = [
  'id'      => $result['id'],
  'name'    => $result['name'],
  'email'   => $result['email'],
  'teacher' => $teacherdata,
- 'course'  => !empty($course_id) ? $course_name : api_no(['message' => 'Data not found for the given ID'])
+ 'course'  => !empty($course_id) ? $course_name : api_no(['message' => 'Data not found for the given ID']),
+ 'parent'  => $parentdata,
+ 'student' => $studentdata,
 ];
 
 api_ok($userdata);

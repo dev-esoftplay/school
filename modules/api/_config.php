@@ -2,8 +2,8 @@
 
 $Bbc->user_id    = 0;
 $Bbc->api_public = 0;
-$Bbc->limit     = 10;
-$Bbc->limit_max = 30; // maksimum limit untuk jaga" dari load data berlebihan
+$Bbc->limit      = 10;
+$Bbc->limit_max  = 30; // maksimum limit untuk jaga" dari load data berlebihan
 
 if (isset($_seo['URI']))
 {
@@ -13,7 +13,7 @@ if (isset($_seo['URI']))
 
 		if (preg_match('~^public_~s', $_seo['r'][0]))
 		{
-			$Bbc->user_id       = 1;
+			$Bbc->user_id       	 = 1;
 			$_SERVER['HTTP_TOKEN'] = 1;
 		}else
 		if (!empty($_SERVER['HTTP_TOKEN']))
@@ -21,7 +21,7 @@ if (isset($_seo['URI']))
 			$token = _class('crypt')->decode(trim($_SERVER['HTTP_TOKEN']));
 			if (!empty($token))
 			{
-				@list($timestamp, $user_id) = explode('|', $token);
+				@list($timestamp, $user_id, $teacher_id) = explode('|', $token);	
 
 				if (!empty($timestamp))
 				{
@@ -30,6 +30,10 @@ if (isset($_seo['URI']))
 						if(!empty($user_id))
 						{
 							$Bbc->user_id = intval($user_id);
+						}
+						if(!empty($teacher_id))
+						{
+							$Bbc->teacher_id = intval($teacher_id);
 						}
 					}
 				}

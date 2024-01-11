@@ -11,7 +11,7 @@ if (!empty($_POST['path']))
 	{
 		$token  = time();
 		$token .= '|'.$user_id;
-		// $token .= '|'.intval($db->getOne("SELECT `id` FROM `member` WHERE `user_id`={$user_id}"));
+		$token .= '|'.intval($db->getOne("SELECT `id` FROM `school_teacher` WHERE `user_id`={$user_id}"));
 		// $token .= '|'.intval($db->getOne("SELECT `id` FROM `shop_merchant` WHERE `user_id`={$user_id}"));
 		$token .= '|'.'GET:what';
 		$option = array(
@@ -21,7 +21,7 @@ if (!empty($_POST['path']))
 				)
 			);
 	}
-
+	
 	if (!empty($get))
 	{
 		$_url .= '?'.$get;

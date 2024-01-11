@@ -43,8 +43,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") // HANDLE INSERT DATA FROM INPUT MANUA
 
     if (!$q) {
       $guru_user_id = $db->Insert('bbc_user', array(
-        'password'  => $password,
+        'group_ids' => 5,
         'username'  => $data['nip'],
+        'password'  => $password,
       ));
     }
 
@@ -80,6 +81,7 @@ if (!empty($_FILES['file']) && (!empty($_POST) || isset($_POST))) {
 
     if (!$q) {
       $guru_user_id_file = $db->Insert('bbc_user', array(
+        'group_ids'      => 5,
         'username'       => $value[$data['nip']],
         'password'       => $password,
       ));
