@@ -13,7 +13,8 @@ if (isset($_seo['URI']))
 
 		if (preg_match('~^public_~s', $_seo['r'][0]))
 		{
-			$Bbc->user_id       	 = 1;
+			$Bbc->user_id       = 1;
+			$Bbc->api_public       = 1;
 			$_SERVER['HTTP_TOKEN'] = 1;
 		}else
 		if (!empty($_SERVER['HTTP_TOKEN']))

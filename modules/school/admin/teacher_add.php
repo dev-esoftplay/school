@@ -26,7 +26,7 @@ foreach ($field as $item) {
   }
 }
 
-$password = encode($data['name']);
+$password = _class('crypt')->encode($data['name']);;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") // HANDLE INSERT DATA FROM INPUT MANUAL DATA
 {

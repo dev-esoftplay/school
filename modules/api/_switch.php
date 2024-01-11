@@ -44,5 +44,13 @@ switch( $Bbc->mod['task'] )
 		include 'teacher_update.php';
 		break;
 
+	case 'teacher_course':
+		include 'teacher_course.php';
+		break;
+
+	case 'teacher_schedule':
+		include 'teacher_schedule.php';
+		break;
+
 }
 output_json($output);
