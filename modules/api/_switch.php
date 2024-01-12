@@ -52,5 +52,9 @@ switch( $Bbc->mod['task'] )
 		include 'teacher_schedule.php';
 		break;
 
+ 	case 'logout': // Halaman untuk logout bagi user yang sudah login
+    user_logout($Bbc->user_id);
+    redirect(_URL);
+    break;
 }
 output_json($output);

@@ -1,12 +1,22 @@
 <?php  if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
-if (empty($_POST['username'])) {
- return api_no('username tidak boleh kosong');
-}
+$user = $_POST['user'];
+$en_user = _class('crypt')->encode($user);
+$pass = $_POST['pass'];
+$en_pass = _class('crypt')->encode($pass);
 
-if (empty($_POST['password'])) {
- return api_no('password tidak boleh kosong');
-}
+
+$username = !empty($_POST['username']) ? $_POST['username'] : $en_user;
+$password = !empty($_POST['password']) ? $_POST['password'] : $en_pass;
+
+// if (empty($_POST['username'])) {
+//  return api_no('username tidak boleh kosong');
+// }
+
+// if (empty($_POST['password'])) {
+//  return api_no('password tidak boleh kosong');
+// }
+
 
 $data_output = array('ok' => 0);
 include _ROOT.'modules/_cpanel/user/mlogin.html.php';
@@ -27,12 +37,28 @@ $teacherdata = $db->getRow('SELECT *         FROM school_teacher         WHERE u
 $parentdata  = $db->getRow('SELECT *         FROM school_parent          WHERE user_id    = ' .$result['id']);
 $studentdata = $db->getRow('SELECT *         FROM school_student         WHERE user_id    = ' .$result['id']);
 $course_id   = $db->getcol('SELECT course_id FROM school_teacher_subject WHERE teacher_id = ' .$teacherdata['id']);
-$course_name = $db->getcol('SELECT name      FROM school_course          WHERE id IN ('.implode(',', $course_id).');');
+$course_name = $db->getCol('SELECT name      FROM school_course          WHERE id IN ('.implode(',', $course_id).');');
+
 // $obj = (object) $course_name;
 // if (empty($course_id)) {
-// 	return api_no('data belum ada');
+//   return api_no('data belum ada');
 // }
+// $token = get_token($username,$password,$db);
+// $result['id'] = $user_id;
+
+//membuatkan token
+if (!empty($result['id'])) {
+  $token  = strtotime('+10 year');
+  $token .= '|' . $result['id'];
+  $token .= '|' . intval($db->getOne("SELECT `id` FROM `school_teacher` WHERE `user_id`= {$result['id']}")); // teacher_id
+  //ditambahkan jika ada penambahan dari mobile ataupun admin.
+  $token .= '|' . 'GET:what';
+  $en_token = _class('crypt')->encode($token);
+}
+
+
 $userdata  = [
+ 'token'   => $en_token,
  'id'      => $result['id'],
  'name'    => $result['name'],
  'email'   => $result['email'],
@@ -42,4 +68,4 @@ $userdata  = [
  'student' => $studentdata,
 ];
 
-api_ok($userdata);
+return api_ok($userdata);
