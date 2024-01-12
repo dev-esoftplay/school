@@ -3,11 +3,11 @@
 $field      = ['name', 'nip', 'phone', 'position', 'image'];
 
 if ($teacher_id) {
-  $id            = $teacher_id;
-  $result        = ['id' => $id]; // Initialize result with id
+  $id             = $teacher_id;
+  $result         = ['id' => $id]; // Initialize result with id
   foreach ($field as $item) {
     if (isset($_POST[$item])) {
-      $teacher_id    = $db->Update(
+      $teacher_id = $db->Update(
         'school_teacher',
         [
           $item => $_POST[$item]
