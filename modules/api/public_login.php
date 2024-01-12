@@ -1,21 +1,21 @@
 <?php  if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
-$user = $_POST['user'];
-$en_user = _class('crypt')->encode($user);
-$pass = $_POST['pass'];
-$en_pass = _class('crypt')->encode($pass);
+// $user = $_POST['user'];
+// $en_user = _class('crypt')->encode($user);
+// $pass = $_POST['pass'];
+// $en_pass = _class('crypt')->encode($pass);
 
 
-$username = !empty($_POST['username']) ? $_POST['username'] : $en_user;
-$password = !empty($_POST['password']) ? $_POST['password'] : $en_pass;
+// $username = !empty($_POST['username']) ? $_POST['username'] : $en_user;
+// $password = !empty($_POST['password']) ? $_POST['password'] : $en_pass;
 
-// if (empty($_POST['username'])) {
-//  return api_no('username tidak boleh kosong');
-// }
+if (empty($_POST['username'])) {
+ return api_no('username tidak boleh kosong');
+}
 
-// if (empty($_POST['password'])) {
-//  return api_no('password tidak boleh kosong');
-// }
+if (empty($_POST['password'])) {
+ return api_no('password tidak boleh kosong');
+}
 
 
 $data_output = array('ok' => 0);
