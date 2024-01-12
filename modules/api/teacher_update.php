@@ -1,6 +1,6 @@
 <?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
-$field      = ['name', 'nip', 'phone', 'position',];
+$field      = ['name', 'nip', 'phone', 'position', 'image'];
 
 if ($teacher_id) {
   $id            = $teacher_id;
