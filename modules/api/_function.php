@@ -1,5 +1,7 @@
 <?php  if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
+include_once __DIR__ . '/functions/key.php';
+
 /**
  * membuat return bahwa api yang diakses tidak true
  * */

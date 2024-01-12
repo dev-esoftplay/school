@@ -9,19 +9,24 @@ $output    = array(
 	'result'      => []
 );
 
-if (!empty($Bbc->user_id)) {
-	$q   = "SELECT `id` FROM `bbc_user` WHERE id={$Bbc->user_id} AND `active`=1";
-	$usr = $db->cacheGetOne($q);
-	if (!empty($usr)) $user_id = $usr;
+if (empty($Bbc->token)) {
+	$Bbc->mod['task'] = 'no_auth';
+	return false;
 }
 
-if (!empty($Bbc->teacher_id)) {
-	$q   = "SELECT `id` FROM `school_teacher` WHERE id={$Bbc->teacher_id}";
-	$teacher = $db->cacheGetOne($q);
-	if (!empty($teacher)) $teacher_id = $teacher;
-}
+if ($Bbc->token != 1) {
+	$device_data = $db->getRow('SELECT `user_id`, `member_id` FROM `member_device` WHERE `key`="'.$Bbc->token.'"');
+	if (empty($device_data)) {
+		$Bbc->mod['task'] = 'no_auth';
+		return false;
+	}
 
-// if($user_id <= 0)
-// {
-// 	output_json(['ok' => 0,'message' => lang('User tidak valid')]);
-// }
+	$user_id = intval($db->getOne('SELECT `id` FROM `bbc_user` WHERE `id`='.$device_data['user_id'].' AND `active`=1'));
+	if (empty($user_id)) {
+		output_json(['ok' => 0, 'message' => lang('User anda tidak aktif. Silahkan hubungi admin untuk info lebih lanjut.')]);
+		return false;
+	}
+
+	$teacher_id = intval($db->getOne('SELECT `id` FROM `school_teacher` WHERE `user_id`='.$device_data['user_id']));
+	$parent_id  = intval($db->getOne('SELECT `id` FROM `school_parent` WHERE `user_id`='.$device_data['user_id']));
+}

@@ -1,22 +1,14 @@
 <?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
-if (!empty($teacher)) {
-	$id 					= $teacher;
-	$result 			= []; 
-	$teacher 			= $db->getRow("SELECT * FROM school_teacher WHERE id = $id");
-	$result 			= [
-		'id' 				=> $teacher['id'],
-		'user_id' 	=> $teacher['user_id'],
-		'name' 			=> $teacher['name'],
-		'nip' 			=> $teacher['nip'],
-		'phone' 		=> $teacher['phone'],
-		'position' 	=> $teacher['position'],
-		'image' 		=> $teacher['image'],
-	];
-	return api_ok($result);
+if (empty($teacher_id))
+{
+	return api_no(lang('Anda tidak memiliki akses ke halaman ini.'));
 }
 
-if (empty($teacher))
+$result = $db->getRow('SELECT `name`, `nip`, `phone`, `position`, `image` FROM `school_teacher` WHERE `id` = '.$teacher_id);
+if (empty($result))
 {
-	return api_no(['message' => 'id tidak valid']);
+	return api_no(lang('Anda tidak terdaftar sebagai guru. Silahkan hubungi admin untuk info lebih lanjut'));
 }
+
+api_ok($result);

@@ -1,25 +1,27 @@
 <?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
-$field      = ['name', 'nip', 'phone', 'position', 'image'];
-
-if ($teacher_id) {
-  $id             = $teacher_id;
-  $result         = ['id' => $id]; // Initialize result with id
-  foreach ($field as $item) {
-    if (isset($_POST[$item])) {
-      $teacher_id = $db->Update(
-        'school_teacher',
-        [
-          $item => $_POST[$item]
-        ],
-        $id
-      );
-      $result[$item] = $_POST[$item];
-    }
-  }
-  return api_ok($result);
+if (empty($teacher_id))
+{
+  return api_no(lang('Anda tidak memiliki akses ke halaman ini.'));
 }
 
-if (empty($teacher_id)) {
-  return api_no(['message' => 'id tidak valid']);
+$sql = [];
+if (!empty($_POST['name'])) {
+  $sql['name'] = addslashes($_POST['name']);
 }
+
+if (!empty($_POST['phone'])) {
+  $sql['phone'] = addslashes($_POST['phone']);
+}
+
+if (!empty($_POST['position'])) {
+  $sql['position'] = addslashes($_POST['position']);
+}
+
+if (empty($sql)) {
+  return api_no(lang('Data tidak ada yang dirubah'));
+}
+
+$db->Update('school_teacher', $sql, $teacher_id);
+
+api_ok(lang('Data berhasil diubah'));

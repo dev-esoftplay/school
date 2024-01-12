@@ -56,5 +56,13 @@ switch( $Bbc->mod['task'] )
     user_logout($Bbc->user_id);
     redirect(_URL);
     break;
+
+
+  case 'no_auth': // tiap API wajib pakai ini
+		api_no(lang('Authentication Failed.'));
+		break;
+	default: // tiap API wajib pakai ini
+		api_no(lang('Invalid action <b>%s</b> has been received...', $Bbc->mod['task']));
+		break;
 }
 output_json($output);

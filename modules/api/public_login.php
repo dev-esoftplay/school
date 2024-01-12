@@ -1,14 +1,5 @@
 <?php  if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
-// $user = $_POST['user'];
-// $en_user = _class('crypt')->encode($user);
-// $pass = $_POST['pass'];
-// $en_pass = _class('crypt')->encode($pass);
-
-
-// $username = !empty($_POST['username']) ? $_POST['username'] : $en_user;
-// $password = !empty($_POST['password']) ? $_POST['password'] : $en_pass;
-
 if (empty($_POST['username'])) {
  return api_no('username tidak boleh kosong');
 }
@@ -17,8 +8,6 @@ if (empty($_POST['password'])) {
  return api_no('password tidak boleh kosong');
 }
 
-$username = !empty($_POST['username']) ? $_POST['username'] : null;
-$password = !empty($_POST['password']) ? $_POST['password'] : null;
 
 $data_output = array('ok' => 0);
 include _ROOT.'modules/_cpanel/user/mlogin.html.php';
@@ -33,41 +22,36 @@ if (empty($data_output['ok']))
  return api_no('invalid login');
 }
 
-$result      = (array) $data_output['result'];
-
-$teacherdata = $db->getRow('SELECT *         FROM school_teacher         WHERE user_id    = ' .$result['id']);
-$parentdata  = $db->getRow('SELECT *         FROM school_parent          WHERE user_id    = ' .$result['id']);
-$studentdata = $db->getRow('SELECT *         FROM school_student         WHERE user_id    = ' .$result['id']);
-$course_id   = $db->getcol('SELECT course_id FROM school_teacher_subject WHERE teacher_id = ' .$teacherdata['id']);
-$course_name = $db->getcol('SELECT name      FROM school_course          WHERE id IN ('.implode(',', $course_id).');');
-
-// $obj = (object) $course_name;
-// if (empty($course_id)) {
-//   return api_no('data belum ada');
-// }
-// $token = get_token($username,$password,$db);
-// $result['id'] = $user_id;
-
-//membuatkan token
-if (!empty($result['id'])) {
-  $token  = strtotime('+10 year');
-  $token .= '|' . $result['id'];
-  $token .= '|' . intval($db->getOne("SELECT `id` FROM `school_teacher` WHERE `user_id`= {$result['id']}")); // teacher_id
-  //ditambahkan jika ada penambahan dari mobile ataupun admin.
-  $token .= '|' . 'GET:what';
-  $en_token = _class('crypt')->encode($token);
+$result          = (array)$data_output['result'];
+$installation_id = addslashes($_POST['installation_id'] ?? '');
+if (!empty($installation_id)) {
+  $device_data = $db->getRow('SELECT `id`, `key` FROM `member_device` WHERE `user_id` = '.$result['id'].' AND `installation_id`="'.$installation_id.'" LIMIT 1');
+  if (!empty($device_data['id'])) {
+    $key = $device_data['key'];
+    $db->Update('member_device', ['last_login' => date('Y-m-d H:i:s')], '`id`='.$device_data['id']);
+  }else{
+    $key = api_key_generate();
+    $db->Insert('member_device', [
+      'user_id'         => $result['id'],
+      'member_id'       => $db->getOne('SELECT `id` FROM `member` WHERE `user_id`='.$result['id']),
+      'installation_id' => $installation_id,
+      'key'             => $key,
+      'last_login'      => date('Y-m-d H:i:s')
+    ]);
+  }
 }
 
 
+$teacherdata = $db->getRow('SELECT `name`, `nip`, `phone`, `position`, `image` FROM `school_teacher` WHERE `user_id` = ' .$result['id']);
+$parentdata  = $db->getRow('SELECT `name`, `phone`, `nik`, `nokk`, `address` FROM `school_parent` WHERE `user_id` = ' .$result['id']);
+
 $userdata  = [
-//  'token'   => $en_token,
- 'id'      => $result['id'],
- 'name'    => $result['name'],
- 'email'   => $result['email'],
- 'teacher' => $teacherdata,
- 'course'  => !empty($course_id) ? $course_name : api_no(['message' => 'Data not found for the given ID']),
- 'parent'  => $parentdata,
- 'student' => $studentdata,
+  'apikey'  => $key ?? '',
+  'name'    => $result['name'],
+  'email'   => $result['email'],
+  'teacher' => $teacherdata ?? [],
+  'parent'  => $parentdata ?? []
 ];
 
 return api_ok($userdata);
+
