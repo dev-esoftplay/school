@@ -1,23 +1,22 @@
 <?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
+$field      = ['name', 'nip', 'phone', 'position',];
+
 if ($teacher_id) {
   $id            = $teacher_id;
   $result        = ['id' => $id]; // Initialize result with id
-  $teacher_id    = $db->Update(
-    'school_teacher',
-    [
-      'name'     => $_POST['name'],
-      'nip'      => $_POST['nip'],
-      'phone'    => $_POST['phone'],
-      'position' => $_POST['position'],
-    ],$id);
-  $result        = [
-    'name'       => $_POST['name'],
-    'nip'        => $_POST['nip'],
-    'phone'      => $_POST['phone'],
-    'position'   => $_POST['position'],
-    'image'      => $_POST['image'],
-  ];
+  foreach ($field as $item) {
+    if (isset($_POST[$item])) {
+      $teacher_id    = $db->Update(
+        'school_teacher',
+        [
+          $item => $_POST[$item]
+        ],
+        $id
+      );
+      $result[$item] = $_POST[$item];
+    }
+  }
   return api_ok($result);
 }
 

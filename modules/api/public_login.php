@@ -17,6 +17,8 @@ if (empty($_POST['password'])) {
  return api_no('password tidak boleh kosong');
 }
 
+$username = !empty($_POST['username']) ? $_POST['username'] : null;
+$password = !empty($_POST['password']) ? $_POST['password'] : null;
 
 $data_output = array('ok' => 0);
 include _ROOT.'modules/_cpanel/user/mlogin.html.php';
@@ -37,7 +39,7 @@ $teacherdata = $db->getRow('SELECT *         FROM school_teacher         WHERE u
 $parentdata  = $db->getRow('SELECT *         FROM school_parent          WHERE user_id    = ' .$result['id']);
 $studentdata = $db->getRow('SELECT *         FROM school_student         WHERE user_id    = ' .$result['id']);
 $course_id   = $db->getcol('SELECT course_id FROM school_teacher_subject WHERE teacher_id = ' .$teacherdata['id']);
-$course_name = $db->getCol('SELECT name      FROM school_course          WHERE id IN ('.implode(',', $course_id).');');
+$course_name = $db->getcol('SELECT name      FROM school_course          WHERE id IN ('.implode(',', $course_id).');');
 
 // $obj = (object) $course_name;
 // if (empty($course_id)) {
