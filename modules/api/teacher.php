@@ -1,24 +1,22 @@
 <?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
-$teacher_id = 5;
-
-if ($teacher_id) {
-	$id 					= $teacher_id;
-	$result 			= ['id' => $id]; // Initialize result with id
-	$teacher_id 	= $db->getRow("SELECT * FROM school_teacher WHERE id = $id");
+if (!empty($teacher)) {
+	$id 					= $teacher;
+	$result 			= []; 
+	$teacher 			= $db->getRow("SELECT * FROM school_teacher WHERE id = $id");
 	$result 			= [
-		'id' 				=> $teacher_id['id'],
-		'user_id' 	=> $teacher_id['user_id'],
-		'name' 			=> $teacher_id['name'],
-		'nip' 			=> $teacher_id['nip'],
-		'phone' 		=> $teacher_id['phone'],
-		'position' 	=> $teacher_id['position'],
-		'image' 		=> $teacher_id['image'],
+		'id' 				=> $teacher['id'],
+		'user_id' 	=> $teacher['user_id'],
+		'name' 			=> $teacher['name'],
+		'nip' 			=> $teacher['nip'],
+		'phone' 		=> $teacher['phone'],
+		'position' 	=> $teacher['position'],
+		'image' 		=> $teacher['image'],
 	];
 	return api_ok($result);
 }
 
-if (empty($teacher_id))
+if (empty($teacher))
 {
 	return api_no(['message' => 'id tidak valid']);
 }
