@@ -18,6 +18,10 @@ $form->edit->input->name->setRequire($require='any', $is_mandatory=1);
 $form->edit->addInput('phone','text');
 $form->edit->input->phone->setTitle('Nomor telepon');
 $form->edit->input->phone->setRequire($require='any', $is_mandatory=1);
+if(!empty($_POST[$form->edit->input->phone->name]))
+{
+  $_POST[$form->edit->input->phone->name] = school_phone_replace($_POST[$form->edit->input->phone->name]);
+}
 $form->edit->action();
 
 $form->edit->addInput('nokk','text');
@@ -41,5 +45,3 @@ $form->edit->input->id->setDisplayFunction(
 );
 
 echo $form->edit->getForm();
-
-
