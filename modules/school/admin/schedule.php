@@ -20,8 +20,12 @@ $form->initRoll($add_sql.' ORDER BY id DESC', 'id' );
 
 $form->roll->setSaveTool(true);
 
-$form->roll->addInput( 'id', 'sqlplaintext' );
+$form->roll->addInput('id', 'sqlplaintext');
 $form->roll->input->id->setDisplayColumn(true);
+
+$form->roll->addInput('id','sqllinks');
+$form->roll->input->id->setFieldName('id AS edit');
+$form->roll->input->id->setLinks($Bbc->mod['circuit'].'.schedule_edit');
 
 $form->roll->addInput( 'day', 'select' );
 $form->roll->input->day->setTitle( 'day' );

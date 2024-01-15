@@ -48,12 +48,12 @@ switch( $Bbc->mod['task'] )
 		include 'schedule_edit.php';
 		break;
 		
-	case 'course':
-		include 'course.php';
+	case 'subject':
+		include 'subject.php';
 		break;
 		
-	case 'course_edit':
-		include 'course_edit.php';
+	case 'subject_edit':
+		include 'subject_edit.php';
 		break;
 		
 	case 'parent':
