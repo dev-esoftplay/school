@@ -62,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") // HANDLE INSERT DATA FROM INPUT MANUA
         'user_id'   => $guru_user_id,
         'name'      => $data['name'],
         'nip'       => $data['nip'],
-        'phone'     => $data['phone'],
+        'phone'     => school_phone_replace($data['phone']),
         'position'  => $data['position']
       ));
     }
@@ -98,12 +98,12 @@ if (!empty($_FILES['file']) && (!empty($_POST) || isset($_POST))) {
         'user_id'        => $guru_user_id_file,
         'name'           => $value[$data['name']],
         'nip'            => $value[$data['nip']],
-        'phone'          => $value[$data['phone']],
+        'phone'          => school_phone_replace($value[$data['phone']]),
         'position'       => $value[$data['position']],
       ));
     }
   }
-  echo '<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok-sign" title="ok sign"></span> Sukses Tambah data.</div>';
+  echo '<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok-s ign" title="ok sign"></span> Sukses Tambah data.</div>';
 }
 
 include tpl('teacher_add.html.php');

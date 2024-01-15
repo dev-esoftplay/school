@@ -588,7 +588,7 @@ CREATE TABLE `bbc_user` (
   KEY `exp_checked` (`exp_checked`)
 ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
-INSERT INTO `bbc_user` VALUES (1,',3,4,1,2,','admin','DOtGmGAQ9sEZA4nNBAgcw2MOp3eivB3SnbpgYhoYO1ibI93Egax7y9vMG9ThsPi6BMiZwx497sGjKYHyZvPv+A==','::1','::1','2024-01-12 10:03:54','2024-01-11 09:55:50','0000-00-00 00:00:00',3,'0000-00-00 00:00:00',1),(2,',2,1,3,4,','danang@fisip.net','DOtGmGAQ9sEZA4nNBAgcw2MOp3eivB3SnbpgYhoYO1ibI93Egax7y9vMG9ThsPi6BMiZwx497sGjKYHyZvPv+A==','127.0.0.1','127.0.0.1','2016-05-03 23:35:44','2016-05-03 23:32:34','0000-00-00 00:00:00',0,'0000-00-00 00:00:00',1),(3,',3,','55555','cJumA0B5Xqe5TKx2D94ptnmocRJWX6i+EFa2WwThma1Muh/Lf3+NbBCB0U8yFKb5K3D/BXih9uhwYdMeWbARNA==','127.0.0.1','127.0.0.1','2024-01-11 14:32:48','2024-01-11 11:01:57','0000-00-00 00:00:00',8,NULL,1),(4,',3,','11111','nlPS/e43mHpdsaWWIkHKUVWMX88Bn8H1E4s7tstssEUnkudrXKsurOLFv1W2BGNnXXWLBjs5KhvijheBt1xqKg==','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1),(5,',3,','22222','jE/+I18vZyYb3okVQAbdJuOj/baFZi2NZh3fWEiRkzsvEKzEyOHBBl5KYQdmCGclmhY/uccNQuNNzkQRx6RZYg==','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1),(6,',3,','33333','9LGQkjpEopIqaEHfzYggsbtZPa2nC9duP6v43gsM9yT5J0jKw73nW3blEHfsNDEIC5W/To6ePEgtVEekJl562Q==','127.0.0.1','','2024-01-11 14:46:56',NULL,'0000-00-00 00:00:00',1,NULL,1),(7,',3,','44444','byR9cG1NhEQtVqFdgN+bIFp7+eUrOCbkx3gtlntN3cnVZ7cDBiQzCt6eGuHYwJw2OXy+vN/QV9UsvMwcumVsdw==','127.0.0.1','','2024-01-11 14:56:36',NULL,'0000-00-00 00:00:00',1,NULL,1);
+INSERT INTO `bbc_user` VALUES (1,',3,4,1,2,','admin','1tZZH/jwy/4SPkXCmacN3EP4Uq/eTmNw7ZdDz85inpEeVHk6SPFNae8R8QHgz+vH0dUxReNCO5mavGoMB/FuWA==','::1','::1','2024-01-15 10:05:34','2024-01-14 20:39:40','2024-01-15 12:13:01',5,'0000-00-00 00:00:00',1),(2,',2,1,3,4,','danang@fisip.net','1tZZH/jwy/4SPkXCmacN3EP4Uq/eTmNw7ZdDz85inpEeVHk6SPFNae8R8QHgz+vH0dUxReNCO5mavGoMB/FuWA==','127.0.0.1','127.0.0.1','2016-05-03 23:35:44','2016-05-03 23:32:34','0000-00-00 00:00:00',0,'0000-00-00 00:00:00',1),(3,',3,','55555','cJumA0B5Xqe5TKx2D94ptnmocRJWX6i+EFa2WwThma1Muh/Lf3+NbBCB0U8yFKb5K3D/BXih9uhwYdMeWbARNA==','127.0.0.1','127.0.0.1','2024-01-11 14:32:48','2024-01-11 11:01:57','0000-00-00 00:00:00',8,NULL,1),(4,',3,','11111','nlPS/e43mHpdsaWWIkHKUVWMX88Bn8H1E4s7tstssEUnkudrXKsurOLFv1W2BGNnXXWLBjs5KhvijheBt1xqKg==','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1),(5,',3,','22222','jE/+I18vZyYb3okVQAbdJuOj/baFZi2NZh3fWEiRkzsvEKzEyOHBBl5KYQdmCGclmhY/uccNQuNNzkQRx6RZYg==','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1),(6,',3,','33333','9LGQkjpEopIqaEHfzYggsbtZPa2nC9duP6v43gsM9yT5J0jKw73nW3blEHfsNDEIC5W/To6ePEgtVEekJl562Q==','192.168.100.53','192.168.100.53','2024-01-12 17:44:24','2024-01-12 17:00:47','0000-00-00 00:00:00',684,NULL,1),(7,',3,','44444','byR9cG1NhEQtVqFdgN+bIFp7+eUrOCbkx3gtlntN3cnVZ7cDBiQzCt6eGuHYwJw2OXy+vN/QV9UsvMwcumVsdw==','127.0.0.1','','2024-01-11 14:56:36',NULL,'0000-00-00 00:00:00',1,NULL,1);
 DROP TABLE IF EXISTS `bbc_user_field`;
 CREATE TABLE `bbc_user_field` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -779,6 +779,33 @@ CREATE TABLE `links_share` (
   KEY `publish` (`publish`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `member`;
+CREATE TABLE `member` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='tabel untuk menyimpan data member';
+
+DROP TABLE IF EXISTS `member_device`;
+CREATE TABLE `member_device` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL,
+  `member_id` int(11) unsigned NOT NULL,
+  `installation_id` varchar(255) DEFAULT NULL,
+  `key` varchar(50) DEFAULT NULL,
+  `last_login` datetime DEFAULT NULL,
+  `created` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `installation_id` (`installation_id`),
+  KEY `member_id` (`member_id`),
+  KEY `user_id` (`user_id`),
+  KEY `key` (`key`),
+  CONSTRAINT `member_device_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='tabel untuk menyimpan data device yang login';
+
 DROP TABLE IF EXISTS `school`;
 CREATE TABLE `school` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -840,7 +867,7 @@ CREATE TABLE `school_class` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `teacher_id` (`teacher_id`),
   CONSTRAINT `class_teacher` FOREIGN KEY (`teacher_id`) REFERENCES `school_teacher` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='data banyak kelas';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='data banyak kelas';
 
 INSERT INTO `school_class` VALUES (1,1,10,'2','RPL'),(2,2,10,'1','RPL'),(3,3,11,'2','RPL'),(4,5,11,'1','RPL'),(5,4,12,'2','RPL');
 DROP TABLE IF EXISTS `school_course`;
@@ -931,6 +958,7 @@ CREATE TABLE `school_teacher` (
   `nip` char(18) DEFAULT NULL COMMENT 'nomor induk pegawai',
   `phone` char(13) DEFAULT NULL,
   `position` varchar(255) DEFAULT NULL COMMENT 'jabatan',
+  `birthday` char(10) DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
   `created` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
@@ -939,7 +967,7 @@ CREATE TABLE `school_teacher` (
   UNIQUE KEY `nip` (`nip`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='data guru';
 
-INSERT INTO `school_teacher` VALUES (1,3,'surya','55555','+62 896 20902','Kepala Sekolah',NULL,'2024-01-11 09:56:41','2024-01-11 11:42:29'),(2,4,'agung','11111','+62 822 26543','Staff',NULL,'2024-01-11 11:38:38','2024-01-12 13:14:11'),(3,5,'ilham','22222','+62 823 28753','Staff',NULL,'2024-01-11 11:39:29','2024-01-11 11:57:09'),(4,6,'yasin','33333','+62 895 32762','Staff',NULL,'2024-01-11 11:40:21','2024-01-11 11:56:53'),(5,7,'vito','44444','+62 812 95822','Staff',NULL,'2024-01-11 11:43:17','2024-01-11 11:57:04');
+INSERT INTO `school_teacher` VALUES (1,3,'surya','55555','+62 896 20902','Kepala Sekolah',NULL,NULL,'2024-01-11 09:56:41','2024-01-11 11:42:29'),(2,4,'agung','11111','+62 822 26543','Staff',NULL,NULL,'2024-01-11 11:38:38','2024-01-12 13:14:11'),(3,5,'ilham','22222','+62 823 28753','Staff',NULL,NULL,'2024-01-11 11:39:29','2024-01-11 11:57:09'),(4,6,'yasin','33333','+62 895 32762','Staff',NULL,NULL,'2024-01-11 11:40:21','2024-01-11 11:56:53'),(5,7,'vito','44444','+62 812 95822','Staff',NULL,NULL,'2024-01-11 11:43:17','2024-01-11 11:57:04');
 DROP TABLE IF EXISTS `school_teacher_subject`;
 CREATE TABLE `school_teacher_subject` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,

@@ -22,11 +22,9 @@ if (isset($fields[1]) && !empty($_POST[$fields[1]]))
 { 
   $data_siswa = $db->getRow("SELECT * FROM `school_student` WHERE `nis` = '{$_POST[$fields[1]]}'");
 }
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['manual']) && !empty($_POST[$fields[1]]) && !$data_siswa)  
 {
-  echo "masuk nih!!!";
-  
-
   foreach ($fields as $field) 
   {
     $data[$field]       = isset($_POST[$field]) ? $_POST[$field] : null;
@@ -60,6 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['manual']) && !empty($_
   {
     $data_wali    = $db->getRow("SELECT * FROM `school_parent` WHERE `nik` = {$data['nik_wali']}");
   }
+
   $data_siswa   = $db->getRow("SELECT * FROM `school_student` WHERE `nis` = {$data['nis']}");
   $name         = ['nama_ayah', 'nama_wali', 'nama_ibu', 'nama_siswa'];
 
@@ -79,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['manual']) && !empty($_
     $ayah_parent_id = $db->Insert('school_parent', array(
       'user_id' => $ayah_user_id,
       'name'    => $data['nama_ayah'],
-      'phone'   => $data['nomer_telepon_ayah'],
+      'phone'   => school_phone_replace($data['nomer_telepon_ayah']),
       'nik'     => $data['nik_ayah'],
       'nokk'    => $data['nomer_kk'],
       'address' => $data['alamat'],
@@ -106,7 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['manual']) && !empty($_
     $ibu_parent_id = $db->Insert('school_parent', array(
       'user_id' => $ibu_user_id,
       'name'    => $data['nama_ibu'],
-      'phone'   => $data['nomer_telepon_ibu'],
+      'phone'   => school_phone_replace($data['nomer_telepon_ibu']),
       'nik'     => $data['nik_ibu'],
       'nokk'    => $data['nomer_kk'],
       'address' => $data['alamat'],
@@ -136,7 +135,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['manual']) && !empty($_
     $wali_parent_id = $db->Insert('school_parent', array(
       'user_id' => $wali_user_id,
       'name'    => $data['nama_wali'],
-      'phone'   => $data['nomer_telepon_wali'],
+      'phone'   => school_phone_replace($data['nomer_telepon_wali']),
       'nik'     => $data['nik_wali'],
       'nokk'    => $data['nomer_kk_wali'],
       'address' => $data['alamat_wali'],
@@ -160,7 +159,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['manual']) && !empty($_
     $student_id = $db->Insert('school_student', array(
       'user_id'         => $student_user_id,
       'parent_id_dad'   => $ayah_parent_id ?? null,
-      'parent_id_mom'   => $ibu_parent_id ?? null,
+      'parent_id_mom'   => $ibu_parent_id  ?? null,
       'parent_id_guard' => $wali_parent_id ?? null,
       'name'            => $data['nama_siswa'],
       'nokk'            => $data['nomer_kk'],
@@ -241,7 +240,7 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
     $data_ibu   = $db->getRow("SELECT * FROM `school_parent` WHERE `nik` = '{$value[$insert_field['nik_ibu']]}'");
     $data_wali  = $db->getRow("SELECT * FROM `school_parent` WHERE `nik` = '{$value[$insert_field['nik_wali']]}'");
     $data_ayah  = $data_ayah ?? 0;
-    $data_ibu   = $data_ibu ?? 0;
+    $data_ibu   = $data_ibu  ?? 0;
     $data_wali  = $data_wali ?? 0;
   
       $name = ['nama_ayah', 'nama_wali', 'nama_ibu', 'nama_siswa'];
@@ -264,7 +263,7 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
           'nik'     => $value[$insert_field['nik_ayah']],
           'nokk'    => $value[$insert_field['nomer_kk']],
           'address' => $value[$insert_field['alamat']],
-          'phone'   => $value[$insert_field['nomer_telepon_ayah']],
+          'phone'   => school_phone_replace($value[$insert_field['nomer_telepon_ayah']]),
         ));
 
         $db->insert('bbc_account', array(
@@ -294,7 +293,7 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
           'nik'     => $value[$insert_field['nik_ibu']],
           'nokk'    => $value[$insert_field['nomer_kk']],
           'address' => $value[$insert_field['alamat']],
-          'phone'   => $value[$insert_field['nomer_telepon_ibu']],
+          'phone'   => school_phone_replace($value[$insert_field['nomer_telepon_ibu']]),
         ));
         
         $db->insert('bbc_account', array(
@@ -351,7 +350,7 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
         $student_id_file = $db->Insert('school_student', array(
           'user_id'         => $student_user_id_file,
           'parent_id_dad'   => $ayah_parent_id_file ?? null,
-          'parent_id_mom'   => $ibu_parent_id_file ?? null,
+          'parent_id_mom'   => $ibu_parent_id_file  ?? null,
           'parent_id_guard' => $wali_parent_id_file ?? null,
           'name'            => $value[$insert_field['nama_siswa']],
           'nokk'            => $value[$insert_field['nomer_kk']],

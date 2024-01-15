@@ -34,3 +34,15 @@ function school_schedule_days_numeric($namaHari) {
 
     return $hariNumerik[$namaHari] ?? null; // Mengembalikan nilai numerik atau null jika tidak ditemukan.
 }
+
+function school_phone_replace($phone) 
+{
+	$phone = strval($phone);
+	if (substr($phone, 0, 2) === '08') 
+	{
+			return '628' . substr($phone, 2);
+	} else 
+	{ 
+			return $phone;
+	}
+}
