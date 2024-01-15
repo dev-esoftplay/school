@@ -22,6 +22,21 @@ $form->roll->addInput( 'classes', 'sqllinks' );
 $form->roll->input->classes->setFieldName( 'CONCAT_WS(" ",grade,label,major) AS classes' );
 $form->roll->input->classes->setLinks($Bbc->mod['circuit'].'.class_edit');
 
+$form->roll->addInput('grade', 'sqlplaintext');
+$form->roll->input->grade->setTitle('Grade');
+$form->roll->input->grade->setDisplayColumn(true);
+
+
+$form->roll->addInput('label', 'sqlplaintext');
+$form->roll->input->label->setTitle('label');
+$form->roll->input->label->setDisplayColumn(true);
+
+
+$form->roll->addInput('major', 'sqlplaintext');
+$form->roll->input->major->setTitle('major');
+$form->roll->input->major->setDisplayColumn(true);
+
+
 $form->roll->addInput('teacher_id', 'selecttable');
 $form->roll->input->teacher_id->setTitle('teacher');
 $form->roll->input->teacher_id->setFieldName( 'teacher_id' );
