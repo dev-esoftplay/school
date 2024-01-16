@@ -10,6 +10,11 @@
     </div>
 
     <div class="form-group siswa">
+      <label for="tanggal_lahir_siswa">Tanggal Lahir :</label>
+      <input type="date" class="form-control" name="tanggal_lahir_siswa" <?php echo $input_post['tanggal_lahir_siswa'] ?> required>
+    </div>
+
+    <div class="form-group siswa">
       <label for="nis">NIS :</label>
       <input type="number" class="form-control" name="nis" <?php echo $input_post['nis'] ?> required>
     </div>
@@ -37,6 +42,11 @@
     </div> 
 
     <div class="form-group ayah">
+      <label for="tanggal_lahir_ayah">Tanggal Lahir Ayah :</label>
+      <input type="date" class="form-control" name="tanggal_lahir_ayah" <?php echo $input_post['tanggal_lahir_ayah'] ?> required>
+    </div>
+
+    <div class="form-group ayah">
       <label for="nik_ayah">NIK Ayah :</label>
       <input type="number" class="form-control" name="nik_ayah" <?php echo $input_post['nik_ayah'] ?> required>
     </div>
@@ -56,6 +66,11 @@
     </div> 
 
     <div class="form-group ibu">
+      <label for="tanggal_lahir_ibu">Tanggal Lahir Ibu :</label>
+      <input type="date" class="form-control" name="tanggal_lahir_ibu" <?php echo $input_post['tanggal_lahir_ibu'] ?> required>
+    </div>
+
+    <div class="form-group ibu">
       <label for="nik_ibu">NIK Ibu :</label>
       <input type="number" class="form-control" name="nik_ibu" <?php echo $input_post['nik_ibu'] ?> required>
     </div>
@@ -73,6 +88,11 @@
       <label for="nama_wali">Nama Wali :</label>
       <input type="text" class="form-control" name="nama_wali" <?php echo $input_post['nama_wali'] ?> required>
     </div> 
+
+    <div class="form-group wali">
+      <label for="tanggal_lahir_wali">Tanggal Lahir wali :</label>
+      <input type="date" class="form-control" name="tanggal_lahir_wali" <?php echo $input_post['tanggal_lahir_wali'] ?> required>
+    </div>
 
     <div class="form-group wali">
       <label for="nik_wali">NIK wali :</label>

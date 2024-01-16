@@ -1,16 +1,20 @@
 <?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 $fields = [
   'nama_siswa',
+  'tanggal_lahir_siswa',
   'nis',
   'nomer_kk',
   'alamat',
   'nama_ayah',
+  'tanggal_lahir_ayah',
   'nik_ayah',
   'nomer_telepon_ayah',
   'nama_ibu',
+  'tanggal_lahir_ibu',
   'nik_ibu',
   'nomer_telepon_ibu',
   'nama_wali',
+  'tanggal_lahir_wali',
   'nik_wali',
   'nomer_kk_wali',
   'nomer_telepon_wali',
@@ -60,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['manual']) && !empty($_
   }
 
   $data_siswa   = $db->getRow("SELECT * FROM `school_student` WHERE `nis` = {$data['nis']}");
-  $name         = ['nama_ayah', 'nama_wali', 'nama_ibu', 'nama_siswa'];
+  $name         = ['tanggal_lahir_siswa', 'tanggal_lahir_ayah', 'tanggal_lahir_ibu', 'tanggal_lahir_wali'];
 
   foreach ($name as $name) 
   {
@@ -70,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['manual']) && !empty($_
   if ($data_ayah == 0 && !empty($data['nik_ayah']) && !empty($data['nama_ayah'])) // INSERT DATA AYAH
   {
     $ayah_user_id = $db->Insert('bbc_user', array(
-      'password'  => $password['nama_ayah'],
+      'password'  => $password['tanggal_lahir_ayah'],
       'username'  => $data['nik_ayah'],
       'group_ids' => '4'
     ));
@@ -78,10 +82,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['manual']) && !empty($_
     $ayah_parent_id = $db->Insert('school_parent', array(
       'user_id' => $ayah_user_id,
       'name'    => $data['nama_ayah'],
+      'birthday'=> $data['tanggal_lahir_ayah'],
       'phone'   => school_phone_replace($data['nomer_telepon_ayah']),
       'nik'     => $data['nik_ayah'],
       'nokk'    => $data['nomer_kk'],
       'address' => $data['alamat'],
+    ));
+
+    $db->insert('member', array(
+      'user_id' => $ayah_user_id,
+      'name'    => $data['nama_ayah']
     ));
     
     $db->insert('bbc_account', array(
@@ -97,7 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['manual']) && !empty($_
   if ($data_ibu == 0 && !empty($data['nik_ibu']) && !empty($data['nama_ibu'])) // INSERT DATA IBU
   {
     $ibu_user_id = $db->Insert('bbc_user', array(
-      'password'  => $password['nama_ibu'],
+      'password'  => $password['tanggal_lahir_ibu'],
       'username'  => $data['nik_ibu'],
       'group_ids' => '4'
     ));
@@ -105,10 +115,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['manual']) && !empty($_
     $ibu_parent_id = $db->Insert('school_parent', array(
       'user_id' => $ibu_user_id,
       'name'    => $data['nama_ibu'],
+      'birthday'=> $data['tanggal_lahir_ibu'],
       'phone'   => school_phone_replace($data['nomer_telepon_ibu']),
       'nik'     => $data['nik_ibu'],
       'nokk'    => $data['nomer_kk'],
       'address' => $data['alamat'],
+    ));
+
+    $db->insert('member', array(
+      'user_id' => $ibu_user_id,
+      'name'    => $data['nama_ibu']
     ));
   
     $db->insert('bbc_account', array(
@@ -127,7 +143,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['manual']) && !empty($_
   } else if ($data_wali == 0 && !empty($data['nama_wali']))
   {
     $wali_user_id = $db->Insert('bbc_user', array(
-      'password'  => $password['nama_wali'],
+      'password'  => $password['tanggal_lahir_wali'],
       'username'  => $data['nik_wali'],
       'group_ids' => '4'
     ));
@@ -135,10 +151,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['manual']) && !empty($_
     $wali_parent_id = $db->Insert('school_parent', array(
       'user_id' => $wali_user_id,
       'name'    => $data['nama_wali'],
+      'birthday'=> $data['tanggal_lahir_wali'],
       'phone'   => school_phone_replace($data['nomer_telepon_wali']),
       'nik'     => $data['nik_wali'],
       'nokk'    => $data['nomer_kk_wali'],
       'address' => $data['alamat_wali'],
+    ));
+
+    $db->insert('member', array(
+      'user_id' => $wali_user_id,
+      'name'    => $data['nama_wali']
     ));
   
     $db->insert('bbc_account', array(
@@ -151,7 +173,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['manual']) && !empty($_
   if ($data_siswa == 0) // INSERT DATA STUDENT
   {
     $student_user_id = $db->Insert('bbc_user', array(
-      'password'  => $password['nama_siswa'],
+      'password'  => $password['tanggal_lahir_siswa'],
       'username'  => $data['nis'],
       'group_ids' => '4'
     ));
@@ -162,9 +184,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['manual']) && !empty($_
       'parent_id_mom'   => $ibu_parent_id  ?? null,
       'parent_id_guard' => $wali_parent_id ?? null,
       'name'            => $data['nama_siswa'],
+      'birthday'        => $data['tanggal_lahir_siswa'],
       'nokk'            => $data['nomer_kk'],
       'address'         => $data['alamat'],
       'nis'             => $data['nis'],
+    ));
+
+    $db->insert('member', array(
+      'user_id' => $student_user_id,
+      'name'    => $data['nama_siswa']
     ));
   
     $db->insert('bbc_account', array(
@@ -260,10 +288,16 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
         $ayah_parent_id_file = $db->Insert('school_parent', array(
           'user_id' => $ayah_user_id_file,
           'name'    => $value[$insert_field['nama_ayah']],
+          'birthday'=> $value[$insert_field['tanggal_lahir_ayah']],
           'nik'     => $value[$insert_field['nik_ayah']],
           'nokk'    => $value[$insert_field['nomer_kk']],
           'address' => $value[$insert_field['alamat']],
           'phone'   => school_phone_replace($value[$insert_field['nomer_telepon_ayah']]),
+        ));
+
+        $db->insert('member', array(
+          'user_id' => $ayah_user_id_file,
+          'name'    => $value[$insert_field['nama_ayah']],
         ));
 
         $db->insert('bbc_account', array(
@@ -290,12 +324,18 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
         $ibu_parent_id_file = $db->Insert('school_parent', array(
           'user_id' => $ibu_user_id_file,
           'name'    => $value[$insert_field['nama_ibu']],
+          'birthday'=> $value[$insert_field['tanggal_lahir_ibu']],
           'nik'     => $value[$insert_field['nik_ibu']],
           'nokk'    => $value[$insert_field['nomer_kk']],
           'address' => $value[$insert_field['alamat']],
           'phone'   => school_phone_replace($value[$insert_field['nomer_telepon_ibu']]),
         ));
-        
+
+        $db->insert('member', array(
+          'user_id' => $ibu_user_id_file,
+          'name'    => $value[$insert_field['nama_ibu']],
+        ));
+
         $db->insert('bbc_account', array(
           'user_id' => $ibu_user_id_file,
           'username'=> $value[$insert_field['nik_ibu']],
@@ -320,10 +360,16 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
         $wali_parent_id_file = $db->Insert('school_parent', array(
           'user_id' => $wali_user_id_file,
           'name'    => $value[$insert_field['nama_wali']],
+          'birthday'=> $value[$insert_field['tanggal_lahir_wali']],
           'nik'     => $value[$insert_field['nik_wali']],
           'nokk'    => $value[$insert_field['nomer_kk_wali']],
           'address' => $value[$insert_field['alamat_wali']],
           'phone'   => school_phone_replace($value[$insert_field['nomer_telepon_wali']]),
+        ));
+
+        $db->insert('member', array(
+          'user_id' => $wali_user_id_file,
+          'name'    => $value[$insert_field['nama_wali']],
         ));
       
         $db->insert('bbc_account', array(
@@ -353,9 +399,15 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
           'parent_id_mom'   => $ibu_parent_id_file  ?? null,
           'parent_id_guard' => $wali_parent_id_file ?? null,
           'name'            => $value[$insert_field['nama_siswa']],
+          'birthday'        => $value[$insert_field['tanggal_lahir_siswa']],
           'nokk'            => $value[$insert_field['nomer_kk']],
           'address'         => $value[$insert_field['alamat']],
           'nis'             => $value[$insert_field['nis']],
+        ));
+
+        $db->insert('member', array(
+          'user_id' => $student_user_id_file,
+          'name'    => $value[$insert_field['nama_siswa']],
         ));
       
         $db->insert('bbc_account', array(
@@ -394,3 +446,4 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
 }
 link_css(__DIR__ . '/css/student_add.css'); //untuk memanggil file css
 include tpl('student_add.html.php'); //untuk mengincludekan file html
+

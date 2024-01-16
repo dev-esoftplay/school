@@ -20,6 +20,10 @@ $form->edit->input->nis->setTitle('nis');
 $form->edit->input->nis->setRequire($require='any', $is_mandatory=1);
 $form->edit->action();
 
+$form->edit->addInput('birthday','text');
+$form->edit->input->birthday->setTitle('tanggal lahir');
+$form->edit->input->nis->setRequire($require='any', $is_mandatory=1);
+
 $form->edit->addInput('parent_id_dad', 'selecttable');
 $form->edit->input->parent_id_dad->setTitle('parent dad');
 $form->edit->input->parent_id_dad->setReferenceTable('school_parent');

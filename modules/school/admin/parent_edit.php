@@ -15,6 +15,9 @@ $form->edit->addInput('name','text');
 $form->edit->input->name->setTitle('nama');
 $form->edit->input->name->setRequire($require='any', $is_mandatory=1);
 
+$form->edit->addInput('birthday','text');
+$form->edit->input->birthday->setTitle('tanggal lahir');
+
 $form->edit->addInput('phone','text');
 $form->edit->input->phone->setTitle('Nomor telepon');
 $form->edit->input->phone->setRequire($require='any', $is_mandatory=1);
