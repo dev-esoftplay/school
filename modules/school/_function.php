@@ -38,11 +38,11 @@ function school_schedule_days_numeric($namaHari) {
 function school_phone_replace($phone) 
 {
 	$phone = strval($phone);
-	if (substr($phone, 0, 2) === '08') 
-	{
-			return '628' . substr($phone, 2);
-	} else 
-	{ 
-			return $phone;
+	$pattern = '/^08/';
+	
+	if (preg_match($pattern, $phone)) {
+		$phone = preg_replace($pattern, '628', $phone, 1);
 	}
+	
+	return $phone;	
 }

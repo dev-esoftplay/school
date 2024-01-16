@@ -323,7 +323,7 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
           'nik'     => $value[$insert_field['nik_wali']],
           'nokk'    => $value[$insert_field['nomer_kk_wali']],
           'address' => $value[$insert_field['alamat_wali']],
-          'phone'   => $value[$insert_field['nomer_telepon_wali']],
+          'phone'   => school_phone_replace($value[$insert_field['nomer_telepon_wali']]),
         ));
       
         $db->insert('bbc_account', array(

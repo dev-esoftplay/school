@@ -1,5 +1,4 @@
 <?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');
-
 if (empty($teacher_id))
 {
   return api_no(lang('Anda tidak memiliki akses ke halaman ini.'));
@@ -11,7 +10,7 @@ if (!empty($_POST['name'])) {
 }
 
 if (!empty($_POST['phone'])) {
-  $sql['phone'] = addslashes($_POST['phone']);
+  $sql['phone'] = api_phone_replace(addslashes($_POST['phone']));
 }
 
 if (!empty($_POST['position'])) {
