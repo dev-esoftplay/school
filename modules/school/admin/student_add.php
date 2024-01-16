@@ -76,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['manual']) && !empty($_
     $ayah_user_id = $db->Insert('bbc_user', array(
       'password'  => $password['tanggal_lahir_ayah'],
       'username'  => $data['nik_ayah'],
-      'group_ids' => '4'
+      'group_ids' => '6'
     ));
 
     $ayah_parent_id = $db->Insert('school_parent', array(
@@ -109,7 +109,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['manual']) && !empty($_
     $ibu_user_id = $db->Insert('bbc_user', array(
       'password'  => $password['tanggal_lahir_ibu'],
       'username'  => $data['nik_ibu'],
-      'group_ids' => '4'
+      'group_ids' => '6'
     ));
   
     $ibu_parent_id = $db->Insert('school_parent', array(
@@ -145,7 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['manual']) && !empty($_
     $wali_user_id = $db->Insert('bbc_user', array(
       'password'  => $password['tanggal_lahir_wali'],
       'username'  => $data['nik_wali'],
-      'group_ids' => '4'
+      'group_ids' => '6'
     ));
   
     $wali_parent_id = $db->Insert('school_parent', array(
@@ -175,7 +175,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['manual']) && !empty($_
     $student_user_id = $db->Insert('bbc_user', array(
       'password'  => $password['tanggal_lahir_siswa'],
       'username'  => $data['nis'],
-      'group_ids' => '4'
+      'group_ids' => '7'
     ));
   
     $student_id = $db->Insert('school_student', array(
@@ -282,7 +282,7 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
         $ayah_user_id_file = $db->Insert('bbc_user', array(
           'password'  => $password['nama_ayah'],
           'username'  => $value[$insert_field['nik_ayah']],
-          'group_ids' => '4'
+          'group_ids' => '6'
         ));
 
         $ayah_parent_id_file = $db->Insert('school_parent', array(
@@ -318,7 +318,7 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
         $ibu_user_id_file = $db->Insert('bbc_user', array(
           'password'  => $password['nama_ibu'],
           'username'  => $value[$insert_field['nik_ibu']],
-          'group_ids' => '4'
+          'group_ids' => '6'
         ));
 
         $ibu_parent_id_file = $db->Insert('school_parent', array(
@@ -354,7 +354,7 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
         $wali_user_id_file = $db->Insert('bbc_user', array(
           'password'  => $password['nama_wali'],
           'username'  => $value[$insert_field['nik_wali']],
-          'group_ids' => '4'
+          'group_ids' => '6'
         ));
       
         $wali_parent_id_file = $db->Insert('school_parent', array(
@@ -390,7 +390,7 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
         $student_user_id_file = $db->Insert('bbc_user', array(
           'password'  => $password['nama_siswa'],
           'username'  => $value[$insert_field['nis']],
-          'group_ids' => '4'
+          'group_ids' => '7'
         ));
       
         $student_id_file = $db->Insert('school_student', array(
