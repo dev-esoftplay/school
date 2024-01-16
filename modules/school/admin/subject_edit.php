@@ -6,7 +6,6 @@ $form->edit->setSaveTool(true);
 
 $form->edit->addInput('header', 'header');
 $form->edit->input->header->setTitle(!empty($_GET['id']) ? 'Edit Class' : 'Add Class');
-$form->edit->input->header->setTitle('Add Course');
 
 $form->edit->addInput('course', 'selecttable');
 $form->edit->input->course->setTitle('course');

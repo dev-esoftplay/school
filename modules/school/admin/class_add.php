@@ -2,34 +2,34 @@
 ?> 
 <div class="col-md-4">
 	<?php 
-		$form->initEdit(!empty($_GET['id']) ? 'WHERE id='.$_GET['id'] : '');
-		$form->edit->setSaveTool(true);
+	$form->initEdit(!empty($_GET['id']) ? 'WHERE id='.$_GET['id'] : '');
+	$form->edit->setSaveTool(true);
 
-		$form->edit->addInput('header', 'header');
-		$form->edit->input->header->setTitle('Add Class');
+	$form->edit->addInput('header', 'header');
+	$form->edit->input->header->setTitle('Add Class');
 
-		$form->edit->addInput( 'grade', 'text' );
-		$form->edit->input->grade->setFieldName( 'grade' );
-		$form->edit->input->grade->setRequire();
+	$form->edit->addInput( 'grade', 'text' );
+	$form->edit->input->grade->setFieldName( 'grade' );
+	$form->edit->input->grade->setRequire();
 
-		$form->edit->addInput( 'label', 'text' );
-		$form->edit->input->label->setFieldName( 'label' );
-		$form->edit->input->label->setRequire();
+	$form->edit->addInput( 'label', 'text' );
+	$form->edit->input->label->setFieldName( 'label' );
+	$form->edit->input->label->setRequire();
 
-		$form->edit->addInput( 'major', 'text' );
-		$form->edit->input->major->setFieldName( 'major' );
-		$form->edit->input->major->setRequire();
+	$form->edit->addInput( 'major', 'text' );
+	$form->edit->input->major->setFieldName( 'major' );
+	$form->edit->input->major->setRequire();
 
-		$form->edit->addInput('teacher','selecttable');
-		$form->edit->input->teacher->setFieldName( 'teacher_id' );
-		$form->edit->input->teacher->setTitle('Add teacher');
-		$form->edit->input->teacher->addOption('Select Teacher', '');
-		$form->edit->input->teacher->setReferenceTable('school_teacher');
-		$form->edit->input->teacher->setReferenceField('name', 'id');
-		$form->edit->input->teacher->setRequire();
+	$form->edit->addInput('teacher','selecttable');
+	$form->edit->input->teacher->setFieldName( 'teacher_id' );
+	$form->edit->input->teacher->setTitle('Add teacher');
+	$form->edit->input->teacher->addOption('Select Teacher', '');
+	$form->edit->input->teacher->setReferenceTable('school_teacher');
+	$form->edit->input->teacher->setReferenceField('name', 'id');
+	$form->edit->input->teacher->setRequire();
 
-		echo $form->edit->getForm();
-	 ?>
+	echo $form->edit->getForm();
+	?>
 </div>
 <script>
   function validateForm() {
@@ -51,18 +51,6 @@
 					<label for="">Field class</label>
 					<input type="text" name="class" class="form-control" id="" placeholder="Input field" value="<?php echo isset($_POST['class']) ? $_POST['class'] : ''; ?>">
 				</div>	
-				<!-- <div class="form-group">
-					<label for="">Field Grade</label>
-					<input type="text" name="grade" class="form-control" id="" placeholder="Input field" value="<?php echo isset($_POST['grade']) ? htmlspecialchars($_POST['grade']) : ''; ?>">
-				</div>	
-				<div class="form-group">
-					<label for="">Field Label</label>
-					<input type="text" name="label" class="form-control" id="" placeholder="Input field" value="<?php echo isset($_POST['label']) ? htmlspecialchars($_POST['label']) : ''; ?>">
-				</div>	
-				<div class="form-group">
-					<label for="">Field Major</label>
-					<input type="text" name="major" class="form-control" id="" placeholder="Input field" value="<?php echo isset($_POST['major']) ? htmlspecialchars($_POST['major']) : ''; ?>">
-				</div>	 -->
 				<div class="form-group">
 					<label for="">Field Teacher</label>
 					<input type="text" name="teacher" class="form-control" id="" placeholder="Input field" value="<?php echo isset($_POST['teacher']) ? htmlspecialchars($_POST['teacher']) : ''; ?>">

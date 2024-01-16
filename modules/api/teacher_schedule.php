@@ -1,6 +1,6 @@
 <?php  if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
-$subject_id = $db->getcol("SELECT id FROM school_teacher_subject WHERE teacher_id = $teacher");
+$subject_id = $db->getcol("SELECT id FROM school_teacher_subject WHERE teacher_id = $teacher_id");
 
 $query   = 'SELECT * FROM `school_schedule` WHERE `subject_id` IN ('.implode(',', $subject_id).');';
 $schedules = $db->getall($query); 
