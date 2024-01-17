@@ -1,19 +1,15 @@
 <?php  if (!defined('_VALID_BBC')) exit('No direct script access allowed');
-
-?> 
-<div class="col-md-4">
-	<?php 
 	if ($_SERVER["REQUEST_METHOD"] == "POST") // HANDLE INSERT DATA FROM INPUT MANUAL DATA
 	{
 		if (isset($_POST)) {
 	    $selected_class   = isset($_POST['select_class_id']) ? $_POST['select_class_id'] : null;
-	    $selected_subject = isset($_POST['add_subject_id']) ? $_POST['add_subject_id'] : null;
+	    $selected_subject = isset($_POST['select_subject_id']) ? $_POST['select_subject_id'] : null;
 	    $days             = isset($_POST['add_days']) ? $_POST['add_days'] : null;
 	    $clock_start      = isset($_POST['clock_start']) ? $_POST['clock_start'] : null;
 	    $clock_end        = isset($_POST['clock_end']) ? $_POST['clock_end'] : null;
 
-		  if (!empty($_POST['add_days']) && !empty($_POST['clock_start']) && !empty($_POST['clock_end']) && !empty($_POST['add_subject_id'])) {
-		  	$schedule_row = $db->getrow("SELECT * FROM `school_schedule` WHERE `subject_id` = $selected_subject AND `day` = $days AND `clock_start` = $clock_start AND `clock_end` = $clock_end");
+		  if (!empty($_POST['add_days']) && !empty($_POST['clock_start']) && !empty($_POST['clock_end']) && !empty($_POST['select_subject_id'])) {
+		  	$schedule_row = $db->getrow("SELECT * FROM `school_schedule` WHERE `subject_id` = $selected_subject AND `day` = $days AND `clock_start` = '$clock_start' AND `clock_end` = '$clock_end'");
 		  	if (!$schedule_row) {
 			  	$schedule_id = $db->Insert('school_schedule', array(
 						'subject_id'  => $selected_subject,
@@ -26,9 +22,9 @@
 		  	}
 		  }
 		}
-   
 	}
-	?>
+?> 
+<div class="col-md-4">
 	<form method="POST" role="form" enctype="multipart/form-data" >
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -53,15 +49,15 @@
 				</div>
 				<div class="form-group">
 					<label for="">Clock Start</label>
-					<input type="text" name="clock_start" class="form-control" id="" placeholder="Input " value="">
+					<input type="time" name="clock_start" class="form-control" id="" placeholder="Input " value="">
 				</div>			
 				<div class="form-group">
 					<label for="">Clock End</label>
-					<input type="text" name="clock_end" class="form-control" id="" placeholder="Input " value="">
+					<input type="time" name="clock_end" class="form-control" id="" placeholder="Input " value="">
 				</div>	
 				<div class="form-group">
 					<label for="">Course</label>
-					<select name="add_subject_id" id="course_by_class" class="form-control" required="" disabled>
+					<select name="select_subject_id" id="course_by_class" class="form-control" required="" disabled>
 						<option>Select Course</option>
 					</select>
 				</div>
@@ -91,8 +87,6 @@
     });
 	</script>
 </div>
-
-<!-- Input Schedule With Excel -->
 
 <div class="col-md-4">
 	<form method="POST" role="form" enctype="multipart/form-data" onsubmit="return validateForm()">

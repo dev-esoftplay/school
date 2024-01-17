@@ -4,10 +4,6 @@ $form = _lib('pea', 'school_schedule');
 $form->initSearch();
 
 $days = school_schedule_day();
-// $form->search->addInput('day','select');
-// $form->search->input->day->setTitle('Search by days');
-// $form->search->input->day->addOption('Select days', '');
-// $form->search->input->day->addOption($days);
 
 $form->search->addInput('keyword','keyword');
 $form->search->input->keyword->addSearchField('keyword,day,clock_start,clock_end');

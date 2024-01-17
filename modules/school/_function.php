@@ -14,7 +14,7 @@ function school_schedule_day($day_id='none')
 		);
 	if (is_numeric($day_id))
 	{
-		return !empty($r[$day_id]) ? $r[$day_id] : $r[0];
+		return !empty($r[$day_id]) ? $r[$day_id] : $r[1];
 	}else{
 		return $r;
 	}

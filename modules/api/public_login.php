@@ -44,12 +44,26 @@ if (!empty($installation_id)) {
 $teacherdata = $db->getRow('SELECT `name`, `nip`, `phone`, `position`, `image` FROM `school_teacher` WHERE `user_id` = ' .$result['id']);
 $parentdata  = $db->getRow('SELECT `name`, `phone`, `nik`, `nokk`, `address` FROM `school_parent` WHERE `user_id` = ' .$result['id']);
 
+$role = $db->getone('SELECT group_ids FROM bbc_user WHERE id = '.$result['id']);
+pr($role, __FILE__.':'.__LINE__);
+
+switch ($role) {
+  case ",3,":
+    $role = "guru";
+    break;
+  
+  default:
+    // code...
+    break;
+}
+
 $userdata  = [
   'apikey'  => $key ?? '',
   'name'    => $result['name'],
   'email'   => $result['email'],
   'teacher' => $teacherdata ?? [],
-  'parent'  => $parentdata ?? []
+  'parent'  => $parentdata ?? [],
+  'role'    => $role
 ];
 
 return api_ok($userdata);
