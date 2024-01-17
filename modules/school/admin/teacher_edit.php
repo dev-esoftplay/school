@@ -1,7 +1,5 @@
 <?php  if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
-$position = array('Kepala Sekolah', 'Wakil Kepala Sekolah', 'Guru BK', 'Staff', 'Tukang Kebun');
-
 $form = _lib('pea',  'school_teacher');
 $form->initEdit(!empty($_GET['id']) ? 'WHERE id='.$_GET['id'] : '');
 
@@ -21,9 +19,8 @@ if(!empty($_POST[$form->edit->input->phone->name]))
   $_POST[$form->edit->input->phone->name] = school_phone_replace($_POST[$form->edit->input->phone->name]);
 }
 
-$form->edit->addInput('position','select');
-$form->edit->input->position->addOption('Select Position', '');
-$form->edit->input->position->addOption($position);
+$form->edit->addInput('position','text');
+$form->edit->input->position->setTitle('position');
 
 $form->edit->action();
 echo $form->edit->getForm();

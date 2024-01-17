@@ -21,12 +21,11 @@
         </div>
         <div class="form-group">
           <label for="">Posisi Guru</label>
-          <select class="form-control" id="" name="position" required>
-            <option value="Staff">Staff</option>
-            <option value="Guru BK">Guru BK</option>
-            <option value="Kepala Sekolah">Kepala Sekolah</option>
-            <option value="Wakil Kepala Sekolah">Wakil Kepala Sekolah</option>
-          </select>
+          <input type="text" name="position" class="form-control input-file" id="" placeholder="Input field" required>
+        </div>
+        <div class="form-group">
+          <label for="tanggal">Tanggal Lahir</label>
+          <input type="date" id="tanggal" name="birthday" class="form-control" required>
         </div>
         <button type="submit" class="btn btn-primary" name="submit" value="submit_form1">Submit</button>
       </div>
@@ -58,6 +57,10 @@
         <div class="form-group">
           <label for="">Field Posisi</label>
           <input type="text" name="position" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['position'] ?>">
+        </div>
+        <div class="form-group">
+          <label for="">Field Tanggal Lahir</label>
+          <input type="text" name="birthday" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['birthday'] ?>">
         </div>
         <div class="form-group">
           <label for="fileInput">Pilih File</label>

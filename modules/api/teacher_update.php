@@ -17,6 +17,10 @@ if (!empty($_POST['position'])) {
   $sql['position'] = addslashes($_POST['position']);
 }
 
+if (!empty($_POST['image'])) {
+  $sql['image'] = addslashes($_POST['image']);
+}
+
 if (empty($sql)) {
   return api_no(lang('Data tidak ada yang dirubah'));
 }

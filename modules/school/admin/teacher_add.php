@@ -1,6 +1,6 @@
 <?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
-$field      = ['name', 'nip', 'phone', 'position'];
+$field      = ['name', 'nip', 'phone', 'position', 'birthday'];
 $data       = [];
 $data_excel = [];
 
@@ -22,11 +22,16 @@ foreach ($field as $item) {
       case 'position';
         $data_excel['position']  = 'E';
         break;
+      case 'birthday';
+        $data_excel['birthday']  = 'F';
+        break;
     }
   }
 }
 
-$password = _class('crypt')->encode($data['name']);;
+$birthday = str_replace("-", "", $data['birthday']);
+$password = _class('crypt')->encode($birthday);
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") // HANDLE INSERT DATA FROM INPUT MANUAL DATA
 {
@@ -53,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") // HANDLE INSERT DATA FROM INPUT MANUA
       $db->insert('bbc_account', array(
         'user_id'   => $guru_user_id,
         'username'  => $data['nip'],
-        'name'      => $data['name']
+        'name'      => $birthday
       ));
     }
 
@@ -62,10 +67,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") // HANDLE INSERT DATA FROM INPUT MANUA
         'user_id'   => $guru_user_id,
         'name'      => $data['name'],
         'nip'       => $data['nip'],
-        'phone'     => school_phone_replace($data['phone']),
-        'position'  => $data['position']
+        'phone'     => $data['phone'],
+        'position'  => $data['position'],
+        'birthday'  => $data['birthday']
       ));
     }
+
+    $db->Insert('member', array (
+      'user_id'     => $guru_user_id,
+      'name'        => $data['name']
+    ));
+
     echo '<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok-sign" title="ok sign"></span> Sukses Tambah data.</div>';
   }
 }
@@ -74,7 +86,9 @@ if (!empty($_FILES['file']) && (!empty($_POST) || isset($_POST))) {
   $output = _lib('excel')->read($_FILES['file']['tmp_name'])->sheet(1)->fetch();
   unset($output[1]);
   foreach ($output as $key => $value) {
-    $password = encode(!empty($value[$data['name']]));
+    $birthday = str_replace("-", "", $value[$data['birthday']]);
+    $password = _class('crypt')->encode($birthday);
+
     $q = $db->getOne("SELECT `username` FROM `bbc_user`       WHERE `username` = '" . $value[$data['nip']] . "'");
     $r = $db->getOne("SELECT `username` FROM `bbc_account`    WHERE `username` = '" . $value[$data['nip']] . "'");
     $s = $db->getOne("SELECT `nip`      FROM `school_teacher` WHERE `nip`      = '" . $value[$data['nip']] . "'");
@@ -90,7 +104,7 @@ if (!empty($_FILES['file']) && (!empty($_POST) || isset($_POST))) {
       $db->Insert('bbc_account', array(
         'user_id'        => $guru_user_id_file,
         'username'       => $value[$data['nip']],
-        'name'           => $value[$data['name']],
+        'name'           => $birthday,
       ));
     }
     if (!$s) {
@@ -100,8 +114,14 @@ if (!empty($_FILES['file']) && (!empty($_POST) || isset($_POST))) {
         'nip'            => $value[$data['nip']],
         'phone'          => school_phone_replace($value[$data['phone']]),
         'position'       => $value[$data['position']],
+        'birthday'       => $value[$data['birthday']],
       ));
     }
+
+    $db->Insert('member', array (
+      'user_id'     => $guru_user_id_file,
+      'name'        => $value[$data['name']]
+    ));
   }
   echo '<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok-s ign" title="ok sign"></span> Sukses Tambah data.</div>';
 }
