@@ -30,7 +30,7 @@ foreach ($field as $item) {
 }
 
 $birthday = str_replace("-", "", $data['birthday']);
-$password = _class('crypt')->encode($birthday);
+$password = encode($birthday);
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") // HANDLE INSERT DATA FROM INPUT MANUAL DATA
@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") // HANDLE INSERT DATA FROM INPUT MANUA
       $db->insert('bbc_account', array(
         'user_id'   => $guru_user_id,
         'username'  => $data['nip'],
-        'name'      => $birthday
+        'name'      => $data['name']
       ));
     }
 
@@ -87,7 +87,7 @@ if (!empty($_FILES['file']) && (!empty($_POST) || isset($_POST))) {
   unset($output[1]);
   foreach ($output as $key => $value) {
     $birthday = str_replace("-", "", $value[$data['birthday']]);
-    $password = _class('crypt')->encode($birthday);
+    $password = encode($birthday);
 
     $q = $db->getOne("SELECT `username` FROM `bbc_user`       WHERE `username` = '" . $value[$data['nip']] . "'");
     $r = $db->getOne("SELECT `username` FROM `bbc_account`    WHERE `username` = '" . $value[$data['nip']] . "'");
@@ -104,7 +104,7 @@ if (!empty($_FILES['file']) && (!empty($_POST) || isset($_POST))) {
       $db->Insert('bbc_account', array(
         'user_id'        => $guru_user_id_file,
         'username'       => $value[$data['nip']],
-        'name'           => $birthday,
+        'name'           => $data['name'],
       ));
     }
     if (!$s) {
