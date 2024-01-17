@@ -33,9 +33,12 @@ foreach ($schedules as &$schedule) {
   $class_id = $schedule['subject_id']['class_id'];
   $class_query = "SELECT * FROM `school_class` WHERE `id` = $class_id";
   $class = $db->getrow($class_query);
+  $class_name = $class['grade'] . ' ' . $class['major'] . ' ' . $class['label'];
+
 
   if ($class) {
     $schedule['subject_id']['class_id'] = $class;
+    $schedule['subject_id']['class_id']['class_name'] = $class_name;
   }
 
 }
