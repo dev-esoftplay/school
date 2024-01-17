@@ -41,7 +41,7 @@ if (!empty($installation_id)) {
   }
 }
 
-$teacherdata = $db->getRow('SELECT `name`, `nip`, `phone`, `position`, `image` FROM `school_teacher` WHERE `user_id` = ' .$result['id']);
+$teacherdata = $db->getRow('SELECT `name`, `nip`, `phone`, `position`, `birthday`, `image` FROM `school_teacher` WHERE `user_id` = ' .$result['id']);
 $parentdata  = $db->getRow('SELECT `name`, `phone`, `nik`, `nokk`, `address` FROM `school_parent` WHERE `user_id` = ' .$result['id']);
 
 $role = $db->getone('SELECT group_ids FROM bbc_user WHERE id = '.$result['id']);
@@ -67,4 +67,3 @@ $userdata  = [
 ];
 
 return api_ok($userdata);
-

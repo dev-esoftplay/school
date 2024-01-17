@@ -44,5 +44,9 @@ $form->roll->addInput('position', 'sqlplaintext');
 $form->roll->input->position->setTitle('posisi');
 $form->roll->input->position->setDisplayColumn(true);
 
+$form->roll->addInput('birthday', 'sqlplaintext');
+$form->roll->input->birthday->setTitle('Tanggal Lahir');
+$form->roll->input->birthday->setDisplayColumn(true);
+
 $form->roll->action();
 echo $form->roll->getForm();

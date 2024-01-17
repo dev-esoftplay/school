@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") // HANDLE INSERT DATA FROM INPUT MANUA
       ));
     }
 
-    $db->Insert('member', array (
+    $db->Insert('member', array(
       'user_id'     => $guru_user_id,
       'name'        => $data['name']
     ));
@@ -118,7 +118,7 @@ if (!empty($_FILES['file']) && (!empty($_POST) || isset($_POST))) {
       ));
     }
 
-    $db->Insert('member', array (
+    $db->Insert('member', array(
       'user_id'     => $guru_user_id_file,
       'name'        => $value[$data['name']]
     ));
