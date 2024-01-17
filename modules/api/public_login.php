@@ -43,19 +43,37 @@ if (!empty($installation_id)) {
 
 $teacherdata = $db->getRow('SELECT `name`, `nip`, `phone`, `position`, `birthday`, `image` FROM `school_teacher` WHERE `user_id` = ' .$result['id']);
 $parentdata  = $db->getRow('SELECT `name`, `phone`, `nik`, `nokk`, `address` FROM `school_parent` WHERE `user_id` = ' .$result['id']);
+$role        = $db->getone('SELECT group_ids FROM bbc_user WHERE id = '.$result['id']);
 
-$role = $db->getone('SELECT group_ids FROM bbc_user WHERE id = '.$result['id']);
-pr($role, __FILE__.':'.__LINE__);
+$role_parse = explode(',', $role);
 
-switch ($role) {
-  case ",3,":
-    $role = "guru";
-    break;
-  
-  default:
-    // code...
-    break;
-}
+// Menghapus elemen pertama
+array_shift($role_parse);
+
+// Menghapus elemen terakhir
+array_pop($role_parse);
+
+// Mengonversi nilai di dalam array menjadi string
+$role_parse = array_map(function ($value) {
+  switch ($value) {
+    case '1':
+      return "root";
+    case '2':
+      return "administrator";
+    case '3':
+      return "Customer";
+    case '4':
+      return "Registered";
+    case '5':
+      return "Teacher";
+    case '6':
+      return "Parent";
+    case '7':
+      return "Student";
+    default:
+      return $value; // Jika nilai tidak ada dalam switch, kembalikan nilainya tanpa mengubah
+  }
+}, $role_parse);
 
 $userdata  = [
   'apikey'  => $key ?? '',
@@ -63,7 +81,7 @@ $userdata  = [
   'email'   => $result['email'],
   'teacher' => $teacherdata ?? [],
   'parent'  => $parentdata ?? [],
-  'role'    => $role
+  'role'    => count($role_parse) > 1  ? $role_parse : $role_parse[0]
 ];
 
 return api_ok($userdata);
