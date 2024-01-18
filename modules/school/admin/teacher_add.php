@@ -104,7 +104,7 @@ if (!empty($_FILES['file']) && (!empty($_POST) || isset($_POST))) {
       $db->Insert('bbc_account', array(
         'user_id'        => $guru_user_id_file,
         'username'       => $value[$data['nip']],
-        'name'           => $data['name'],
+        'name'           => $value[$data['name']],
       ));
     }
     if (!$s) {

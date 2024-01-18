@@ -52,6 +52,10 @@ switch( $Bbc->mod['task'] )
 		include 'teacher_schedule.php';
 		break;
 
+	case 'teacher_upload_image':
+		include 'teacher_upload_image.php';
+		break;
+
  	case 'logout': // Halaman untuk logout bagi user yang sudah login
     user_logout($Bbc->user_id);
     redirect(_URL);
