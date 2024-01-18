@@ -58,6 +58,9 @@ switch( $Bbc->mod['task'] )
     break;
 
 
+  case 'push-token': // untuk replace generate push_id notif
+		include 'push-token.php';
+		break;
   case 'no_auth': // tiap API wajib pakai ini
 		api_no(lang('Authentication Failed.'));
 		break;

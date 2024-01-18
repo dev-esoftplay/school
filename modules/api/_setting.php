@@ -9,13 +9,13 @@ $output    = array(
 	'result'      => []
 );
 
-if (empty($Bbc->token)) {
+if (empty($Bbc->apikey)) {
 	$Bbc->mod['task'] = 'no_auth';
 	return false;
 }
 
-if ($Bbc->token != 1) {
-	$device_data = $db->getRow('SELECT `user_id`, `member_id` FROM `member_device` WHERE `key`="'.$Bbc->token.'"');
+if ($Bbc->apikey != 1) {
+	$device_data = $db->getRow('SELECT `user_id`, `member_id` FROM `member_device` WHERE `key`="'.$Bbc->apikey.'"');
 	if (empty($device_data)) {
 		$Bbc->mod['task'] = 'no_auth';
 		return false;
