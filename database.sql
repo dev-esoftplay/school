@@ -32,9 +32,9 @@ CREATE TABLE `bbc_account` (
   KEY `user_id` (`user_id`),
   KEY `email` (`email`),
   FULLTEXT KEY `name` (`username`,`name`,`email`,`params`)
-) ENGINE=MyISAM AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
-INSERT INTO `bbc_account` VALUES (1,1,'admin','Administrator','','tmp@fisip.net','{\"Alamat Lengkap\":\"Indonesia\",\"Phone\":\"0818550122\"}'),(2,2,'danang@fisip.net','Danang Widiantoro','','danang@fisip.net','{\"Nick Name\":\"Danang\",\"Company\":\"Fisip.net\",\"Company Position\":\"Programmer\",\"Address\":\"Jl. Janti no.10 B\",\"City\":\"Bantul\",\"State\":\"Jogjakarta\",\"Post Code\":\"55161\",\"Country\":\"ID\",\"Phone\":\"0818550122\",\"Fax\":\"02743012336\",\"Email Alternate\":\"bbc_danang@yahoo.com\"}'),(3,3,'123456','surya','',NULL,NULL),(4,4,'11111','agung','',NULL,NULL),(5,5,'22222','ilham','',NULL,NULL),(6,6,'33333','yasin','',NULL,NULL),(7,7,'44444','vito','',NULL,NULL),(35,34,'987654','sumanto','',NULL,NULL),(36,35,'4564565','sumanti','',NULL,NULL),(37,36,'04481','intan','',NULL,NULL),(38,37,'546548','senggol dong','',NULL,NULL),(39,38,'04482','dina','',NULL,NULL),(40,39,'564763','zamal','',NULL,NULL),(41,40,'23155','surya','',NULL,NULL),(42,41,'8787878','tugimin','',NULL,NULL),(43,42,'3423423','sutejo','',NULL,NULL),(44,43,'45546454','naufal','',NULL,NULL),(45,44,'23423452','noor','',NULL,NULL),(46,45,'23423','badui','',NULL,NULL),(47,46,'23452345','ida','',NULL,NULL),(48,47,'13245','agus','',NULL,NULL);
+INSERT INTO `bbc_account` VALUES (1,1,'admin','Administrator','','tmp@fisip.net','{\"Alamat Lengkap\":\"Indonesia\",\"Phone\":\"0818550122\"}'),(2,2,'danang@fisip.net','Danang Widiantoro','','danang@fisip.net','{\"Nick Name\":\"Danang\",\"Company\":\"Fisip.net\",\"Company Position\":\"Programmer\",\"Address\":\"Jl. Janti no.10 B\",\"City\":\"Bantul\",\"State\":\"Jogjakarta\",\"Post Code\":\"55161\",\"Country\":\"ID\",\"Phone\":\"0818550122\",\"Fax\":\"02743012336\",\"Email Alternate\":\"bbc_danang@yahoo.com\"}'),(3,3,'123456','surya','',NULL,NULL),(4,4,'11111','agung','',NULL,NULL),(5,5,'22222','ilham','',NULL,NULL),(6,6,'33333','yasin','',NULL,NULL),(7,7,'44444','vito','',NULL,NULL);
 DROP TABLE IF EXISTS `bbc_account_temp`;
 CREATE TABLE `bbc_account_temp` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -586,9 +586,9 @@ CREATE TABLE `bbc_user` (
   KEY `group_ids` (`group_ids`),
   KEY `active` (`active`),
   KEY `exp_checked` (`exp_checked`)
-) ENGINE=MyISAM AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
-INSERT INTO `bbc_user` VALUES (1,',3,4,1,2,','admin','G8zLdKXdDjlUrItY4ze1lQfRK2fT2HdCIJlknwyWYZwqPAXA7/S9frztNPjeBgrt0LPFUEePW/jJxfpH0iVVWA==','::1','::1','2024-01-16 13:33:32','2024-01-16 12:13:24','2024-01-16 19:18:19',5,'0000-00-00 00:00:00',1),(2,',2,1,3,4,','danang@fisip.net','DOtGmGAQ9sEZA4nNBAgcw2MOp3eivB3SnbpgYhoYO1ibI93Egax7y9vMG9ThsPi6BMiZwx497sGjKYHyZvPv+A==','127.0.0.1','127.0.0.1','2016-05-03 23:35:44','2016-05-03 23:32:34','0000-00-00 00:00:00',0,'0000-00-00 00:00:00',1),(3,',5,','55555','cJumA0B5Xqe5TKx2D94ptnmocRJWX6i+EFa2WwThma1Muh/Lf3+NbBCB0U8yFKb5K3D/BXih9uhwYdMeWbARNA==','127.0.0.1','127.0.0.1','2024-01-11 14:32:48','2024-01-11 11:01:57','0000-00-00 00:00:00',8,NULL,1),(4,',5,','11111','nlPS/e43mHpdsaWWIkHKUVWMX88Bn8H1E4s7tstssEUnkudrXKsurOLFv1W2BGNnXXWLBjs5KhvijheBt1xqKg==','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1),(5,',5,','22222','jE/+I18vZyYb3okVQAbdJuOj/baFZi2NZh3fWEiRkzsvEKzEyOHBBl5KYQdmCGclmhY/uccNQuNNzkQRx6RZYg==','192.168.100.71','','2024-01-16 12:33:35',NULL,'0000-00-00 00:00:00',1,NULL,1),(6,',5,','33333','9LGQkjpEopIqaEHfzYggsbtZPa2nC9duP6v43gsM9yT5J0jKw73nW3blEHfsNDEIC5W/To6ePEgtVEekJl562Q==','127.0.0.1','','2024-01-11 14:46:56',NULL,'0000-00-00 00:00:00',1,NULL,1),(7,',5,','44444','byR9cG1NhEQtVqFdgN+bIFp7+eUrOCbkx3gtlntN3cnVZ7cDBiQzCt6eGuHYwJw2OXy+vN/QV9UsvMwcumVsdw==','127.0.0.1','','2024-01-11 14:56:36',NULL,'0000-00-00 00:00:00',1,NULL,1),(34,'6','987654','XvvLpa4aA0kmTgdmjn0p/bjAESaSYYHBDTc5Y+I6hS3GvwK5CY1mds4B1OBgeWeaIwHWY5PGyKHMhqI+6dVYww==','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1),(35,'6','4564565','f6d8F4W+PfNNy9vGBRTgFaLu7Tw0NcUCVwLFtihLjESwaQLxtOiO1xFKg4qOWFgbOurcdQWn+O69xJrqgo4o+Q==','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1),(36,'7','04481','xvyui8r2vEIR1ApEbhY7XpT2IYdWm1xIBaSHRKA58SJiiA2MkNbaOJKouFstt/TPVT5exVpieYKOW54NgUgdUA==','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1),(37,'6','546548','Bi1RR6jtR01wsvLp1WE64YqP3Lg1V4A2fVNQLvN3PmDU/79Sn8Dqet+C9gznC8MpFfDCmE5qphPfVdXZhqjfWA==','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1),(38,'7','04482','pEdR9l4C+bcpuLJV82TVhyU1FjJZFti/LPCz9+WlPpfAYkeDeyVbayWzUezrgu3SwXrwD1PI3/8xsS6pms205A==','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1),(39,'6','564763','wfSqsFllAXySAfXZ97MVCG9nJ7TUOqe7HH4Wy1yfghevHk+oX9MrjWeg61Uzev0nij4k5YoeuBjCRYMe8/3RGA==','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1),(40,'7','23155','IQiy2rEkM+Wb0mv1Eo4MKIDWBoabjLkgwoNzwUWgEQ2aqh6aghTPj+8rXNQ1L80xS6susVJl+Y8Ww4oxGDIraQ==','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1),(41,'6','8787878','XgX272jy4ZVoM3vAZVZcXyTdoVrDuL9IDYPtNSIINtcTzfuCvMITcpHw6kCQa7wVZ0czvzawoZSwNQl6KdmTkA==','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1),(42,'7','3423423','gCbA/L1KVPtd7Fd4KsNvt0iLMAi9GFyw0tw29AOtwoxYanl91W7RKQqyRpEJ39EZye8ehDVCwSFCeJAaBUbakQ==','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1),(43,'6','45546454','wCtLwVBMWoUWk9iPjUlm2J4vdE2ZvHFOP44Jwn2Fc2Orjoab7AwwCIu7/eJaMXtgfEmio/xutyKXauFIwGlvNw==','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1),(44,'6','23423452','V0iHFX6uoE81Q+EHD2EYDrNJDt7TSnTZXTL6M2tveM96voui6j3UVQ4yfq/+EbspMfTKh6PMkTo6Pj8bFZEvvg==','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1),(45,'7','23423','2apb3p0DpS4HBQb9+tQxPRpIEHoXTnawmuvz9VY4+sK8wIfnOCzWeIvMG0+QOQv6mIehOvku9xHGJLt3GSLLtQ==','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1),(46,'6','23452345','VnYKkkOXGoorOFWI3SREI/gbzDjsvawPkVoyOnJ7R5z8SUveV5+D3/r19as53qKQ1b4qlYW3uXNJNhTlLywZaA==','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1),(47,'7','13245','9j9kBd42nb8gbS85ZfE6aXu3t8iI6khaW7URZR4qgGvTkQKWEYocjen1ERwcjs93w6NJ/wwgLWMD8gGqs4+Nng==','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1);
+INSERT INTO `bbc_user` VALUES (1,',3,4,1,2,','admin','G8zLdKXdDjlUrItY4ze1lQfRK2fT2HdCIJlknwyWYZwqPAXA7/S9frztNPjeBgrt0LPFUEePW/jJxfpH0iVVWA==','::1','::1','2024-01-18 11:29:27','2024-01-16 13:33:32','2024-01-18 13:29:32',6,'0000-00-00 00:00:00',1),(2,',2,1,3,4,','danang@fisip.net','DOtGmGAQ9sEZA4nNBAgcw2MOp3eivB3SnbpgYhoYO1ibI93Egax7y9vMG9ThsPi6BMiZwx497sGjKYHyZvPv+A==','127.0.0.1','127.0.0.1','2016-05-03 23:35:44','2016-05-03 23:32:34','0000-00-00 00:00:00',0,'0000-00-00 00:00:00',1),(3,',3,','55555','cJumA0B5Xqe5TKx2D94ptnmocRJWX6i+EFa2WwThma1Muh/Lf3+NbBCB0U8yFKb5K3D/BXih9uhwYdMeWbARNA==','127.0.0.1','127.0.0.1','2024-01-11 14:32:48','2024-01-11 11:01:57','0000-00-00 00:00:00',8,NULL,1),(4,',3,','11111','nlPS/e43mHpdsaWWIkHKUVWMX88Bn8H1E4s7tstssEUnkudrXKsurOLFv1W2BGNnXXWLBjs5KhvijheBt1xqKg==','','',NULL,NULL,'0000-00-00 00:00:00',0,NULL,1),(5,',3,','22222','jE/+I18vZyYb3okVQAbdJuOj/baFZi2NZh3fWEiRkzsvEKzEyOHBBl5KYQdmCGclmhY/uccNQuNNzkQRx6RZYg==','192.168.100.71','','2024-01-16 12:33:35',NULL,'0000-00-00 00:00:00',1,NULL,1),(6,',3,','33333','9LGQkjpEopIqaEHfzYggsbtZPa2nC9duP6v43gsM9yT5J0jKw73nW3blEHfsNDEIC5W/To6ePEgtVEekJl562Q==','127.0.0.1','','2024-01-11 14:46:56',NULL,'0000-00-00 00:00:00',1,NULL,1),(7,',3,','44444','byR9cG1NhEQtVqFdgN+bIFp7+eUrOCbkx3gtlntN3cnVZ7cDBiQzCt6eGuHYwJw2OXy+vN/QV9UsvMwcumVsdw==','127.0.0.1','','2024-01-11 14:56:36',NULL,'0000-00-00 00:00:00',1,NULL,1);
 DROP TABLE IF EXISTS `bbc_user_field`;
 CREATE TABLE `bbc_user_field` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -786,9 +786,9 @@ CREATE TABLE `member` (
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COMMENT='tabel untuk menyimpan data member';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='tabel untuk menyimpan data member';
 
-INSERT INTO `member` VALUES (1,3,'surya'),(2,4,'agung'),(3,5,'ilham'),(4,6,'yasin'),(5,7,'vito'),(6,34,'sumanto'),(7,35,'sumanti'),(8,36,'intan'),(9,37,'senggol dong'),(10,38,'dina'),(11,39,'zamal'),(12,40,'surya'),(13,41,'tugimin'),(14,42,'sutejo'),(15,43,'naufal'),(16,44,'noor'),(17,45,'badui'),(18,46,'ida'),(19,47,'agus');
+INSERT INTO `member` VALUES (1,3,'surya'),(2,4,'agung'),(3,5,'ilham'),(4,6,'yasin'),(5,7,'vito');
 DROP TABLE IF EXISTS `member_device`;
 CREATE TABLE `member_device` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -805,7 +805,7 @@ CREATE TABLE `member_device` (
   KEY `user_id` (`user_id`),
   KEY `key` (`key`),
   CONSTRAINT `member_device_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='tabel untuk menyimpan data device yang login';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='tabel untuk menyimpan data device yang login';
 
 DROP TABLE IF EXISTS `school`;
 CREATE TABLE `school` (
@@ -895,9 +895,8 @@ CREATE TABLE `school_parent` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `phone` (`phone`),
   UNIQUE KEY `nik` (`nik`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='data orang tua siswa';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data orang tua siswa';
 
-INSERT INTO `school_parent` VALUES (1,34,'sumanto','05-07-2000','6287514515369','987654','3006222555888777','kudus','2024-01-16 17:17:57',NULL,1),(2,35,'sumanti','05-07-2000','628232855561','4564565','3006222555888777','kudus','2024-01-16 17:17:57',NULL,1),(3,37,'senggol dong','05-07-2000','6285412111165','546548','2000666999333222','solo','2024-01-16 17:17:57',NULL,1),(4,39,'zamal','05-07-1999','6283651252000','564763','2054402232258815','kudus','2024-01-16 17:17:57',NULL,1),(5,41,'tugimin','08-01-2000','6284215021000','8787878','5522336699003311','jakarta','2024-01-16 17:17:57',NULL,1),(6,43,'naufal','11-07-1875','6289521025306','45546454','5006999800031475','kudus','2024-01-16 17:17:57',NULL,1),(7,44,'noor','05-07-2000','6281285360159','23423452','5006999800031475','kudus','2024-01-16 17:17:57',NULL,1),(8,46,'ida','25-07-2000','6285234524300','23452345','2006488952200003','kudus','2024-01-16 17:17:57',NULL,1);
 DROP TABLE IF EXISTS `school_schedule`;
 CREATE TABLE `school_schedule` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -927,9 +926,8 @@ CREATE TABLE `school_student` (
   `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nis` (`nis`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='data siswa';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='data siswa';
 
-INSERT INTO `school_student` VALUES (1,36,1,2,0,'intan','07-01-2020','04481','3006222555888777','kudus','2024-01-16 17:17:57',NULL),(2,38,0,0,3,'dina','08-05-2020','04482','2003122289955200','kudus','2024-01-16 17:17:57',NULL),(3,40,1,2,4,'surya','17-09-2020','23155','6000333210555666','kudus','2024-01-16 17:17:57',NULL),(4,42,0,0,5,'sutejo','05-12-2020','3423423','2000542195778000','kudus','2024-01-16 17:17:57',NULL),(5,45,6,7,5,'badui','25-11-2020','23423','5006999800031475','kudus','2024-01-16 17:17:57',NULL),(6,47,0,8,0,'agus','31-07-2020','13245','2006488952200003','kudus','2024-01-16 17:17:57',NULL);
 DROP TABLE IF EXISTS `school_student_class`;
 CREATE TABLE `school_student_class` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -953,9 +951,8 @@ CREATE TABLE `school_student_parent` (
   KEY `student_parent_parent` (`parent_id`),
   CONSTRAINT `student_parent_parent` FOREIGN KEY (`parent_id`) REFERENCES `school_parent` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `student_parent_student` FOREIGN KEY (`student_id`) REFERENCES `school_student` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COMMENT='data menghubungkan orang tua siswa dan siswa';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='data menghubungkan orang tua siswa dan siswa';
 
-INSERT INTO `school_student_parent` VALUES (19,1,1),(20,1,2),(21,2,3),(22,3,4),(23,3,1),(24,3,2),(25,4,5),(26,5,5),(27,5,6),(28,5,7),(29,6,8);
 DROP TABLE IF EXISTS `school_teacher`;
 CREATE TABLE `school_teacher` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -971,7 +968,7 @@ CREATE TABLE `school_teacher` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `phone` (`phone`),
   UNIQUE KEY `nip` (`nip`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='data guru';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='data guru';
 
 INSERT INTO `school_teacher` VALUES (1,3,'surya','55555','+62 896 20902','Kepala Sekolah',NULL,NULL,'2024-01-11 09:56:41','2024-01-11 11:42:29'),(2,4,'agung','11111','+62 822 26543','Staff',NULL,NULL,'2024-01-11 11:38:38','2024-01-12 13:14:11'),(3,5,'ilham','22222','6282328753061','Staff',NULL,NULL,'2024-01-11 11:39:29','2024-01-16 12:53:24'),(4,6,'yasin','33333','+62 895 32762','Staff',NULL,NULL,'2024-01-11 11:40:21','2024-01-11 11:56:53'),(5,7,'vito','44444','+62 812 95822','Staff',NULL,NULL,'2024-01-11 11:43:17','2024-01-11 11:57:04');
 DROP TABLE IF EXISTS `school_teacher_subject`;
