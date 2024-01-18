@@ -3,7 +3,7 @@
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 	if (isset($_GET['id'])) {
 		$id = $_GET['id'];
-    $query   = "SELECT * FROM `school_schedule` WHERE `id` = $id";
+    $query   = 'SELECT * FROM `school_schedule` WHERE `id` = '.$id;
     $schedule = $db->getAssoc($query); 
 
 		if (!$schedule) {
@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }
 
     $subject_id    = $schedule[$id]['subject_id'];
-    $subject_query = "SELECT * FROM `school_teacher_subject` WHERE `id` = $subject_id";
+    $subject_query = 'SELECT * FROM `school_teacher_subject` WHERE `id` = '.$subject_id;
     $subject       = $db->getrow($subject_query);
 
     if (!$subject) {
@@ -19,19 +19,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }
 
     $teacher_id   = $schedule[$id]['subject_id']['teacher_id'];
-    $teacher_data = $db->getrow("SELECT * FROM `school_teacher` WHERE id = $teacher_id");
+    $teacher_data = $db->getrow('SELECT * FROM `school_teacher` WHERE id = '.$teacher_id);
     if (!$teacher_data) {
       return api_no(['message' => 'Teacher data not found for the given ID']);
     }
 
     $course_id = $schedule[$id]['subject_id']['course_id'];
-    $course_data = $db->getrow("SELECT * FROM `school_course` WHERE id = $course_id");
+    $course_data = $db->getrow('SELECT * FROM `school_course` WHERE id = '.$course_id);
     if (!$course_data) {
       return api_no(['message' => 'course data not found for the given ID']);
     }
 
     $class_id   = $schedule[$id]['subject_id']['class_id'];
-    $class_data = $db->getrow("SELECT * FROM `school_class` WHERE id = $class_id");
+    $class_data = $db->getrow('SELECT * FROM `school_class` WHERE id = '.$class_id);
     if (!$class_data) {
       return api_no(['message' => 'class data not found for the given ID']);
     }
@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
   foreach ($schedules as &$schedule) {
     $subject_id = $schedule['subject_id'];
-    $subject_query = "SELECT * FROM `school_teacher_subject` WHERE `id` = $subject_id";
+    $subject_query = 'SELECT * FROM `school_teacher_subject` WHERE `id` = '.$subject_id;
     $subject = $db->getrow($subject_query);
 
     if ($subject) {
@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     } 
 
     $teacher_id = $schedule['subject_id']['teacher_id'];
-    $teacher_query = "SELECT * FROM `school_teacher` WHERE `id` = $teacher_id";
+    $teacher_query = 'SELECT * FROM `school_teacher` WHERE `id` = '.$teacher_id;
     $teacher = $db->getrow($teacher_query);
 
     if ($teacher) {
@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }
 
     $course_id = $schedule['subject_id']['course_id'];
-    $course_query = "SELECT * FROM `school_course` WHERE `id` = $course_id";
+    $course_query = 'SELECT * FROM `school_course` WHERE `id` = '.$course_id;
     $course = $db->getrow($course_query);
 
     if ($course) {
@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }
 
     $class_id = $schedule['subject_id']['class_id'];
-    $class_query = "SELECT * FROM `school_class` WHERE `id` = $class_id";
+    $class_query = 'SELECT * FROM `school_class` WHERE `id` = '.$class_id;
     $class = $db->getrow($class_query);
 
     if ($class) {
@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'delete' && isset($_POST['id'])) {
       $id = $_POST['id'];
 
-      $delete_query = $db->Execute('DELETE FROM `school_schedule` WHERE `id` = '.$id.'');
+      $delete_query = $db->Execute('DELETE FROM `school_schedule` WHERE `id` = '.$id);
 
       if ($delete_query) {
         return api_ok(['message' => 'Data deleted successfully']);
@@ -125,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (isset($_POST['id'])) {
       $id = $_POST['id'];
-      $schedule_id = $db->getone("SELECT id FROM `school_schedule` WHERE `id` = $id");
+      $schedule_id = $db->getone('SELECT id FROM `school_schedule` WHERE `id` = '.$id);
 
       if (!$schedule_id) {
         return api_no(['message' => 'Id not Found']);

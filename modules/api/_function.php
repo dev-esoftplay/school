@@ -61,14 +61,3 @@ function api_ok($value, $is_ok = 1, $status_code=200)
  $output['status_code'] = $status_code;
  $output['result']      = $output['result'];
 }
-function api_phone_replace($phone)
-{
-  $phone = strval($phone);
-  $pattern = '/^08/';
-
-  if (preg_match($pattern, $phone)) {
-    $phone = preg_replace($pattern, '628', $phone, 1);
-  }
-
-  return $phone;
-}

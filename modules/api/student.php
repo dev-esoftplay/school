@@ -1,7 +1,7 @@
 <?php  if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 // read
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-	$student = $db->getall("SELECT * FROM school_student WHERE 1");
+	$student = $db->getall('SELECT * FROM `school_student` WHERE 1');
 	return api_ok($student);
 }
 
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 		// Insert Data Ayah
 		if (isset($data['nik_ayah']) && !empty($data['nik_ayah'])) 
 		{
-			$ayah_user_id = $db->Insert('bbc_user', array(
+			$ayah_user_id = $db->Insert('`bbc_user`', array(
 				'password'  => $passwordayah,
 				'username'  => $usernameayah,
 				'group_ids' => '4'
@@ -192,7 +192,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 	if (isset($_POST['id']) && $action == 'delete')
 	{
 		$id 			= $_POST['id'];
-		$student 	= $db->Execute('DELETE FROM `school_student` WHERE `id` = '.$id.'');
+		$student 	= $db->Execute('DELETE FROM `school_student` WHERE `id` = '.$id);
 		if ($student) 
 		{
 			return api_ok(['message' => 'Data deleted successfully']);

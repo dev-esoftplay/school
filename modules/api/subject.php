@@ -135,12 +135,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
 
-    $subject_row = $db->getrow("SELECT * FROM `school_teacher_subject` WHERE `teacher_id` = '$teacher_id' AND `course_id` = '$course_id' AND `class_id` = '$class_id'");
+    $subject_row = $db->getrow('SELECT * FROM `school_teacher_subject` WHERE `teacher_id` = '.$teacher_id.' AND `course_id` = '.$course_id.' AND `class_id` = '.$class_id);
     /*UPDATE*/
     if (isset($_POST['id'])) {
       $id = $_POST['id'];
 
-      $subject_id  = $db->getone("SELECT `id` FROM `school_teacher_subject` WHERE `id` = $id");
+      $subject_id  = $db->getone('SELECT `id` FROM `school_teacher_subject` WHERE `id` = '.$id);
 
       if (!$subject_id) {
         return api_no(['message' => 'Id not Found']);
