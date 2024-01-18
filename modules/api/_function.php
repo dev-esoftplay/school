@@ -1,6 +1,8 @@
 <?php  if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
+include_once __DIR__ . '/functions/image.php';
 include_once __DIR__ . '/functions/key.php';
+include_once __DIR__ . '/functions/phone.php';
 
 /**
  * membuat return bahwa api yang diakses tidak true

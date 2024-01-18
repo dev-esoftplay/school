@@ -17,7 +17,6 @@ if (isset($_seo['URI']))
 		if (!empty($_SERVER['HTTP_TOKEN']))
 		{
 			$token = _class('crypt')->decode(trim($_SERVER['HTTP_TOKEN']), _SALT_MOBILE);
-
 			if (!empty($token))
 			{
 				@list($timestamp, $apikey) = explode('|', $token); // jika nambah ini, harus nambah juga di fungsi api_token & di tools

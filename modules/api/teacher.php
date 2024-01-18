@@ -11,4 +11,6 @@ if (empty($result))
 	return api_no(lang('Anda tidak terdaftar sebagai guru. Silahkan hubungi admin untuk info lebih lanjut'));
 }
 
+$result['image'] = api_image_url($result['image'], $teacher_id, 'school/teacher');
+
 api_ok($result);

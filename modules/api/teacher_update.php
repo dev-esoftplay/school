@@ -20,6 +20,11 @@ if (!empty($_POST['position'])) {
 if (!empty($_POST['image'])) {
   $sql['image'] = addslashes($_POST['image']);
 }
+if (isset($_POST['image']))
+{
+  $img_path = 'images/modules/school/teacher/'.$teacher_id.'/';
+  api_image_save($_POST['image'], $img_path, $teacher_id, 'school_teacher', 'image', 'id');
+}
 
 if (empty($sql)) {
   return api_no(lang('Data tidak ada yang dirubah'));
