@@ -65,10 +65,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['manual']) && !empty($_
 
   $data_siswa   = $db->getRow("SELECT * FROM `school_student` WHERE `nis` = {$data['nis']}");
   $name         = ['tanggal_lahir_siswa', 'tanggal_lahir_ayah', 'tanggal_lahir_ibu', 'tanggal_lahir_wali'];
-
   foreach ($name as $name) 
   {
-    $password[$name] = encode($data[$name]);
+    $rawDate          = $value[$insert_field[$name]]; // Ambil tanggal lahir mentah
+    $cleanedDate      = str_replace('-', '', $rawDate); // Hilangkan karakter "-"
+    $password[$name]  = encode($cleanedDate); // Kodekan tanggal lahir yang telah dibersihkan
   }
 
   if ($data_ayah == 0 && !empty($data['nik_ayah']) && !empty($data['nama_ayah'])) // INSERT DATA AYAH
@@ -264,23 +265,24 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
   {
     if(!empty($value[$insert_field['nama_siswa']]) && $data_siswa == 0) 
     {
-    $data_ayah  = $db->getRow("SELECT * FROM `school_parent` WHERE `nik` = '{$value[$insert_field['nik_ayah']]}'");
-    $data_ibu   = $db->getRow("SELECT * FROM `school_parent` WHERE `nik` = '{$value[$insert_field['nik_ibu']]}'");
-    $data_wali  = $db->getRow("SELECT * FROM `school_parent` WHERE `nik` = '{$value[$insert_field['nik_wali']]}'");
-    $data_ayah  = $data_ayah ?? 0;
-    $data_ibu   = $data_ibu  ?? 0;
-    $data_wali  = $data_wali ?? 0;
-  
-      $name = ['nama_ayah', 'nama_wali', 'nama_ibu', 'nama_siswa'];
-      foreach ($name as  $name) 
+      $data_ayah  = $db->getRow("SELECT * FROM `school_parent` WHERE `nik` = '{$value[$insert_field['nik_ayah']]}'");
+      $data_ibu   = $db->getRow("SELECT * FROM `school_parent` WHERE `nik` = '{$value[$insert_field['nik_ibu']]}'");
+      $data_wali  = $db->getRow("SELECT * FROM `school_parent` WHERE `nik` = '{$value[$insert_field['nik_wali']]}'");
+      $data_ayah  = $data_ayah ?? 0;
+      $data_ibu   = $data_ibu  ?? 0;
+      $data_wali  = $data_wali ?? 0;
+      $name       = ['tanggal_lahir_siswa', 'tanggal_lahir_ayah', 'tanggal_lahir_ibu', 'tanggal_lahir_wali'];
+      foreach ($name as $name) 
       {
-        $password[$name] = encode($value[$insert_field[$name]]);
+          $rawDate          = $value[$insert_field[$name]]; // Ambil tanggal lahir mentah
+          $cleanedDate      = str_replace('-', '', $rawDate); // Hilangkan karakter "-"
+          $password[$name]  = encode($cleanedDate); // Kodekan tanggal lahir yang telah dibersihkan
       }
     
       if (!empty($value[$insert_field['nama_ayah']]) && $data_ayah == 0) // INSERT DATA AYAH
       {
         $ayah_user_id_file = $db->Insert('bbc_user', array(
-          'password'  => $password['nama_ayah'],
+          'password'  => $password['tanggal_lahir_ayah'],
           'username'  => $value[$insert_field['nik_ayah']],
           'group_ids' => '6'
         ));
@@ -316,7 +318,7 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
       if (!empty($value[$insert_field['nama_ibu']]) && $data_ibu == 0) // INSERT DATA IBU
       {
         $ibu_user_id_file = $db->Insert('bbc_user', array(
-          'password'  => $password['nama_ibu'],
+          'password'  => $password['tanggal_lahir_ibu'],
           'username'  => $value[$insert_field['nik_ibu']],
           'group_ids' => '6'
         ));
@@ -352,7 +354,7 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
       if (!empty($value[$insert_field['nama_wali']]) && $data_wali == 0) // INSERT DATA WALI
       {
         $wali_user_id_file = $db->Insert('bbc_user', array(
-          'password'  => $password['nama_wali'],
+          'password'  => $password['tanggal_lahir_wali'],
           'username'  => $value[$insert_field['nik_wali']],
           'group_ids' => '6'
         ));
@@ -388,7 +390,7 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
       if (!empty($value[$insert_field['nama_siswa']])) // INSERT DATA STUDENT
       {
         $student_user_id_file = $db->Insert('bbc_user', array(
-          'password'  => $password['nama_siswa'],
+          'password'  => $password['tanggal_lahir_siswa'],
           'username'  => $value[$insert_field['nis']],
           'group_ids' => '7'
         ));
