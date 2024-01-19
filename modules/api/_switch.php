@@ -40,20 +40,21 @@ switch( $Bbc->mod['task'] )
 		include 'public_login.php';
 		break;
 	
-	case 'teacher_update':
+	case 'teacher_update': // untuk mengubah data guru POST:{"#image":"url imgae"}
 		include 'teacher_update.php';
 		break;
 
-	case 'teacher_course':
+	case 'teacher_course': 
 		include 'teacher_course.php';
 		break;
 
-	case 'teacher_schedule':
+	case 'teacher_schedule': // untuk melisting jadwal guru 
 		include 'teacher_schedule.php';
 		break;
 
-	case 'teacher_upload_image':
-		include 'teacher_upload_image.php';
+	case 'public_image_upload': // untuk mengupload gambar yang akan disimpan ke database FILE:{"image"}
+	case 'image_upload': // untuk mengupload gambar yang akan disimpan ke database FILE:{"image"}
+		include 'image_upload.php';
 		break;
 
  	case 'logout': // Halaman untuk logout bagi user yang sudah login

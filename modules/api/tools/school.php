@@ -10,14 +10,11 @@ if (!empty($_POST['path']))
 	if ($user_id)
 	{
 		$token  = time();
-		$token .= '|'.$user_id;
-		$token .= '|'.intval($db->getOne("SELECT `id` FROM `school_teacher` WHERE `user_id`={$user_id}"));
-		// $token .= '|'.intval($db->getOne("SELECT `id` FROM `shop_merchant` WHERE `user_id`={$user_id}"));
-		$token .= '|'.'GET:what';
+		$token .= '|'.$db->getOne("SELECT `key` FROM `member_device` WHERE `user_id`={$user_id}");
 		$option = array(
 			'CURLOPT_HTTPHEADER' => array(
 				'Content-Type: application/x-www-form-urlencoded',
-				'token: '._class('crypt')->encode($token),
+				'token: '._class('crypt')->encode($token, _SALT_MOBILE),
 				)
 			);
 	}
@@ -29,9 +26,9 @@ if (!empty($_POST['path']))
 
 	if ($_POST['path'] == 'user_login')
 	{
-		if (!empty($post['username'])) $post['username'] = _class('crypt')->encode($post['username']);
-	  if (!empty($post['password'])) $post['password'] = _class('crypt')->encode($post['password']);
-	  if (!empty($post['email'])) $post['email']       = _class('crypt')->encode($post['email']);
+		if (!empty($post['username'])) $post['username'] = _class('crypt')->encode($post['username'], _SALT_MOBILE);
+	  if (!empty($post['password'])) $post['password'] = _class('crypt')->encode($post['password'], _SALT_MOBILE);
+	  // if (!empty($post['email'])) $post['email']       = _class('crypt')->encode($post['email']);
 	}
 
 	$debug = !empty($_POST['is_debug']) ? true : false;
@@ -92,7 +89,8 @@ $token = array(
 	'sql'    => '',
 	'expire' => strtotime('+2 DAYS'),
 	);
-$user_id = $db->getOne("SELECT `id` FROM `bbc_user` ORDER BY `id` ASC LIMIT 1");
+// $user_id = $db->getOne("SELECT `id` FROM `bbc_user` ORDER BY `id` ASC LIMIT 1");
+$user_id = 3;
 ?>
 
 <div class="container-fluid">

@@ -6,8 +6,7 @@ $query     = 'SELECT * FROM `school_schedule` WHERE `subject_id` IN ('.implode('
 $schedules = $db->getall($query); 
 
 foreach ($schedules as &$schedule) {
-  $subject_id_   = $schedule['subject_id'];
-  $subject_query = 'SELECT * FROM `school_teacher_subject` WHERE `id` = ' . $subject_id_;
+  $subject_query = 'SELECT * FROM `school_teacher_subject` WHERE `id` = ' . $schedule['subject_id'];
   $subject       = $db->getrow($subject_query);
 
   if ($subject) {
