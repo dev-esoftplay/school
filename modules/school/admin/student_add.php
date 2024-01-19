@@ -67,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['manual']) && !empty($_
   $name         = ['tanggal_lahir_siswa', 'tanggal_lahir_ayah', 'tanggal_lahir_ibu', 'tanggal_lahir_wali'];
   foreach ($name as $name) 
   {
-    $rawDate          = $value[$insert_field[$name]]; // Ambil tanggal lahir mentah
+    $rawDate          = $data[$name]; // Ambil tanggal lahir mentah
     $cleanedDate      = str_replace('-', '', $rawDate); // Hilangkan karakter "-"
     $password[$name]  = encode($cleanedDate); // Kodekan tanggal lahir yang telah dibersihkan
   }

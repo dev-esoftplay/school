@@ -37,12 +37,13 @@ function school_schedule_days_numeric($namaHari) {
 
 function school_phone_replace($phone) 
 {
-	$phone = strval($phone);
-	$pattern = '/^08/';
-	
-	if (preg_match($pattern, $phone)) {
-		$phone = preg_replace($pattern, '628', $phone, 1);
+	// Hapus semua karakter kecuali angka
+	$phone = preg_replace('/[^0-9]/', '', $phone);
+
+	// Jika nomor dimulai dengan "08", gantilah dengan "628"
+	if (substr($phone, 0, 2) === '08') {
+		$phone = '628' . substr($phone, 2);
 	}
-	
-	return $phone;	
+
+	return $phone;
 }
