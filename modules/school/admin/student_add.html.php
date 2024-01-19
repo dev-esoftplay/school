@@ -1,3 +1,4 @@
+<?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');?>
 <body>
   <h2 class="text-center"><?php echo lang('Form Siswa');?></h2>
   <form method="post" enctype="multipart/form-data" class="col-md-7 form-import-excel">
@@ -187,6 +188,7 @@
         $(".wali").show();
         $(".ayah, .ibu").hide();
       }
+      
       $('input.input-file').on('input', function() {
         var inputValue = $(this).val();
         var uppercaseValue = inputValue.toUpperCase();
