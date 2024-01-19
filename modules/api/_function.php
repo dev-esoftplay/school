@@ -3,6 +3,7 @@
 include_once __DIR__ . '/functions/image.php';
 include_once __DIR__ . '/functions/key.php';
 include_once __DIR__ . '/functions/phone.php';
+include_once __DIR__ . '/functions/days.php';
 
 /**
  * membuat return bahwa api yang diakses tidak true
