@@ -24,4 +24,4 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
     $db->insert('school_student_class', $data);
   }
 }
-include tpl('student_class.html.php'); //untuk mengincludekan file html
+include tpl('student_class_add.html.php'); //untuk mengincludekan file html
