@@ -60,6 +60,10 @@ switch( $Bbc->mod['task'] )
 		include 'teacher_schedule.php';
 		break;
 
+	case 'teacher_schedule_tomorrow': // untuk melisting jadwal guru 
+		include 'teacher_schedule_tomorrow.php';
+		break;
+
 	case 'public_image_upload': // untuk mengupload gambar yang akan disimpan ke database FILE:{"image"}
 	case 'image_upload': // untuk mengupload gambar yang akan disimpan ke database FILE:{"image"}
 		include 'image_upload.php';

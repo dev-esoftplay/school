@@ -29,4 +29,6 @@ if ($Bbc->apikey != 1) {
 
 	$teacher_id = intval($db->getOne('SELECT `id` FROM `school_teacher` WHERE `user_id`='.$device_data['user_id']));
 	$parent_id  = intval($db->getOne('SELECT `id` FROM `school_parent` WHERE `user_id`='.$device_data['user_id']));
+
+	// $schedule_id = intval($db->getone('SELECT id from school_schedule WHERE '))
 }
