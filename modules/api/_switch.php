@@ -28,6 +28,10 @@ switch( $Bbc->mod['task'] )
 		include 'class.php';
 		break;
 
+	case 'class_schedule': // untuk melisting jadwal kelas murid 
+		include 'class_schedule.php';
+		break;
+
 	case 'schedule':
 		include 'schedule.php';
 		break;
@@ -51,6 +55,7 @@ switch( $Bbc->mod['task'] )
 	case 'teacher_schedule': // untuk melisting jadwal guru 
 		include 'teacher_schedule.php';
 		break;
+
 
 	case 'teacher_schedule_tomorrow': // untuk melisting jadwal guru 
 		include 'teacher_schedule_tomorrow.php';
