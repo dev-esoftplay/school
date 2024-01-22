@@ -17,9 +17,9 @@ if (!empty($_POST['position'])) {
 }
 
 if (isset($_POST['image'])) {
-  $img_path     = 'images/modules/school/teacher/' . $teacher_id . '/';
 
-  $files = glob($img_path . '*');
+  $img_path = 'images/modules/school/teacher/' . $teacher_id . '/';
+  $files    = glob($img_path . '*');
 
   foreach ($files as $file) {
     unlink($file);
