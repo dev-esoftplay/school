@@ -16,10 +16,14 @@ switch( $Bbc->mod['task'] )
 		include 'student.php';
 		break;
 
-	case 'student_class': // untuk melisting kelas siswa sesuai dengan jadwal yang dipilih guru
+	case 'student_class': // untuk melisting kelas siswa sesuai dengan jadwal yang dipilih guru GET:{"class_id":"1","schedule_id":"1"}
 		include 'student_class.php';
 		break;
 
+	case 'student_attendance': // untuk memasukkan data absensi siswa POST:{"student_id":"1","schedule_id":"1","status":"1"}
+		include 'student_attendance.php';
+		break;
+	
 	case 'parent':
 		include 'parent.php';
 		break;
