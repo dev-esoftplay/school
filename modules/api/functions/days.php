@@ -1,6 +1,6 @@
 <?php  if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
-function api_schedule_day($day_id='none')
+function api_days($day_id='none')
 {
 	$r = array(
 		1 => 'Senin',
