@@ -9,7 +9,6 @@ $tomorrow   = isset($_GET['date']) ? $_GET['date'] : date('Y-m-d', strtotime('+1
 
 $day_name   = date('l', strtotime($tomorrow));
 $day_number = api_schedule_day_numeric($day_name);
-// pr($tomorrow, __FILE__.':'.__LINE__);die();
 
 $query     = 'SELECT `id`,`subject_id`,`day`,`clock_start`,`clock_end` FROM `school_schedule` WHERE `subject_id` IN (' . implode(',', $subject_ids) . ') AND `day` = ' . $day_number . ';';
 $schedules = $db->getAll($query);
@@ -40,7 +39,6 @@ foreach ($schedules as $schedule) {
     'clock_end'      => $schedule['clock_end'],
     'student_number' => count($student_number),
     'student_attend' => count($student_attend),
-    // 'status'         => ''
   );
 }
 
