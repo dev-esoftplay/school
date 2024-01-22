@@ -7,7 +7,7 @@ $path_old_list = path_list_r(_ROOT.'images/uploads/temp/');
 
 if (!empty($path_old_list) AND is_array($path_old_list)) {
 	foreach ($path_old_list as $year => $years)
-	{
+  	{
 		foreach ($years as $month => $months)
 		{
 			foreach ($months as $date => $dates)

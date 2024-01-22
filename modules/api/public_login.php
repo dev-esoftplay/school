@@ -34,7 +34,7 @@ if (!empty($installation_id)) {
   }else{
     $key = api_key_generate();
     $db->Insert('member_device', [
-      'user_id'         => $result['id'],
+      'user_id'         => $result['id'], 
       'member_id'       => $db->getOne('SELECT `id` FROM `member` WHERE `user_id`='.$result['id']),
       'installation_id' => $installation_id,
       'key'             => $key,

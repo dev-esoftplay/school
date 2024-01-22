@@ -1,6 +1,5 @@
 <?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');
-if (empty($teacher_id))
-{
+if (empty($teacher_id)) {
   return api_no(lang('Anda tidak memiliki akses ke halaman ini.'));
 }
 
@@ -17,19 +16,25 @@ if (!empty($_POST['position'])) {
   $sql['position'] = addslashes($_POST['position']);
 }
 
-if (!empty($_POST['image'])) {
-  $sql['image'] = addslashes($_POST['image']);
-}
-if (isset($_POST['image']))
-{
-  $img_path = 'images/modules/school/teacher/'.$teacher_id.'/';
+if (isset($_POST['image'])) {
+  $img_path     = 'images/modules/school/teacher/' . $teacher_id . '/';
+
+  $files = glob($img_path . '*');
+
+  foreach ($files as $file) {
+    unlink($file);
+  }
+
   api_image_save($_POST['image'], $img_path, $teacher_id, 'school_teacher', 'image', 'id');
 }
 
-if (empty($sql)) {
+if (empty($sql) && empty($_POST['image'])) {
   return api_no(lang('Data tidak ada yang dirubah'));
 }
 
 $db->Update('school_teacher', $sql, $teacher_id);
+$db->Update('bbc_account', [
+  'image' => $db->getOne('SELECT `image` FROM `school_teacher` WHERE `id`=' . $teacher_id)
+], $teacher_id);
 
 api_ok(lang('Data berhasil diubah'));
