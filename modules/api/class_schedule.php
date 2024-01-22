@@ -5,7 +5,7 @@ $subject_ids = $db->getcol('SELECT `id` FROM `school_teacher_subject` WHERE `cla
 
 $day_query = isset($_GET['day']) ? $_GET['day'] : 1;
 
-$query = 'SELECT `id`,`subject_id`,`day`,`clock_start`,`clock_end` FROM `school_schedule` WHERE `subject_id` IN (' . implode(',', $subject_ids) . ') AND `day` = '. $day_query .' ORDER BY `school_schedule`.`day` DESC ';
+$query     = 'SELECT `id`,`subject_id`,`day`,`clock_start`,`clock_end` FROM `school_schedule` WHERE `subject_id` IN (' . implode(',', $subject_ids) . ') AND `day` = '. $day_query .' ORDER BY `school_schedule`.`day` DESC ';
 $schedules = $db->getAll($query);
 
 $schedule_by_days = array();
@@ -41,14 +41,13 @@ foreach ($schedules as $schedule) {
 }
 
 if (!$schedules) {
-  return api_no(["data tidak data di database"]); 
+  return api_no(["data untuk hari tidak data di database"]); 
 }
 
 $result = array();
 
 foreach ($schedule_by_days as $day => $schedules) {
   $result = array(
-    // 'total_pages'  => $totalPages,
     'current_page' => $day_query,
     'day'          => $day,
     'schedule'     => $schedules
