@@ -35,6 +35,6 @@ if (empty($sql) && empty($_POST['image'])) {
 $db->Update('school_teacher', $sql, $teacher_id);
 $db->Update('bbc_account', [
   'image' => $db->getOne('SELECT `image` FROM `school_teacher` WHERE `id`=' . $teacher_id)
-], $teacher_id);
+], $user_id);
 
 api_ok(lang('Data berhasil diubah'));

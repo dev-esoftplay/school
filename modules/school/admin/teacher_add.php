@@ -67,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") // HANDLE INSERT DATA FROM INPUT MANUA
         'user_id'   => $guru_user_id,
         'name'      => $data['name'],
         'nip'       => $data['nip'],
-        'phone'     => $data['phone'],
+        'phone'     => school_phone_replace($data['phone']),
         'position'  => $data['position'],
         'birthday'  => $data['birthday']
       ));

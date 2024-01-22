@@ -17,7 +17,7 @@
         </div>
         <div class="form-group">
           <label for="">No HP Guru</label>
-          <input type="text" name="phone" class="form-control input-file" id="" placeholder="Input field" required>
+          <input type="number" name="phone" class="form-control input-file" id="" placeholder="Input field" required>
         </div>
         <div class="form-group">
           <label for="">Posisi Guru</label>
