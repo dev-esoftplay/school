@@ -20,15 +20,18 @@ foreach ($schedules as $schedule) {
     'id' => $class_data['id'],
     'class_name' => $class_name
   ];
-  $target_date = '2024-01-19';
+  $target_date = date('Y-m-d');
+  $next_week_date = date('Y-m-d', strtotime($target_date . ' +1 week'));
 
-// Konversi tanggal ke format yang sesuai untuk query
-$formatted_target_date = date('Y-m-d', strtotime($target_date));
+  $creted = $db->getOne('SELECT created FROM `school_attendance` WHERE `schedule_id` =' . $schedule['id']);
 
+  // $now     = date('Y-m-d H:i:s' , time());
+  $today      = date('Y-m-d H:i:s' , strtotime('today'));
+  $end_of_day = date('Y-m-d 23:59:59', strtotime('today'));
+  // pr($end_of_day, __FILE__.':'.__LINE__);die();
 
   $student_number = $db->getcol('SELECT `number` FROM `school_student_class` WHERE `class_id` =' . $class_data['id']);
-  $student_attend = $db->getcol('SELECT `id` FROM `school_attendance` WHERE `schedule_id` =' . $schedule['id']);
-  // pr($student_attend, __FILE__.':'.__LINE__);die();
+  $student_attend = $db->getcol('SELECT `id` FROM `school_attendance` WHERE `schedule_id` = ' . $schedule['id'] . ' AND `created` BETWEEN \'' . $today . '\' AND \'' . $end_of_day . '\' AND `presence` IN (1, 2, 3)');
 
   $days = api_days($schedule['day']); // Ini adalah function untuk mengubah angka menjadi nama hari
   $day  = strtolower($days);

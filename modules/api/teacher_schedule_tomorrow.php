@@ -5,9 +5,9 @@ $subject_ids = $db->getcol('SELECT `id` FROM `school_teacher_subject` WHERE `tea
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$tomorrow   = isset($_GET['date']) ? $_GET['date'] : date('Y-m-d', strtotime('+1 day'));
+$date   = isset($_GET['date']) ? $_GET['date'] : date('Y-m-d', strtotime('+1 day'));
 
-$day_num   = date('N', strtotime($tomorrow));
+$day_num   = date('N', strtotime($date));
 
 $query     = 'SELECT `id`,`subject_id`,`day`,`clock_start`,`clock_end` FROM `school_schedule` WHERE `subject_id` IN (' . implode(',', $subject_ids) . ') AND `day` = ' . $day_num . ';';
 $schedules = $db->getAll($query);
@@ -25,8 +25,12 @@ foreach ($schedules as $schedule) {
     'class_name' => $class_name
   ];
 
+
+  $today      = date('Y-m-d H:i:s' , strtotime($date));
+  $end_of_day = date('Y-m-d 23:59:59', strtotime($date));
+
   $student_number = $db->getcol('SELECT `number` FROM `school_student_class` WHERE `class_id` =' . $class_data['id']);
-  $student_attend = $db->getcol('SELECT `id` FROM `school_attendance` WHERE `schedule_id` =' . $schedule['id']);
+  $student_attend = $db->getcol('SELECT `id` FROM `school_attendance` WHERE `schedule_id` = ' . $schedule['id'] . ' AND `created` BETWEEN \'' . $today . '\' AND \'' . $end_of_day . '\' AND `presence` IN (1, 2, 3)');
 
   $days = api_days($schedule['day']); // Ini adalah function untuk mengubah angka menjadi nama hari
   $day = strtolower($days);
