@@ -13,8 +13,8 @@ foreach ($schedules as $schedule) {
 
   $subject_data = $db->getrow('SELECT `id` , `course_id` , `class_id` FROM `school_teacher_subject` WHERE `id` = ' . $schedule['subject_id']);
 
-  $course_name = $db->getone('SELECT name FROM school_course WHERE id = ' . $subject_data['course_id']);
-  $class_data  = $db->getrow('SELECT * FROM school_class WHERE id =' . $subject_data['class_id']);
+  $course_name = $db->getone('SELECT `name` FROM `school_course` WHERE `id` = ' . $subject_data['course_id']);
+  $class_data  = $db->getrow('SELECT * FROM `school_class` WHERE `id` =' . $subject_data['class_id']);
   $class_name  = $class_data['grade'] . ' ' . $class_data['major'] . ' ' . $class_data['label'];
 
   $class = [
@@ -26,7 +26,7 @@ foreach ($schedules as $schedule) {
 
   $student_attend = $db->getcol('SELECT `id` FROM `school_attendance` WHERE `schedule_id` =' . $schedule['id']);
 
-  $days = api_schedule_day($schedule['day']); // Ini adalah function untuk mengubah angka menjadi nama hari
+  $days = api_days($schedule['day']); // Ini adalah function untuk mengubah angka menjadi nama hari
 
   $day = strtolower($days);
   $schedule_by_days[$day][] = array(
@@ -48,7 +48,6 @@ $result = array();
 
 foreach ($schedule_by_days as $day => $schedules) {
   $result = array(
-    'current_page' => $day_query,
     'day'          => $day,
     'schedule'     => $schedules
   );
