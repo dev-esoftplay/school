@@ -4,16 +4,16 @@
 		if (isset($_POST)) {
 	    $selected_class   = isset($_POST['select_class_id']) ? $_POST['select_class_id'] : null;
 	    $selected_subject = isset($_POST['select_subject_id']) ? $_POST['select_subject_id'] : null;
-	    $days             = isset($_POST['add_days']) ? $_POST['add_days'] : null;
+	    $add_days         = isset($_POST['add_days']) ? $_POST['add_days'] : null;
 	    $clock_start      = isset($_POST['clock_start']) ? $_POST['clock_start'] : null;
 	    $clock_end        = isset($_POST['clock_end']) ? $_POST['clock_end'] : null;
 
 		  if (!empty($_POST['add_days']) && !empty($_POST['clock_start']) && !empty($_POST['clock_end']) && !empty($_POST['select_subject_id'])) {
-		  	$schedule_row = $db->getrow("SELECT * FROM `school_schedule` WHERE `subject_id` = $selected_subject AND `day` = $days AND `clock_start` = '$clock_start' AND `clock_end` = '$clock_end'");
+		  	$schedule_row = $db->getrow("SELECT * FROM `school_schedule` WHERE `subject_id` = $selected_subject AND `day` = $add_days AND `clock_start` = '$clock_start' AND `clock_end` = '$clock_end'");
 		  	if (!$schedule_row) {
 			  	$schedule_id = $db->Insert('school_schedule', array(
 						'subject_id'  => $selected_subject,
-						'day'         => $days,
+						'day'         => $add_days,
 						'clock_start' => $clock_start,
 						'clock_end'   => $clock_end
 			  	));
@@ -38,13 +38,14 @@
 					?>
 					<select name="select_class_id" id="select_class_id" class="form-control">
 						<option>Select Class</option>
-						<?php echo createOption($db->getAssoc($class_id)); ?>
+						<?php echo createOption($db->getAssoc($class_id));?>
 					</select>
 				</div>	
 				<div class="form-group">
 					<label for="">Days</label>
 					<select name="add_days" class="form-control">
-						<?php echo createOption($days); ?>
+						<option>Select Days</option>
+						<?php echo createOption($days);?>
 					</select>
 				</div>
 				<div class="form-group">
