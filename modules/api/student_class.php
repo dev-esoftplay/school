@@ -9,13 +9,16 @@ if (!empty($teacher_id) && !empty($class_id)) {
 																FROM `school_student_class` AS ssc 
 																INNER JOIN `school_student` AS ss ON ssc.`student_id` = ss.`id` 
 																WHERE ssc.`class_id` = '.$class_id);
-
 	$class_name    = $db->getone('SELECT CONCAT_WS(" ", `grade`, `major`, `label`) FROM `school_class` WHERE `id`=' . $class_id);
 	$schedule_time = $db->getrow('SELECT `clock_start`, `clock_end` FROM `school_schedule` WHERE `id`=' . $schedule_id); 
 	$permission 	 = $db->getRow('SELECT `total_present`, `total_s`, `total_i`, `total_a` FROM `school_attendance_report` WHERE `schedule_id`=' . $schedule_id.' AND `class_id` = '. $class_id.' AND DATE(created) = CURDATE()');
 	foreach ($student_data as &$student) {
-		$student['status'] = 1;
-	}
+    $notes_result		 				= $db->getrow('SELECT `notes` FROM `school_attendance` WHERE `schedule_id`=' . $schedule_id.' AND `student_id` = '.$student['student_id']);
+    $notes 									= $notes_result ? $notes_result['notes'] : '';
+    $student['student_id']  = intval($student['student_id']); 
+    $student['status']      = 1;
+    $student['notes']       = $notes;
+}
 	if ($permission)
 	{
 		$permission = array(
@@ -23,6 +26,14 @@ if (!empty($teacher_id) && !empty($class_id)) {
 			'total_s'       => $permission['total_s'],
 			'total_i'       => $permission['total_i'],
 			'total_a'       => $permission['total_a'],
+		);
+	}else
+	{
+		$permission = array(
+			'total_present' => count($student_data),
+			'total_s'       => 0,
+			'total_i'       => 0,
+			'total_a'       => 0,
 		);
 	}
 
