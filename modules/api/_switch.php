@@ -36,16 +36,20 @@ switch( $Bbc->mod['task'] )
 		include 'class.php';
 		break;
 
-	case 'class_schedule': // untuk melisting jadwal kelas murid 
-		include 'class_schedule.php';
-		break;
-
 	case 'schedule':
 		include 'schedule.php';
 		break;
 
 	case 'subject':
 		include 'subject.php';
+		break;
+
+	case 'teacher_subject_class': // melisting class guru 
+		include 'teacher_subject_class.php';
+		break;
+
+	case 'teacher_subject_course': // melisting course guru 
+		include 'teacher_subject_course.php';
 		break;
 
 	case 'public_login':
@@ -56,17 +60,20 @@ switch( $Bbc->mod['task'] )
 		include 'teacher_update.php';
 		break;
 
-	case 'teacher_course': 
-		include 'teacher_course.php';
-		break;
-
-	case 'teacher_schedule': // untuk melisting jadwal guru 
+	case 'teacher_schedule': // melisting jadwal guru 
 		include 'teacher_schedule.php';
 		break;
 
+	case 'teacher_schedule_report': // melisting laporan jadwal guru 
+		include 'teacher_schedule_report.php';
+		break;
 
-	case 'teacher_schedule_tomorrow': // untuk melisting jadwal guru 
+	case 'teacher_schedule_tomorrow': // melisting jadwal guru besok
 		include 'teacher_schedule_tomorrow.php';
+		break;
+
+	case 'teacher_schedule_class': // melisting jadwal wali kelas 
+		include 'teacher_schedule_class.php';
 		break;
 
 	case 'public_image_upload': // untuk mengupload gambar yang akan disimpan ke database FILE:{"image"}
@@ -78,7 +85,6 @@ switch( $Bbc->mod['task'] )
     user_logout($Bbc->user_id);
     redirect(_URL);
     break;
-
 
   case 'push-token': // untuk replace generate push_id notif
 		include 'push-token.php';

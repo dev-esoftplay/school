@@ -1,6 +1,7 @@
 <?php  if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
   $id = $_GET['id'];
+  pr($id, $return = false);
   
   $query = "SELECT * FROM school_schedule WHERE id = $id LIMIT 1";
 
@@ -34,7 +35,7 @@
 	}
 ?> 
 
-<div class="col-md-4">
+<div class="col-md-6">
 	<form method="POST" role="form" enctype="multipart/form-data" >
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -106,5 +107,5 @@
     echo createOption($subject_id_by_class);
 	} 
 
-	pr($course_id, $return = false);
+	// pr($course_id, $return = false);
 ?>
