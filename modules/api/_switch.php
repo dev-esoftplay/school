@@ -23,7 +23,11 @@ switch( $Bbc->mod['task'] )
 	case 'student_attendance': // untuk memasukkan data absensi siswa POST:{"student_id":"1","schedule_id":"1","status":"1"}
 		include 'student_attendance.php';
 		break;
-	
+		
+	case 'homeroom_student': // untuk memasukkan data absensi siswa POST:{"student_id":"1","schedule_id":"1","status":"1"}
+		include 'homeroom_student.php';
+		break;
+
 	case 'parent':
 		include 'parent.php';
 		break;

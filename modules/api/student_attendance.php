@@ -29,14 +29,11 @@ foreach ($data as $entry)
   $existing_data  = $result->fetch_assoc();
   if ($existing_data) 
   {
-    $db->update(
-      'school_attendance',
-      [
-        'presence'    => addslashes($entry['status']),
-        'notes'       => addslashes($entry['notes']),
-      ],
-      $existing_data['id']
+    $status = array(
+      'presence'    => addslashes($entry['status']),
+      'notes'       => addslashes($entry['notes']),
     );
+    $db->update('school_attendance', $status, 'id = \''.$existing_data['id'].'\'');
   }else 
   {
     $attendance_data = array(
@@ -45,7 +42,7 @@ foreach ($data as $entry)
       'presence'    => addslashes($entry['status']),
       'notes'       => addslashes($entry['notes']),
     );
-    $a = $db->insert('school_attendance', $attendance_data);
+    $db->insert('school_attendance', $attendance_data);
   }
 }
 
@@ -58,7 +55,7 @@ $totals = [
 
 foreach ($data as $entry) 
 {
-  switch ($entry['presence']) 
+  switch ($entry['status']) 
   {
     case 1:
       $totals['total_present']++;
@@ -74,20 +71,32 @@ foreach ($data as $entry)
       break;
   }
 }
-
-$attendance_report = [
-  'schedule_id'   => $schedule_id,
-  'class_id'      => $class_id,
-  'course_id'     => $course_id,
-  'total_present' => $totals['total_present'],
-  'total_s'       => $totals['total_s'],
-  'total_i'       => $totals['total_i'],
-  'total_a'       => $totals['total_a'],
-  'date_day'      => date('d'),
-  'date_week'     => date('W'), 
-  'date_month'    => date('m'),
-  'date_year'     => date('Y'),
-];
-
+$query                    = 'SELECT `id` FROM school_attendance_report WHERE class_id = \''.$class_id.'\' AND schedule_id = \''.$schedule_id.'\' AND course_id = \''.$course_id.'\' AND DATE(created) = CURDATE()';
+$result                   = $db->execute($query);
+$attendance_report_exist  = $result->fetch_assoc();
+if ($attendance_report_exist)
+{
+  $report = array(
+    'total_present' => $totals['total_present'],
+    'total_s'       => $totals['total_s'],
+    'total_i'       => $totals['total_i'],
+    'total_a'       => $totals['total_a'],
+  );
+  $db->update('school_attendance_report', $report, 'schedule_id = \''.$schedule_id.'\' AND class_id = \''.$class_id.'\' AND DATE(created) = CURDATE()');
+}else{
+  $attendance_report = [
+    'schedule_id'   => $schedule_id,
+    'class_id'      => $class_id,
+    'course_id'     => $course_id,
+    'total_present' => $totals['total_present'],
+    'total_s'       => $totals['total_s'],
+    'total_i'       => $totals['total_i'],
+    'total_a'       => $totals['total_a'],
+    'date_day'      => date('d'),
+    'date_week'     => date('W'), 
+    'date_month'    => date('m'),
+    'date_year'     => date('Y'),
+  ];
 $db->insert('school_attendance_report', $attendance_report);
+}
 return api_ok(['message' => 'Data added or updated successfully']);
