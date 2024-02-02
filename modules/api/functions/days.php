@@ -3,13 +3,13 @@
 function api_days($day_id='none')
 {
 	$r = array(
-		1 => 'Senin',
-		2 => 'Selasa',
-		3 => 'Rabu',
-		4 => 'Kamis',
-		5 => 'Jumat',
-		6 => 'Sabtu',
-		7 => 'Ahad',
+		1 => 'senin',
+		2 => 'selasa',
+		3 => 'rabu',
+		4 => 'kamis',
+		5 => 'jumat',
+		6 => 'sabtu',
+		7 => 'ahad',
 		);
 	if (is_numeric($day_id))
 	{

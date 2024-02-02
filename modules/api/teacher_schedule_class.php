@@ -30,7 +30,7 @@ foreach ($schedules as $schedule) {
 
   $day = strtolower($days);
   $schedule_by_days[$day][] = array(
-    'id'             => $schedule['id'],
+    'schedule_id'    => $schedule['id'],
     'course_name'    => $course_name,
     'class'          => $class,
     'clock_start'    => $schedule['clock_start'],
