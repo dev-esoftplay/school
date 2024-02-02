@@ -27,6 +27,7 @@ foreach ($data as $entry)
   $query          = 'SELECT `id` FROM school_attendance WHERE student_id = \''.$entry['student_id'].'\' AND schedule_id = \''.$schedule_id.'\' AND DATE(created) = CURDATE()';
   $result         = $db->execute($query);
   $existing_data  = $result->fetch_assoc();
+
   if ($existing_data) 
   {
     $status = array(
@@ -34,7 +35,7 @@ foreach ($data as $entry)
       'notes'       => addslashes($entry['notes']),
     );
     $db->update('school_attendance', $status, 'id = \''.$existing_data['id'].'\'');
-  }else 
+  }else if(!$existing_data)
   {
     $attendance_data = array(
       'schedule_id' => $schedule_id,
@@ -71,9 +72,11 @@ foreach ($data as $entry)
       break;
   }
 }
+
 $query                    = 'SELECT `id` FROM school_attendance_report WHERE class_id = \''.$class_id.'\' AND schedule_id = \''.$schedule_id.'\' AND course_id = \''.$course_id.'\' AND DATE(created) = CURDATE()';
 $result                   = $db->execute($query);
 $attendance_report_exist  = $result->fetch_assoc();
+
 if ($attendance_report_exist)
 {
   $report = array(
@@ -83,7 +86,8 @@ if ($attendance_report_exist)
     'total_a'       => $totals['total_a'],
   );
   $db->update('school_attendance_report', $report, 'schedule_id = \''.$schedule_id.'\' AND class_id = \''.$class_id.'\' AND DATE(created) = CURDATE()');
-}else{
+}else if (!$attendance_report_exist)
+{
   $attendance_report = [
     'schedule_id'   => $schedule_id,
     'class_id'      => $class_id,
@@ -97,6 +101,6 @@ if ($attendance_report_exist)
     'date_month'    => date('m'),
     'date_year'     => date('Y'),
   ];
-$db->insert('school_attendance_report', $attendance_report);
+  $db->insert('school_attendance_report', $attendance_report);
 }
 return api_ok(['message' => 'Data added or updated successfully']);

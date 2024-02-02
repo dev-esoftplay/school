@@ -5,3 +5,5 @@ images/cache/
 images/tmp/
 images/license.txt
 /config.php
+sftp-config.json
+.vscode

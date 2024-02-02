@@ -1,9 +1,9 @@
 <?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');
-
-$schedule_id  = addslashes(intval($_GET['schedule_id'])); 
-$class_id     = addslashes(intval($_GET['class_id'])); 
-$tanggal  		= $_GET['date']; 
-if (!empty($teacher_id) && !empty($class_id)) 
+$schedule_id  	= addslashes(intval($_GET['schedule_id'])); 
+$class_id     	= addslashes(intval($_GET['class_id'])); 
+$tanggal  			= $_GET['date']; 
+$schedule_class = $db->getone('SELECT `id` FROM `school_teacher_subject` WHERE `teacher_id`=' . $teacher_id . ' AND `class_id`=' . $class_id);
+if ($schedule_class) 
 {
 	$student_data = $db->getall('SELECT ssc.`student_id`, ssc.`number`, ss.`name` 
 																FROM `school_student_class` AS ssc 
