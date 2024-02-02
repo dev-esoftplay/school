@@ -24,10 +24,14 @@ switch( $Bbc->mod['task'] )
 		include 'student_attendance.php';
 		break;
 		
-	case 'homeroom_student': // untuk memasukkan data absensi siswa POST:{"student_id":"1","schedule_id":"1","status":"1"}
+	case 'homeroom_student': // untuk listing siswa di kelas yang diampu wali kelas GET:{"class_id":"1"}
 		include 'homeroom_student.php';
 		break;
-
+		
+	case 'homeroom_student_detail': // untuk melihat detail siswa dari listing siswa yang diampu wali kelas GET:{"student_id":"1", "month":"1 ?? current(month)", "week":"1 ?? ""}
+		include 'homeroom_student_detail.php';
+		break;
+	
 	case 'parent':
 		include 'parent.php';
 		break;
@@ -83,13 +87,14 @@ switch( $Bbc->mod['task'] )
     redirect(_URL);
     break;
 
-
   case 'push-token': // untuk replace generate push_id notif
 		include 'push-token.php';
 		break;
+
   case 'no_auth': // tiap API wajib pakai ini
 		api_no(lang('Authentication Failed.'));
 		break;
+
 	default: // tiap API wajib pakai ini
 		api_no(lang('Invalid action <b>%s</b> has been received...', $Bbc->mod['task']));
 		break;
