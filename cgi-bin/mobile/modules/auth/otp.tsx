@@ -2,6 +2,9 @@ import React, { useRef, useState } from 'react';
 import { Image, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import SchoolColors from '../utils/schoolcolor';
 import navigation from 'esoftplay/modules/lib/navigation';
+import Lib from '@ant-design/icons';
+import { LibPicture } from 'esoftplay/cache/lib/picture/import';
+import esp from 'esoftplay/esp';
 
 export interface AuthOtpArgs {}
 export interface AuthOtpProps {}
@@ -47,10 +50,7 @@ export default function AuthOtp(props: AuthOtpProps): JSX.Element {
 
   return (
     <View style={styles.container}>
-      <Image
-        source={require('../../assets/otp.png')}
-        style={styles.image}
-      />
+      <LibPicture source={esp.assets('otp.png')} style={styles.image} />
       <Text style={styles.text}>
         Masukkan OTP yang dikirim ke email Anda untuk memperbarui kata sandi Anda
       </Text>

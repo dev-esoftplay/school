@@ -1,4 +1,4 @@
-import React, { memo, useState, useMemo } from 'react';
+import React, { useState, useMemo, memo } from 'react';
 
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import { Text, View, Pressable } from 'react-native';

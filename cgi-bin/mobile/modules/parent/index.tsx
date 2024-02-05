@@ -1,5 +1,6 @@
 // withHooks
-import { memo, useMemo, useState } from 'react';
+import { memo } from 'react';
+import { useMemo, useState } from 'react';
 
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';

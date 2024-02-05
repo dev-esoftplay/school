@@ -15,7 +15,9 @@
       "fallbackToCacheTimeout": 0,
       "enabled": true,
       "url": "https://u.expo.dev/f77e515c-842e-4adf-a86a-98bb87769bdb"
+      
     },
+    
     "assetBundlePatterns": [
       "**/*"
     ],

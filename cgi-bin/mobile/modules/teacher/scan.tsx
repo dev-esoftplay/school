@@ -1,4 +1,5 @@
 // withHooks
+import { memo } from 'react';
 
 import { LibLazy } from 'esoftplay/cache/lib/lazy/import';
 import { LibLoading } from 'esoftplay/cache/lib/loading/import';
@@ -6,7 +7,7 @@ import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import useSafeState from 'esoftplay/state';
 import { Camera } from 'expo-camera';
-import React, { memo, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Button, Pressable, Text, View } from 'react-native';
 
 export interface TeacherScanArgs {}

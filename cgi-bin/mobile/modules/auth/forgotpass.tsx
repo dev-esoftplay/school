@@ -1,11 +1,13 @@
 // withHooks
-import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import { memo } from 'react';
+import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 
 import React from 'react';
 import { Image, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
 import SchoolColors from '../utils/schoolcolor';
 import navigation from 'esoftplay/modules/lib/navigation';
+import { LibPicture } from 'esoftplay/cache/lib/picture/import';
+import esp from 'esoftplay/esp';
 
 
 
@@ -20,7 +22,7 @@ function m(props: AuthForgotpassProps): any {
   return (
     <View style={{ flex:1 ,backgroundColor: "white",alignContent:'center'}}>
     <ScrollView style={{ flex: 1,paddingHorizontal: 30 }} showsVerticalScrollIndicator={false}>
-    <Image source={require('../../assets/lupapass.png')}
+    <LibPicture source={esp.assets('lupapass.png')}
         style={{ alignSelf: 'center', marginTop: 75 }} />
         <Text>
         Masukan Email anda untuk mengirim permintaan Password Kepada Admin dan kata sandi akan dikirim melalui email anda
