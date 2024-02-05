@@ -76,10 +76,6 @@ switch( $Bbc->mod['task'] )
 		include 'teacher_schedule_report.php';
 		break;
 
-	case 'teacher_schedule_tomorrow': // melisting jadwal guru besok
-		include 'teacher_schedule_tomorrow.php';
-		break;
-
 	case 'teacher_schedule_class': // melisting jadwal wali kelas 
 		include 'teacher_schedule_class.php';
 		break;
@@ -94,6 +90,10 @@ switch( $Bbc->mod['task'] )
     redirect(_URL);
     break;
 
+  case 'public_test':
+	  pr('public', __FILE__.':'.__LINE__);die();
+  	break;
+
   case 'push-token': // untuk replace generate push_id notif
 		include 'push-token.php';
 		break;
@@ -107,3 +107,4 @@ switch( $Bbc->mod['task'] )
 		break;
 }
 output_json($output);
+
