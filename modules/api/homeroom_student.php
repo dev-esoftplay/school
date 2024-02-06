@@ -30,6 +30,7 @@ if (!empty($class_id) && !empty($teacher_id) && ($teacher_id == $verification_ho
   
   $result = array(
     'class_name'     => $class_name,
+    'class_id'       => $class_id,
     'student_count'	 => count($student_data),
     'student_list'   => $student_data,
   );

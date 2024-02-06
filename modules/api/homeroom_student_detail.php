@@ -8,8 +8,7 @@ $first_date                 = $db->getone('SELECT `created` FROM `school_attenda
 $one_year_later             = date('Y-m-d', strtotime('+1 year', strtotime($first_date)));
 $attendance_presence_report = $db->getall('SELECT `presence`, COUNT(*) as `count` FROM `school_attendance` WHERE `student_id` = ' . $student_id . ' AND `created` BETWEEN "' . $first_date . '" AND "' . $one_year_later . '" GROUP BY presence');
 $verification_homeroom      = $db->getone('SELECT `teacher_id` FROM `school_class` WHERE `id` = ' . $class_id);
-
-$week_condition             = $filter_week !== null ? ' AND WEEK(created) = ' . $filter_week : '';
+$week_condition             = $filter_week !== null ? ' AND WEEK(created, 3) = ' . $filter_week : '';
 $query_attendance_presence  = $db->getall('SELECT `presence`, COUNT(*) as count FROM school_attendance WHERE student_id = ' . $student_id . ' AND MONTH(created) = ' . $filter_month . $week_condition . ' GROUP BY presence');
 $schedule_by_day            = $db->getall('SELECT DATE(sa.created) as created_date, ss.day, sa.presence, COUNT(*) as count FROM school_attendance AS sa LEFT JOIN school_schedule AS ss ON sa.schedule_id = ss.id WHERE sa.student_id = ' . $student_id . ' AND MONTH(sa.created) = ' . $filter_month . $week_condition . ' GROUP BY created_date, sa.presence');
 
@@ -19,7 +18,14 @@ foreach ($schedule_by_day as $data)
   $date = $data['created_date'];
   if (!isset($processed_data[$date])) 
   {
-    $processed_data[$date] = ['created_date' => $date, 'day' => $data['day'], 'presence hadir' => 0, 'presence sakit' => 0, 'presence ijin' => 0, 'presence tidak hadir' => 0, 'count' => 0,];
+    $processed_data[$date] = [
+      'created_date'          => $date,
+      'day'                   => $data['day'],
+      'presence hadir'        => 0,
+      'presence sakit'        => 0,
+      'presence ijin'         => 0,
+      'presence tidak hadir'  => 0,
+      'count'                 => 0,];
   }
   switch ($data['presence']) 
   {
@@ -41,7 +47,12 @@ foreach ($schedule_by_day as $data)
 $processed_data = array_values($processed_data);
 
 
-$attendance_report_data = array('hadir' => 0, 'sakit' => 0, 'ijin' => 0, 'tidak_hadir' => 0, );
+$attendance_report_data = array(
+  'hadir'       => 0,
+  'sakit'       => 0,
+  'ijin'        => 0,
+  'tidak_hadir' => 0,
+);
 
 foreach ($attendance_presence_report as $data) 
 {
@@ -62,9 +73,11 @@ foreach ($attendance_presence_report as $data)
   }
 }
 
-$result = array('attendance_data' => $attendance_report_data, 'schedule_day' => $processed_data, );
-
-if($teacher_id !== $verification) 
+$result = array(
+  'attendance_data' => $attendance_report_data,
+  'schedule_day'    => $processed_data,
+);
+if($teacher_id != $verification_homeroom) 
 {
   return api_no('Anda tidak punya akses ke halaman ini.');
 }
