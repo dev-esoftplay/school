@@ -1,16 +1,16 @@
 <?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
 $subject_ids = $db->getcol('SELECT `id` FROM `school_teacher_subject` WHERE `teacher_id` =' . $teacher_id);
-
 $current_date = date('Y-m-d');
 $date         = isset($_GET['date']) ? $_GET['date'] : $current_date;
 $day_num      = date('N', strtotime($date));
+$day          = isset($_GET['day']) ? $_GET['day'] : $day_num;
 
 if (strtotime($date) < strtotime($current_date)) {
   return api_no(lang('ga bisa lihat laporan jadwal disini, kamu harus ke teacher_schedule_report'));
 }
 
-$query     = 'SELECT `id`,`subject_id`,`day`,`clock_start`,`clock_end` FROM `school_schedule` WHERE `subject_id` IN (' . implode(',', $subject_ids) . ') AND `day` = ' . $day_num . ' ORDER BY `clock_start` ASC';
+$query     = 'SELECT `id`,`subject_id`,`day`,`clock_start`,`clock_end` FROM `school_schedule` WHERE `subject_id` IN (' . implode(',', $subject_ids) . ') AND `day` = ' . $day . ' ORDER BY `clock_start` ASC'; 
 $schedules = $db->getAll($query);
 
 $schedule_by_days = array();
@@ -67,9 +67,11 @@ if (!$schedules) {
 }
 
 foreach ($schedule_by_days as $day => $schedules) {
+  // pr(count($schedules), __FILE__.':'.__LINE__);die();
   $result = array(
-    'day'      => $day,
-    'schedule' => $schedules,
+    'day'            => $day,
+    'total_schedule' => count($schedules),
+    'schedule'       => $schedules,
   );
 }
 

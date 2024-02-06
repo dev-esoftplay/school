@@ -1,8 +1,11 @@
 // withHooks
+import { memo } from 'react';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
-import { memo, useRef, useState, useEffect } from 'react';
+import { LibPicture } from 'esoftplay/cache/lib/picture/import';
+import esp from 'esoftplay/esp';
+import { useRef, useState, useEffect } from 'react';
 import React from 'react';
-import { Dimensions, FlatList, Image, Pressable, Text, View } from 'react-native';
+import { Dimensions, FlatList, Pressable, Text, View } from 'react-native';
 
 // Props untuk komponen ParentsHome
 export interface ParentsHomeProps {
@@ -14,7 +17,7 @@ interface ChildData {
   nama: string;
   kelas: string;
   sekolah: string;
-  image: any;
+  LibPicture: any;
   kehadiran?: any[];
 }
 
@@ -24,7 +27,7 @@ const slides: ChildData[] = [
     nama: 'Naufal Dinaja',
     kelas: '12 PPLG 2',
     sekolah: 'SMK Rus Kudus',
-    image: require('../../assets/naufal.png'),
+    LibPicture: esp.assets('naufal.png'),
     kehadiran: [
       {
         kategori: 'Hadir',
@@ -53,7 +56,7 @@ const slides: ChildData[] = [
     nama: 'Ilham Maulana',
     kelas: '12 PPLG 2',
     sekolah: 'SMK Rus Kudus',
-    image: require('../../assets/roki.png'),
+    LibPicture: esp.assets('roki.png'),
     kehadiran: [
       {
         kategori: 'Hadir',
@@ -135,7 +138,7 @@ function ParentsHome({ navigation }: ParentsHomeProps): JSX.Element {
       <View style={{ flex: 1, backgroundColor: '#3f71d4', justifyContent: 'flex-start', padding: 20, borderBottomRightRadius: 12, borderBottomLeftRadius: 12 }}>
 
         <View style={{ height: 120, justifyContent: 'flex-start', alignItems: 'center', marginVertical: 20, padding: 15, flexDirection: 'row', borderRadius: 12 }}>
-          <Image source={require('../../assets/anies.png')} style={{ width: 100, height: 100, borderRadius: 50, borderWidth: 5, borderColor: 'white', justifyContent: 'center' }} />
+          <LibPicture source={esp.assets('anies.png')} style={{ width: 100, height: 100, borderRadius: 50, borderWidth: 5, borderColor: 'white', justifyContent: 'center' }} />
 
           <View style={{ marginLeft: 20, alignItems: 'flex-start', justifyContent: 'center' }}>
 
@@ -168,8 +171,8 @@ function ParentsHome({ navigation }: ParentsHomeProps): JSX.Element {
 
     
                   <View style={{ padding: 20, alignItems: 'center', backgroundColor: 'white', borderBottomLeftRadius: 12, borderBottomRightRadius: 12, height: height * 0.44 }}>
-                    <Image
-                      source={item.image}
+                    <LibPicture
+                      source={item.LibPicture}
                       style={{ width: 100, height: 100, borderRadius: 75, alignSelf: 'center', borderWidth: 2, borderColor: 'white', marginLeft: 10, position: 'absolute', top: -65 }} />
                     <View style={{ alignItems: 'center', marginTop: 20 }}>
                       <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'black' }}>{item.nama}</Text>

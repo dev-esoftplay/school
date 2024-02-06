@@ -1,187 +1,114 @@
 {
-  "ok": 1,
-  "status_code": 200,
-  "message": "success",
-  "result": [
-    {
-      "id": "1",
-      "subject_id": {
-        "id": "1",
-        "teacher_id": {
-          "id": "2",
-          "user_id": null,
-          "name": "Sumar",
-          "nip": "12121212",
-          "phone": "896123123",
-          "position": "Wakil Kepala Sekolah",
-          "created": "2023-12-20 10:13:28",
-          "updated": null
-        },
-        "course_id": {
-          "id": "3",
-          "name": "Matematika"
-        },
-        "class_id": {
-          "id": "1",
-          "teacher_id": "1",
-          "grade": "11",
-          "label": "3",
-          "major": "DKV"
-        }
-      },
-      "day": "1",
-      "clock_start": "05.00",
-      "clock_end": "08.00"
-    },
-    {
-      "id": "2",
-      "subject_id": {
-        "id": "1",
-        "teacher_id": {
-          "id": "2",
-          "user_id": null,
-          "name": "Sumar",
-          "nip": "12121212",
-          "phone": "896123123",
-          "position": "Wakil Kepala Sekolah",
-          "created": "2023-12-20 10:13:28",
-          "updated": null
-        },
-        "course_id": {
-          "id": "3",
-          "name": "Matematika"
-        },
-        "class_id": {
-          "id": "1",
-          "teacher_id": "1",
-          "grade": "11",
-          "label": "3",
-          "major": "DKV"
-        }
-      },
-      "day": "1",
-      "clock_start": "08.00",
-      "clock_end": "09.00"
-    },
-    {
-      "id": "3",
-      "subject_id": {
-        "id": "2",
-        "teacher_id": {
-          "id": "1",
-          "user_id": null,
-          "name": "Agus",
-          "nip": "12345678",
-          "phone": "896001001",
-          "position": "Kepala Sekolah",
-          "created": "2023-12-20 10:13:06",
-          "updated": null
-        },
-        "course_id": {
-          "id": "1",
-          "name": "Bahasa Indonesia"
-        },
-        "class_id": {
-          "id": "2",
-          "teacher_id": "2",
-          "grade": "10",
-          "label": "B",
-          "major": "RPL"
-        }
-      },
-      "day": "2",
-      "clock_start": "05.00",
-      "clock_end": "08.00"
-    },
-    {
-      "id": "4",
-      "subject_id": {
-        "id": "2",
-        "teacher_id": {
-          "id": "1",
-          "user_id": null,
-          "name": "Agus",
-          "nip": "12345678",
-          "phone": "896001001",
-          "position": "Kepala Sekolah",
-          "created": "2023-12-20 10:13:06",
-          "updated": null
-        },
-        "course_id": {
-          "id": "1",
-          "name": "Bahasa Indonesia"
-        },
-        "class_id": {
-          "id": "2",
-          "teacher_id": "2",
-          "grade": "10",
-          "label": "B",
-          "major": "RPL"
-        }
-      },
-      "day": "2",
-      "clock_start": "08.00",
-      "clock_end": "09.00"
-    },
-    {
-      "id": "5",
-      "subject_id": {
-        "id": "1",
-        "teacher_id": {
-          "id": "2",
-          "user_id": null,
-          "name": "Sumar",
-          "nip": "12121212",
-          "phone": "896123123",
-          "position": "Wakil Kepala Sekolah",
-          "created": "2023-12-20 10:13:28",
-          "updated": null
-        },
-        "course_id": {
-          "id": "3",
-          "name": "Matematika"
-        },
-        "class_id": {
-          "id": "1",
-          "teacher_id": "1",
-          "grade": "11",
-          "label": "3",
-          "major": "DKV"
-        }
-      },
-      "day": "2",
-      "clock_start": "09.00",
-      "clock_end": "10.00"
-    },
-    {
-      "id": "6",
-      "subject_id": {
-        "id": "3",
-        "teacher_id": {
-          "id": "1",
-          "user_id": null,
-          "name": "Agus",
-          "nip": "12345678",
-          "phone": "896001001",
-          "position": "Kepala Sekolah",
-          "created": "2023-12-20 10:13:06",
-          "updated": null
-        },
-        "course_id": {
-          "id": "1",
-          "name": "Bahasa Indonesia"
-        },
-        "class_id": {
-          "id": "1",
-          "teacher_id": "1",
-          "grade": "11",
-          "label": "3",
-          "major": "DKV"
-        }
-      },
-      "day": "2",
-      "clock_start": "10.00",
-      "clock_end": "12.00"
+    "ok": 1,
+    "status_code": 200,
+    "message": "success",
+    "result": {
+        "day": "senin",
+        "schedule": [
+            {
+                "id": "6",
+                "course_name": "IPA",
+                "class": {
+                    "id": "2",
+                    "class_name": "10 RPL 1"
+                },
+                "clock_start": "09:00",
+                "clock_end": "10:00",
+                "student_number": 2,
+                "student_attend": 0
+            },
+            {
+                "id": "7",
+                "course_name": "Bahasa Indonesia",
+                "class": {
+                    "id": "3",
+                    "class_name": "11 RPL 2"
+                },
+                "clock_start": "07:00",
+                "clock_end": "08:00",
+                "student_number": 2,
+                "student_attend": 0
+            },
+            {
+                "id": "11",
+                "course_name": "IPS",
+                "class": {
+                    "id": "4",
+                    "class_name": "11 RPL 1"
+                },
+                "clock_start": "09:00",
+                "clock_end": "10:00",
+                "student_number": 0,
+                "student_attend": 0
+            },
+            {
+                "id": "12",
+                "course_name": "Matematika",
+                "class": {
+                    "id": "5",
+                    "class_name": "12 RPL 2"
+                },
+                "clock_start": "07:00",
+                "clock_end": "08:00",
+                "student_number": 0,
+                "student_attend": 0
+            }
+        ]
     }
-  ]
+},
+
+{
+    "ok": 1,
+    "status_code": 200,
+    "message": "success",
+    "result": {
+        "class_name": "10 RPL 2",
+        "student_count": 6,
+        "permission": {
+            "total_present": "1",
+            "total_s": "1",
+            "total_i": "1",
+            "total_a": "1"
+        },
+        "clock_start": "07:00",
+        "clock_end": "08:00",
+        "student_list": [
+            {
+                "student_id": "1",
+                "number": "1",
+                "name": "intan",
+                "status": 1
+            },
+            {
+                "student_id": "2",
+                "number": "2",
+                "name": "dina",
+                "status": 1
+            },
+            {
+                "student_id": "3",
+                "number": "1",
+                "name": "surya",
+                "status": 1
+            },
+            {
+                "student_id": "4",
+                "number": "2",
+                "name": "sutejo",
+                "status": 1
+            },
+            {
+                "student_id": "5",
+                "number": "1",
+                "name": "tarjo",
+                "status": 1
+            },
+            {
+                "student_id": "6",
+                "number": "2",
+                "name": "agus",
+                "status": 1
+            }
+        ]
+    }
 }

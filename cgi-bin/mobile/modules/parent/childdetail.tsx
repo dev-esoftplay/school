@@ -1,11 +1,14 @@
 // withHooks
-import { memo, useState } from 'react';
+import { memo } from 'react';
+import { useState } from 'react';
 
 import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import React from 'react';
 import { FlatList, Image, Pressable, Text, TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import { LibPicture } from 'esoftplay/cache/lib/picture/import';
+import esp from 'esoftplay/esp';
 
 
 export interface ParenChildArgs {
@@ -14,10 +17,6 @@ export interface ParenChildArgs {
 export interface ParenChildProps {
 
 }
-
-
-
-
 
 function m(props: ParenChildProps): any {
   const allDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -65,7 +64,7 @@ function m(props: ParenChildProps): any {
         <View style={{ flex: 1, backgroundColor: '#0073df', borderBottomRightRadius: 20, borderBottomLeftRadius: 20 }}>
 
           <View style={{ flexDirection: 'row', padding: 10, marginTop: 20, justifyContent: 'center' }}>
-            <Image source={require('../../assets/anies.png')} style={{ width: 100, height: 100, borderRadius: 50, borderWidth: 5, borderColor: 'white', marginRight: 12 }} />
+            <LibPicture source={esp.assets('anies.png')} style={{ width: 100, height: 100, borderRadius: 50, borderWidth: 5, borderColor: 'white', marginRight: 12 }} />
 
             <View style={{ justifyContent: 'center', alignItems: 'flex-start' }}>
               <Text style={{ fontSize: 20, color: 'white', textAlign: 'center' }}>Anies Rasyid Baswedan</Text>

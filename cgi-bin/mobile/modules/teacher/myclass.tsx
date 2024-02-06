@@ -1,13 +1,14 @@
 // withHooks
 
 import { MaterialIcons } from '@expo/vector-icons';
+import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 import { LibStyle } from 'esoftplay/cache/lib/style/import';
-import React, { useState } from 'react';
-import { memo } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { View, Platform, Text, FlatList, ScrollView, Pressable } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 
 export interface TeacherMyClassArgs {
@@ -17,6 +18,7 @@ export interface TeacherMyClassProps {
 
 }
 function m(props: TeacherMyClassProps): any {
+    const idclass: string = LibNavigation.getArgsAll(props).clasid;
 
     function shadowS(value: any) {
         if (Platform.OS === "ios") {
@@ -27,6 +29,20 @@ function m(props: TeacherMyClassProps): any {
     }
     const allTabs = ['Jadwal Kelas', 'Daftar Siswa'];
     const [selectTab, setSelectTab] = React.useState(allTabs[0])
+    const [resApi2, setResApi2] = useState<any>([])
+
+    useEffect(() => {
+
+        const url = "http://api.school.lc/homeroom_student?class_id=1"
+        new LibCurl('homeroom_student?class_id='+idclass, get, (result, msg) => {
+            console.log('Jadwal Result besok:', result);
+            console.log("msg", msg)
+            setResApi2(result)
+        }, (err) => {
+            console.log("error", err)
+        }, 1)
+
+    }, [])
 
     const Tabs = () => {
         if (selectTab == 'Jadwal Kelas') {
@@ -49,8 +65,8 @@ function m(props: TeacherMyClassProps): any {
                 {
                     day: 'Tuesday',
                     events: [
-                        { subject: 'Mathematics', jamke: 'jam ke 1 - jam ke 2', jam: '06:45 - 07:45', jumlahSiswa: '30/30', color: 'green' },
                         { subject: 'Physics', jamke: 'jam ke 3 - jam ke 4', jam: '08:00 - 09:00', jumlahSiswa: '30/30', color: 'green' },
+                        { subject: 'Mathematics', jamke: 'jam ke 1 - jam ke 2', jam: '06:45 - 07:45', jumlahSiswa: '30/30', color: 'green' },
                         { subject: 'Chemistry', jamke: 'jam ke 5 - jam ke 6', jam: '09:15 - 10:15', jumlahSiswa: '30/30', color: 'green' },
                         { subject: 'Biology', jamke: 'jam ke 7 - jam ke 8', jam: '10:30 - 11:30', jumlahSiswa: '30/30', color: 'green' },
                         { subject: 'History', jamke: 'jam ke 9 - jam ke 10', jam: '13:00 - 14:00', jumlahSiswa: '30/30', color: 'green' },
@@ -63,9 +79,9 @@ function m(props: TeacherMyClassProps): any {
                     day: 'Wednesday',
                     events: [
                         { subject: 'Mathematics', jamke: 'jam ke 1 - jam ke 2', jam: '06:45 - 07:45', jumlahSiswa: '30/30', color: 'green' },
+                        { subject: 'Biology', jamke: 'jam ke 7 - jam ke 8', jam: '10:30 - 11:30', jumlahSiswa: '30/30', color: 'green' },
                         { subject: 'Physics', jamke: 'jam ke 3 - jam ke 4', jam: '08:00 - 09:00', jumlahSiswa: '30/30', color: 'green' },
                         { subject: 'Chemistry', jamke: 'jam ke 5 - jam ke 6', jam: '09:15 - 10:15', jumlahSiswa: '30/30', color: 'green' },
-                        { subject: 'Biology', jamke: 'jam ke 7 - jam ke 8', jam: '10:30 - 11:30', jumlahSiswa: '30/30', color: 'green' },
                         { subject: 'History', jamke: 'jam ke 9 - jam ke 10', jam: '13:00 - 14:00', jumlahSiswa: '30/30', color: 'green' },
                         { subject: 'Literature', jamke: 'jam ke 11 - jam ke 12', jam: '14:15 - 15:15', jumlahSiswa: '30/30', color: 'green' },
                         { subject: 'English', jamke: 'jam ke 13 - jam ke 14', jam: '15:30 - 16:30', jumlahSiswa: '30/30', color: 'green' },
@@ -75,9 +91,9 @@ function m(props: TeacherMyClassProps): any {
                 {
                     day: 'Thursday',
                     events: [
-                        { subject: 'Mathematics', jamke: 'jam ke 1 - jam ke 2', jam: '06:45 - 07:45', jumlahSiswa: '30/30', color: 'green' },
                         { subject: 'Physics', jamke: 'jam ke 3 - jam ke 4', jam: '08:00 - 09:00', jumlahSiswa: '30/30', color: 'green' },
                         { subject: 'Chemistry', jamke: 'jam ke 5 - jam ke 6', jam: '09:15 - 10:15', jumlahSiswa: '30/30', color: 'green' },
+                        { subject: 'Mathematics', jamke: 'jam ke 1 - jam ke 2', jam: '06:45 - 07:45', jumlahSiswa: '30/30', color: 'green' },
                         { subject: 'Biology', jamke: 'jam ke 7 - jam ke 8', jam: '10:30 - 11:30', jumlahSiswa: '30/30', color: 'green' },
                         { subject: 'History', jamke: 'jam ke 9 - jam ke 10', jam: '13:00 - 14:00', jumlahSiswa: '30/30', color: 'green' },
                         { subject: 'Literature', jamke: 'jam ke 11 - jam ke 12', jam: '14:15 - 15:15', jumlahSiswa: '30/30', color: 'green' },
@@ -89,24 +105,24 @@ function m(props: TeacherMyClassProps): any {
                     day: 'Friday',
                     events: [
                         { subject: 'Mathematics', jamke: 'jam ke 1 - jam ke 2', jam: '06:45 - 07:45', jumlahSiswa: '30/30', color: 'green' },
-                        { subject: 'Physics', jamke: 'jam ke 3 - jam ke 4', jam: '08:00 - 09:00', jumlahSiswa: '30/30', color: 'green' },
                         { subject: 'Chemistry', jamke: 'jam ke 5 - jam ke 6', jam: '09:15 - 10:15', jumlahSiswa: '30/30', color: 'green' },
                         { subject: 'Biology', jamke: 'jam ke 7 - jam ke 8', jam: '10:30 - 11:30', jumlahSiswa: '30/30', color: 'green' },
                         { subject: 'History', jamke: 'jam ke 9 - jam ke 10', jam: '13:00 - 14:00', jumlahSiswa: '30/30', color: 'green' },
-                        { subject: 'Literature', jamke: 'jam ke 11 - jam ke 12', jam: '14:15 - 15:15', jumlahSiswa: '30/30', color: 'green' },
+                        { subject: 'Physics', jamke: 'jam ke 3 - jam ke 4', jam: '08:00 - 09:00', jumlahSiswa: '30/30', color: 'green' },
                         { subject: 'English', jamke: 'jam ke 13 - jam ke 14', jam: '15:30 - 16:30', jumlahSiswa: '30/30', color: 'green' },
                         { subject: 'Computer Science', jamke: 'jam ke 15 - jam ke 16', jam: '16:45 - 17:45', jumlahSiswa: '30/30', color: 'green' },
+                        { subject: 'Literature', jamke: 'jam ke 11 - jam ke 12', jam: '14:15 - 15:15', jumlahSiswa: '30/30', color: 'green' },
                     ]
                 },
                 {
                     day: 'Saturday',
                     events: [
-                        { subject: 'Mathematics', jamke: 'jam ke 1 - jam ke 2', jam: '06:45 - 07:45', jumlahSiswa: '30/30', color: 'green' },
-                        { subject: 'Physics', jamke: 'jam ke 3 - jam ke 4', jam: '08:00 - 09:00', jumlahSiswa: '30/30', color: 'green' },
                         { subject: 'Chemistry', jamke: 'jam ke 5 - jam ke 6', jam: '09:15 - 10:15', jumlahSiswa: '30/30', color: 'green' },
+                        { subject: 'Mathematics', jamke: 'jam ke 1 - jam ke 2', jam: '06:45 - 07:45', jumlahSiswa: '30/30', color: 'green' },
                         { subject: 'Biology', jamke: 'jam ke 7 - jam ke 8', jam: '10:30 - 11:30', jumlahSiswa: '30/30', color: 'green' },
-                        { subject: 'History', jamke: 'jam ke 9 - jam ke 10', jam: '13:00 - 14:00', jumlahSiswa: '30/30', color: 'green' },
+                        { subject: 'Physics', jamke: 'jam ke 3 - jam ke 4', jam: '08:00 - 09:00', jumlahSiswa: '30/30', color: 'green' },
                         { subject: 'Literature', jamke: 'jam ke 11 - jam ke 12', jam: '14:15 - 15:15', jumlahSiswa: '30/30', color: 'green' },
+                        { subject: 'History', jamke: 'jam ke 9 - jam ke 10', jam: '13:00 - 14:00', jumlahSiswa: '30/30', color: 'green' },
                         { subject: 'English', jamke: 'jam ke 13 - jam ke 14', jam: '15:30 - 16:30', jumlahSiswa: '30/30', color: 'green' },
                         { subject: 'Computer Science', jamke: 'jam ke 15 - jam ke 16', jam: '16:45 - 17:45', jumlahSiswa: '30/30', color: 'green' },
                     ]
@@ -158,8 +174,8 @@ function m(props: TeacherMyClassProps): any {
 
                                 <View>
                                     {item.events.map((event, index) => (
-                                        <View key={index} style={{ marginBottom: 10, height: 100, backgroundColor: event.color, borderRadius: 10,  alignItems:'flex-end'}}>
-                                          
+                                        <View key={index} style={{ marginBottom: 10, height: 100, backgroundColor: event.color, borderRadius: 10, alignItems: 'flex-end' }}>
+
                                             <View style={{ backgroundColor: 'white', padding: 10, marginLeft: 30, width: '90%', opacity: 0.7 }}>
 
                                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -186,53 +202,51 @@ function m(props: TeacherMyClassProps): any {
                 </View>
             )
         } else {
+
             const allStudents = [
                 {
-                    "nama": "Tanaka Yuki",
-                    "usia": 16,
-                    "kelas": "11A",
-                    "alamat": "Tokyo, Jepang",
-                    "namaOrangtua": "Tanaka Ichiro",
-                    "NISN": "1234567890"
+                    "image": "",
+                    "name": "intan",
+                    "number": "1",
+                    "student_id": 1
                 },
                 {
-                    "nama": "Suzuki Aiko",
-                    "usia": 15,
-                    "kelas": "10B",
-                    "alamat": "Osaka, Jepang",
-                    "namaOrangtua": "Suzuki Jiro",
-                    "NISN": "0987654321"
+                    "image": "",
+                    "name": "dina",
+                    "number": "2",
+                    "student_id": 2
                 },
                 {
-                    "nama": "Watanabe Hiroshi",
-                    "usia": 17,
-                    "kelas": "12C",
-                    "alamat": "Kyoto, Jepang",
-                    "namaOrangtua": "Watanabe Hanako",
-                    "NISN": "2345678901"
+                    "image": "",
+                    "name": "surya",
+                    "number": "3",
+                    "student_id": 3
                 },
                 {
-                    "nama": "Yamamoto Haruka",
-                    "usia": 16,
-                    "kelas": "11B",
-                    "alamat": "Hiroshima, Jepang",
-                    "namaOrangtua": "Yamamoto Takeshi",
-                    "NISN": "3456789012"
+                    "image": "",
+                    "name": "sutejo",
+                    "number": "4",
+                    "student_id": 4
                 },
                 {
-                    "nama": "Ito Ayumu",
-                    "usia": 15,
-                    "kelas": "10A",
-                    "alamat": "Nagoya, Jepang",
-                    "namaOrangtua": "Ito Saki",
-                    "NISN": "4567890123"
+                    "image": "",
+                    "name": "tarjo",
+                    "number": "5",
+                    "student_id": 5
+                },
+                {
+                    "image": "",
+                    "name": "agus",
+                    "number": "6",
+                    "student_id": 6
                 }
             ];
 
             return (
                 <View style={{ flex: 1, }}>
                     <FlatList
-                        data={allStudents}
+                    // jangan lupa di ganti allStudents jadi resApi2.student_list
+                        data={resApi2.student_list}
                         keyExtractor={(item, index) => index.toString()}
                         contentContainerStyle={{ marginTop: 10 }}
                         renderItem={({ item }) => (
@@ -241,8 +255,9 @@ function m(props: TeacherMyClassProps): any {
                                     <View style={{ flexDirection: 'row', backgroundColor: '#e7e7e7', borderRadius: 10, padding: 15 }}>
                                         <View style={{ marginRight: 10, width: 50, height: 50, borderRadius: 25, backgroundColor: 'lightgray' }} />
                                         <View style={{ marginBottom: 10, }}>
-                                            <Text style={{ fontSize: 16, color: '#555' }}>{item.nama}</Text>
-                                            <Text style={{ fontSize: 16, color: '#555' }}>{item.usia}</Text>
+                                            <Text style={{ fontSize: 16, color: '#555' }}>{item.name}</Text>
+                                            <Text style={{ fontSize: 16, color: '#555' }}>{item.number}</Text>
+                                            {/* <Text style={{ fontSize: 16, color: '#555' }}>{item.parent.dada}</Text> */}
                                         </View>
                                     </View>
                                 </Pressable>

@@ -1,5 +1,6 @@
 // withHooks
-import { memo, useRef } from 'react';
+import { memo } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import React from 'react';
@@ -8,6 +9,9 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { LibSlidingup } from 'esoftplay/cache/lib/slidingup/import';
 import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
+import { LibCurl } from 'esoftplay/cache/lib/curl/import';
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+import { err } from 'react-native-svg/lib/typescript/xml';
 
 
 export interface TeacherDetailStudentArgs {
@@ -25,6 +29,7 @@ function m(props: TeacherDetailStudentProps): any {
     return { elevation: value };
   }
   let slideup = useRef<LibSlidingup>(null)
+  let [Eror, setEror] = useState("")
   const [klsSelected, setKlsSelected] = React.useState(false)
   const Absensi = [
     {
@@ -137,35 +142,40 @@ function m(props: TeacherDetailStudentProps): any {
       "days": 31
     }
   ]
-  const ResumeAbsen=[
-    {
-      "status":'Masuk',
-      "value":"5",
-      "color":"#028835",
-    },
-    {
-      "status":'Izin',
-      "value":"1",
-      "color":"#007aff",
-    },
-    {
-      "status":'Sakit',
-      "value":"2",
-      "color":"#f5a623",
-    },
-    {
-      "status":'Alpa',
-      "value":"1",
-      "color":"#ff3b30",
-    },
-  ]
+  
+  const [resApi, setResApi] = useState<any>([])
+  useEffect(() => {
+  
+      const url = "http://api.school.lc/homeroom_student_detail?student_id=1?class_id=1"
+      new LibCurl('homeroom_student_detail?student_id=1?class_id=1', get, (result, msg) => {
+        console.log("result detail siswa", result) 
+        setResApi(result)
+
+      }, (err) => {
+        setEror(JSON.stringify(err))
+        console.log("error", err)
+        setResApi(null)
+      }, 1)
+
+    
+  }, [])
+
+  if(resApi == null ){
+    return(
+     <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+       <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black' }}>Tidak ada data</Text>
+       <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black' }}>{Eror}</Text>
+      </View>
+    )
+  }
+ 
   return (
     <View style={{ flex: 1 }}>
       <ScrollView style={{ flex: 1, padding: 20, marginBottom: 30, }}>
 
         <View style={{ flex: 1, flexDirection: 'row', paddingHorizontal: 10, alignItems: 'center' }}>
-          <Pressable onPress={() => { LibNavigation.back() }} style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center',}}>
-          <LibIcon.EntypoIcons name='chevron-left' size={28} color='gray'  />
+          <Pressable onPress={() => { LibNavigation.back() }} style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center', }}>
+            <LibIcon.EntypoIcons name='chevron-left' size={28} color='gray' />
           </Pressable>
           <Text style={{ fontSize: 18, fontWeight: 'bold', marginLeft: 10 }}>Detail Siswa</Text>
         </View>
@@ -189,7 +199,7 @@ function m(props: TeacherDetailStudentProps): any {
           <Pressable onPress={() => { console.log('test') }} style={{ width: '90%', height: 60, backgroundColor: '#32b100', borderRadius: 10, justifyContent: 'center', alignSelf: 'center', marginVertical: 20, ...shadowS(7), paddingHorizontal: 20, marginHorizontal: 10, marginTop: 35 }}>
             <View style={{ flexDirection: 'row', paddingHorizontal: 20 }}>
               <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#ffffff', textAlign: 'center', }}>Hubungi Orang Tua</Text>
-             {/* <FontAwesome name="whatsapp" size={24} color="black" /> */}
+              {/* <FontAwesome name="whatsapp" size={24} color="black" /> */}
               <LibIcon.FontAwesome name="whatsapp" size={24} color="#ffffff" style={{ position: 'absolute', right: 20 }} />
             </View>
           </Pressable>
@@ -201,16 +211,26 @@ function m(props: TeacherDetailStudentProps): any {
         {/* CARD ABSENSI */}
         <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'black', marginTop: 20 }}>Absensi</Text>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
-          {
-            ResumeAbsen.map((item, index) => {
-              return (
-                <View style={{ width: 75, height: 70, backgroundColor: item['color'], borderRadius: 10, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 10, marginHorizontal: 5 }}>
-                  <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item['value']}</Text>
-                  <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item['status']}</Text>
-                </View>
-              )
-            })
-          }
+        
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
+        <View style={{ width: 75, height: 70, backgroundColor: "green", borderRadius: 10, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 10, marginHorizontal: 5 }}>
+                  <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{resApi?.attendance_data?.hadir??"0"}</Text>
+                  <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>Hadir</Text>
+        </View>
+        <View style={{ width: 75, height: 70, backgroundColor: "green", borderRadius: 10, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 10, marginHorizontal: 5 }}>
+                  <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{resApi?.attendance_data?.sakit??"0"}</Text>
+                  <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>Hadir</Text>
+        </View>
+        <View style={{ width: 75, height: 70, backgroundColor: "green", borderRadius: 10, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 10, marginHorizontal: 5 }}>
+                  <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{resApi?.attendance_data?.ijin??"0"}</Text>
+                  <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>Hadir</Text>
+        </View>
+        <View style={{ width: 75, height: 70, backgroundColor: "green", borderRadius: 10, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 10, marginHorizontal: 5 }}>
+                  <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{resApi?.attendance_data?.tidak_hadir??"0"}</Text>
+                  <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>Hadir</Text>
+        </View>
+        </View>
+        
         </View>
         {/* button filter Slide Up */}
         <Pressable onPress={() => {
@@ -229,27 +249,42 @@ function m(props: TeacherDetailStudentProps): any {
         </Pressable>
 
         {/* card absensi */}
-        <FlatList data={Absensi}
-        contentContainerStyle={{paddingBottom:20}}
+        <FlatList data={resApi.schedule_day}
+          contentContainerStyle={{ paddingBottom: 20 }}
+          
           renderItem={
             ({ item, index }) => {
+
+              const getDay = (date: string) => {
+                switch (date) {
+                  case "0":
+                    return "Minggu"
+                  case "1":
+                    return "Senin"
+                  case "2":
+                    return "Selasa"
+                  case "3":
+                    return "Rabu"
+                  case "4":
+                    return "Kamis"
+                  case "5":
+                    return "Jumat"
+                  case "6":
+                    return "Sabtu"
+                  default:
+                    return "Minggu"
+                }
+              }
+
               return (
-                <Pressable onPress={() => LibDialog.info("test", "cakep")} style={{ backgroundColor: item['color'], padding: 10, width: '100%', paddingHorizontal: 20, borderRadius: 15, opacity: 0.8, ...shadowS(3), marginVertical: 10 }}>
+                <Pressable onPress={() => LibDialog.info("test", "cakep")} style={{ backgroundColor: item['color'], padding: 10, width: '100%', paddingHorizontal: 20, borderRadius: 15, opacity: 0.8, ...shadowS(3), marginVertical: 10,height:80}}>
 
-                  <View style={{}}>
+                  <View style={{flexDirection: 'row',}}>
 
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between',marginBottom:15}}>
-                      <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item["mapel"]}</Text>
-
-                      <View style={{ height: 30, width: 'auto', borderRadius: 8, backgroundColor: item['color'], justifyContent: 'center', alignItems: 'center', paddingHorizontal: 10 }}>
-                        <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item['ket']}</Text>
-                      </View>
-                    </View>
-
-
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                      <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item['pengajar']}</Text>
-                      <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item['jam']}</Text>
+                    <View style={{}}>
+                      <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{getDay(item?.day)}{item?.day??'Semoga senin'}</Text>
+                      <View style={{height:20}}/>
+                      <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item?.created_date??'Semoga senin'}</Text>
                     </View>
                   </View>
                 </Pressable>
@@ -261,15 +296,15 @@ function m(props: TeacherDetailStudentProps): any {
       <LibSlidingup ref={slideup}>
         <View style={{ height: 300, backgroundColor: 'white', padding: 10, borderTopRightRadius: 20, borderTopLeftRadius: 20, paddingHorizontal: 20 }}>
           <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'black', marginTop: 20, alignSelf: 'center' }}>Filter Absensi</Text>
-      
 
-      
+
+
           <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black', marginTop: 20 }}>Pilih bulan</Text>
           <FlatList data={Bulan}
-            
+
             keyExtractor={(item, index) => index.toString()}
             horizontal
-            contentContainerStyle={{ marginTop: 10,height:60 }}
+            contentContainerStyle={{ marginTop: 10, height: 60 }}
             showsHorizontalScrollIndicator={false}
             renderItem={
               ({ item, index }) => {

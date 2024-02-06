@@ -1,12 +1,14 @@
 // withHooks
+import { memo } from 'react';
 import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import navigation from 'esoftplay/modules/lib/navigation';
-import { memo } from 'react';
 
 import React from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
 import { Auth } from '../auth/login';
+import { LibPicture } from 'esoftplay/cache/lib/picture/import';
+import esp from 'esoftplay/esp';
 
 
 export interface ParentAccountArgs {
@@ -36,7 +38,7 @@ function m(props: ParentAccountProps): any {
         <Text style={{ fontSize: 20, color: 'white', textAlign: 'center', fontWeight: 'bold' }}>Profil</Text>
 
         <View style={{ flexDirection: 'row', padding: 10, marginTop: 20 }}>
-          <Image source={require('../../assets/anies.png')} style={{ width: 100, height: 100, borderRadius: 50, borderWidth: 5, borderColor: 'white', marginRight: 12 }} />
+          <LibPicture source={esp.assets('anies.png')} style={{ width: 100, height: 100, borderRadius: 50, borderWidth: 5, borderColor: 'white', marginRight: 12 }} />
           <View style={{ justifyContent: 'center', alignItems: 'flex-start' }}>
             <Text style={{ fontSize: 20, color: 'white', textAlign: 'center' }}>Anies Rasyid Baswedan</Text>
             <Text style={{ fontSize: 20, color: 'white', textAlign: 'center' }}>Presiden RI 2024</Text>

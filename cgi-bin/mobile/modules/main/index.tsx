@@ -1,7 +1,10 @@
 // withHooks
 import { memo } from 'react';
+import { useEffect } from 'react';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 import { Auth } from '../auth/login';
+import { UserClass } from 'esoftplay/cache/user/class/import';
+import { Text, View } from 'react-native';
 
 
 
@@ -13,24 +16,21 @@ export interface MainIndexProps {
 
 }
 function m(props: MainIndexProps): any {
+  const role: string = UserClass.state().get().group_ids[0];
+  console.log("role", role)
 
-  const [isSignedIn] = Auth.useSelector(data => [data.isLogin,{ persistKey: 'auth' }])
-  const [loginAs]=Auth.useSelector(data=>[data.status,{persistKey:'auth'}])
-
-  
-    if (isSignedIn==true && loginAs=="teacher") {
-      LibNavigation.navigate('teacher/index');
-    }else if (isSignedIn==true && loginAs=="parent") {
-      console.log("login as parent")
-      LibNavigation.navigate('parent/index');
-    } 
-    else {
-      LibNavigation.navigate('onboarding/onboarding');
+  useEffect(() => {
+    if (role) {
+      if (role == "3") {
+        LibNavigation.replace('parent/index')
+      } else if (role == "5") {
+        LibNavigation.replace('teacher/index')
+      }
     }
-  // return (
-  //   <View style={{ flex: 1, backgroundColor: 'white', alignContent: 'center',justifyContent:'center'}}>
-  //     <Button title="Go to Login" onPress={() => {navigation.navigate('auth/login',console.log("click"))}} />
-  //   </View>    
-  // ) 
+    else {
+      LibNavigation.replace('auth/login')
+    }
+  }, [])
+
 }
 export default memo(m);

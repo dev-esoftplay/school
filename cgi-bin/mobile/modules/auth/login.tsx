@@ -1,7 +1,8 @@
 // withHooks
+import { memo } from 'react';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import navigation from 'esoftplay/modules/lib/navigation';
-import { memo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import React from 'react';
 import {
   Image,
@@ -15,102 +16,90 @@ import SchoolColors from '../utils/schoolcolor';
 import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 import useGlobalState from 'esoftplay/global';
+import { LibCurl } from 'esoftplay/cache/lib/curl/import';
+import { LibCrypt } from 'esoftplay/cache/lib/crypt/import';
+import useSafeState from 'esoftplay/state';
+import { LibProgress } from 'esoftplay/cache/lib/progress/import';
+import { UserClass } from 'esoftplay/cache/user/class/import';
+import { LibPicture } from 'esoftplay/cache/lib/picture/import';
+import esp from 'esoftplay/esp';
 
-export interface LoginIndexsArgs {}
-export interface LoginIndexsProps {}
+export interface LoginIndexsArgs { }
+export interface LoginIndexsProps { }
 
 export const Auth = useGlobalState(
   {
     username: '',
     password: '',
     status: '',
+    apikey: '',
     isLogin: false,
   },
   { persistKey: 'auth', loadOnInit: true, isUserData: true, inFile: true }
 );
 
+//buat object untuk menampung respon dari api
+export interface ResApi {
+  id: string,
+  name: string,
+  email: string,
+  apikey: string,
+  group_ids: string[],
+  teacher: {
+    id: string,
+    user_id: string,
+    name: string,
+    nip: string,
+    phone: string,
+    position: string,
+    image: string,
+    created: string,
+    updated: string
+  },
+  course: string[],
+  parent: string,
+
+
+}
+
 function m(props: LoginIndexsProps): any {
+
   const school = new SchoolColors();
-  const [isLogin, loginState] = Auth.useSelector(data => [
-    data.isLogin,
-    { persistKey: 'auth' }
-  ]);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [selectedIndex, setSelectedIndex] = useState(true);
 
-  const login = (usernames: string, passwords: any) => {
-    const data = {
-      teacher: [
-        {
-          username: 'Johnwick',
-          password: '123456',
-          status: 'teacher',
-          isLogin: true,
-        },
-        {
-          username: 'Mary',
-          password: '123456',
-          status: 'teacher',
-          isLogin: true,
-        },
-      ],
-      parent: [
-        {
-          username: 'David',
-          password: '123456',
-          status: 'parent',
-          isLogin: true,
-        },
-        {
-          username: 'Lisa',
-          password: '123456',
-          status: 'parent',
-          isLogin: true,
-        },
-      ],
-    };
 
-    console.log(`username: ${username}\npassword: ${password}`);
-    
-    if (username === '' || password === '') {
-      LibDialog.info('Warning', 'Username or Password cannot be empty');
-    } else if (
-      usernames === data.teacher[1].username &&
-      passwords === data.teacher[1].password
-    ) {
-      Auth.set({
-        username: usernames,
-        password: passwords,
-        status: data.teacher[1].status,
-        isLogin: true,
-      });
-      LibNavigation.replace('teacher/index');
-    } else if (
-      usernames === data.parent[0].username &&
-      passwords === data.parent[0].password
-    ) {
-      Auth.set({
-        username: usernames,
-        password: passwords,
-        status: data.parent[1].status,
-        isLogin: true,
-      });console.log("Entered username:", usernames);
-      console.log("Entered password:", passwords);
-      console.log("Data parent:", data.parent);
-      LibNavigation.replace('parent/index');
-    } else {
-      LibDialog.info(
-        'Hint',
-        `Username is ${data.teacher[1].username}\nPassword is ${data.teacher[1].password}\n`
-      );
+  const [username, setUsername] = useSafeState('');
+  const [password, setPassword] = useSafeState('');
+  const [selectedIndex, setSelectedIndex] = useSafeState(true);
+
+
+  function login(username?: string, password?: string) {
+    const post = {
+      username: new LibCrypt().encode(String(username)),
+      password: new LibCrypt().encode(String(password)),
+      installation_id: 'a9'
     }
-  };
+    console.log("post", post) 
+    console.log("username", username)
+    console.log("password", password)
+    LibProgress.show('Loading')
+    new LibCurl('public_login', post, (result, msg) => {
 
-  if (isLogin && loginState.status === 'parent') {
-    LibNavigation.replace('parent/index');
-  } else if (isLogin && loginState.status === 'teacher') {
-    LibNavigation.replace('teacher/index');
+      LibProgress.hide()
+      esp.log({ result, msg });
+      console.log("result", result.group_ids[0])
+      // UserClass berfungsi untuk menyimpan data user yang login
+      UserClass.create(result).then((value) => {
+        esp.log("disini", value);
+        LibNavigation.reset()
+      })
+    }, (err) => {
+      esp.log({ err });
+      LibProgress.hide()
+      console.log("err", err)
+      LibDialog.warning('Login Gagal', err?.message)
+    }, 1)
+
+
   }
 
   const showPassword = () => {
@@ -136,17 +125,17 @@ function m(props: LoginIndexsProps): any {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: 'white', alignContent: 'center' }}>
+    <View style={{ flex: 1, backgroundColor: '#ffffff', alignContent: 'center' }}>
       <ScrollView
         style={{ flex: 1, paddingHorizontal: 30 }}
         showsVerticalScrollIndicator={false}
       >
-        <Image
-          source={require('../../assets/login.png')}
-          style={{ alignSelf: 'center', marginTop: 75 }}
+        <LibPicture
+          source={esp.assets('login.png')} resizeMode='contain'
+          style={{ alignSelf: 'center', marginTop: 75,  width: 300, height: 190}}
         />
         <Text style={{ fontSize: 24, fontWeight: 'bold', marginTop: 20 }}>
-          Selamat datang kembali!
+          Selamat datang kembali! 
         </Text>
         <Text>
           Masuk dan jadilah pengajar dan orang tua terbaik bagi siswa dan anak
@@ -225,6 +214,7 @@ function m(props: LoginIndexsProps): any {
         </Pressable>
         <View style={{ marginTop: 20 }} />
         <Pressable
+          // onPress={()=>LibNavigation.navigate('teacher/index')}
           onPress={() => login(username, password)}
           style={{
             width: '100%',
@@ -236,6 +226,7 @@ function m(props: LoginIndexsProps): any {
             justifyContent: 'center',
           }}
         >
+
           <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'white' }}>
             Masuk
           </Text>
