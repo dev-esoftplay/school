@@ -97,9 +97,9 @@ if ($attendance_report_exist)
     'total_i'       => $totals['total_i'],
     'total_a'       => $totals['total_a'],
     'date_day'      => date('d'),
-    'date_week'     => date('W'), 
+    'date_week'     => api_week_month(date('Y-m-d')), 
     'date_month'    => date('m'),
-    'date_year'     => date('Y'),
+    'date_year'     => substr(date('Y'), -2), 
   ];
   $db->insert('school_attendance_report', $attendance_report);
 }
