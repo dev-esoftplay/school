@@ -1,8 +1,11 @@
 // withHooks
+import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
-import { memo, useRef, useState, useEffect } from 'react';
+// import { LibStyle } from 'esoftplay/cache/lib/style/import';
+import { memo, useRef, useState } from 'react';
 import React from 'react';
 import { Dimensions, FlatList, Image, Pressable, Text, View } from 'react-native';
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 // Props untuk komponen ParentsHome
 export interface ParentsHomeProps {
@@ -121,6 +124,18 @@ function ParentsHome({ navigation }: ParentsHomeProps): JSX.Element {
     }
   };
 
+  const [resApi, setResApi] = useState<any>([])
+  
+  const hitApi =() => {
+    console.log('test')
+    new LibCurl('student_attendance_detail' , get, (result, msg) => {
+      console.log("result detail siswa", result)
+      setResApi(result)
+    }, (err) => {
+      console.log("error", err)
+    }, 1)
+  }
+
   // // Efek untuk auto slide setiap beberapa detik
   // useEffect(() => {
   //   const interval = setInterval(goToNextSlide, 5000);
@@ -130,25 +145,32 @@ function ParentsHome({ navigation }: ParentsHomeProps): JSX.Element {
   // }, [currentSlideIndex]);
 
   return (
-    <View style={{ flex: 1, backgroundColor: 'white' }}>
+    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       {/* Kartu Orang Tua */}
-      <View style={{ flex: 1, backgroundColor: '#3f71d4', justifyContent: 'flex-start', padding: 20, borderBottomRightRadius: 12, borderBottomLeftRadius: 12 }}>
+      <View style={{ flex: 1, backgroundColor: '#4B7AD6', justifyContent: 'flex-start', padding: 20, borderBottomRightRadius: 12, borderBottomLeftRadius: 12 }}>
 
-        <View style={{ height: 120, justifyContent: 'flex-start', alignItems: 'center', marginVertical: 20, padding: 15, flexDirection: 'row', borderRadius: 12 }}>
-          <Image source={require('../../assets/anies.png')} style={{ width: 100, height: 100, borderRadius: 50, borderWidth: 5, borderColor: 'white', justifyContent: 'center' }} />
+          <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#FFFFFF' }}>Selamat Datang,</Text>
 
-          <View style={{ marginLeft: 20, alignItems: 'flex-start', justifyContent: 'center' }}>
+          <Pressable onPress={() => hitApi()}>
+            <Text>hitApi</Text>
+          </Pressable>
 
-            <Text style={{ fontSize: 20, color: 'white', textAlign: 'center' }}>Anies Rasyid Baswedan</Text>
-            <Text style={{ fontSize: 20, color: 'white', textAlign: 'center' }}>Presiden RI 2024</Text>
+        <View style={{ backgroundColor: '#FFFFFF', height: 120, justifyContent: 'flex-start', alignItems: 'center', marginVertical: 20, padding: 15, flexDirection: 'row', borderRadius: 10 }}>
+          <Image source={require('../../assets/anies.png')} style={{ width: 95, height: 95, justifyContent: 'center' }} />
+
+          <View style={{ marginLeft: 15, alignItems: 'flex-start', justifyContent: 'center' }}>
+            <Text style={{ fontSize: 18, color: '#000000', textAlign: 'center', fontWeight: '600' }}>Anies Rasyid Baswedan</Text>
+            <Text style={{ fontSize: 18, color: '#000000', textAlign: 'center', fontWeight: '600' }}>Presiden RI 2024</Text>
           </View>
         </View>
       </View>
 
+      <View>
+        <Text style={{ fontSize: 20, fontWeight: '600', marginTop: 15, marginLeft: 15 }}>Awasi aktivitas anak anda</Text>
+      </View>
+
       {/* Kartu Aktivitas Anak */}
-      <View style={{ flex: 3, backgroundColor: 'white', justifyContent: 'center', paddingLeft: 20, paddingTop: 20, alignItems: 'flex-start' }}>
-
-
+      <View style={{ flex: 3, backgroundColor: '#FFFFFF', justifyContent: 'center', paddingLeft: 20, paddingTop: 10, alignItems: 'flex-start' }}>
 
         {/* Kartu Anak */}
         <FlatList
@@ -161,10 +183,10 @@ function ParentsHome({ navigation }: ParentsHomeProps): JSX.Element {
           pagingEnabled
           renderItem={({ item }) => (
 
-            <View style={{ alignItems: 'center', width: width - 40, paddingBottom: 20, borderRadius: 12, backgroundColor: '#ffffff', marginRight: 20, justifyContent: 'center', height: height * 0.6, padding: 10 }}>
+            <View style={{ alignItems: 'center', width: width - 40, paddingBottom: 20, borderRadius: 12, backgroundColor: '#ffffff', marginRight: 20, justifyContent: 'center', height: height * 0.8, padding: 10 }}>
 
-              <Pressable onPress={() => LibNavigation.navigate('parent/childdetail')} style={{backgroundColor:'green'}}>
-                <View style={{ height: height * 0.54, backgroundColor: '#5374b4', width: width - 50, borderRadius: 12, marginTop: 10, ...shadows(3), paddingTop: 79 }}>
+              <Pressable onPress={() => LibNavigation.navigate('parent/childdetail')}>
+                <View style={{ height: height * 0.54, backgroundColor: '#4B7AD6', width: width - 50, borderRadius: 12, marginTop: 10, ...shadows(3), paddingTop: 79 }}>
 
     
                   <View style={{ padding: 20, alignItems: 'center', backgroundColor: 'white', borderBottomLeftRadius: 12, borderBottomRightRadius: 12, height: height * 0.44 }}>
@@ -191,7 +213,6 @@ function ParentsHome({ navigation }: ParentsHomeProps): JSX.Element {
                       )} />
                   </View>
 
-
                 </View>
               </Pressable>
               {/* slide indicator */}
@@ -199,7 +220,7 @@ function ParentsHome({ navigation }: ParentsHomeProps): JSX.Element {
                 style={{
                   flexDirection: 'row',
                   justifyContent: 'center',
-                  marginTop: 20,
+                  marginTop: 10,
                 }}>
                 {slides.map((_, index) => (
                   <View
@@ -213,7 +234,7 @@ function ParentsHome({ navigation }: ParentsHomeProps): JSX.Element {
                         borderRadius: 12,
                       },
                       currentSlideIndex === index && {
-                        backgroundColor: '#36be9c',
+                        backgroundColor: '#3F8DFD',
                         width: 25,
                       },
                     ]}

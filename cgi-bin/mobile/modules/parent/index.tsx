@@ -28,13 +28,13 @@ function m(props: ParentIndexProps): any {
   const renderContent = useMemo(() => {
     switch (menu) {
       case 'Beranda':
-        return <Home />;
-      case 'Notifikasi':
+        return <Home navigation={undefined} />;
+      case 'Notif':
         return <Notif />;
-      case 'Akun':
+      case 'Profil':
         return <Account />;
       default:
-        return <Home />;
+        return <Home navigation={undefined} />;
     }
   }, [menu]);
 
@@ -58,10 +58,10 @@ function m(props: ParentIndexProps): any {
           name={focused === index ? iconName : `${iconNameOutline}`}
           size={24}
           // Warna ikon berubah berdasarkan apakah menu difokuskan atau tidak
-          color={index === focused ? "#00848d" : "#bfbfbf"}
+          color={index === focused ? "#3F8DFD" : "#bfbfbf"}
         />
         {/* Label menu dengan styling tertentu */}
-        <Text style={{ fontSize: 12, fontWeight: 'bold', marginBottom: 0, marginVertical: 5, color: index === focused ? "#00848d" : "#bfbfbf" }}>{label}</Text>
+        <Text style={{ fontSize: 12, fontWeight: 'bold', marginBottom: 0, marginVertical: 5, color: index === focused ? "#3F8DFD" : "#bfbfbf" }}>{label}</Text>
       </View>
     </Pressable>
   );
@@ -88,8 +88,8 @@ function m(props: ParentIndexProps): any {
 
         {/* Render item-menu untuk setiap layar */}
         {renderMenuItem('ios-home', 'Beranda', 0, 'ios-home-outline', 0)}
-        {renderMenuItem('ios-mail', 'Notifikasi', 3, 'ios-mail-outline', 3)}
-        {renderMenuItem('ios-person', 'Akun', 4, 'ios-person-outline', 4)}
+        {renderMenuItem('ios-mail', 'Notif', 3, 'ios-mail-outline', 3)}
+        {renderMenuItem('ios-person', 'Profil', 4, 'ios-person-outline', 4)}
       </View>
     </View>
   );

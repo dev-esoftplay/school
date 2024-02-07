@@ -52,8 +52,15 @@ function m(props: ParentNotifProps): any {
     }
   }
   return (
-    <View style={{ flex: 1, backgroundColor: 'white', padding: 10 }}>
-      <Text style={{ fontSize: 24, fontWeight: 'bold' ,marginBottom:30,marginLeft:10}}>Notifikasi</Text>
+    <View style={{ flex: 1, backgroundColor: 'white' }}>
+      
+      <View style={{ flex: 0.3, backgroundColor: '#4B7AD6', justifyContent: 'flex-start', padding: 20, borderBottomRightRadius: 12, borderBottomLeftRadius: 12 }}>
+        <Text style={{ fontSize: 20, marginTop: 10, color: '#FFFFFF', justifyContent: 'center', textAlign: 'center'}}>Notifikasi</Text>
+      </View>
+
+      <View style={{ marginTop: 15, marginBottom: 10, justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={{ fontSize: 14, fontWeight: '500', color:'#000000'}}>Kamis, 4 Januari 2024</Text>
+      </View>
 
       <FlatList data={notif}
         keyExtractor={(item, index) => index.toString()}

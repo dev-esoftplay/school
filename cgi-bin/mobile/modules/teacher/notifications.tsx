@@ -28,7 +28,7 @@ function m(props: TeacherNotificationsProps): any {
 
 
     return (
-        <View style={{ flex: 0.3, marginTop: 30, justifyContent: 'center', backgroundColor: '#FFFFFF' }}>
+        <View style={{ flex: 0.3, marginTop: 30, justifyContent: 'center', backgroundColor: '#FFFFFF', ...elevation(5) }}>
             <Text style={{ marginLeft: 10, marginRight: 75, fontSize: 16 }}>Terima notifikasi dari nama aplikasi, untuk menerima kehadiran anak didik anda</Text>
 
         <View style={{ marginTop: -150 }}>

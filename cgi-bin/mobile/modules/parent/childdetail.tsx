@@ -1,26 +1,29 @@
 // withHooks
-import { memo, useState } from 'react';
+import { memo, useRef, useState } from 'react';
 
 import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
+import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import React from 'react';
-import { FlatList, Image, Pressable, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, Platform, Pressable, Text, TouchableOpacity, View, } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import Svg, { Circle } from 'react-native-svg';
+import { LibSlidingup } from 'esoftplay/cache/lib/slidingup/import';
+import { Feather } from '@expo/vector-icons';
+import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 
 
-export interface ParenChildArgs {
+export interface ChildDetailArgs {
 
 }
-export interface ParenChildProps {
+export interface ChildDetailProps {
 
 }
 
-
-
-
-
-function m(props: ParenChildProps): any {
+function m(props: ChildDetailProps): any {
   const allDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  const allMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const allWeeks = ['Week 1', 'Week 2', 'Week 3', 'Week 4'];
 
   const [selectedDay, setSelectedDay] = useState(allDays[0]);
   const kehadiran = [
@@ -44,62 +47,94 @@ function m(props: ParenChildProps): any {
       value: 5,
       color: '#FF4343',
     },
-
-  ]
-  const scheduleData = [
-    { day: 'Monday', events: ['Mathematics', 'Physics', 'Chemistry'] },
-    { day: 'Tuesday', events: ['History', 'Literature', 'English'] },
-    { day: 'Wednesday', events: ['Biology', 'Physical Education', 'Lunch'] },
-    { day: 'Thursday', events: ['Computer Science', 'Music', 'Art'] },
-    { day: 'Friday', events: ['Geography', 'Foreign Language', 'Social Studies'] },
-    { day: 'Saturday', events: ['Club Activities', 'Sports', 'Study Group'] },
-    { day: 'Sunday', events: ['Rest day'] },
   ];
 
+  const [selectedMonth, setSelectedMonth] = useState(allMonths[0]);
+
+  const [selectedWeek, setSelectedWeek] = useState(allWeeks[0]);
+
+  const scheduleData = [
+    { day: 'Monday', events: ['MATH', 'PHYSICS', 'CHEMISTRY'] },
+    { day: 'Tuesday', events: ['HISTORY', 'LITERATURE', 'ENGLISH'] },
+    { day: 'Wednesday', events: ['BIOLOGY', 'SPORT', 'LUNCH'] },
+    { day: 'Thursday', events: ['COMPUTER', 'MUSIC', 'ART'] },
+    { day: 'Friday', events: ['GEOGRAPH', 'LANGUANGE', 'SOCIAL'] },
+    { day: 'Saturday', events: ['CLUB ACT', 'SPORT', 'STUDY GROUP'] },
+    { day: 'Sunday', events: ['REST DAY'] },
+  ];
+
+  const monthFilter = [
+    { month: 'January', events: ['Test'] },
+    { month: 'February', events: ['Test'] },
+    { month: 'March', events: ['Test'] },
+    { month: 'April', events: ['Test'] },
+    { month: 'May', events: ['Test'] },
+    { month: 'June', events: ['Test'] },
+    { month: 'July', events: ['Test'] },
+    { month: 'August', events: ['Test'] },
+    { month: 'September', events: ['Test'] },
+    { month: 'October', events: ['Test'] },
+    { month: 'November', events: ['Test'] },
+    { month: 'December', events: ['Test'] },
+  ];
+
+  const weekFilter = [
+    { week: 'Week 1', events: ['Test'] },
+    { week: 'Week 2', events: ['Test'] },
+    { week: 'Week 3', events: ['Test'] },
+    { week: 'Week 4', events: ['Test'] },
+  ]
+
   const filteredSchedule = scheduleData.filter(item => item.day === selectedDay);
-  
+  function elevation(value: any) {
+    if (Platform.OS === "ios") {
+      if (value === 0) return {};
+      return { shadowColor: 'black', shadowOffset: { width: 0, height: value / 2 }, shadowRadius: value, shadowOpacity: 0.24 };
+    }
+    return { elevation: value };
+  }
+
+  const filteredMonth = monthFilter.filter(item => item.month === selectedMonth);
+
+  const filteredWeek = weekFilter.filter(item => item.week === selectedWeek);
+
+  let slideup = useRef<LibSlidingup>(null)
+
+  const BACKGROUND_STROKE_COLOR = '#ffffff'
+  const STROKE_COLOR = '#11b81f'
+  const R = 30
+  const Circle_length = 2 * Math.PI * R
+
   return (
     <View style={{ flex: 1 }}>
       <ScrollView showsVerticalScrollIndicator={false}>
 
-        <View style={{ flex: 1, backgroundColor: '#0073df', borderBottomRightRadius: 20, borderBottomLeftRadius: 20 }}>
+        <View style={{ flex: 1, backgroundColor: '#4B7AD6', borderBottomRightRadius: 20, borderBottomLeftRadius: 20, padding: 20 }}>
 
-          <View style={{ flexDirection: 'row', padding: 10, marginTop: 20, justifyContent: 'center' }}>
-            <Image source={require('../../assets/anies.png')} style={{ width: 100, height: 100, borderRadius: 50, borderWidth: 5, borderColor: 'white', marginRight: 12 }} />
+          <View style={{ backgroundColor: '#FFFFFF', height: 120, justifyContent: 'flex-start', alignItems: 'center', marginVertical: 20, padding: 15, flexDirection: 'row', borderRadius: 10 }}>
+            <Image source={require('../../assets/anies.png')} style={{ width: 95, height: 95, justifyContent: 'center' }} />
 
-            <View style={{ justifyContent: 'center', alignItems: 'flex-start' }}>
-              <Text style={{ fontSize: 20, color: 'white', textAlign: 'center' }}>Anies Rasyid Baswedan</Text>
-              <Text style={{ fontSize: 20, color: 'white', textAlign: 'center' }}>Presiden RI 2024</Text>
+            <View style={{ marginLeft: 15, justifyContent: 'center', alignItems: 'flex-start' }}>
+              <Text style={{ fontSize: 18, color: '#000000', textAlign: 'center', fontWeight: '600' }}>Anies Rasyid Baswedan</Text>
+              <Text style={{ fontSize: 18, color: '#000000', textAlign: 'center', fontWeight: '600' }}>Presiden RI 2024</Text>
             </View>
 
           </View>
 
-          <View style={{ flexDirection: 'row', padding: 10, marginVertical: 10, justifyContent: 'space-evenly' }}>
-            <Pressable onPress={() => LibDialog.info("anda", 'TOLOL')} style={{ flexDirection: 'row', alignItems: 'center', padding: 20, backgroundColor: '#0aa724', borderRadius: 12, height: 70, }}>
+          <View style={{ flexDirection: 'row', marginVertical: 10, justifyContent: 'space-evenly' }}>
+            <Pressable onPress={() => LibDialog.info("Info", "Masuk Coy")} style={{ flexDirection: 'row', alignItems: 'center', padding: 20, backgroundColor: '#0aa724', borderRadius: 12, height: 70, }}>
               <LibIcon.FontAwesome name="phone" size={30} color="white" style={{ marginRight: 10 }} />
               <Text style={{ fontSize: 16, color: 'white' }}>Wa Guru</Text>
             </Pressable>
 
-            <Pressable onPress={() => LibDialog.info("anda", 'TOLOL')} style={{ flexDirection: 'row', alignItems: 'center', padding: 20, backgroundColor: '#4B7AD6', borderRadius: 12, height: 70 }}>
+            <Pressable onPress={() => LibDialog.info("Info", "Masuk Coy")} style={{ flexDirection: 'row', alignItems: 'center', padding: 20, backgroundColor: '#3F8DFD', borderRadius: 12, height: 70 }}>
               <LibIcon.FontAwesome name="user-circle" size={30} color="white" style={{ marginRight: 10 }} />
               <Text style={{ fontSize: 16, color: 'white' }}>Ijinkan Anak</Text>
             </Pressable>
           </View>
         </View>
 
-        <View style={{ flex: 3, backgroundColor: '', padding: 20 }}>
-          <Text style={{ fontSize: 20, fontWeight: 'bold' }}>kehadiran Anak</Text>
-          <View style={{ flexDirection: 'row', marginVertical: 10, justifyContent: 'flex-start' }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', padding: 5, backgroundColor: '#0aa724', borderRadius: 5, height: 40, marginRight: 5 }}>
-              <Text style={{ fontSize: 15, color: 'white' }}>minggu ini</Text>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', padding: 5, backgroundColor: '#4B7AD6', borderRadius: 5, height: 40, marginRight: 5 }}>
-              <Text style={{ fontSize: 15, color: 'white' }}>bulan ini</Text>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', padding: 5, backgroundColor: '#4B7AD6', borderRadius: 5, height: 40, marginRight: 5 }}>
-              <Text style={{ fontSize: 15, color: 'white' }}>tahun ini</Text>
-            </View>
-          </View>
+        <View style={{ flex: 3, backgroundColor: '', padding: 20, alignItems: 'flex-start' }}>
 
           <FlatList
             horizontal={true}  // Set the horizontal prop to true
@@ -108,16 +143,193 @@ function m(props: ParenChildProps): any {
             contentContainerStyle={{ height: 80 }}
             showsHorizontalScrollIndicator={false}
             renderItem={({ item: kehadiranItem }) => (
-              <View style={{ height: 80, width: 78, alignItems: 'center', backgroundColor: kehadiranItem.color, justifyContent: 'center', borderRadius: 10, padding: 5, marginRight: 10 }}>
+              <View style={{ height: 80, width: 85, alignItems: 'center', backgroundColor: kehadiranItem.color, justifyContent: 'center', borderRadius: 10, marginRight: 10 }}>
                 <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>{kehadiranItem.value}</Text>
                 <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white' }}>{kehadiranItem.kategori}</Text>
               </View>
             )}
           />
 
-          <Text style={{ fontSize: 20, fontWeight: 'bold', marginTop: 20 }}>Riwayat Absensi</Text>
+          <Pressable onPress={() => {
+            slideup.current?.show()
+            console.log('')
+          }} style={{ marginTop: 20, backgroundColor: '#FFFFFF', borderRadius: 10, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', ...elevation(4), width: 370, height: 45 }}>
+            <FontAwesome5 name='sliders-h' size={20} color='#000000' />
+            <Text style={{ fontSize: 15, fontWeight: '500', color: '#000000', marginLeft: 10 }}>Filter</Text>
+          </Pressable>
+
+          <Text style={{ fontSize: 20, fontWeight: 'bold', marginTop: 10 }}>Riwayat Absensi</Text>
+
+          <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+
+          </View>
+
+          <View style={{ marginBottom: 10, marginTop: 10, backgroundColor: '#0DBD5E', borderRadius: 10, alignItems: 'flex-end', ...elevation(4), width: 370, padding: 2 }}>
+            <View style={{ flexDirection: 'row', width: 360, height: 100, backgroundColor: '#FFFFFF', borderRadius: 10, justifyContent: 'space-between' }}>
+
+              {/* <View style={{ justifyContent: 'center', alignItems: 'flex-start' }}>
+                  <Text style={{ fontSize: 60, color: '#0DBD5E' }}>00</Text>
+                  </View>
+
+                  <View style={{ height: 'auto', width: 2, backgroundColor: '#0DBD5E', opacity: 0.4 }} />
+                  
+                  <View>
+                  <Text style={{ marginLeft: 10, marginBottom: 35, fontSize: 22, color: '#0DBD5E' }}>Boom</Text>
+                  <Text style={{ marginLeft: 10, marginBottom: 35, fontSize: 15, color: '#0DBD5E' }}>00:00 - 00:00</Text>
+                </View> */}
+
+              <View>
+                <Text style={{ marginLeft: 10, marginTop: 5, fontSize: 22, color: '#000000' }}>RABU</Text>
+                <Text style={{ marginLeft: 10, marginTop: 35, fontSize: 15, color: '#000000' }}>01-02-2024</Text>
+              </View>
+
+              <View style={{ height: 100, width: 100, justifyContent: 'center', alignItems: 'center' }}>
+
+                <Svg width={100} height={100} style={{ justifyContent: 'center', alignItems: 'center' }}>
+
+                  <Circle
+                    cx={100 / 2}
+                    cy={100 / 2}
+                    r={R}
+                    fillOpacity={0.8}
+                    stroke={'#96fdc6'}
+                    strokeWidth={20}
+                    fill={'none'}
+                  />
+
+                  <Circle
+                    cx={100 / 2}
+                    cy={100 / 2}
+                    r={R}
+                    // strokeOpacity={0.8}
+                    stroke={'#0DBD5E'}
+                    strokeWidth={12}
+
+                    fill={'none'}
+                    // fillOpacity={0.8}
+                    strokeDasharray={`${Circle_length}`}
+                    strokeDashoffset={Circle_length / 2}
+                    strokeLinecap="round"
+                  />
+
+                </Svg>
+                <Text style={{ position: 'absolute', color: '#000000' }}>4/8</Text>
+              </View>
+            </View>
+          </View>
+
+          <View style={{ marginBottom: 10, backgroundColor: '#0DBD5E', borderRadius: 10, alignItems: 'flex-end', ...elevation(4), width: 370, padding: 2 }}>
+            <View style={{ flexDirection: 'row', width: 360, height: 100, backgroundColor: '#FFFFFF', borderRadius: 10, justifyContent: 'space-between' }}>
+
+              {/* <View style={{ justifyContent: 'center', alignItems: 'flex-start' }}>
+                  <Text style={{ fontSize: 60, color: '#0DBD5E' }}>00</Text>
+                  </View>
+                  
+                  <View style={{ height: 'auto', width: 2, backgroundColor: '#0DBD5E', opacity: 0.4 }} />
+
+                  <View>
+                  <Text style={{ marginLeft: 10, marginBottom: 35, fontSize: 22, color: '#0DBD5E' }}>Boom</Text>
+                  <Text style={{ marginLeft: 10, marginBottom: 35, fontSize: 15, color: '#0DBD5E' }}>00:00 - 00:00</Text>
+                </View> */}
+
+              <View>
+                <Text style={{ marginLeft: 10, marginTop: 5, fontSize: 22, color: '#000000' }}>SELASA</Text>
+                <Text style={{ marginLeft: 10, marginTop: 35, fontSize: 15, color: '#000000' }}>01-02-2024</Text>
+              </View>
+
+              <View style={{ height: 100, width: 100, justifyContent: 'center', alignItems: 'center' }}>
+
+                <Svg width={100} height={100} style={{ justifyContent: 'center', alignItems: 'center' }}>
+
+                  <Circle
+                    cx={100 / 2}
+                    cy={100 / 2}
+                    r={R}
+                    fillOpacity={0.8}
+                    stroke={'#96FDC6'}
+                    strokeWidth={20}
+                    fill={'none'}
+                  />
+
+                  <Circle
+                    cx={100 / 2}
+                    cy={100 / 2}
+                    r={R}
+                    fillOpacity={0.8}
+                    stroke={'#0DBD5E'}
+                    strokeWidth={12}
+
+                    fill={'none'}
+                    // fillOpacity={0.8}
+                    strokeDasharray={`${Circle_length}`}
+                    strokeDashoffset={Circle_length / 65}
+                    strokeLinecap='round'
+                  />
+
+
+                </Svg>
+
+                <Text style={{ position: 'absolute', color: '#000000' }}>8/8</Text>
+              </View>
+            </View>
+          </View>
+
+          <View style={{ marginBottom: 10, backgroundColor: '#0DBD5E', borderRadius: 10, alignItems: 'flex-end', ...elevation(4), width: 370, padding: 2 }}>
+            <View style={{ flexDirection: 'row', width: 360, height: 100, backgroundColor: '#FFFFFF', borderRadius: 10, justifyContent: 'space-between' }}>
+
+              {/* <View style={{ justifyContent: 'center', alignItems: 'flex-start' }}>
+                  <Text style={{ fontSize: 60, color: '#0DBD5E' }}>00</Text>
+                  </View>
+
+                <View style={{ height: 'auto', width: 2, backgroundColor: '#0DBD5E', opacity: 0.4 }} />
+                
+                <View>
+                <Text style={{ marginLeft: 10, marginBottom: 35, fontSize: 22, color: '#0DBD5E' }}>Boom</Text>
+                <Text style={{ marginLeft: 10, marginBottom: 35, fontSize: 15, color: '#0DBD5E' }}>00:00 - 00:00</Text>
+              </View> */}
+
+              <View>
+                <Text style={{ marginLeft: 10, marginTop: 5, fontSize: 22, color: '#000000' }}>SENIN</Text>
+                <Text style={{ marginLeft: 10, marginTop: 35, fontSize: 15, color: '#000000' }}>01-02-2024</Text>
+              </View>
+
+              <View style={{ height: 100, width: 100, justifyContent: 'center', alignItems: 'center' }}>
+
+                <Svg width={100} height={100} style={{ justifyContent: 'center', alignItems: 'center' }}>
+                  <Circle
+                    cx={100 / 2}
+                    cy={100 / 2}
+                    r={R}
+                    fillOpacity={0.8}
+                    stroke={'#96FCDC'}
+                    strokeWidth={20}
+                    fill={'none'}
+                  />
+
+                  <Circle
+                    cx={100 / 2}
+                    cy={100 / 2}
+                    r={R}
+                    fillOpacity={0.8}
+                    stroke={'#0DBD56'}
+                    strokeWidth={12}
+
+                    fill={'none'}
+                    strokeDasharray={`${Circle_length}`}
+                    strokeDashoffset={Circle_length / 4}
+                    strokeLinecap='round'
+                  />
+
+                </Svg>
+
+                <Text style={{ position: 'absolute', color: '#000000' }}>7/8</Text>
+              </View>
+            </View>
+          </View>
+
           <Text style={{ fontSize: 20, fontWeight: 'bold', marginTop: 10 }}>Jadwal anak</Text>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10,marginBottom:20}}>
+
+          <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10, marginBottom: 20 }}>
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
               {allDays.map(day => (
                 <TouchableOpacity
@@ -125,42 +337,138 @@ function m(props: ParenChildProps): any {
                   onPress={() => setSelectedDay(day)}
                   style={{
                     padding: 10,
-                    backgroundColor: selectedDay === day ? '#4B7AD6' : 'lightgray',
+                    backgroundColor: selectedDay === day ? '#4B7AD6' : '#AAAAAA',
                     borderRadius: 5,
                     marginRight: 10,
                   }}>
-                  <Text style={{ color: selectedDay === day ? 'white' : 'black' }}>{day}</Text>
+                  <Text style={{ color: selectedDay === day ? '#FFFFFF' : '#FFFFFF' }}>{day}</Text>
                 </TouchableOpacity>
               ))}
             </ScrollView>
           </View>
 
           <FlatList
-          data={filteredSchedule}
-          horizontal={true}
-          scrollEnabled={true}
-          keyExtractor={(item, index) => index.toString()}
-          contentContainerStyle={{ width: '100%' }}
-          renderItem={({ item }) => (
-            <View style={{ marginBottom: 20, width: '100%', backgroundColor: '#f0f0f0',  padding: 15 }}>
- 
-              <View>
-                {item.events.map((event, index) => (
-                  <View key={index} style={{ marginBottom: 10,height:100,backgroundColor:'#e7e7e7',borderRadius: 10,padding:15}}>
-                    <Text style={{ fontSize: 16, color: '#555' }}>{index+1} {event}</Text>
-                  </View>
-                ))}
+            data={filteredSchedule}
+            horizontal={true}
+            scrollEnabled={true}
+            keyExtractor={(item, index) => index.toString()}
+            contentContainerStyle={{ width: '100%' }}
+            renderItem={({ item }) => (
+              <View style={{ width: '100%' }}>
+
+                <View>
+                  {item.events.map((event, index) => (
+                    <View key={index} style={{ marginBottom: 10, backgroundColor: '#4B7AD6', borderRadius: 10, alignItems: 'flex-end', ...elevation(4), width: 370, padding: 2, alignSelf: 'center' }}>
+                      <View style={{ flexDirection: 'row', width: 360, height: 100, backgroundColor: '#FFFFFF', borderRadius: 10 }}>
+
+                        <View style={{ justifyContent: 'center', alignItems: 'flex-start' }}>
+                          <Text style={{ fontSize: 60, color: '#4B7AD6' }}>00</Text>
+                        </View>
+
+                        <View style={{ height: 'auto', width: 2, backgroundColor: '#4B7AD6', opacity: 0.4 }} />
+
+                        <View>
+                          <Text style={{ marginLeft: 10, marginBottom: 35, fontSize: 22, color: '#4B7AD6' }}>{event}</Text>
+                          <Text style={{ marginLeft: 10, marginBottom: 35, fontSize: 15, color: '#4B7AD6' }}>00:00 - 00:00</Text>
+                        </View>
+
+                        <MaterialIcons name='library-books' size={100} color='#B7CAEF' style={{ marginLeft: 'auto' }} />
+
+                      </View>
+                    </View>
+                  ))}
+                </View>
               </View>
-            </View>
-          )}
-        />
-        
+            )}
+          />
+
 
         </View>
-
-
       </ScrollView>
+
+      <LibSlidingup ref={slideup}>
+        <View style={{ height: 500, backgroundColor: 'white', padding: 10, borderTopRightRadius: 20, borderTopLeftRadius: 20, paddingHorizontal: 20 }}>
+
+          <TouchableOpacity onPress={() => { slideup.current?.hide() }} style={{ alignItems: 'flex-end' }}>
+            <Feather name='x' size={35} color={'#000000'} />
+          </TouchableOpacity>
+
+          <View>
+            <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'black', marginTop: 10, alignSelf: 'center' }}>Filter Kehadiran</Text>
+            <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black', marginTop: 20 }}>Pilih Bulan</Text>
+          </View>
+
+          <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10, marginBottom: 20 }}>
+            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+              {allMonths.map(month => (
+                <TouchableOpacity
+                  key={month}
+                  onPress={() => setSelectedMonth(month)}
+                  style={{
+                    padding: 10,
+                    backgroundColor: selectedMonth === month ? '#4B7AD6' : '#AAAAAA',
+                    borderRadius: 5,
+                    marginRight: 10,
+                  }}>
+
+                  <Text style={{ color: selectedMonth === month ? '#FFFFFF' : '#FFFFFF' }}>{month}</Text>
+
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
+
+          <View>
+            <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#000000', marginTop: 5 }}>Pilih Minggu</Text>
+          </View>
+
+          <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10, marginBottom: 20 }}>
+            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+              {allWeeks.map(week => (
+                <TouchableOpacity
+                  key={week}
+                  onPress={() => setSelectedWeek(week)}
+                  style={{
+                    padding: 10,
+                    backgroundColor: selectedWeek === week ? '#4B7AD6' : '#AAAAAA',
+                    borderRadius: 5,
+                    marginRight: 10,
+                  }}>
+                  <Text style={{ color: selectedWeek === week ? '#FFFFFF' : '#FFFFFF' }}>{week}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
+
+          <TouchableOpacity onPress={() => { slideup.current?.hide() }} style={{ width: "100%", height: 50, backgroundColor: '#4B7AD6', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginTop: 35 }}>
+            <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white', textAlign: 'center' }}>Terapkan</Text>
+          </TouchableOpacity>
+
+        </View>
+      </LibSlidingup>
     </View>
   )
 }
 export default memo(m);
+
+
+{/* <View key={index} style={{ marginBottom: 10, backgroundColor: '#4B7AD6', borderRadius: 10, alignItems: 'flex-end', ...elevation(4), width: 350, padding: 2 }}>
+<View style={{width: 340, height: 100, backgroundColor: '#FFFFFF', ...elevation(4), borderRadius: 10 }}>
+ 
+  
+  
+  <View style={{ marginTop: -15, justifyContent: 'center', alignItems: 'flex-start'  }}>
+  <Text style={{ fontSize: 60, color:'#4B7AD6' }}>00</Text>
+  </View>
+
+  <View style={{}}>
+  <Text style={{fontSize: 22, color: '#4B7AD6' }}>{event}</Text>
+  <Text style={{ fontSize: 15, color: '#4B7AD6' }}>00:00 - 00:00</Text>
+  </View>
+
+  <View style={{ alignSelf: 'flex-end', marginTop: -90}}>
+    <MaterialIcons name='library-books' size={100} color='#B7CAEF' />
+  </View>
+
+</View>
+</View> */}
