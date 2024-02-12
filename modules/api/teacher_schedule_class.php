@@ -24,7 +24,7 @@ foreach ($schedules as $schedule) {
 
   $student_number = $db->getcol('SELECT `number` FROM `school_student_class` WHERE `class_id` =' . $class_data['id']);
 
-  $student_attend = $db->getcol('SELECT `id` FROM `school_attendance` WHERE `schedule_id` =' . $schedule['id']);
+  $student_attend = $db->getcol('SELECT `id` FROM `school_attendance` WHERE `schedule_id` =' . $schedule['id'] . ' AND DATE(`created`) = CURDATE()') ;
 
   $days = api_days($schedule['day']); // Ini adalah function untuk mengubah angka menjadi nama hari
 

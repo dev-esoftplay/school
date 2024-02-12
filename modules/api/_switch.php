@@ -28,8 +28,12 @@ switch( $Bbc->mod['task'] )
 		include 'homeroom_student.php';
 		break;
 		
-	case 'homeroom_student_detail': // untuk melihat detail siswa dari listing siswa yang diampu wali kelas GET:{"student_id":"1", "month":"1 ?? current(month)", "week":"1 ?? ""}
-		include 'homeroom_student_detail.php';
+	case 'teacher_student_attendance_detail': // untuk melihat detail siswa dari listing siswa yang diampu wali kelas GET:{"student_id":"1", "month":"1 ?? current(month)", "week":"1 ?? ""}
+		include 'teacher_student_attendance_detail.php';
+		break;
+
+	case 'parent_student_attendance_detail': // untuk melihat detail siswa dari listing siswa yang diampu wali kelas GET:{"student_id":"1", "month":"1 ?? current(month)", "week":"1 ?? ""}
+		include 'parent_student_attendance_detail.php';
 		break;
 
 	case 'homeroom_student_schedule_detail': // untuk melihat detail siswa dari listing siswa yang diampu wali kelas GET:{"student_id":"1", "month":"1 ?? current(month)", "week":"1 ?? ""}
@@ -86,6 +90,10 @@ switch( $Bbc->mod['task'] )
 	
 	case 'parent_student': // melisting anak dari orang tua 
 		include 'parent_student.php';
+		break;	
+
+	case 'parent_student_detail': // melisting anak dari orang tua 
+		include 'parent_student_detail.php';
 		break;
 
 	case 'public_image_upload': // untuk mengupload gambar yang akan disimpan ke database FILE:{"image"}
