@@ -4,6 +4,9 @@ $data         = json_decode($_POST['data'], true);
 $class_id     = addslashes($_POST['class_id']);
 $course_id    = addslashes($_POST['course_id']);
 $schedule_id  = addslashes($_POST['schedule_id']);
+$clock_start  = $_POST['clock_start'];
+$clock_end    = $_POST['clock_end'];
+$current_time = date('H:i:s');
 if ($data == null) 
 {
   return api_no(['message' => 'Invalid JSON data']);
@@ -88,16 +91,28 @@ if ($attendance_report_exist)
   $db->update('school_attendance_report', $report, 'schedule_id = \''.$schedule_id.'\' AND class_id = \''.$class_id.'\' AND DATE(created) = CURDATE()');
 }else if (!$attendance_report_exist)
 {
+  if ($current_time > $end_time) 
+  {
+    $status = 3; // late
+  } elseif ($current_time > $end_time) 
+  {
+    $status = 2; // finished
+  } elseif ($current_time > $end_time) 
+  {
+    $status = 1; // completed
+  }
+
   $attendance_report = [
     'schedule_id'   => $schedule_id,
     'class_id'      => $class_id,
     'course_id'     => $course_id,
+    'status'        => $status, // 'completed'
     'total_present' => $totals['total_present'],
     'total_s'       => $totals['total_s'],
     'total_i'       => $totals['total_i'],
     'total_a'       => $totals['total_a'],
     'date_day'      => date('d'),
-    'date_week'     => api_week_month(date('Y-m-d')), 
+    'date_week'     => api_week_month(strtotime('today')), 
     'date_month'    => date('m'),
     'date_year'     => substr(date('Y'), -2), 
   ];

@@ -22,8 +22,8 @@
 /* Gaya untuk span */
 .hide-span {
   display: none; /* Menyembunyikan span secara default */
-  background-color: #dc3545; /* Warna latar merah */
-  color: #fff; /* Warna teks putih */
+  /* background-color: #dc3545; Warna latar merah */
+  /* color: #fff; Warna teks putih */
   text-align: center;
   padding: 10px;
   height: 100px;

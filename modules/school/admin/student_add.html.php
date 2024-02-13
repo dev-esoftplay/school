@@ -151,7 +151,8 @@
   <script>
     $(document).ready(function()
     {
-      $("#error-span").show();
+      $(".error-span").show();
+      $(".success-span").show();
       $("input[name='MyRadio']").on('change', function() 
       {
         let value = $("input[name='MyRadio']:checked").val();
@@ -196,7 +197,7 @@
       });
 
       setTimeout(function () {
-          $("#error-span").hide();
+          $(".error-span, .success-span").hide();
       }, 10000);
     });
   </script>

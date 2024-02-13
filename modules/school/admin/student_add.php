@@ -245,9 +245,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['manual']) && !empty($_
       'parent_id'  => $ibu_parent_id
     ));
   }
+  echo '<div class="alert alert-success" style="text-align:center;" role="alert"><span class="glyphicon glyphicon-ok-s ign" title="ok sign"></span> Sukses Tambah data.</div>';
 }else if ($data_siswa > 0 && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['manual'])) 
 {
-  echo '<span id="error-span" class="hide-span bg-danger text-center col-md-12">nis '. $_POST['nis'].' sudah ada</span>';
+  echo '<div class="alert alert-danger" style="text-align:center;" role="alert"><span class="glyphicon glyphicon-exclamation-sign" title="exclamation sign"></span>nis '. $_POST['nis'].' sudah ada</div>';
 }
 
 foreach ($fields as $name) 
@@ -444,6 +445,10 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
         ));
       }
     }
+  }
+  if(!empty($value[$insert_field['nama_siswa']]) && $data_siswa == 0) 
+  {
+    echo '<div class="alert alert-success" style="text-align:center;" role="alert"><span class="glyphicon glyphicon-ok-s ign" title="ok sign"></span> Sukses Tambah data.</div>';
   }
 }
 link_css(__DIR__ . '/css/student_add.css'); //untuk memanggil file css
