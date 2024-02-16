@@ -4,7 +4,7 @@ $date           = $_GET['date'];
 $student_id     = $_GET['student_id'];
 $formatted_date = date('Y-m-d', strtotime($date));
 
-$query = $db->getall('SELECT sa.`schedule_id`, sa.`notes`, sa.`presence` as `status`, st.`name` as `teacher_name`, st.`image`, sc.`name` as mapel, ss.`clock_start`, ss.`clock_end`
+$query = $db->getall('SELECT sa.`schedule_id`, sa.`notes`, sa.`presence` as `status`, st.`name` as `teacher_name`, st.`image`, st.`id` as `teacher_id`, sc.`name` as mapel, ss.`clock_start`, ss.`clock_end`
                       FROM `school_attendance` sa
                       LEFT JOIN `school_schedule` ss ON sa.`schedule_id` = ss.`id`
                       LEFT JOIN `school_teacher_subject` sts ON ss.`subject_id` = sts.`id`
@@ -12,5 +12,10 @@ $query = $db->getall('SELECT sa.`schedule_id`, sa.`notes`, sa.`presence` as `sta
                       LEFT JOIN `school_course` sc ON sts.`course_id` = sc.`id`
                       WHERE sa.`student_id` = '. $student_id .' AND 
                       DATE(sa.`created`) = "' . $formatted_date . '"');
+
+foreach ($query as $key => $value) 
+{
+  $query[$key]['image'] = api_image_url($value['image'], $value['teacher_id'], 'school/teacher') ?? '';
+}
 
 return api_ok($query);
