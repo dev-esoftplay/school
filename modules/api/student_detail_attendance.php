@@ -25,7 +25,8 @@ foreach ($schedule_by_day as $data)
       'presence sakit'        => 0,
       'presence ijin'         => 0,
       'presence tidak hadir'  => 0,
-      'count'                 => 0,];
+      'count'                 => 0,
+    ];
   }
   switch ($data['presence']) 
   {
