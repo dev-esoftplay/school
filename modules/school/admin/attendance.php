@@ -3,17 +3,17 @@
 $form = _lib('pea', 'school_attendance_report');
 $form->initSearch();
 
-$form->search->addInput('class_id','selecttable');
-$form->search->input->class_id->setTitle('Search by Class');
-$form->search->input->class_id->addOption('Select Class', '');
-$form->search->input->class_id->setReferenceTable('school_class');
-$form->search->input->class_id->setReferenceField('grade', 'id');
-
 $form->search->addInput('course_id','selecttable');
 $form->search->input->course_id->setTitle('Search by course');
 $form->search->input->course_id->addOption('Select course', '');
 $form->search->input->course_id->setReferenceTable('school_course');
 $form->search->input->course_id->setReferenceField('name', 'id');
+
+$form->search->addInput('class_id','selecttable');
+$form->search->input->class_id->setTitle('Search by Class');
+$form->search->input->class_id->addOption('Select Class', '');
+$form->search->input->class_id->setReferenceTable('school_class');
+$form->search->input->class_id->setReferenceField('grade', 'id');
 
 // $subject_id = $db->getone('SELECT `subject_id` FROM `school_schedule` WHERE `id`='.$_GET['schedule_id']);
 // $course_id = $db->getone('SELECT `course_id` FROM `school_teacher_subject` WHERE `id`='. $subject_id);
@@ -30,20 +30,9 @@ $form->initRoll($add_sql.' ORDER BY id DESC', 'id' );
 
 $form->roll->setSaveTool(true);
 
-
 $form->roll->addInput('id', 'sqlplaintext');
 $form->roll->input->id->setTitle('id');
 $form->roll->input->id->setDisplayColumn(true);
-
-
-$form->roll->addInput('class', 'selecttable');
-$form->roll->input->class->setTitle('class');
-$form->roll->input->class->setFieldName( 'class_id' );
-$form->roll->input->class->setReferenceTable('school_class');
-$form->roll->input->class->setReferenceField('grade','id');
-$form->roll->input->class->setPlaintext(true);
-$form->roll->input->class->setDisplayColumn(true);
-$form->roll->input->class->textTip='';
 
 $form->roll->addInput('course', 'selecttable');
 $form->roll->input->course->setTitle('course');
@@ -53,6 +42,15 @@ $form->roll->input->course->setReferenceField('name','id');
 $form->roll->input->course->setPlaintext(true);
 $form->roll->input->course->setDisplayColumn(true);
 $form->roll->input->course->textTip='';
+
+$form->roll->addInput('class', 'selecttable');
+$form->roll->input->class->setTitle('class');
+$form->roll->input->class->setFieldName( 'class_id' );
+$form->roll->input->class->setReferenceTable('school_class');
+$form->roll->input->class->setReferenceField('grade','id');
+$form->roll->input->class->setPlaintext(true);
+$form->roll->input->class->setDisplayColumn(true);
+$form->roll->input->class->textTip='';
 
 // $form->roll->addInput('course', 'sqlplaintext');
 // $form->roll->input->course->setTitle('course');
@@ -65,6 +63,9 @@ $form->roll->input->course->textTip='';
 // 	return $name;
 // });
 
+$form->roll->addInput('status', 'sqlplaintext');
+$form->roll->input->status->setTitle('Status');
+$form->roll->input->status->setDisplayColumn(true);
 
 $form->roll->addInput('total_present', 'sqlplaintext');
 $form->roll->input->total_present->setTitle('Total Present');
@@ -97,9 +98,6 @@ $form->roll->input->date_month->setDisplayColumn(false);
 $form->roll->addInput('date_year', 'sqlplaintext');
 $form->roll->input->date_year->setTitle('Year');
 $form->roll->input->date_year->setDisplayColumn(false);
-
-
-
 
 $form->roll->action();
 echo $form->roll->getForm();

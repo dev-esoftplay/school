@@ -1,6 +1,6 @@
 <?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
-$subject_ids  = $db->getcol('SELECT `id` FROM `school_teacher_subject` WHERE `teacher_id` = ' . $teacher_id);
+$subject_ids  = $db->getCol('SELECT `id` FROM `school_teacher_subject` WHERE `teacher_id` = ' . $teacher_id);
 
 $class_id  = isset($_GET['class_id']) ? intval($_GET['class_id']) : null;
 $course_id = isset($_GET['course_id']) ? intval($_GET['course_id']) : null;
@@ -59,7 +59,7 @@ $schedule_by_days  = array();
 foreach ($schedules_report as $key => $schedule) {
   $query_report = 'SELECT `id` ,`schedule_id`,`total_present`,`status`,`date_day`,`date_week`,`date_month`, DATE(`created`) as `date` FROM `school_attendance_report` WHERE  '. implode(' AND', $filters) . ' AND `schedule_id` =  '. $schedule['id'];
   $report_data  = $db->getrow($query_report);
-
+  
   $subject_data = $db->getrow('SELECT `id` , `course_id` , `class_id` FROM `school_teacher_subject` WHERE `id` = ' . $schedule['subject_id']);
   $course_data  = $db->getrow('SELECT `id` , `name` FROM `school_course` WHERE `id` = ' . $subject_data['course_id']);
   $class_data   = $db->getrow('SELECT `id` , CONCAT_WS(" ", `grade`, `major`, `label`) as `name` FROM `school_class` WHERE `id` =' . $subject_data['class_id']);
