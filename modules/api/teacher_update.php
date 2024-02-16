@@ -21,10 +21,6 @@ if (isset($_POST['image'])) {
   $img_path = 'images/modules/school/teacher/' . $teacher_id . '/';
   $files    = glob($img_path . '*');
 
-  foreach ($files as $file) {
-    unlink($file);
-  }
-
   api_image_save($_POST['image'], $img_path, $teacher_id, 'school_teacher', 'image', 'id');
 }
 

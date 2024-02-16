@@ -126,4 +126,6 @@ if (!empty($_FILES['file']) && (!empty($_POST) || isset($_POST))) {
   echo '<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok-s ign" title="ok sign"></span> Sukses Tambah data.</div>';
 }
 
+link_css(__DIR__ . '/css/teacher_add.css'); 
+link_js(__DIR__ . '/js/teacher_add.js');
 include tpl('teacher_add.html.php');

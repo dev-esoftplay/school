@@ -444,6 +444,7 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
         ));
       }
     }
+    echo '<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok-s ign" title="ok sign"></span> Sukses Tambah data.</div>';
   }
 }
 link_css(__DIR__ . '/css/student_add.css'); //untuk memanggil file css

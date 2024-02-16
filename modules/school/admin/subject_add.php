@@ -62,12 +62,41 @@
 					<label for="">Field Class</label>
 					<input type="text" name="class" class="form-control" id="" placeholder="Input field" value="<?php echo isset($_POST['class']) ? htmlspecialchars($_POST['class']) : ''; ?>">
 				</div>	
+
 				<div class="form-group">
+          <label for="fileInput">Upload Excel</label>
+        </div>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#preview-excel">Pilih FIle</button>
+
+        <div class="modal" id="preview-excel" style="background-color: white;">
+          <div class="modal-dialog" style="max-width: 1000px; width: 100%;">
+            <div class="modal-content">
+
+              <div class="modal-header">
+                <h4 class="modal-title">Preview Excel</h4>
+              </div>
+
+              <div class="modal-body">
+                <label for="fileInput">Pilih File</label>
+                <input id="fileInput" name="file" type="file">
+                <div id="preview">
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+									<button type="submit" class="btn btn-primary" name="submit" value="submit">Submit</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+				<!-- <div class="form-group">
 		      <label for="fileInput">Pilih File</label>
 		      <input type="file" name="file" class="form-control">
 				</div>
 			    <button type="submit" class="btn btn-primary" name="submit" value="submit">Submit</button>
-		  </div>
+		  </div> -->
 		</div>
 	</form>
 </div>
@@ -152,3 +181,61 @@
 			}
 	  }
 	}
+?>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+
+<script>
+  document.getElementById('fileInput').addEventListener('change', function(e) {
+    var file = e.target.files[0];
+
+    if (file) {
+      var reader = new FileReader();
+
+      reader.onload = function(e) {
+        var data = new Uint8Array(e.target.result);
+        var workbook = XLSX.read(data, {
+          type: 'array'
+        });
+
+        // Ambil data dari sheet pertama
+        var sheetName = workbook.SheetNames[0];
+        var sheet = workbook.Sheets[sheetName];
+
+        // Convert data sheet ke array of objects
+        var jsonData = XLSX.utils.sheet_to_json(sheet);
+
+        // Tampilin preview dalam bentuk tabel di div dengan id 'preview'
+        var html = '<div class="table-responsive"><table class="table table-bordered"><thead><tr>';
+
+        // Ambil nama kolom
+        var columns = Object.keys(jsonData[0]);
+        columns.forEach(function(column) {
+          html += '<th>' + column + '</th>';
+        });
+
+        html += '</tr></thead><tbody>';
+
+        // Isi data ke dalam tabel
+        jsonData.forEach(function(row) {
+          html += '<tr>';
+          columns.forEach(function(column) {
+            html += '<td>' + row[column] + '</td>';
+          });
+          html += '</tr>';
+        });
+
+        html += '</tbody></table>';
+
+        // Tampilin tabel di div dengan id 'preview' dengan tambahan border
+        document.getElementById('preview').innerHTML = html;
+      };
+
+      reader.readAsArrayBuffer(file);
+    }
+  });
+</script>
