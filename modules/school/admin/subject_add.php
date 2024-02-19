@@ -1,7 +1,7 @@
 <?php  if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
 ?> 
-<div class="col-md-4">
+<div class="col-md-6">
 	<?php 
 		$form->initEdit(!empty($_GET['id']) ? 'WHERE id='.$_GET['id'] : '');
 		$form->edit->setSaveTool(true);
@@ -43,7 +43,7 @@
     }
   }
 </script>
-<div class="col-md-4">
+<div class="col-md-6">
 	<form method="POST" role="form" enctype="multipart/form-data" onsubmit="return validateForm()">
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -90,13 +90,7 @@
             </div>
           </div>
         </div>
-
-				<!-- <div class="form-group">
-		      <label for="fileInput">Pilih File</label>
-		      <input type="file" name="file" class="form-control">
-				</div>
-			    <button type="submit" class="btn btn-primary" name="submit" value="submit">Submit</button>
-		  </div> -->
+       </div>
 		</div>
 	</form>
 </div>

@@ -12,16 +12,17 @@ $course_id        = $db->getone('SELECT `course_id` FROM `school_teacher_subject
 $class_id         = $db->getone('SELECT `class_id` FROM `school_teacher_subject` WHERE `id` =  ' . $subject_id);
 
 $selected_class   = isset($_POST['class_id']) ? $_POST['class_id'] : $class_id;
+$selected_subject = isset($_POST['subject_id']) ? $_POST['subject_id'] : $subject_id;
+$selected_day     = isset($_POST['day']) ? $_POST['day'] : $result['day'];
+$clock_start      = isset($_POST['clock_start']) ? $_POST['clock_start'] : $result['clock_start'];
+$clock_end        = isset($_POST['clock_end']) ? $_POST['clock_end'] : $result['clock_end'];
+
 $class_subject_id = $db->getAssoc('SELECT s.id, CONCAT_WS(" - ", c.name , t.name) FROM `school_teacher_subject` s JOIN `school_course` c ON s.course_id = c.id JOIN `school_teacher` t ON s.teacher_id = t.id WHERE class_id = ' . $selected_class);
 if(isset($_POST['class_id']) && !isset($_POST['submit'])) {
   echo createOption($class_subject_id, $subject_id);
 }
 	
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-	$selected_subject = isset($_POST['subject_id']) ? $_POST['subject_id'] : null;
-	$selected_day     = isset($_POST['day']) ? $_POST['day'] : null;
-	$clock_start      = isset($_POST['clock_start']) ? $_POST['clock_start'] : null;
-	$clock_end        = isset($_POST['clock_end']) ? $_POST['clock_end'] : null;
 
 	$schedule_update = [];
 
@@ -68,21 +69,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 				<div class="form-group">
 					<label for="">Days</label>
 					<select name="day" id="day" class="form-control">
-						<?php echo createOption($days, $result['day']);?> 
+						<?php echo createOption($days, $selected_subject);?> 
 					</select>
 				</div>
 				<div class="form-group">
 					<label for="">Clock Start</label>
-					<input type="time" name="clock_start" class="form-control" id="" placeholder="Input " value="<?php echo $result['clock_start'] ?>">
+					<input type="time" name="clock_start" class="form-control" id="" placeholder="Input " value="<?php echo $clock_start ?>">
 				</div>			
 				<div class="form-group">
 					<label for="">Clock End</label>
-					<input type="time" name="clock_end" class="form-control" id="" placeholder="Input " value="<?php echo $result['clock_end'] ?>">
+					<input type="time" name="clock_end" class="form-control" id="" placeholder="Input " value="<?php echo $clock_end ?>">
 				</div>	
 				<div class="form-group">
 					<label for="">Course</label>
 					<select name="subject_id" id="subject_by_class" class="form-control" required="">
-				    <?php echo createOption($class_subject_id, $subject_id) ?>
+				    <?php echo createOption($class_subject_id, $selected_subject) ?>
 					</select>
 				</div>
 		    <button type="submit" class="btn btn-primary" name="submit" value="submit">Submit</button>
