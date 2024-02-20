@@ -1,4 +1,7 @@
 // withHooks
+import { LibStyle } from 'esoftplay/cache/lib/style/import';
+import React, { memo, useEffect, useRef, useState } from 'react';
+import { Image, Platform, View, Text, TouchableOpacity, Pressable, TextInput } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
@@ -6,12 +9,12 @@ import { LibImage } from 'esoftplay/cache/lib/image/import';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 import { LibProgress } from 'esoftplay/cache/lib/progress/import';
 import { LibSlidingup } from 'esoftplay/cache/lib/slidingup/import';
-import { LibStyle } from 'esoftplay/cache/lib/style/import';
+
 import { UserClass } from 'esoftplay/cache/user/class/import';
 import esp from 'esoftplay/esp';
 import useSafeState from 'esoftplay/state';
-import React, { useEffect, useRef, useState } from 'react';
-import { Image, Platform, Pressable, Text, TextInput, TouchableOpacity, View } from 'react-native';
+
+
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 export interface TeacherDetailArgs {

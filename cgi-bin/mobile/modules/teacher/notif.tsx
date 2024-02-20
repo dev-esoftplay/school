@@ -3,6 +3,7 @@ import { LibList } from 'esoftplay/cache/lib/list/import';
 import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import { UserNotification } from 'esoftplay/cache/user/notification/import';
 import esp from 'esoftplay/esp';
+import { memo } from 'react';
 
 import React from 'react';
 import { Text, View } from 'react-native';
@@ -14,7 +15,7 @@ export interface TeacherNotifArgs {
 export interface TeacherNotifProps {
 
 }
-export default function m(props: TeacherNotifProps): any {
+function m(props: TeacherNotifProps): any {
 
   let notifs = UserNotification.state().useSelector(s => s.data);
 
@@ -106,3 +107,4 @@ export default function m(props: TeacherNotifProps): any {
     </View>
   )
 }
+export default m;
