@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 import { useMemo, useState } from 'react';
 
 import React from 'react';
@@ -20,7 +19,7 @@ export interface ParentIndexArgs {
 export interface ParentIndexProps {
 
 }
-function m(props: ParentIndexProps): any {
+export default function m(props: ParentIndexProps): any {
   const [menu, setMenu] = useState('Beranda')??LibNavigation.getArgsAll(props);
  
   const [focused, setFocused] = useState(0);
@@ -88,11 +87,10 @@ function m(props: ParentIndexProps): any {
         }} >
 
         {/* Render item-menu untuk setiap layar */}
-        {renderMenuItem('ios-home', 'Beranda', 0, 'ios-home-outline', 0)}
-        {renderMenuItem('ios-mail', 'Notifikasi', 3, 'ios-mail-outline', 3)}
-        {renderMenuItem('ios-person', 'Akun', 4, 'ios-person-outline', 4)}
+        {renderMenuItem('home', 'Beranda', 0, 'home-outline', 0)}
+        {renderMenuItem('mail', 'Notifikasi', 3, 'mail-outline', 3)}
+        {renderMenuItem('person', 'Akun', 4, 'person-outline', 4)}
       </View>
     </View>
   );
 }
-export default memo(m);

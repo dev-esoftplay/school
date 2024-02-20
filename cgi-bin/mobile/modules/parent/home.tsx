@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 import { LibPicture } from 'esoftplay/cache/lib/picture/import';
 import esp from 'esoftplay/esp';
@@ -9,7 +8,7 @@ import { Dimensions, FlatList, Pressable, Text, View } from 'react-native';
 
 // Props untuk komponen ParentsHome
 export interface ParentsHomeProps {
-  navigation: any;
+
 }
 
 // Data anak-anak dan kehadirannya
@@ -95,7 +94,7 @@ function shadows(value: number) {
 }
 
 // Komponen ParentsHome
-function ParentsHome({ navigation }: ParentsHomeProps): JSX.Element {
+export default function ParentsHome({  }: ParentsHomeProps): JSX.Element {
   const { width, height } = Dimensions.get('window');
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const ref = useRef<FlatList<ChildData>>(null);
@@ -233,5 +232,3 @@ function ParentsHome({ navigation }: ParentsHomeProps): JSX.Element {
     </View>
   );
 }
-
-export default memo(ParentsHome);

@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 
 import { LibCrypt } from 'esoftplay/cache/lib/crypt/import';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
@@ -43,7 +42,7 @@ export interface ResApi {
 
 }
 
-function m(props: UserLoginProps): any {
+export default function m(props: UserLoginProps): any {
     const [resApi, setResApi] = useSafeState<any>();
     let [response, setResponse] = useSafeState()
 
@@ -102,4 +101,3 @@ function m(props: UserLoginProps): any {
         </View>
     )
 }
-export default memo(m);

@@ -2,7 +2,7 @@
 
 import { MaterialIcons } from '@expo/vector-icons';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
-import React, { memo, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Switch, Text, Platform } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 

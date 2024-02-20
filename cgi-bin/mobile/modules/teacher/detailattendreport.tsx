@@ -1,5 +1,5 @@
 // withHooks
-import { memo } from 'react';
+import { useEffect } from 'react';
 
 import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
@@ -8,6 +8,10 @@ import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import React from 'react';
 import { FlatList, Platform, Pressable, Text, View } from 'react-native';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
+import { LibCurl } from 'esoftplay/cache/lib/curl/import';
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+import { err } from 'react-native-svg';
+import useSafeState from 'esoftplay/state';
 
 
 export interface DetailAttendReportArgs {
@@ -16,7 +20,10 @@ export interface DetailAttendReportArgs {
 export interface DetailAttendReportProps {
     
 }
-function m(props: DetailAttendReportProps): any {
+export default function m(props: DetailAttendReportProps): any {
+  const data: any = LibNavigation.getArgsAll(props).data;
+  const idstudent: string = LibNavigation.getArgsAll(props).idstudent;
+  const [resApi, setResApi] = useSafeState<any>([])
     const Absensi = [
 
         {
@@ -78,10 +85,21 @@ function m(props: DetailAttendReportProps): any {
         }
       }
 
+      useEffect(() => {
+        console.log(data.created_date)
+        console.log('idstudent',idstudent)
+        console.log('student_detail_schedule_attendance?student_id='+idstudent+'&date='+data.created_date)
+        new LibCurl('student_detail_schedule_attendance?student_id='+idstudent+'&date='+data.created_date,get, (result, msg) => {
+
+          console.log(result)
+          setResApi(result)
+        
+        },err => {console.log(err)})
+      }, [])
     return (
         <View style={{ flex: 1, backgroundColor: 'white',}}>
 
-        <FlatList data={Absensi}
+        <FlatList data={resApi}
           style={{ height: 'auto',paddingHorizontal:20 }}
           showsVerticalScrollIndicator={false}
           ListHeaderComponent={
@@ -101,24 +119,23 @@ function m(props: DetailAttendReportProps): any {
             ({ item, index }) => {
               
               return (
-                <Pressable onPress={() => LibNavigation.navigate('teacher/studentattendancedetails')} style={{backgroundColor: item['color'], padding: 10, width: '100%', paddingHorizontal: 20, borderRadius: 15, opacity: 0.8 ,...shadows(3),marginVertical:10}}>
-  
-                  <View style={{ }}>
+                
+                <View  style={{backgroundColor: 'green', padding: 10, width: '100%', paddingHorizontal: 20, borderRadius: 15, opacity: 0.8 ,...shadows(3),marginVertical:10}}>
   
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                      <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item['nama kelas']} | {item['materi']}</Text>
-                      <View style={{ height: 30, width: 'auto', borderRadius: 8, backgroundColor: item['color'], justifyContent: 'center', alignItems: 'center', paddingHorizontal: 10 }}>
-                      <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item['jumlah siswa']}</Text>
+                      <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item.mapel}</Text>
+                      <View style={{ height: 30, width: 'auto', borderRadius: 8, backgroundColor: 'gray', justifyContent: 'center', alignItems: 'center', paddingHorizontal: 10 }}>
+                      <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item.teacher_name}</Text>
                       </View>
                     </View>
   
                     <View style={{ height: 30, }} />
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                      <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item['jamke']}</Text>
-                      <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item['jam']}</Text>
+                      <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item.clock_start}</Text>
+                      <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item.clock_end}</Text>
                     </View>
                   </View>
-                </Pressable>
+           
               )
             }
           } />
@@ -127,4 +144,3 @@ function m(props: DetailAttendReportProps): any {
       </View>
     )
 }
-export default memo(m);

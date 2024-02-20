@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import navigation from 'esoftplay/modules/lib/navigation';
 import { useEffect, useState } from 'react';
@@ -62,7 +61,7 @@ export interface ResApi {
 
 }
 
-function m(props: LoginIndexsProps): any {
+export default function m(props: LoginIndexsProps): any {
 
   const school = new SchoolColors();
 
@@ -78,15 +77,16 @@ function m(props: LoginIndexsProps): any {
       password: new LibCrypt().encode(String(password)),
       installation_id: 'a9'
     }
-    console.log("post", post) 
-    console.log("username", username)
-    console.log("password", password)
+    // console.log("post", post) 
+    // console.log("username", username)
+    // console.log("password", password)
     LibProgress.show('Loading')
     new LibCurl('public_login', post, (result, msg) => {
-
+      // console.log("result", result)
       LibProgress.hide()
-      esp.log({ result, msg });
-      console.log("result", result.group_ids[0])
+      // esp.log({ result, msg });
+      // console.log("result", result.group_ids[0])
+      
       // UserClass berfungsi untuk menyimpan data user yang login
       UserClass.create(result).then((value) => {
         esp.log("disini", value);
@@ -235,5 +235,3 @@ function m(props: LoginIndexsProps): any {
     </View>
   );
 }
-
-export default memo(m);

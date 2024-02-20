@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import navigation from 'esoftplay/modules/lib/navigation';
@@ -17,7 +16,7 @@ export interface ParentAccountArgs {
 export interface ParentAccountProps {
 
 }
-function m(props: ParentAccountProps): any {
+export default function m(props: ParentAccountProps): any {
   const logout = () => {
     Auth.reset()
     navigation.navigate('auth/login')
@@ -70,4 +69,3 @@ function m(props: ParentAccountProps): any {
     </View>
   )
 }
-export default memo(m);

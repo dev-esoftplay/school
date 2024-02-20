@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 import { MaterialIconsTypes } from '@expo/vector-icons/build/esoftplay_icons';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
@@ -29,7 +28,7 @@ export interface TeacherAttendenceProps {
 
 
 
-function m(props: TeacherAttendenceProps): any {
+export default function m(props: TeacherAttendenceProps): any {
   const [popupVisible, setPopupVisible] = useState(false);
   const [ijinVisible, setIjinVisible] = useState(false)
   let [studentId, setstudentId] = useSafeState(0)
@@ -55,20 +54,28 @@ function m(props: TeacherAttendenceProps): any {
 
   const attenpost = () => {
     console.log("post.....")
+    console.log('1')
     const url: string = "http://api.test.school.esoftplay.com/student_attendance"
+    console.log("url", url)
+    let dataabsen = JSON.stringify(mappedData.student_list)
+    console.log("data",JSON.stringify(mappedData.student_list))
     const post = {
-      data: JSON.stringify(mappedData.student_list),
-      course_id: course_id,
+      data: String(dataabsen),
       schedule_id: data,
       class_id: idclass,
+      course_id: course_id,
+      clock_start: ApiResponse?.clock_start,
+      clock_end: ApiResponse?.clock_end,
     }
     console.log("data yang di post", post)
     console.log()
     new LibCurl('student_attendance', post, (result, msg) => {
       console.log('Jadwal Result:', result);
+      console.log('2')
       console.log(msg)
     }, (err) => {
       console.log("Eror")
+      console.log('3')
       console.log(err)
     }, 1)
   }
@@ -77,6 +84,7 @@ function m(props: TeacherAttendenceProps): any {
 
     console.log(moment().format('YYYY-MM-DD'))
     // jangan lupa ganti class_id dan schadule_id dan date di url 
+                      //   http://api.test.school.esoftplay.com/student_class?class_id=1
     const url: string = "http://api.test.school.esoftplay.com/student_class?class_id=1&schedule_id=1&date=" + date
 
    
@@ -418,7 +426,7 @@ function m(props: TeacherAttendenceProps): any {
       <AbsentDialog visible={ijinVisible} onClose={() => setIjinVisible(false)} student_id={studentId} nama={studentName} />
       
       <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', padding: 10, height: 80 }}>
-        <Pressable onPress={() => { console.log(mappedData), attenpost() }} style={{ backgroundColor: '#0083FD', borderRadius: 10, padding: 10, width: '80%', alignItems: 'center', height: 50, }}>
+        <Pressable onPress={() => { console.log(mappedData), attenpost(),LibNavigation.replace('teacher/index')}} style={{ backgroundColor: '#0083FD', borderRadius: 10, padding: 10, width: '80%', alignItems: 'center', height: 50, }}>
           <Text style={{ color: 'white', fontSize: 16, alignSelf: 'center' }}>Laporan</Text>
         </Pressable>
       </View>
@@ -426,4 +434,3 @@ function m(props: TeacherAttendenceProps): any {
     </View>
   )
 }
-export default memo(m);

@@ -1,114 +1,122 @@
-{
-    "ok": 1,
-    "status_code": 200,
-    "message": "success",
-    "result": {
-        "day": "senin",
-        "schedule": [
-            {
-                "id": "6",
-                "course_name": "IPA",
-                "class": {
-                    "id": "2",
-                    "class_name": "10 RPL 1"
-                },
-                "clock_start": "09:00",
-                "clock_end": "10:00",
-                "student_number": 2,
-                "student_attend": 0
-            },
-            {
-                "id": "7",
-                "course_name": "Bahasa Indonesia",
-                "class": {
-                    "id": "3",
-                    "class_name": "11 RPL 2"
-                },
-                "clock_start": "07:00",
-                "clock_end": "08:00",
-                "student_number": 2,
-                "student_attend": 0
-            },
-            {
-                "id": "11",
-                "course_name": "IPS",
-                "class": {
-                    "id": "4",
-                    "class_name": "11 RPL 1"
-                },
-                "clock_start": "09:00",
-                "clock_end": "10:00",
-                "student_number": 0,
-                "student_attend": 0
-            },
-            {
-                "id": "12",
-                "course_name": "Matematika",
-                "class": {
-                    "id": "5",
-                    "class_name": "12 RPL 2"
-                },
-                "clock_start": "07:00",
-                "clock_end": "08:00",
-                "student_number": 0,
-                "student_attend": 0
-            }
-        ]
-    }
-},
-
-{
-    "ok": 1,
-    "status_code": 200,
-    "message": "success",
-    "result": {
-        "class_name": "10 RPL 2",
-        "student_count": 6,
-        "permission": {
-            "total_present": "1",
-            "total_s": "1",
-            "total_i": "1",
-            "total_a": "1"
-        },
-        "clock_start": "07:00",
-        "clock_end": "08:00",
-        "student_list": [
-            {
-                "student_id": "1",
-                "number": "1",
-                "name": "intan",
-                "status": 1
-            },
-            {
-                "student_id": "2",
-                "number": "2",
-                "name": "dina",
-                "status": 1
-            },
-            {
-                "student_id": "3",
-                "number": "1",
-                "name": "surya",
-                "status": 1
-            },
-            {
-                "student_id": "4",
-                "number": "2",
-                "name": "sutejo",
-                "status": 1
-            },
-            {
-                "student_id": "5",
-                "number": "1",
-                "name": "tarjo",
-                "status": 1
-            },
-            {
-                "student_id": "6",
-                "number": "2",
-                "name": "agus",
-                "status": 1
-            }
-        ]
-    }
-}
+[
+  {
+    "created": "2024-02-15 11:38:38",
+    "group_id": "6",
+    "id": "3",
+    "message": "anak anda tidak hadir",
+    "params": "{\"action\":\"default\",\"module\":\"ppob\\/transaction_detail\",\"arguments\":{\"url\":\"ppob\\/order_detail\\/\"}}",
+    "return": null,
+    "status": "0",
+    "title": "absensi hari ini",
+    "updated": "2024-02-15 11:38:38",
+    "user_id": "3"
+  },
+  {
+    "created": "2024-02-15 12:00:08",
+    "group_id": "5",
+    "id": "59",
+    "message": "anda lupa absen",
+    "params": "{\"action\":\"default\",\"module\":\"ppob\\/transaction_detail\",\"arguments\":\"ppob\\/order_detail\\/\"}",
+    "return": null,
+    "status": "0",
+    "title": "anda lupa absen",
+    "updated": "2024-02-15 12:00:08",
+    "user_id": "3"
+  },
+  {
+    "created": "2024-02-15 12:00:08",
+    "group_id": "5",
+    "id": "60",
+    "message": "anda lupa absen",
+    "params": "{\"action\":\"default\",\"module\":\"ppob\\/transaction_detail\",\"arguments\":\"ppob\\/order_detail\\/\"}",
+    "return": null,
+    "status": "0",
+    "title": "anda lupa absen",
+    "updated": "2024-02-15 12:00:08",
+    "user_id": "3"
+  },
+  {
+    "created": "2024-02-15 12:00:33",
+    "group_id": "5",
+    "id": "61",
+    "message": "anda lupa absen",
+    "params": "{\"action\":\"default\",\"module\":\"ppob\\/transaction_detail\",\"arguments\":\"ppob\\/order_detail\\/\"}",
+    "return": null,
+    "status": "0",
+    "title": "anda lupa absen",
+    "updated": "2024-02-15 12:00:33",
+    "user_id": "3"
+  },
+  {
+    "created": "2024-02-15 12:00:33",
+    "group_id": "5",
+    "id": "62",
+    "message": "anda lupa absen",
+    "params": "{\"action\":\"default\",\"module\":\"ppob\\/transaction_detail\",\"arguments\":\"ppob\\/order_detail\\/\"}",
+    "return": null,
+    "status": "0",
+    "title": "anda lupa absen",
+    "updated": "2024-02-15 12:00:33",
+    "user_id": "3"
+  },
+  {
+    "created": "2024-02-15 12:00:33",
+    "group_id": "5",
+    "id": "63",
+    "message": "anda lupa absen",
+    "params": "{\"action\":\"default\",\"module\":\"ppob\\/transaction_detail\",\"arguments\":\"ppob\\/order_detail\\/\"}",
+    "return": null,
+    "status": "0",
+    "title": "anda lupa absen",
+    "updated": "2024-02-15 12:00:33",
+    "user_id": "3"
+  },
+  {
+    "created": "2024-02-15 12:00:56",
+    "group_id": "5",
+    "id": "64",
+    "message": "anda lupa absen",
+    "params": "{\"action\":\"default\",\"module\":\"ppob\\/transaction_detail\",\"arguments\":\"ppob\\/order_detail\\/\"}",
+    "return": null,
+    "status": "0",
+    "title": "anda lupa absen",
+    "updated": "2024-02-15 12:00:56",
+    "user_id": "3"
+  },
+  {
+    "created": "2024-02-15 12:00:56",
+    "group_id": "5",
+    "id": "65",
+    "message": "anda lupa absen",
+    "params": "{\"action\":\"default\",\"module\":\"ppob\\/transaction_detail\",\"arguments\":\"ppob\\/order_detail\\/\"}",
+    "return": null,
+    "status": "0",
+    "title": "anda lupa absen",
+    "updated": "2024-02-15 12:00:56",
+    "user_id": "3"
+  },
+  {
+    "created": "2024-02-15 12:15:08",
+    "group_id": "5",
+    "id": "66",
+    "message": "anda lupa absen",
+    "params": "{\"action\":\"default\",\"module\":\"ppob\\/transaction_detail\",\"arguments\":\"ppob\\/order_detail\\/\"}",
+    "return": null,
+    "status": "0",
+    "title": "anda lupa absen",
+    "updated": "2024-02-15 12:15:08",
+    "user_id": "3"
+  },
+  {
+    "created": "2024-02-15 12:15:08",
+    "group_id": "5",
+    "id": "67",
+    "message": "anda lupa absen",
+    "params": "{\"action\":\"default\",\"module\":\"ppob\\/transaction_detail\",\"arguments\":\"ppob\\/order_detail\\/\"}",
+    "return": null,
+    "status": "0",
+    "title": "anda lupa absen",
+    "updated": "2024-02-15 12:15:08",
+    "user_id": "3"
+  }
+]

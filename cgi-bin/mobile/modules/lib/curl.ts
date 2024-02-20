@@ -8,17 +8,17 @@ import { UserClass } from 'esoftplay/cache/user/class/import';
 import esp from 'esoftplay/esp';
 import useGlobalState from 'esoftplay/global';
 import LibCurl from 'esoftplay/modules/lib/curl';
+import moment from 'esoftplay/moment';
 
 
 const cache = useGlobalState(false)
 export default class m extends LibCurl {
 
   async setHeader(): Promise<void> {
-    const data = UserClass.state().get()??''
+    const data = UserClass.state().get()
     this.header['Content-Type'] = 'application/json'
     this.header['Accept'] = 'application/json'
-    let apikey: string = String(data.apikey)??''
-    // console.log(typeof data.ata.apikey)
+   
     const config = esp.config();
     const crypt = new LibCrypt()
     if ((/:\/\/data.*?\/(.*)/g).test(this.url)) {
@@ -26,9 +26,13 @@ export default class m extends LibCurl {
     }
     // let dt = UserClass.state().get()
     let token = this.getTimeByTimeZone(config.timezone) + ''
+    // console.log(esp.logColor.yellow, 'time: ' + moment().format("YYYY-MM-DD hh:mm:ss"), esp.logColor.reset)
+    // console.log(esp.logColor.yellow, 'time2: ' + this.getTimeByTimeZone(config.timezone), esp.logColor.reset)
     // let token =  dt.id
     if (data) {
       //   this.setApiKey(dt.id)
+      let apikey: string = String(data?.apikey)??''
+      console.log("0,0", data?.apikey)
       token += "|" + apikey
       console.log("token :",token)
       console.log("token :",crypt.encode(token))

@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
@@ -22,7 +21,7 @@ export interface TeacherStudentAttendanceDetailArgs {
 export interface TeacherStudentAttendanceDetailProps {
     
 }
-function m(props: TeacherStudentAttendanceDetailProps): any {
+export default function m(props: TeacherStudentAttendanceDetailProps): any {
     const [popupVisible, setPopupVisible] = useState(false);
     const [ijinVisible, setIjinVisible] = useState(false)
     let [studentId, setstudentId] = useSafeState(0)
@@ -417,4 +416,3 @@ function m(props: TeacherStudentAttendanceDetailProps): any {
       </View>
     )
   }
-export default memo(m);

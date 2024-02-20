@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 import { useState } from 'react';
 
 import Scroll from 'esoftplay/modules/lib/scroll';
@@ -20,7 +19,7 @@ export interface AuthResetpassArgs {
 export interface AuthResetpassProps {
 
 }
-function m(props: AuthResetpassProps): any {
+export default function m(props: AuthResetpassProps): any {
   const [newpass, setnewpass] = useState('')
   const [confirmpass, setconfirmpass] = useState('')
 
@@ -83,4 +82,3 @@ const styles = StyleSheet.create({
 
 
 });
-export default memo(m);

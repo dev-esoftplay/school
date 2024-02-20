@@ -92,9 +92,9 @@ function m(props: TeacherindexProps): any {
         }} >
 
         {/* Render item-menu untuk setiap layar */}
-        {renderMenuItem('ios-home', 'Beranda', 0, 'ios-home-outline', 0)}
-        {renderMenuItem('ios-newspaper', 'Absensi', 1, 'ios-newspaper-outline', 1)}
-        {/* {renderMenuItem('ios-qr-code', 'Scan', 2, 'ios-qr-code-outline', 2)} */}
+        {renderMenuItem('home', 'Beranda', 0, 'home-outline', 0)}
+        {renderMenuItem('newspaper', 'Absensi', 1, 'newspaper-outline', 1)}
+        {/* {renderMenuItem('qr-code', 'Scan', 2, 'qr-code-outline', 2)} */}
         <Pressable
           key={2}
           onPress={() => {
@@ -106,7 +106,7 @@ function m(props: TeacherindexProps): any {
          <View style={{ backgroundColor: 'white', width: 80, height: 80, borderRadius: 40, justifyContent: 'center', alignItems: 'center', elevation: 5, marginTop: -60,marginBottom:5, borderColor: '#146C94', borderWidth: 5 }}>
             {/* Menggunakan ikon dari LibIcon.Ionicons */}
             <LibIcon.Ionicons
-              name={focused === 2 ? 'ios-qr-code' : 'ios-qr-code-outline'}
+              name={focused === 2 ? 'qr-code' : 'qr-code-outline'}
               size={30}
               // Warna ikon berubah berdasarkan apakah menu difokuskan atau tidak
               color={2 === focused ? "#00848d" : "#bfbfbf"}
@@ -115,8 +115,8 @@ function m(props: TeacherindexProps): any {
           </View>
             <Text style={{ fontSize: 12, fontWeight: 'bold', marginBottom: 0, marginVertical: 5, color: 2 === focused ? "#00848d" : "#bfbfbf" }}>Scan</Text>
         </Pressable>
-        {renderMenuItem('ios-mail', 'Notifikasi', 3, 'ios-mail-outline', 3)}
-        {renderMenuItem('ios-person', 'Akun', 4, 'ios-person-outline', 4)}
+        {renderMenuItem('mail', 'Notifikasi', 3, 'mail-outline', 3)}
+        {renderMenuItem('person', 'Akun', 4, 'person-outline', 4)}
       </View>
     </View>
   );

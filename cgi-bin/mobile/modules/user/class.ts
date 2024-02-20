@@ -102,10 +102,13 @@ export default {
               (res, msg) => {
                 AsyncStorage.setItem("push_id", String(Number.isInteger(parseInt(res)) ? res : push_id));
                 AsyncStorage.setItem("token", String(token))
+                console.log("push token :", res)
+
                 resolve(res)
               }, (msg) => {
                 resolve(msg.message)
-              })
+                esp.log(msg,"eror e iki")
+              },1)
           })
         }
       })
