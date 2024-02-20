@@ -121,60 +121,55 @@
     </div>
   </form>
   <!-- import data with Excel -->
-  <div class="col-md-4">
-    <form method="POST" role="form" enctype="multipart/form-data">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h1 class="panel-title">Add Student Parent with Excel</h1>
-        </div>
-        <div class="panel-body">
-          <?php
-          foreach ($fields as $fieldName) {
+ <div class="col-md-4">
+  <form method="POST" role="form" enctype="multipart/form-data" onsubmit="return validateForm()">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Add Teacher with Excel</h3>
+      </div>
+      <div class="panel-body">
+        <?php 
+          foreach ($fields as $key => $fieldName) {
             $label = ucwords(str_replace('_', ' ', $fieldName));
             echo '<div class="form-group">';
-            echo '<label for="">' . 'Field ' . $label . '</label>';
-            echo '<input type="text" name="' . $fieldName . '" class="form-control input-file" id="" placeholder="Input field" >';
+            // echo '<label for="">' . 'Field ' . $label . '</label>';
+            echo '<input type="hidden" name="' . $fieldName . '" class="form-control input-file" id="" placeholder="Input field" value="'. $key .'">';
             echo '</div>';
           }
-          ?>
-          <div class="form-group">
-            <label for="fileInput">Upload Excel</label>
-          </div>
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#preview-excel">Pilih FIle</button>
+         ?>
+        <div class="help-block">
+          Upload File Excel
+        </div>
+        <div class="modal" id="preview-excel" style="background-color: white;">
+          <div class="modal-dialog" style="max-width: 1000px; width: 100%;">
+            <div class="modal-content">
 
-          <div class="modal" id="preview-excel" style="background-color: white;">
-            <div class="modal-dialog" style="max-width: 1000px; width: 100%;">
-              <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Preview Excel</h4>
+              </div>
 
-                <div class="modal-header">
-                  <h4 class="modal-title">Preview Excel</h4>
+              <div class="modal-body">
+                <label for="fileInput">Pilih File</label>
+                <input id="fileInput" name="file" type="file">
+                <div id="preview">
                 </div>
 
-                <div class="modal-body">
-                  <label for="fileInput">Pilih File</label>
-                  <input id="fileInput" name="file" type="file">
-                  <div id="preview">
-                  </div>
-
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                    <button type="submit" class="btn btn-primary" name="import_excel" value="submit">Submit</button>
-                  </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                  <button type="submit" class="btn btn-primary" name="import_excel" value="submit">Submit</button>
                 </div>
+
               </div>
             </div>
           </div>
-
-          <!-- <div class="form-group">
-            <label for="fileInput">Pilih File</label>
-            <input type="file" name="file" class="form-control">
-          </div>
-          <button type="submit" class="btn btn-primary button-file col-md-11" name="import_excel" value="submit">Submit</button> -->
-
         </div>
       </div>
-    </form>
-  </div>
+      <div class="panel-footer">
+        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#preview-excel">Pilih FIle</button>
+      </div>
+    </div>
+  </form>
+</div>
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>

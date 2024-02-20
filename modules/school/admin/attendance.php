@@ -15,10 +15,6 @@ $form->search->input->class_id->addOption('Select Class', '');
 $form->search->input->class_id->setReferenceTable('school_class');
 $form->search->input->class_id->setReferenceField('grade', 'id');
 
-// $subject_id = $db->getone('SELECT `subject_id` FROM `school_schedule` WHERE `id`='.$_GET['schedule_id']);
-// $course_id = $db->getone('SELECT `course_id` FROM `school_teacher_subject` WHERE `id`='. $subject_id);
-// $course_name = $db->getone('SELECT `name` FROM school_course WHERE `id`='.$course_id);
-
 $form->search->addInput('keyword','keyword');
 $form->search->input->keyword->addSearchField('total_present,total_s,total_i,total_a,date_day,date_week,date_month,date_year');
 
@@ -51,17 +47,6 @@ $form->roll->input->class->setReferenceField('grade','id');
 $form->roll->input->class->setPlaintext(true);
 $form->roll->input->class->setDisplayColumn(true);
 $form->roll->input->class->textTip='';
-
-// $form->roll->addInput('course', 'sqlplaintext');
-// $form->roll->input->course->setTitle('course');
-// $form->roll->input->course->setFieldname('schedule_id');
-// $form->roll->input->course->setDisplayFunction(function ($value) use($db)
-// {
-// 	$subject_id = $db->getone("SELECT subject_id from school_schedule Where id=$value");
-// 	$course_id = $db->getone("SELECT course_id from school_teacher_subject WHERE id=$subject_id");
-// 	$name = $db->getone("SELECT name from school_course WHERE id=$course_id");
-// 	return $name;
-// });
 
 $form->roll->addInput('status', 'sqlplaintext');
 $form->roll->input->status->setTitle('Status');

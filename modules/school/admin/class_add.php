@@ -1,7 +1,56 @@
 <?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');
-?>
-<div class="col-md-6">
-	<?php
+
+if (isset($_POST['submit'])) {
+	$msg = '';
+	if (!empty($_FILES['file'])) {
+		$output = _lib('excel')->read($_FILES['file']['tmp_name'])->sheet(1)->fetch();
+		unset($output[1]);
+
+		foreach ($output as $key => $value) {
+			if (isset($value['B']) &&  isset($value['C'])) {
+
+				$teacher_id = $db->getOne("SELECT `id` FROM `school_teacher` WHERE `name` = '" . $value['C'] . "'");
+				if (!$teacher_id) {
+	        $msg = msg('guru yang kamu masukan belum ada pada data guru, tambahakan data di task guru terlebih dahulu');
+	      }
+
+				if (isset($teacher_id)) {
+			    if ($value['B']) {
+					  $class_parse = explode(" ", $value['B']);
+			      if (count($class_parse) !== 3) {
+			        $msg[] = msg('Invalid class name format ex. 10 RPL 1 ex. 10 RPL 1' , 'warning');
+			      }
+
+		        $grade = $class_parse[0];
+		        if (!is_numeric($grade)) {
+		          $msg[] = msg('Grade must be an integer');
+		        } else {
+		          $major = $class_parse[1];
+		          $label = $class_parse[2];
+
+		          $class_teacher = $db->getrow("SELECT `id`  FROM `school_class` WHERE `teacher_id`='$teacher_id'");
+							$class_id      = $db->getrow("SELECT `id`  FROM `school_class` WHERE `grade` = $grade AND `label` = '$label' AND `major` = '$major'");
+
+							if (!$class_id && !$class_teacher) {
+								$class_id = $db->Insert('school_class', array(
+									'teacher_id' => $teacher_id,
+									'grade'      => $grade,
+									'label'      => $label,
+									'major'      => $major,
+								));
+								$msg = msg('Data berhasil ditambah','success');
+							} else {
+								$msg = msg('Data sudah ada di database');
+							}
+		        }
+					}
+				}
+			}
+		}
+	}
+}
+
+echo '<div class="col-md-6">';
 	$form->initEdit(!empty($_GET['id']) ? 'WHERE id=' . $_GET['id'] : '');
 	$form->edit->setSaveTool(true);
 
@@ -12,13 +61,13 @@
 	$form->edit->input->grade->setFieldName('grade');
 	$form->edit->input->grade->setRequire();
 
-	$form->edit->addInput('label', 'text');
-	$form->edit->input->label->setFieldName('label');
-	$form->edit->input->label->setRequire();
-
 	$form->edit->addInput('major', 'text');
 	$form->edit->input->major->setFieldName('major');
 	$form->edit->input->major->setRequire();
+
+	$form->edit->addInput('label', 'text');
+	$form->edit->input->label->setFieldName('label');
+	$form->edit->input->label->setRequire();
 
 	$form->edit->addInput('teacher', 'selecttable');
 	$form->edit->input->teacher->setFieldName('teacher_id');
@@ -29,38 +78,20 @@
 	$form->edit->input->teacher->setRequire();
 
 	echo $form->edit->getForm();
-	?>
-</div>
-<script>
-	function validateForm() {
-		var fileInput = document.querySelector('input[type="file"]');
-		if (fileInput.files.length === 0) {
-			alert("Masukkan file terlebih dahulu");
-			return false;
-		}
-	}
-</script>
+echo '</div>';
+
+?>
 <div class="col-md-6">
-	<form method="POST" role="form" enctype="multipart/form-data" onsubmit="return validateForm()">
+	<form method="POST" role="form" enctype="multipart/form-data" onsubmit="return validate_excel()">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h1 class="panel-title">Add Class with Excel</h1>
+				<h3 class="panel-title">Add Class with Excel</h3>
 			</div>
 			<div class="panel-body">
-				<div class="form-group">
-					<label for="">Field class</label>
-					<input type="text" name="class" class="form-control" id="" placeholder="Input field" value="<?php echo isset($_POST['class']) ? $_POST['class'] : ''; ?>">
-				</div>
-				<div class="form-group">
-					<label for="">Field Teacher</label>
-					<input type="text" name="teacher" class="form-control" id="" placeholder="Input field" value="<?php echo isset($_POST['teacher']) ? htmlspecialchars($_POST['teacher']) : ''; ?>">
-				</div>
-
-				<div class="form-group">
-					<label for="fileInput">Upload Excel</label>
-				</div>
-				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#preview-excel">Pilih FIle</button>
-
+				<?php if (!empty($msg) && ($_POST['submit'] == 'submit_excel')) echo $msg; ?>
+        <div class="help-block">
+          Upload File Excel
+        </div>
 				<div class="modal" id="preview-excel" style="background-color: white;">
 					<div class="modal-dialog" style="max-width: 1000px; width: 100%;">
 						<div class="modal-content">
@@ -77,65 +108,51 @@
 
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-									<button type="submit" class="btn btn-primary" name="submit" value="submit">Submit</button>
+									<button type="submit" class="btn btn-primary" name="submit" value="submit_excel">Submit</button>
 								</div>
+
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+      <div class="panel-footer">
+				<button type="button" class="btn btn-default" data-toggle="modal" data-target="#preview-excel">Pilih FIle</button>
+      </div>
 		</div>
 	</form>
 </div>
-<?php
-if (!empty($_FILES['file']) && (!empty($_POST) || isset($_POST))) {
-	$output = _lib('excel')->read($_FILES['file']['tmp_name'])->sheet(1)->fetch();
-	unset($output[1]);
+<div class="col-md-6">
+  <form action="" method="POST" class="form" role="form">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Template Excel</h3>
+      </div>
+      <div class="panel-body">
+        <div class="help-block">
+          Unduh Template Excel
+        </div>
+      </div>
+      <div class="panel-footer">
+        <button type="submit" name="template" value="download" class="btn btn-default"><?php echo icon('fa-file-excel-o') ?> Download Template</button>
+      </div>
+    </div>
+  </form>
+</div>
 
-	$teacher = isset($_POST['teacher']) ? $_POST['teacher'] : null;
-	$class   = isset($_POST['class']) ? $_POST['class'] : null;
-
-	foreach ($output as $key => $value) {
-
-		if ((isset($value[$teacher]) || isset($value['C'])) && (isset($value[$class]) || isset($value['B']))) {
-
-			$teacher_name = $db->getOne("SELECT `name` FROM `school_teacher` WHERE `name` = '" . ($value[$teacher] ?? $value['C']) . "'");
-			if (!$teacher_name) {
-				$teacher_id = $db->Insert('school_teacher', array(
-					'name' => $value[$teacher] ?? $value['C']
-				));
-				echo "Nama guru berhasil ditambahkan\n";
-			}
-
-			if (isset($teacher_id) && $teacher_id !== null) {
-				$classes = explode(" ", $value[$class] ?? $value['B']);
-				$grade   = $classes[0];
-				$major   = $classes[1];
-				$label   = $classes[2];
-
-				$ct         = $db->getrow("SELECT *  FROM `school_class` WHERE `teacher_id`='$teacher_id'");
-				$class_name = $db->getrow("SELECT *  FROM `school_class` WHERE `grade` = $grade AND `label` = '$label' AND `major` = '$major'");
-
-				if (!$class_name && !$ct) {
-					$db->Insert('school_class', array(
-						'teacher_id' => $teacher_id,
-						'grade'      => $grade,
-						'label'      => $label,
-						'major'      => $major,
-					));
-					echo "Data berhasil ditambah\n";
-				} else {
-					echo "Data sudah ada di database\n>";
-				}
-			}
+<script>
+	function validate_excel() {
+		var fileInput = document.querySelector('input[type="file"]');
+		if (fileInput.files.length === 0) {
+			alert("Masukkan file terlebih dahulu");
+			return false;
 		}
 	}
-}
-?>
+</script>
+
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 
 <script>

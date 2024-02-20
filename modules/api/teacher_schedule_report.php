@@ -69,7 +69,8 @@ foreach ($schedules_report as $key => $schedule) {
 
   $days = api_days($schedule['day']);
   $weeks = $report_data['date_week'];
-   $schedule_by_weeks[$weeks][$days][] = array(
+  $months = $report_data['date_month'];
+   $schedule_by_months[$months][$weeks][$days][] = array(
     'report_id'      => $report_data['id'],
     'schedule_id'    => $schedule['id'],
 		'course'         => $course_data,
@@ -107,26 +108,27 @@ $result_week  = array();
 $result_day   = array();
 $result_month = array();
 
-$result_month = array(
-  'month' => $month,
-  'schedule_by_weeks' => array(),
-);
-
-foreach ($schedule_by_weeks as $weeks => $schedule_days) {
-  $result_week = array(
-    'week' => $weeks,
-    'schedule_by_days' => array(),
+foreach ($schedule_by_months as $months => $schedule_by_weeks) {
+  $result_month = array(
+    'month' => $months,
+    'schedule_by_weeks' => array(),
   );
-  foreach ($schedule_days as $days => $schedules) {
-    $result_day = array(
-      'day'               => $days,
-      'schedule_total'    => count($schedule_count),
-      'schedule_finished' => count($schedules),
-      'schedule'          => $schedules,
+  foreach ($schedule_by_weeks as $weeks => $schedule_days) {
+    $result_week = array(
+      'week' => $weeks,
+      'schedule_by_days' => array(),
     );
-    $result_week['schedule_by_days'][]  = $result_day;
+    foreach ($schedule_days as $days => $schedules) {
+      $result_day = array(
+        'day'               => $days,
+        'schedule_total'    => count($schedule_count),
+        'schedule_finished' => count($schedules),
+        'schedule'          => $schedules,
+      );
+      $result_week['schedule_by_days'][]  = $result_day;
+    }
+    $result_month['schedule_by_weeks'][] = $result_week;
   }
-  $result_month['schedule_by_weeks'][] = $result_week;
 }
 
 if ($day !== null) {

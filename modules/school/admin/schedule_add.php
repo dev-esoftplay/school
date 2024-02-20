@@ -1,32 +1,107 @@
 <?php  if (!defined('_VALID_BBC')) exit('No direct script access allowed');
-if ($_SERVER["REQUEST_METHOD"] == "POST") // HANDLE INSERT DATA FROM INPUT MANUAL DATA
-{
-	if (isset($_POST)) {
-    $selected_class   = isset($_POST['class_id']) ? $_POST['class_id'] : null;
-    $selected_subject = isset($_POST['subject_id']) ? $_POST['subject_id'] : null;
-    $selected_day     = isset($_POST['day']) ? $_POST['day'] : null;
-    $clock_start      = isset($_POST['clock_start']) ? $_POST['clock_start'] : null;
-    $clock_end        = isset($_POST['clock_end']) ? $_POST['clock_end'] : null;
+
+if (isset($_POST['submit'])) {
+	$msg = [];
+	if ($_POST['submit'] == 'submit_native') {
+	  $selected_class   = isset($_POST['class_id']) ? $_POST['class_id'] : null;
+	  $selected_subject = isset($_POST['subject_id']) ? $_POST['subject_id'] : null;
+	  $selected_day     = isset($_POST['day']) ? $_POST['day'] : null;
+	  $clock_start      = isset($_POST['clock_start']) ? $_POST['clock_start'] : null;
+	  $clock_end        = isset($_POST['clock_end']) ? $_POST['clock_end'] : null;
 
 	  if (!empty($_POST['day']) && !empty($_POST['clock_start']) && !empty($_POST['clock_end']) && !empty($_POST['subject_id'])) {
-	  	$schedule_row = $db->getrow("SELECT * FROM `school_schedule` WHERE `subject_id` = $selected_subject AND `day` = $selected_day AND `clock_start` = '$clock_start' AND `clock_end` = '$clock_end'");
-	  	if (!$schedule_row) {
-		  	$schedule_insert = $db->Insert('school_schedule', array(
+	  	$is_exist = $db->getrow("SELECT `id` FROM `school_schedule` WHERE `subject_id` = $selected_subject AND `day` = $selected_day AND `clock_start` = '$clock_start' AND `clock_end` = '$clock_end'");
+	  	if (!$is_exist) {
+		  	$schedule_id = $db->Insert('school_schedule', array(
 					'subject_id'  => $selected_subject,
 					'day'         => $selected_day,
 					'clock_start' => $clock_start,
 					'clock_end'   => $clock_end
 		  	));
 	  	} else {
-	  		echo "data jadwal sudah ada di database";
+	  		$msg = msg('data jadwal sudah ada di database');
 	  	}
 	  }
+	  if ($schedule_id) {
+			$msg = msg('Insert Data Success', 'success');
+		}
 	}
 
-	if ($schedule_insert) {
-    echo '<div class="alert alert-success" role="alert">';
-    echo 'Insert Data Success';
-    echo '</div>';
+	if ($_POST['submit'] == 'submit_excel') {
+		if (!empty($_FILES['file'])) {
+		  $output = _lib('excel')->read($_FILES['file']['tmp_name'])->sheet(1)->fetch();
+			unset($output[1]);
+
+		  foreach ($output as $key => $value) {
+				if (isset($value['B']) && isset($value['C']) && isset($value['D']) && isset($value['E']) && isset($value['F'])) {
+
+					$course_id  = $db->getOne("SELECT `id` FROM `school_course` WHERE `name` = '" . $value['B'] . "'");
+		      $teacher_id = $db->getOne("SELECT `id` FROM `school_teacher` WHERE `name` = '" . $value['C'] . "'");
+
+					if ($value['D']) {
+					  $class_parse = explode(" ", $value['D']);
+			      if (count($class_parse) !== 3) {
+			        $msg[] = msg('Invalid class name format ex. 10 RPL 1');
+			      }
+
+		        $grade = $class_parse[0];
+		        if (!is_numeric($grade)) {
+	            $msg[] = msg('Grade must be an integer');
+		        } else {
+	            $major = $class_parse[1];
+	            $label = $class_parse[2];
+
+	            $class_id = $db->getOne("SELECT `id` FROM `school_class` WHERE `grade` = $grade AND `label` = '$label' AND `major` = '$major'");
+		        }
+					}
+
+					$msg_field = [];
+          if (!$course_id) {
+            $msg_field[] = 'course';
+          }
+          if (!$teacher_id) {
+            $msg_field[] = 'teacher';
+          }
+          if (!$class_id) {
+            $msg_field[] = 'class';
+          }
+          if (!empty($msg_field)) {
+          	$msg = msg(implode(', ',$msg_field).'. yang kamu masukan belum ada pada subject manapun, tambahakan subject di task subject');
+          }
+
+					/*yahalo*/
+
+					if (isset($teacher_id) && isset($course_id) && isset($class_id)) {
+            $subject_id = $db->getone("SELECT `id` FROM `school_teacher_subject` WHERE `teacher_id` = '$teacher_id' AND `course_id` = '$course_id' AND `class_id` = '$class_id'");
+		        if (!$subject_id) {
+		          $msg[] = msg('Data Subject Belum Ada');
+		        }
+			    }
+
+			    if (isset($subject_id)) {
+			    	$days_num = school_schedule_day_num($value['E']);
+
+				  	$clock_merge = explode(" - ", $value['F']);
+						$clock_start = $clock_merge[0];
+						$clock_end   = $clock_merge[1];
+
+				  	$is_exists = $db->getrow("SELECT `id` FROM `school_schedule` WHERE `subject_id` = $subject_id AND `day` = $days_num AND `clock_start` = '$clock_start' AND `clock_end` = '$clock_end'");
+
+				  	if (!$is_exists) {
+					  	$schedule_id = $db->Insert('school_schedule', array(
+								'subject_id'  => $subject_id,
+								'day'         => $days_num,
+								'clock_start' => $clock_start,
+								'clock_end'   => $clock_end
+					  	));
+							$msg = msg('Insert Jadwal Success', 'success');
+				  	} else {
+			        $msg = msg('Data schedule sudah ada di database');
+				  	}
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -46,6 +121,7 @@ if(isset($_POST['class_id'])  && !isset($_POST['submit'])) {
 				<h1 class="panel-title">Add Schedule native</h1>
 			</div>
 		  <div class="panel-body">
+				<?php if (!empty($msg) && ($_POST['submit'] == 'submit_native')) echo $msg; ?>
 				<div class="form-group">
 					<label for="">Class</label>
 					<select name="class_id" id="class_id" class="form-control">
@@ -74,7 +150,7 @@ if(isset($_POST['class_id'])  && !isset($_POST['submit'])) {
 						<option>Select Course</option>
 					</select>
 				</div>
-		    <button type="submit" class="btn btn-primary" name="submit" value="submit">Submit</button>
+		    <button type="submit" class="btn btn-primary" name="submit" value="submit_native">Submit</button>
 		  </div>
 		</div>
 	</form>
@@ -98,94 +174,88 @@ if(isset($_POST['class_id'])  && !isset($_POST['submit'])) {
         }
       });
     });
-    function validate_native() {
-	    var class_id = document.getElementById("class_id").value;
-	    var day = document.getElementsByName("day")[0].value;
-	    var clock_start = document.getElementsByName("clock_start")[0].value;
-	    var clock_end = document.getElementsByName("clock_end")[0].value;
-	    var subject_id = document.getElementById("subject_by_class").value;
-
-	    if (class_id === "Select Class" || day === "Select Days" || clock_start === "" || clock_end === "" || subject_id === "Select Course") {
-        alert("Please fill in all fields.");
-        return false;
-	    }
-
-	    return true;
-		}
 	</script>
 </div>
-
 <div class="col-md-6">
 	<form method="POST" role="form" enctype="multipart/form-data" onsubmit="return validate_excel()">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h1 class="panel-title">Add Schedule with Excel</h1>
+				<h3 class="panel-title">Add Subject with Excel</h3>
 			</div>
-		  <div class="panel-body">
-				<div class="form-group">
-					<label for="">Field day</label>
-					<input type="text" name="day" class="form-control" id="" placeholder="Input field" value="<?php echo isset($_POST['day']) ? htmlspecialchars($_POST['day']) : ''; ?>">
-				</div>
-				<div class="form-group">
-					<label for="">Field Course</label>
-					<input type="text" name="course" class="form-control" id="" placeholder="Input field" value="<?php echo isset($_POST['course']) ? htmlspecialchars($_POST['course']) : ''; ?>">
-				</div>	
-				<div class="form-group">
-					<label for="">Field Teacher</label>
-					<input type="text" name="teacher" class="form-control" id="" placeholder="Input field" value="<?php echo isset($_POST['teacher']) ? htmlspecialchars($_POST['teacher']) : ''; ?>">
-				</div>
-				<div class="form-group">
-					<label for="">Field Class</label>
-					<input type="text" name="class" class="form-control" id="" placeholder="Input field" value="<?php echo isset($_POST['class']) ? htmlspecialchars($_POST['class']) : ''; ?>">
-				</div>
-				<div class="form-group">
-					<label for="">Field Clock</label>
-					<input type="text" name="clock" class="form-control" id="" placeholder="Input field" value="<?php echo isset($_POST['clock']) ? htmlspecialchars($_POST['clock']) : ''; ?>">
-				</div>
-				<div class="form-group">
-          <label for="fileInput">Upload Excel</label>
+			<div class="panel-body">
+					<?php if (!empty($msg) && ($_POST['submit'] == 'submit_excel')) echo $msg; ?>
+        <div class="help-block">
+        	Upload File Excel
         </div>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#preview-excel">Pilih FIle</button>
-
-        <div class="modal" id="preview-excel" style="background-color: white;">
-          <div class="modal-dialog" style="max-width: 1000px; width: 100%;">
-            <div class="modal-content">
-
-              <div class="modal-header">
-                <h4 class="modal-title">Preview Excel</h4>
-              </div>
-
-              <div class="modal-body">
-                <label for="fileInput">Pilih File</label>
-                <input id="fileInput" name="file" type="file">
-                <div id="preview">
-                </div>
-
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-									<button type="submit" class="btn btn-primary" name="submit" value="submit">Submit</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-		  </div>
+				<div class="modal" id="preview-excel" style="background-color: white;">
+					<div class="modal-dialog" style="max-width: 1000px; width: 100%;">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title">Preview Excel</h4>
+							</div>
+							<div class="modal-body">
+								<label for="fileInput">Pilih File</label>
+								<input id="fileInput" name="file" type="file">
+								<div id="preview">
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+									<button type="submit" class="btn btn-primary" name="submit" value="submit_excel">Submit</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+      <div class="panel-footer">
+				<button type="button" class="btn btn-default" data-toggle="modal" data-target="#preview-excel">Pilih FIle</button>
+      </div>
 		</div>
 	</form>
 </div>
+<div class="col-md-6">
+  <form action="" method="POST" class="form" role="form">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Template Excel</h3>
+      </div>
+      <div class="panel-body">
+        <div class="help-block">
+          Unduh Template Excel
+        </div>
+      </div>
+      <div class="panel-footer">
+        <button type="submit" name="template" value="download" class="btn btn-default"><?php echo icon('fa-file-excel-o') ?> Download Template</button>
+      </div>
+    </div>
+  </form>
+</div>
 <script>
-function validate_excel() {
-  var fileInput = document.querySelector('input[type="file"]');
-  if (fileInput.files.length === 0) {
-    alert("Masukkan file terlebih dahulu");
-    return false;
-  }
-}
+	function validate_excel() {
+	  var fileInput = document.querySelector('input[type="file"]');
+	  if (fileInput.files.length === 0) {
+	    alert("Masukkan file terlebih dahulu");
+	    return false;
+	  }
+	}
+	function validate_native() {
+    var class_id    = document.getElementById("class_id").value;
+    var day         = document.getElementsByName("day")[0].value;
+    var clock_start = document.getElementsByName("clock_start")[0].value;
+    var clock_end   = document.getElementsByName("clock_end")[0].value;
+    var subject_id  = document.getElementById("subject_by_class").value;
+
+    if (class_id === "Select Class" || day === "Select Days" || clock_start === "" || clock_end === "" || subject_id === "Select Course") {
+      alert("Please fill in all fields.");
+      return false;
+    }
+    return true;
+	}
 </script>
+
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 
 <script>
@@ -238,130 +308,3 @@ function validate_excel() {
     }
   });
 </script>
-
-<?php 
-$datashown_course   = false;
-$datashown_teacher  = false;
-$datashown_class    = false;
-$datashown_subject  = false;
-$datashown_schedule = false;
-
-if (!empty($_FILES['file']) && (!empty($_POST) || isset($_POST))) {
-  $output = _lib('excel')->read($_FILES['file']['tmp_name'])->sheet(1)->fetch();
-	unset($output[1]);
-
-	$day     = isset($_POST['day']) ? $_POST['day'] : null;
-	$course  = isset($_POST['course']) ? $_POST['course'] : null;
-	$teacher = isset($_POST['teacher']) ? $_POST['teacher'] : null;
-	$class   = isset($_POST['class']) ? $_POST['class'] : null;
-	$clock   = isset($_POST['clock']) ? $_POST['clock'] : null;
-
-  foreach ($output as $key => $value) {
-
-			if ((isset($value[$day]) || isset($value['B'])) &&
-					(isset($value[$course])  || isset($value['C'])) &&
-					(isset($value[$teacher]) || isset($value['D'])) &&
-					(isset($value[$class])   || isset($value['E'])) &&
-					(isset($value[$clock])   || isset($value['F']))) {
-
-	    $course_name = $db->getOne("SELECT `name` FROM `school_course` WHERE `name` = '" . ($value[$course] ?? $value['C']) . "' ");
-
-	    if (!$course_name) {
-	        $course_id = $db->Insert('school_course', array(
-	            'name' => $value[$course] ?? $value['B']
-	        ));
-	        echo "Nama course berhasil ditambahkan\n";
-	    } else {
-				$course_id  = $db->getOne("SELECT `id` FROM `school_course` WHERE `name` = '" . ($value[$course] ?? $value['C']) . "'");
-				if (!$datashown_course) {
-	        echo "Data course sudah ada di database\n";
-	        $datashown_course = true; // Set variabel penanda
-			  }
-	    }
-
-	    $teacher_name = $db->getOne("SELECT `name` FROM `school_teacher` WHERE `name` = '" . ($value[$teacher] ?? $value['D']) . "'");
-
-	    if (!$teacher_name) {
-        $teacher_id = $db->Insert('school_teacher', array(
-          'name' => $value[$teacher] ?? $value['D']
-        ));
-        echo "Nama guru berhasil ditambahkan\n";
-	    } else {
-	      $teacher_id = $db->getOne("SELECT `id` FROM `school_teacher` WHERE `name` = '" . ($value[$teacher] ?? $value['D']) . "'");
-	      if (!$datashown_teacher) {
-	        echo "Data teacher sudah ada di database\n";
-	        $datashown_teacher = true; // Set variabel penanda
-			 	}
-	    }
-
-	    if (isset($teacher_id) && $teacher_id !== null) {
-        $classes = explode(" ", $value[$class] ?? $value['E']);
-        $grade   = $classes[0];
-        $major   = $classes[1];
-        $label   = $classes[2];
-
-        $ct         = $db->getrow("SELECT * FROM `school_class` WHERE `teacher_id`='$teacher_id'");
-        $class_name = $db->getrow("SELECT * FROM `school_class` WHERE `grade` = $grade AND `label` = '$label' AND `major` = '$major'");
-
-        if (!$class_name && !$ct) {
-            $class_id = $db->Insert('school_class', array(
-              'teacher_id' => $teacher_id,
-              'grade'      => $grade,
-              'label'      => $label,
-              'major'      => $major,
-            ));
-            echo "Data Class berhasil ditambahkan\n";
-        } else {
-		      $class_id   = $db->getOne("SELECT `id` FROM `school_class` WHERE `grade` = $grade AND `label` = '$label' AND `major` = '$major'");
-		       if (!$datashown_class) {
-		        echo "Data class sudah ada di database\n";
-		        $datashown_class = true; // Set variabel penanda
-			    }
-        }
-	    }
-
-			if (isset($teacher_id, $course_id, $class_id) && $teacher_id !== null && $course_id !== null && $class_id !== null) {
-        $s = $db->getrow("SELECT * FROM `school_teacher_subject` WHERE `teacher_id` = '$teacher_id' AND `course_id` = '$course_id' AND `class_id` = '$class_id'");
-        if (!$s) {
-          $subject_id = $db->Insert('school_teacher_subject', array(
-            'teacher_id' => $teacher_id,
-            'course_id'  => $course_id,
-            'class_id'   => $class_id,
-          ));
-          echo "Data Subject berhasil ditambahkan\n";
-        } else {
-            $subject_id = $db->getone("SELECT `id` FROM `school_teacher_subject` WHERE `teacher_id` = '$teacher_id' AND `course_id` = '$course_id' AND `class_id` = '$class_id'");
-          if (!$datashown_subject) {
-		        echo "Data Subject sudah ada di database\n";
-		        $datashown_subject = true; // Set variabel penanda
-			    }
-        }
-	    }
-
-	    if (isset($subject_id) && $subject_id !== null) {
-	    	$days_num = ($value[$day] ?? $value['B']);
-	    	$days_numeric = school_schedule_days_numeric($days_num);
-
-		  	$clock_merge = explode(" - ", $value[$clock] ?? $value['F']);
-				$clock_start = $clock_merge[0];
-				$clock_end   = $clock_merge[1];
-
-		  	$schedule = $db->getrow("SELECT * FROM `school_schedule` WHERE `subject_id` = $subject_id AND `day` = $days_numeric AND `clock_start` = '$clock_start' AND `clock_end` = '$clock_end'");
-
-		  	if (!$schedule) {
-			  	$schedule_id = $db->Insert('school_schedule', array(
-						'subject_id'  => $subject_id,
-						'day'         => $days_numeric,
-						'clock_start' => $clock_start,
-						'clock_end'   => $clock_end
-			  	));
-		  	} else {
-  		    if (!$datashown_schedule) {
-		        echo "Data schedule sudah ada di database\n";
-		        $datashown_schedule = true; // Set variabel penanda
-			    }
-		  	}
-		  }
-		}
-  }
-}

@@ -24,8 +24,8 @@ switch( $Bbc->mod['task'] )
 		include 'student_attendance.php';
 		break;
 		
-	case 'homeroom_student': // untuk listing siswa di kelas yang diampu wali kelas GET:{"class_id":"1"}
-		include 'homeroom_student.php';
+	case 'teacher_student': // untuk listing siswa di kelas yang diampu wali kelas GET:{"class_id":"1"}
+		include 'teacher_student.php';
 		break;
 		
 	case 'teacher_student_attendance_detail': // untuk melihat detail siswa dari listing siswa yang diampu wali kelas GET:{"student_id":"1", "month":"1 ?? current(month)", "week":"1 ?? ""}
@@ -36,8 +36,8 @@ switch( $Bbc->mod['task'] )
 		include 'parent_student_attendance_detail.php';
 		break;
 
-	case 'homeroom_student_schedule_detail': // untuk melihat detail siswa dari listing siswa yang diampu wali kelas GET:{"student_id":"1", "month":"1 ?? current(month)", "week":"1 ?? ""}
-		include 'homeroom_student_schedule_detail.php';
+	case 'teacher_student_schedule_detail': // untuk melihat detail siswa dari listing siswa yang diampu wali kelas GET:{"student_id":"1", "month":"1 ?? current(month)", "week":"1 ?? ""}
+		include 'teacher_student_schedule_detail.php';
 		break;
 
 	case 'parent':

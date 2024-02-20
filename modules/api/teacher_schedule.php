@@ -33,6 +33,14 @@ foreach ($schedules as $schedule) {
     $status = 4; // ongoing
   } elseif ($current_time > $end_time && empty($student_attend)) {
     $status = 3; // late
+    _func('alert');
+    alert_push(
+      $user_id.'-'. 5, 
+      lang('anda lupa absen'), 
+      'anda lupa absen', 
+      'ppob/transaction_detail', 
+      'ppob/order_detail/'
+    ); 
   } elseif ($current_time > $end_time && !empty($student_attend)) {
     $status = 2; // finished
   } elseif ($current_time > $end_time && count($student_attend) == count($student_number)) {
