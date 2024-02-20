@@ -9,9 +9,6 @@ import { UserClass } from 'esoftplay/cache/user/class/import';
 import { UserNotification } from 'esoftplay/cache/user/notification/import';
 import esp from 'esoftplay/esp';
 import useGlobalState, { useGlobalReturn } from 'esoftplay/global';
-import data from 'esoftplay/modules/user/data';
-import moment from 'esoftplay/moment';
-import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import { Alert, Linking, Platform } from "react-native";
 /*
@@ -58,7 +55,7 @@ function readAll(ids: (string | number)[]) {
 
 
   let dataUser = UserClass.state().get()
-  let apikey: string = String(dataUser.apikey) ?? ''
+  let apikey: string = String(dataUser.apikey)
   const { salt } = esp.config()
   let post: any = {
     notif_id: ids.join(','),
@@ -98,9 +95,10 @@ export default {
     return date.getTime() + gmtDiff
   },
   loadData(isFirst?: boolean): void {
+    return
     const config = esp.config();
     let dataUser = UserClass.state().get()
-    let apikey: string = String(dataUser.apikey) ?? ''
+    let apikey: string = String(dataUser.apikey)
     let time = this.getTimeByTimeZone(config.timezone)
 
     let _uri = mainUrl() + "push_notification"
@@ -128,23 +126,23 @@ export default {
       post["user_id"] = user.id || user.user_id
       post["group_id"] = user.group_id || esp.config('group_id')
     }
-    console.log(esp.logColor.green, 'apikey: ' + apikey, esp.logColor.reset)
-    console.log(esp.logColor.cyan, 'curl: ' + _uri, esp.logColor.reset)
-    console.log(esp.logColor.red, 'post: ' + JSON.stringify(post), esp.logColor.reset)
-    console.log(esp.logColor.yellow, 'time: ' + time, esp.logColor.reset)
+    // console.log(esp.logColor.green, 'apikey: ' + apikey, esp.logColor.reset)
+    // console.log(esp.logColor.cyan, 'curl: ' + _uri, esp.logColor.reset)
+    // console.log(esp.logColor.red, 'post: ' + JSON.stringify(post), esp.logColor.reset)
+    // console.log(esp.logColor.yellow, 'time: ' + time, esp.logColor.reset)
 
     new LibCurl(_uri, post,
       (res: any) => {
-        console.log(esp.logColor.green, 'next: ' + res.next, '\n length: ' + res?.list?.length, res.list[0].message, esp.logColor.reset)
+        // console.log(esp.logColor.green, 'next: ' + res.next, '\n length: ' + res?.list?.length, res.list[0].message, esp.logColor.reset)
         if (res?.list?.length > 0) {
           let urls: string[] = UserNotification.state().get().urls
           if (isFirst) {
             urls = []
           }
-          // console.log(urls)
+          // // console.log(urls)
           if (urls && urls.indexOf(_uri) < 0) {
             let { data, unread } = UserNotification.state().get()
-            // console.log(nUnread+" => nUnread")
+            // // console.log(nUnread+" => nUnread")
             let nUnread
             if (isFirst) {
               nUnread = res.list.filter((row) => row.status != 2).length
@@ -166,14 +164,14 @@ export default {
           }
         }
         if (res.next) {
-          // console.log(res.next)
+          // // console.log(res.next)
           lastUrlState.set(res.next)
         } else {
-          // console.log(-1)
+          // // console.log(-1)
           lastUrlState.set(-1)
         }
       }, (msg) => {
-        console.log(esp.logColor.cyan, 'errr: ' + JSON.stringify(msg), esp.logColor.reset)
+        // console.log(esp.logColor.cyan, 'errr: ' + JSON.stringify(msg), esp.logColor.reset)
 
       }, 1
     )
@@ -191,11 +189,11 @@ export default {
     UserNotification.state().reset()
   },
   markRead(id?: string | number, ..._ids: (string | number)[]): void {
-    // console.log("markRead")
+    // // console.log("markRead")
     let { data, unread, urls } = UserNotification.state().get()
     let nUnread = unread > 0 ? unread - 1 : 0
     let ids = [id, ..._ids]
-    // console.log(ids)
+    // // console.log(ids)
     ids.forEach((id) => {
       const index = data.findIndex((row) => String(row.id) == String(id))
       if (index > -1) {
@@ -203,7 +201,7 @@ export default {
         nUnread = unread > 0 ? unread - 1 : 0
       }
     })
-    // console.log(JSON.stringify(data))
+    // // console.log(JSON.stringify(data))
     UserNotification.state().set({
       urls,
       data: data,
@@ -282,7 +280,7 @@ export default {
         let experienceId = esp.config('experienceId')
 
         expoToken = await Notifications.getExpoPushTokenAsync({ projectId: experienceId })
-        console.log('expoToken', expoToken)
+        // console.log('expoToken', expoToken)
 
         if (expoToken) {
           clearTimeout(defaultToken)

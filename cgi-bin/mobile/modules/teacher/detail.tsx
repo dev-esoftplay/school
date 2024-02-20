@@ -1,19 +1,17 @@
 // withHooks
-import { LibStyle } from 'esoftplay/cache/lib/style/import';
-import React, { useEffect, useRef, useState } from 'react';
-import { Image, Platform, View, Text, TouchableOpacity, Pressable, TextInput } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
-import { UserClass } from 'esoftplay/cache/user/class/import';
-import { LibLocale } from 'esoftplay/cache/lib/locale/import';
-import { LibSlidingup } from 'esoftplay/cache/lib/slidingup/import';
-import { LibImage } from 'esoftplay/cache/lib/image/import';
-import useSafeState from 'esoftplay/state';
-import esp from 'esoftplay/esp';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
+import { LibImage } from 'esoftplay/cache/lib/image/import';
+import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 import { LibProgress } from 'esoftplay/cache/lib/progress/import';
-import teacher from '.';
+import { LibSlidingup } from 'esoftplay/cache/lib/slidingup/import';
+import { LibStyle } from 'esoftplay/cache/lib/style/import';
+import { UserClass } from 'esoftplay/cache/user/class/import';
+import esp from 'esoftplay/esp';
+import useSafeState from 'esoftplay/state';
+import React, { useEffect, useRef, useState } from 'react';
+import { Image, Platform, Pressable, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 export interface TeacherDetailArgs {
@@ -31,7 +29,7 @@ function m(props: TeacherDetailProps): any {
         }
         return { elevation: value };
     }
-    const name: string = UserClass.state().get().name
+    const name: string = UserClass.state().get()?.name
     const data = UserClass.state().get()
     let slideup = useRef<LibSlidingup>(null)
     let [image, setImage] = useSafeState<string | null>(null)
@@ -41,7 +39,7 @@ function m(props: TeacherDetailProps): any {
     useEffect(() => {
         new LibCurl('teacher', get, (result, msg) => {
             esp.log({ result, msg });
-            console.log("result", result)
+            // console.log("result", result)
             setResApi(result)
             setImage(result.image)
         }, (err) => {
@@ -56,12 +54,12 @@ function m(props: TeacherDetailProps): any {
             name: username,
             image: image
         }
-        console.log("post", post)
+        // console.log("post", post)
         new LibCurl('teacher_update', post, (result, msg) => {
 
             LibProgress.hide()
             esp.log({ result, msg });
-            console.log("result", result)
+            // console.log("result", result)
             LibDialog.info('Update Berhasil', result)
 
 
@@ -164,4 +162,4 @@ function m(props: TeacherDetailProps): any {
         </View>
     )
 }
-export default memo(m)
+export default m

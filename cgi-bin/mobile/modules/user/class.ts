@@ -8,7 +8,7 @@ import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 
-const state = useGlobalState(null, { persistKey: "user", loadOnInit: true })
+const state = useGlobalState(null, { persistKey: "user", loadOnInit: true, listener: (dt) => console.log("woy", dt) })
 
 export default {
   state(): useGlobalReturn<any> {
@@ -31,7 +31,7 @@ export default {
         if (user) {
           let juser = JSON.parse(user)
           if (callback) callback(state?.get?.() || juser)
-          r((state?.get?.() || juser))
+          r(juser)
         } else {
           if (callback) callback(null)
           r(null)
@@ -86,7 +86,7 @@ export default {
           }
           esp.mod("user/class").load(async (user) => {
             if (user) {
-              user["apikey"] = user.id
+              user["apikey"] = user.id || user.apikey
               Object.keys(user).forEach((userfield) => {
                 Object.keys(post).forEach((postfield) => {
                   if (postfield == userfield && postfield != "os" && postfield != "token" && postfield != "secretkey" && postfield != "push_id" && postfield != "device") {
@@ -96,19 +96,18 @@ export default {
               })
             }
             var push_id = await AsyncStorage.getItem("push_id");
-            if (push_id) post["push_id"] = push_id
+            if (push_id) post["old_id"] = push_id
             const LibCurl = esp.mod("lib/curl")
-            new LibCurl("push-token", post,
+            new LibCurl("public_push-token", post,
               (res, msg) => {
                 AsyncStorage.setItem("push_id", String(Number.isInteger(parseInt(res)) ? res : push_id));
                 AsyncStorage.setItem("token", String(token))
                 console.log("push token :", res)
-
                 resolve(res)
               }, (msg) => {
                 resolve(msg.message)
-                esp.log(msg,"eror e iki")
-              },1)
+                esp.log(msg, "eror e iki")
+              }, 1)
           })
         }
       })

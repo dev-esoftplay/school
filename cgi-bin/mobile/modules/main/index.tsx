@@ -1,11 +1,10 @@
 // withHooks
-import { useEffect } from 'react';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
-import { Auth } from '../auth/login';
-import { UserClass } from 'esoftplay/cache/user/class/import';
-import { Dimensions, FlatList, Platform, Pressable, Text, View } from 'react-native';
-import esp from 'esoftplay/esp';
 import { LibStyle } from 'esoftplay/cache/lib/style/import';
+import { UserClass } from 'esoftplay/cache/user/class/import';
+import esp from 'esoftplay/esp';
+import { useEffect } from 'react';
+import { FlatList, Platform, Pressable, Text, View } from 'react-native';
 
 
 
@@ -28,8 +27,8 @@ export default function m(props: MainIndexProps): any {
     if (user) {
       esp.log('2');
   
-      // console.log('user.group_ids[0]:',user[0].group_ids[0]);
-      // // console.log('ids type:',typeof user[0].group_ids[0]);
+      // // console.log('user.group_ids[0]:',user[0].group_ids[0]);
+      // // // console.log('ids type:',typeof user[0].group_ids[0]);
       // if (user?.group_ids[0] == "6") {
       //   esp.log('3');
       //   LibNavigation.replace('parent/index')
@@ -86,7 +85,7 @@ export default function m(props: MainIndexProps): any {
           keyExtractor={(item, index) => index.toString()}
           renderItem={
             ({ item }) => {
-              console.log("item", item)
+              // console.log("item", item)
               //<Text>{item['subject_id']['class_id'].major}</Text>
               return (
                 <Pressable onPress={() => roles(item)} style={{ backgroundColor: 'white', padding: 10, margin: 10,height:150,marginHorizontal:20,...elevation(7),alignItems:'center',justifyContent:'center',width:LibStyle.width-40,borderRadius:15 }}>

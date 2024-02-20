@@ -1,5 +1,6 @@
 // withHooks
 
+import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibLazy } from 'esoftplay/cache/lib/lazy/import';
 import { LibLoading } from 'esoftplay/cache/lib/loading/import';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
@@ -7,8 +8,7 @@ import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import useSafeState from 'esoftplay/state';
 import { Camera } from 'expo-camera';
 import React, { useEffect, useRef } from 'react';
-import { Button, Pressable, Text, View } from 'react-native';
-import { LibCurl } from 'esoftplay/cache/lib/curl/import';
+import { Pressable, Text, View } from 'react-native';
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 export interface TeacherScanArgs {}
@@ -22,13 +22,13 @@ export default function m(props: TeacherScanProps): any {
   useEffect(() => {
     new LibCurl('teacher_schedule', get,
     (result, msg) => {
-      console.log('Jadwal Result:', result);
-      console.log("msg", msg)
+      // console.log('Jadwal Result:', result);
+      // console.log("msg", msg)
       setResApi(result)
      
     },
     (err) => {
-      console.log("error", err)
+      // console.log("error", err)
     }, 1),
     (async () => {
       let { status } = await Camera.getCameraPermissionsAsync();
@@ -49,16 +49,16 @@ export default function m(props: TeacherScanProps): any {
   let course_id = ApiResponse?.schedule[0]?.course.id;
   function onBarCodeScanned({ data }: any): void {
     setResult(data);
-    console.log( ApiResponse?.schedule[0]?.schedule_id,)
+    // console.log( ApiResponse?.schedule[0]?.schedule_id,)
     
     if (data == 'http://api.test.school.esoftplay.com/student_class?class_id='+class_id) {
-      console.log('http://api.test.school.esoftplay.com/student_class?class_id='+class_id);
-      console.log('data :', data);
-      console.log('data is string');
+      // console.log('http://api.test.school.esoftplay.com/student_class?class_id='+class_id);
+      // console.log('data :', data);
+      // console.log('data is string');
       LibNavigation.navigate('teacher/scanattandence' ,{ data: data , schedule_id: schedule_id, class_id: class_id, course_id: course_id});
     }{
     
-      console.log('data is not string');
+      // console.log('data is not string');
     }
     // switch (data) {
     //   case 'kelas 8A':

@@ -1,12 +1,12 @@
 
 .expo*/
 index.d.ts
-#config.json
-#config.debug.json
-#config.live.json
+config.json
+config.debug.json
+config.live.json
 node_modules/
-#code-signing/
-#certificate.pem
+code-signing/
+certificate.pem
 web-build/
 npm-debug.*
 package-lock.json

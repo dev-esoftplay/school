@@ -1,19 +1,16 @@
 // withHooks
 import { useEffect, useRef, useState } from 'react';
 
-import { LibIcon } from 'esoftplay/cache/lib/icon/import';
-import React from 'react';
-import { FlatList, Platform, Pressable, Text, TouchableOpacity, View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
-import { LibSlidingup } from 'esoftplay/cache/lib/slidingup/import';
-import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
-import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
-import { err } from 'react-native-svg/lib/typescript/xml';
-import useSafeState from 'esoftplay/state';
+import { LibIcon } from 'esoftplay/cache/lib/icon/import';
+import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 import { LibProgress } from 'esoftplay/cache/lib/progress/import';
-import lib from '@ant-design/icons';
+import { LibSlidingup } from 'esoftplay/cache/lib/slidingup/import';
+import useSafeState from 'esoftplay/state';
+import React from 'react';
+import { FlatList, Platform, Pressable, Text, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 
 export interface TeacherDetailStudentArgs {
@@ -273,11 +270,11 @@ export default function m(props: TeacherDetailStudentProps): any {
 
   const [activeWeek, setActiveWeek] = useState<number | null>(null);
 
-  const handlePress = (weeknum:number,weekke:number ) => {
+  const handlePress = (weeknum: number, weekke: number) => {
     setActiveWeek(weeknum === activeWeek ? null : weeknum);
-    console.log('weeknum', weeknum)
-    console.log('activeWeek', activeWeek)
-    
+    // console.log('weeknum', weeknum)
+    // console.log('activeWeek', activeWeek)
+
     setSelectWeek(weeknum), setFinalWeek(weekke)
 
 
@@ -309,32 +306,32 @@ export default function m(props: TeacherDetailStudentProps): any {
   ///
   useEffect(() => {
     LibProgress.show('loading')
-    console.log("idclass", idclass, typeof idclass)
-    console.log("idstudent", idstudent, typeof idstudent)
+    // console.log("idclass", idclass, typeof idclass)
+    // console.log("idstudent", idstudent, typeof idstudent)
     // Gunakan fungsi getWeekNumber untuk mendapatkan minggu keberapa dalam tahun ini
-    console.log('ini bulan ', CurentMonth)
-    console.log("Minggu ke- ", weekNumberInMonth, 'dalam bulan ini');
+    // console.log('ini bulan ', CurentMonth)
+    // console.log("Minggu ke- ", weekNumberInMonth, 'dalam bulan ini');
 
-    console.log('ini minggu ke', weeksNumber, 'dalam tahun ini')
+    // console.log('ini minggu ke', weeksNumber, 'dalam tahun ini')
     WeekOneInThisMonth(weekNumberInMonth)
     WeekTwoInThisMonth(weekNumberInMonth)
     WeekThreeInThisMonth(weekNumberInMonth)
     WeekFourInThisMonth(weekNumberInMonth)
     setFinalWeek(weekNumberInMonth)
-    console.log('select week', SelectWeek)
+    // console.log('select week', SelectWeek)
 
     const url = 'student_detail_attendance?class_id=' + idclass + '&student_id=' + idstudent
-    console.log('url', url)
+    // console.log('url', url)
     //http://api.test.school.esoftplay.com/student_detail_attendance?class_id=1&student_id=1&month=2&week=6
     new LibCurl('student_detail_attendance?class_id=' + idclass + '&student_id=' + idstudent, get, (result, msg) => {
-      console.log("result detail siswa", result)
-      console.log("msg detail siswa", msg)
+      // console.log("result detail siswa", result)
+      // console.log("msg detail siswa", msg)
       LibProgress.hide()
       setResApi(result)
     }, (err) => {
       setEror(JSON.stringify(err))
-      console.log("error", err)
-      console.log("error", JSON.stringify(err))
+      // console.log("error", err)
+      // console.log("error", JSON.stringify(err))
       LibProgress.hide()
       setResApi(null)
     }, 1)
@@ -344,25 +341,25 @@ export default function m(props: TeacherDetailStudentProps): any {
 
 
   const filterApi = (month: number, week: number) => {
-    console.log('ini bulan ', month)
+    // console.log('ini bulan ', month)
 
     if (activeWeek && month && week) {
-      console.log('filter bulan dan minggu', month, week)
+      // console.log('filter bulan dan minggu', month, week)
       new LibCurl('student_detail_attendance?class_id=' + idclass + '&student_id=' + idstudent + '&month=' + month + '&week=' + week, get, (result, msg) => {
-        console.log('student_detail_attendance?class_id=' + idclass + '&student_id=' + idstudent + '&month=' + month + '&week=' + week,)
-        console.log("result detail siswa", result)
+        // console.log('student_detail_attendance?class_id=' + idclass + '&student_id=' + idstudent + '&month=' + month + '&week=' + week,)
+        // console.log("result detail siswa", result)
         setResApi(result)
       }, (err) => {
-        console.log("error", err)
+        // console.log("error", err)
       }, 1)
     } else {
-      console.log('filter bulan', month)
+      // console.log('filter bulan', month)
       new LibCurl('student_detail_attendance?class_id=' + idclass + '&student_id=' + idstudent + '&month=' + month, get, (result, msg) => {
-        console.log('student_detail_attendance?class_id=' + idclass + '&student_id=' + idstudent + '&month=' + month)
-        console.log("result detail siswa", result)
+        // console.log('student_detail_attendance?class_id=' + idclass + '&student_id=' + idstudent + '&month=' + month)
+        // console.log("result detail siswa", result)
         setResApi(result)
       }, (err) => {
-        console.log("error", err)
+        // console.log("error", err)
       }, 1)
     }
   }
@@ -396,19 +393,19 @@ export default function m(props: TeacherDetailStudentProps): any {
         </View>
         {/* CARD DETAIL SISWA */}
         {/* JANGAN LUPA DIBUAT LIST DENGAN DATAPARENT */}
-        
-        <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 20 , backgroundColor: 'white', borderRadius: 10, marginTop: 5, padding: 10, ...shadowS(5), margin: 5 ,}}>
-        <View style={{ width: 100, height: 100, borderRadius: 50, backgroundColor: '#dfd9d9', justifyContent: 'center', alignItems: 'center' }}>
-                    <LibIcon.AntDesign name='user' size={45} color='gray' />
-                  </View>
+
+        <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 20, backgroundColor: 'white', borderRadius: 10, marginTop: 5, padding: 10, ...shadowS(5), margin: 5, }}>
+          <View style={{ width: 100, height: 100, borderRadius: 50, backgroundColor: '#dfd9d9', justifyContent: 'center', alignItems: 'center' }}>
+            <LibIcon.AntDesign name='user' size={45} color='gray' />
+          </View>
           <View style={{ marginLeft: 10 }}>
-            <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{studentName??'nama'}</Text>
-            <Text style={{ fontSize: 16 }}>No Abesen {data.number??'0'}</Text>
-            <Text style={{ fontSize: 16 }}>{className??'kelas '} </Text>
+            <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{studentName ?? 'nama'}</Text>
+            <Text style={{ fontSize: 16 }}>No Abesen {data.number ?? '0'}</Text>
+            <Text style={{ fontSize: 16 }}>{className ?? 'kelas '} </Text>
           </View>
-        
-          </View>
-    
+
+        </View>
+
         <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'black', marginTop: 20 }}>Kontak Wali Murid</Text>
         <FlatList data={dataParent}
           keyExtractor={(item, index) => index.toString()}
@@ -416,41 +413,41 @@ export default function m(props: TeacherDetailStudentProps): any {
           contentContainerStyle={{ marginVertical: 20, height: 'auto' }}
           renderItem={
             ({ item, index }) => {
-              console.log('item', item)
+              // console.log('item', item)
               return (
-                <View style={{ flex: 1, backgroundColor: 'white', borderRadius: 10, marginTop: 5, padding: 10, ...shadowS(5), margin: 5 ,width:200}}>
-                {/* Row Detail siswa */}
-                <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20, paddingTop: 20 }}>
-                  {/* <View style={{ width: 100, height: 100, borderRadius: 50, backgroundColor: '#dfd9d9', justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{ flex: 1, backgroundColor: 'white', borderRadius: 10, marginTop: 5, padding: 10, ...shadowS(5), margin: 5, width: 200 }}>
+                  {/* Row Detail siswa */}
+                  <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20, paddingTop: 20 }}>
+                    {/* <View style={{ width: 100, height: 100, borderRadius: 50, backgroundColor: '#dfd9d9', justifyContent: 'center', alignItems: 'center' }}>
                     <LibIcon.AntDesign name='user' size={45} color='gray' />
                   </View> */}
-      
-                  <View style={{ marginLeft: 10 }}>
-                    <Text style={{ fontSize: 16 ,fontWeight:'bold'}}>{item.name}</Text>
-                    <Text style={{ fontSize: 16 }}>Status {item.status ?? ""}</Text>
-                    {/* <Text style={{ fontSize: 16 }}>+{item.phone ?? "097970"} </Text> */}
+
+                    <View style={{ marginLeft: 10 }}>
+                      <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{item.name}</Text>
+                      <Text style={{ fontSize: 16 }}>Status {item.status ?? ""}</Text>
+                      {/* <Text style={{ fontSize: 16 }}>+{item.phone ?? "097970"} </Text> */}
+                    </View>
                   </View>
+
+                  {/* Button wa orang tua */}
+
+                  {/* WeekTwoInThisMonth(1), // console.log('minggu 2:', weekTwo, 'minggu ke', weekTwo, 'dalam tahun ini') */}
+                  <Pressable onPress={() => { console.log('https://wa.me/' + item.phone) }} style={{ width: '90%', height: 60, backgroundColor: '#32b100', borderRadius: 10, justifyContent: 'center', alignSelf: 'center', marginVertical: 10, ...shadowS(7), paddingHorizontal: 20, marginHorizontal: 10, }}>
+                    <View style={{ flexDirection: 'row', paddingHorizontal: 20 }}>
+                      <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#ffffff', textAlign: 'center', }}>Hubungi</Text>
+                      {/* <FontAwesome name="whatsapp" size={24} color="black" /> */}
+                      <LibIcon.FontAwesome name="whatsapp" size={24} color="#ffffff" style={{ marginLeft: 10 }} />
+                    </View>
+                  </Pressable>
+
+
                 </View>
-      
-                {/* Button wa orang tua */}
-        
-                {/* WeekTwoInThisMonth(1), console.log('minggu 2:', weekTwo, 'minggu ke', weekTwo, 'dalam tahun ini') */}
-                <Pressable onPress={() => {     console.log('https://wa.me/' + item.phone)}} style={{ width: '90%', height: 60, backgroundColor: '#32b100', borderRadius: 10, justifyContent: 'center', alignSelf: 'center', marginVertical: 10, ...shadowS(7), paddingHorizontal: 20, marginHorizontal: 10, }}>
-                  <View style={{ flexDirection: 'row', paddingHorizontal: 20 }}>
-                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#ffffff', textAlign: 'center', }}>Hubungi</Text>
-                    {/* <FontAwesome name="whatsapp" size={24} color="black" /> */}
-                    <LibIcon.FontAwesome name="whatsapp" size={24} color="#ffffff" style={{marginLeft:10 }} />
-                  </View>
-                </Pressable>
-      
-      
-              </View>
               )
             }
           } />
         {/* CARD JADWAL */}
 
-        
+
         {/* CARD ABSENSI */}
         <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'black', marginTop: 20 }}>Absensi</Text>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
@@ -478,7 +475,7 @@ export default function m(props: TeacherDetailStudentProps): any {
         {/* button filter Slide Up */}
         <Pressable onPress={() => {
           slideup.current?.show()
-          console.log('slide up')
+          // console.log('slide up')
         }
         } style={{
           height: 50, backgroundColor: 'white', borderRadius: 10, justifyContent: 'center', alignSelf: 'center', marginVertical: 30, ...shadowS(7), width: '98%',
@@ -498,7 +495,7 @@ export default function m(props: TeacherDetailStudentProps): any {
 
           renderItem={
             ({ item, index }) => {
-              
+
               const getDay = (date: string) => {
                 switch (date) {
                   case "0":
@@ -521,9 +518,9 @@ export default function m(props: TeacherDetailStudentProps): any {
               }
 
               return (
-                <Pressable onPress={() => LibNavigation.navigate('teacher/detailattendreport',{
-                  data:item,
-                  idstudent:idstudent,
+                <Pressable onPress={() => LibNavigation.navigate('teacher/detailattendreport', {
+                  data: item,
+                  idstudent: idstudent,
                 })} style={{ backgroundColor: '#0DBD5E', padding: 10, width: '100%', paddingHorizontal: 20, borderRadius: 15, opacity: 0.8, ...shadowS(3), marginVertical: 10, height: 80 }}>
 
                   <View style={{ flexDirection: 'row', }}>
@@ -539,7 +536,7 @@ export default function m(props: TeacherDetailStudentProps): any {
             }
           } />
         {/* SLIDE UP */}
-      </ScrollView>
+      </ScrollView >
       <LibSlidingup ref={slideup}>
         <View style={{ height: "auto", backgroundColor: 'white', padding: 10, borderTopRightRadius: 20, borderTopLeftRadius: 20, paddingHorizontal: 20 }}>
           <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'black', marginTop: 20, alignSelf: 'center' }}>Filter Absensi</Text>
@@ -567,20 +564,20 @@ export default function m(props: TeacherDetailStudentProps): any {
           />
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
             <View style={{ width: '100%', height: 45, flexDirection: 'row', justifyContent: 'center', paddingHorizontal: 20 }}>
-              <Pressable onPress={() => { console.log('minggu 1:', weekOne,), handlePress(1,weekOne)}} style={{ width: '25%', height: 40, backgroundColor: 1 == activeWeek ? '#423a3a' : 'green', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5, }}>
+              <Pressable onPress={() => { console.log('minggu 1:', weekOne,), handlePress(1, weekOne) }} style={{ width: '25%', height: 40, backgroundColor: 1 == activeWeek ? '#423a3a' : 'green', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5, }}>
                 <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white', textAlign: 'center', }}>Minggu 1</Text>
               </Pressable>
-              <Pressable onPress={() => { console.log('minggu 2:', weekTwo,), handlePress(2,weekTwo) }} style={{ width: '25%', height: 40, backgroundColor: 2 == activeWeek ? '#423a3a' : 'green', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5, }}>
+              <Pressable onPress={() => { console.log('minggu 2:', weekTwo,), handlePress(2, weekTwo) }} style={{ width: '25%', height: 40, backgroundColor: 2 == activeWeek ? '#423a3a' : 'green', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5, }}>
                 <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white', textAlign: 'center', }}>Minggu 2</Text>
               </Pressable>
-              <Pressable onPress={() => { console.log('minggu 3:', weekThree,), handlePress(3,weekThree) }} style={{ width: '25%', height: 40, backgroundColor: 3 == activeWeek ? '#423a3a' : 'green', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5, }}>
+              <Pressable onPress={() => { console.log('minggu 3:', weekThree,), handlePress(3, weekThree) }} style={{ width: '25%', height: 40, backgroundColor: 3 == activeWeek ? '#423a3a' : 'green', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5, }}>
                 <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white', textAlign: 'center', }}>Minggu 3</Text>
               </Pressable>
-              <Pressable onPress={() => { console.log('minggu 4:', weekFour,), handlePress(4,weekFour) }} style={{ width: '25%', height: 40, backgroundColor: 4 == activeWeek ? '#423a3a' : 'green', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5, }}>
+              <Pressable onPress={() => { console.log('minggu 4:', weekFour,), handlePress(4, weekFour) }} style={{ width: '25%', height: 40, backgroundColor: 4 == activeWeek ? '#423a3a' : 'green', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5, }}>
                 <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white', textAlign: 'center', }}>Minggu 4</Text>
               </Pressable>
-            </View>
-          </ScrollView>
+            </View >
+          </ScrollView >
           {/* Contoh penggunaan:
           const year = 2024;
           const month = 1; // Januari (index dimulai dari 0)
@@ -589,27 +586,27 @@ export default function m(props: TeacherDetailStudentProps): any {
           let weekInYear = getWeekInYear(year, month, weekInMonth);
           ini.` */}
 
-          <Pressable onPress={() => {
+          < Pressable onPress={() => {
             const year = 2024;
             const month = SelectMonth - 1; // Januari (index dimulai dari 0)
             const weekInMonth = SelectWeek; // Minggu kedua dalam bulan
-            console.log('select week', SelectWeek)
+            // console.log('select week', SelectWeek)
             let weekInYear = getWeekInYear(year, month, weekInMonth);
-            console.log(`Minggu ke-${weekInMonth} dalam bulan ${SelectMonth} tahun ${year} adalah minggu ke-${weekInYear} dalam tahun itu`);
+            // console.log(`Minggu ke-${weekInMonth} dalam bulan ${SelectMonth} tahun ${year} adalah minggu ke-${weekInYear} dalam tahun itu`);
 
 
-            filterApi(SelectMonth, weekInYear),
-               slideup.current?.hide(), 
-              console.log('select month', SelectMonth)
-
-          }} style={{ width: "100%", height: 60, backgroundColor: '#423a3a', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginTop: 20, }}>
+            filterApi(SelectMonth, weekInYear)
+            slideup.current?.hide()
+            console.log('select month', SelectMonth)
+          }
+          } style={{ width: "100%", height: 60, backgroundColor: '#423a3a', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginTop: 20, }}>
             <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white', textAlign: 'center', }}>Terapkan</Text>
-          </Pressable>
+          </Pressable >
           <View style={{ height: 20 }} />
 
-        </View>
-      </LibSlidingup>
-    </View>
+        </View >
+      </LibSlidingup >
+    </View >
   )
 }
 

@@ -6,11 +6,10 @@ import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import { UserClass } from 'esoftplay/cache/user/class/import';
 import esp from 'esoftplay/esp';
 import navigation from 'esoftplay/modules/lib/navigation';
-import React, { useEffect, memo } from 'react';
-import { Platform, View, Image, Text, TouchableOpacity, Pressable } from 'react-native';
+import React, { useEffect } from 'react';
+import { Image, Platform, Pressable, Text, TouchableOpacity, View } from 'react-native';
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 import { Auth } from '../auth/login';
-import lib from '@ant-design/icons';
 
 
 export interface TeacherProfileArgs {
@@ -39,9 +38,9 @@ function m(props: TeacherProfileProps): any {
         new LibCurl('teacher', get, (result, msg) => {
 
             // esp.log({ result, msg });
-    console.log(esp.logColor.cyan, 'res: ' + JSON.stringify(result), esp.logColor.reset)
+    // console.log(esp.logColor.cyan, 'res: ' + JSON.stringify(result), esp.logColor.reset)
 
-            // console.log("result", result)
+            // // console.log("result", result)
             setResApi(result)
         }, (err) => {
             esp.log({ err });
@@ -108,4 +107,4 @@ function m(props: TeacherProfileProps): any {
 
     )
 }
-export default memo(m);
+export default m;

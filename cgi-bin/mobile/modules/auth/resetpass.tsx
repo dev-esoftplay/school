@@ -1,16 +1,13 @@
 // withHooks
 import { useState } from 'react';
 
-import Scroll from 'esoftplay/modules/lib/scroll';
-import React from 'react';
-import { Image, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
-import { check } from 'esoftplay/modules/lib/updater';
-import navigation from 'esoftplay/modules/lib/navigation';
-import { LibIcon } from 'esoftplay/cache/lib/icon/import';
-import SchoolColors from '../utils/schoolcolor';
 import { LibPicture } from 'esoftplay/cache/lib/picture/import';
 import esp from 'esoftplay/esp';
+import navigation from 'esoftplay/modules/lib/navigation';
+import React from 'react';
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import SchoolColors from '../utils/schoolcolor';
 const  schhol = new SchoolColors();
 
 export interface AuthResetpassArgs {
@@ -29,7 +26,7 @@ export default function m(props: AuthResetpassProps): any {
         return navigation.navigate('auth/login')
         break;
       default:
-        return console.log('password tidak sama')
+        return // console.log('password tidak sama')
         break;
     }
 

@@ -1,17 +1,16 @@
 // withHooks
 
-import { LibIcon } from 'esoftplay/cache/lib/icon/import';
-import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
-import { LibStyle } from 'esoftplay/cache/lib/style/import';
-import React, { useEffect, useRef, useState } from 'react';
-import { FlatList, Modal, Pressable, Text, TouchableOpacity, View } from 'react-native';
-import CustomPopup from '../utils/custompopup';
 import { MaterialIconsTypes } from '@expo/vector-icons/build/esoftplay_icons';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
+import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import { LibInput_rectangle2 } from 'esoftplay/cache/lib/input_rectangle2/import';
+import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
+import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import esp from 'esoftplay/esp';
 import moment from 'esoftplay/moment';
 import useSafeState from 'esoftplay/state';
+import React, { useEffect, useRef, useState } from 'react';
+import { FlatList, Modal, Pressable, Text, TouchableOpacity, View } from 'react-native';
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 
@@ -45,7 +44,7 @@ export default function m(props: TeacherStudentAttendanceDetailProps): any {
     }
   
     const attenpost = () => {
-      console.log("post.....")
+      // console.log("post.....")
       const url: string = "http://api.school.lc/student_attendance"
       const post = {
         course_id: 1,
@@ -53,19 +52,19 @@ export default function m(props: TeacherStudentAttendanceDetailProps): any {
         class_id: 1,
         data: JSON.stringify(mappedData.student_list)
       }
-      console.log("data yang di post", post)
+      // console.log("data yang di post", post)
       new LibCurl('student_attendance', post, (result, msg) => {
-        console.log('Jadwal Result:', result);
-        console.log(msg)
+        // console.log('Jadwal Result:', result);
+        // console.log(msg)
       }, (err) => {
-        console.log("Eror")
-        console.log(err)
+        // console.log("Eror")
+        // console.log(err)
       }, 1)
     }
     const date = moment().format('YYYY-MM-DD')
     useEffect(() => {
   
-      console.log(moment().format('YYYY-MM-DD'))
+      // console.log(moment().format('YYYY-MM-DD'))
       // jangan lupa ganti class_id dan schadule_id dan date di url 
       const url: string = "http://api.school.lc/student_class?class_id=1&schedule_id=1&date=" + date
   
@@ -73,16 +72,16 @@ export default function m(props: TeacherStudentAttendanceDetailProps): any {
   
       new LibCurl("student_class?class_id=1&schedule_id=1&date=" + date, get,
         (result, msg) => {
-          console.log('Jadwal Result:', result);
-          console.log("msg", msg)
+          // console.log('Jadwal Result:', result);
+          // console.log("msg", msg)
           setResApi(result)
           const data = JSON.stringify(result)
           setMappedData(result);
-          console.log("link", url)
-          console.log("data", data)
+          // console.log("link", url)
+          // console.log("data", data)
         },
         (err) => {
-          console.log("error", err)
+          // console.log("error", err)
         }, 1)
   
   
@@ -119,7 +118,7 @@ export default function m(props: TeacherStudentAttendanceDetailProps): any {
     const numberStudentsAlpha = studentsAlphaArray.length;
     
    let getStudentIcon = (statusCode: number) => {
-      console.log(["status code", statusCode]);
+      // console.log(["status code", statusCode]);
   
       switch (statusCode) {
         case 1:
@@ -146,64 +145,64 @@ export default function m(props: TeacherStudentAttendanceDetailProps): any {
     }
     let PresentStatus = (indeks: number) => {
       console.clear()
-      console.log("sebelum ganti status")
-      console.log(mappedData.student_list[indeks].status)
-      console.log("ganti status")
+      // console.log("sebelum ganti status")
+      // console.log(mappedData.student_list[indeks].status)
+      // console.log("ganti status")
       mappedData.student_list[indeks].status = 1
       mappedData.student_list[indeks].notes = ''
       // a.permission.total_present=numberStudentsPresent
       getStudentIcon(1)
-      console.log(mappedData.student_list[indeks].status)
-      console.log("data a setelah ganti status", mappedData)
+      // console.log(mappedData.student_list[indeks].status)
+      // console.log("data a setelah ganti status", mappedData)
       setMappedData(mappedData)
   
     }
     let sickStatus = (indeks: number) => {
       console.clear()
-      console.log("sebelum ganti status")
-      console.log(mappedData.student_list[indeks].status)
-      console.log("ganti status")
+      // console.log("sebelum ganti status")
+      // console.log(mappedData.student_list[indeks].status)
+      // console.log("ganti status")
       mappedData.student_list[indeks].status = 2
       mappedData.student_list[indeks].notes = ''
       // a.permission.total_s=numberStudentsSick
       getStudentIcon(2)
-      console.log(mappedData.student_list[indeks].status)
-      console.log("data a setelah ganti status", mappedData)
+      // console.log(mappedData.student_list[indeks].status)
+      // console.log("data a setelah ganti status", mappedData)
       setMappedData(mappedData)
     }
     let absenceStatus = (indeks: number) => {
       console.clear()
-      console.log("sebelum ganti status")
-      console.log(mappedData.student_list[indeks].status)
-      console.log("ganti status")
+      // console.log("sebelum ganti status")
+      // console.log(mappedData.student_list[indeks].status)
+      // console.log("ganti status")
       mappedData.student_list[indeks].status = 3
       mappedData.student_list[indeks].notes = ''
       // a.permission.total_a=numberStudentsAbsent
       getStudentIcon(3)
-      console.log(mappedData.student_list[indeks].status)
-      console.log("data a setelah ganti status", mappedData)
+      // console.log(mappedData.student_list[indeks].status)
+      // console.log("data a setelah ganti status", mappedData)
       setMappedData(mappedData)
     }
     let alphaStatus = (indeks: number) => {
       console.clear()
-      console.log("sebelum ganti status")
-      console.log(mappedData.student_list[indeks].status)
-      console.log("ganti status")
+      // console.log("sebelum ganti status")
+      // console.log(mappedData.student_list[indeks].status)
+      // console.log("ganti status")
       mappedData.student_list[indeks].status = 4
       // a.permission.total_s=numberStudentsAlpha
   
   
       mappedData.student_list[indeks].notes = ''
       getStudentIcon(4)
-      console.log(mappedData.student_list[indeks].status)
-      console.log("data a setelah ganti status", mappedData)
+      // console.log(mappedData.student_list[indeks].status)
+      // console.log("data a setelah ganti status", mappedData)
       setMappedData(mappedData)
     }
     let absentNotes = (indeks: number) => {
-      console.log("indeks", indeks)
+      // console.log("indeks", indeks)
       // a.permission.total_s=numberStudentsAbsent
       mappedData.student_list[indeks].notes = inputnotess?.current?.getText()
-      console.log("data a setelah ganti status", mappedData)
+      // console.log("data a setelah ganti status", mappedData)
       setMappedData(mappedData)
     }
     let [icon, setIcon] = useState<any>();
@@ -245,9 +244,9 @@ export default function m(props: TeacherStudentAttendanceDetailProps): any {
     }
     function CustomPopup({ visible, onClose, nama, student_id }: CustomPopupProps): JSX.Element {
   
-      console.log("student_id", student_id)
+      // console.log("student_id", student_id)
       let idS: number = student_id ?? 0
-      // console.log("student_id type",typeof(student_id))
+      // // console.log("student_id type",typeof(student_id))
       return (
         <Modal
           transparent={true}

@@ -1,20 +1,20 @@
 // withHooks
 import { useEffect, useState } from 'react';
 
-import React from 'react';
-import { Image, Pressable, Text, TouchableOpacity, View } from 'react-native';
-import { FlatList, ScrollView } from 'react-native-gesture-handler';
-import useSafeState from 'esoftplay/state';
-import moment from 'esoftplay/moment';
-import { LibIcon } from 'esoftplay/cache/lib/icon/import';
-import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
-import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
-import { UserClass } from 'esoftplay/cache/user/class/import';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
+import { LibIcon } from 'esoftplay/cache/lib/icon/import';
+import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 import { LibPicture } from 'esoftplay/cache/lib/picture/import';
-import esp from 'esoftplay/esp';
 import { LibSkeleton } from 'esoftplay/cache/lib/skeleton/import';
+import { UserClass } from 'esoftplay/cache/user/class/import';
+import esp from 'esoftplay/esp';
+import moment from 'esoftplay/moment';
+import useSafeState from 'esoftplay/state';
+import React from 'react';
+import { Pressable, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, ScrollView } from 'react-native-gesture-handler';
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 
 export interface TeacherHomeArgs {
@@ -39,15 +39,13 @@ export default function m(props: TeacherHomeProps): any {
   const allTabs = ['Today Schadule', 'Tomorrow Schadule'];
   const [selectTab, setSelectTab] = React.useState(allTabs[0])
 
-  let apikey: string = String(data.apikey) ?? ''
-
   useEffect(() => {
     const url: string = "http://api.school.lc/teacher_schedule"
-    console.log('apikey in page home', apikey)
+    // console.log('apikey in page home', apikey)
 
     new LibCurl('teacher', get, (result, msg) => {
       esp.log({ result, msg });
-      console.log("result", result)
+      // console.log("result", result)
       setProfil(result)
     }, (err) => {
       esp.log({ err });
@@ -56,49 +54,49 @@ export default function m(props: TeacherHomeProps): any {
 
     new LibCurl('teacher_schedule', get,
       (result, msg) => {
-        console.log('Jadwal Result:', result);
-        console.log("msg", msg)
+        // console.log('Jadwal Result:', result);
+        // console.log("msg", msg)
         setResApi(result)
 
       },
       (err) => {
-        console.log("error", err)
+        // console.log("error", err)
       }, 1)
 
     let TommorowDate = moment().add(1, "days").format('YYYY-MM-DD');
-    console.log("TommorowDate", TommorowDate)
+    // console.log("TommorowDate", TommorowDate)
     let CurrentDate = moment().format('YYYY-MM-DD');
-    console.log("CurrentDate", CurrentDate)
+    // console.log("CurrentDate", CurrentDate)
 
     // get schadule tomorrow from api
     let url1: string = 'http://api.school.lc/teacher_schedule?date=' + TommorowDate
     new LibCurl('teacher_schedule?date=' + TommorowDate, get, (result, msg) => {
-      console.log('Jadwal Result besok:', result);
-      console.log("msg", msg)
+      // console.log('Jadwal Result besok:', result);
+      // console.log("msg", msg)
       setResApi2(result)
     }, (err) => {
-      console.log("error", err)
+      // console.log("error", err)
     }, 1)
   }, [])
 
 
 
   const testcallApi = (Api: any) => {
-    console.log('time', moment().format('HH:mm'))
-    console.log("testcallApi")
+    // console.log('time', moment().format('HH:mm'))
+    // console.log("testcallApi")
 
-    console.log("length data schedule", Api.schedule.length)
+    // console.log("length data schedule", Api.schedule.length)
 
-    console.log("Api", Api.schedule[0].course_name, 'Api command : Api.schedule[0].course_name')
-    console.log('\n masuk ke object class')
-    console.log("Api", Api.schedule[0].class.id, 'Api command : Api.schedule[0].class.id')
-    console.log("Api", Api.schedule[0].class.class_name, 'Api command : Api.schedule[0].class.class_name')
-    console.log('------------------')
-    console.log("Api", Api.schedule[0].clock_start, 'Api command : Api.schedule[0].clock_start')
-    console.log("Api", Api.schedule[0].clock_end, 'Api command : Api.schedule[0].clock_end')
-    console.log("Api", Api.schedule[0].student_number, 'Api command : Api.schedule[0].student_number')
-    console.log("Api", Api.schedule[0].student_attend, 'Api command : Api.schedule[0].student_attend')
-    console.log('------------------')
+    // console.log("Api", Api.schedule[0].course_name, 'Api command : Api.schedule[0].course_name')
+    // console.log('\n masuk ke object class')
+    // console.log("Api", Api.schedule[0].class.id, 'Api command : Api.schedule[0].class.id')
+    // console.log("Api", Api.schedule[0].class.class_name, 'Api command : Api.schedule[0].class.class_name')
+    // console.log('------------------')
+    // console.log("Api", Api.schedule[0].clock_start, 'Api command : Api.schedule[0].clock_start')
+    // console.log("Api", Api.schedule[0].clock_end, 'Api command : Api.schedule[0].clock_end')
+    // console.log("Api", Api.schedule[0].student_number, 'Api command : Api.schedule[0].student_number')
+    // console.log("Api", Api.schedule[0].student_attend, 'Api command : Api.schedule[0].student_attend')
+    // console.log('------------------')
 
 
   }
@@ -108,7 +106,7 @@ export default function m(props: TeacherHomeProps): any {
 
   const isBetweentime = (clock_start: string, clock_end: string) => {
     const currentTime = moment().format('HH:mm');
-    console.log("currentTime", currentTime)
+    // console.log("currentTime", currentTime)
     return currentTime >= clock_start && currentTime < clock_end;
   };
 
@@ -145,9 +143,9 @@ export default function m(props: TeacherHomeProps): any {
   }
   const Tab = () => {
     let TommorowDate = moment().add(1, "days").format('YYYY-MM-DD');
-    console.log("TommorowDate", TommorowDate)
+    // console.log("TommorowDate", TommorowDate)
     let CurrentDate = moment().format('YYYY-MM-DD');
-    console.log("CurrentDate", CurrentDate)
+    // console.log("CurrentDate", CurrentDate)
     if (selectTab === allTabs[0]) {
       if (ApiResponse?.schedule.length != null) {
 
@@ -159,7 +157,7 @@ export default function m(props: TeacherHomeProps): any {
             keyExtractor={(item, index) => index.toString()}
             renderItem={
               ({ item }) => {
-                console.log("item", item)
+                // console.log("item", item)
                 //<Text>{item['subject_id']['class_id'].major}</Text>
                 return (
                   <Pressable onPress={() => LibNavigation.navigate('teacher/attandence', { data: item.schedule_id, idclass: item.class.id, courseId: item.course.id })} style={{ backgroundColor: statusColor(item.status), borderRadius: 10, marginTop: 10, flexDirection: 'row', }}>
@@ -194,13 +192,13 @@ export default function m(props: TeacherHomeProps): any {
       } else {
 
         return (
-          <View style={{ flex:1,}}>
+          <View style={{ flex: 1, }}>
             {Array.from({ length: 7 }, (_, index) => (
-          <View style={{ height: 100, borderRadius: 12, marginHorizontal: 10, marginVertical: 10 }}>
+              <View key={index} style={{ height: 100, borderRadius: 12, marginHorizontal: 10, marginVertical: 10 }}>
 
-              <LibSkeleton duration={1000} colors={['gray', '#a59797', '#dbd1d1']} reverse={true}>
-                <View key={index} style={{ height: 100, backgroundColor: 'white', padding: 10, ...shadows(7), borderRadius: 12 }} />
-              </LibSkeleton>
+                <LibSkeleton duration={1000} colors={['gray', '#a59797', '#dbd1d1']} reverse={true}>
+                  <View key={index} style={{ height: 100, backgroundColor: 'white', padding: 10, ...shadows(7), borderRadius: 12 }} />
+                </LibSkeleton>
               </View>
             ))}
           </View>
@@ -218,7 +216,7 @@ export default function m(props: TeacherHomeProps): any {
             keyExtractor={(item, index) => index.toString()}
             renderItem={
               ({ item }) => {
-                console.log("item", item)
+                // console.log("item", item)
                 //<Text>{item['subject_id']['class_id'].major}</Text>
                 return (
                   <Pressable onPress={() => console.log("test")} style={{ backgroundColor: "gray", borderRadius: 10, marginTop: 10, flexDirection: 'row', }}>

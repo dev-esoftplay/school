@@ -1,10 +1,19 @@
 // withHooks
+import { LibCrypt } from 'esoftplay/cache/lib/crypt/import';
+import { LibCurl } from 'esoftplay/cache/lib/curl/import';
+import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
+import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
+import { LibPicture } from 'esoftplay/cache/lib/picture/import';
+import { LibProgress } from 'esoftplay/cache/lib/progress/import';
+import { LibUtils } from 'esoftplay/cache/lib/utils/import';
+import { UserClass } from 'esoftplay/cache/user/class/import';
+import esp from 'esoftplay/esp';
+import useGlobalState from 'esoftplay/global';
 import navigation from 'esoftplay/modules/lib/navigation';
-import { useEffect, useState } from 'react';
+import useSafeState from 'esoftplay/state';
 import React from 'react';
 import {
-  Image,
   Pressable,
   ScrollView,
   Text,
@@ -12,16 +21,6 @@ import {
   View
 } from 'react-native';
 import SchoolColors from '../utils/schoolcolor';
-import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
-import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
-import useGlobalState from 'esoftplay/global';
-import { LibCurl } from 'esoftplay/cache/lib/curl/import';
-import { LibCrypt } from 'esoftplay/cache/lib/crypt/import';
-import useSafeState from 'esoftplay/state';
-import { LibProgress } from 'esoftplay/cache/lib/progress/import';
-import { UserClass } from 'esoftplay/cache/user/class/import';
-import { LibPicture } from 'esoftplay/cache/lib/picture/import';
-import esp from 'esoftplay/esp';
 
 export interface LoginIndexsArgs { }
 export interface LoginIndexsProps { }
@@ -61,6 +60,8 @@ export interface ResApi {
 
 }
 
+
+
 export default function m(props: LoginIndexsProps): any {
 
   const school = new SchoolColors();
@@ -72,34 +73,34 @@ export default function m(props: LoginIndexsProps): any {
 
 
   function login(username?: string, password?: string) {
-    const post = {
-      username: new LibCrypt().encode(String(username)),
-      password: new LibCrypt().encode(String(password)),
-      installation_id: 'a9'
-    }
-    // console.log("post", post) 
-    // console.log("username", username)
-    // console.log("password", password)
-    LibProgress.show('Loading')
-    new LibCurl('public_login', post, (result, msg) => {
-      // console.log("result", result)
-      LibProgress.hide()
-      // esp.log({ result, msg });
-      // console.log("result", result.group_ids[0])
-      
-      // UserClass berfungsi untuk menyimpan data user yang login
-      UserClass.create(result).then((value) => {
-        esp.log("disini", value);
-        LibNavigation.reset()
-      })
-    }, (err) => {
-      esp.log({ err });
-      LibProgress.hide()
-      console.log("err", err)
-      LibDialog.warning('Login Gagal', err?.message)
-    }, 1)
+    LibUtils.getInstallationID().then((installation_id) => {
 
-
+      const post = {
+        username: new LibCrypt().encode(String(username || '55555')),
+        password: new LibCrypt().encode(String(password || '20240101')),
+        installation_id: installation_id
+      }
+      console.log("post", post) 
+      // // console.log("username", username)
+      // // console.log("password", password)
+      LibProgress.show('Loading')
+      new LibCurl('public_login', post, (result, msg) => {
+        // // console.log("result", result)
+        LibProgress.hide()
+        // esp.log({ result, msg });
+        console.log("result", result, typeof result)
+        // UserClass berfungsi untuk menyimpan data user yang login
+        UserClass.create(result).then((value) => {
+          esp.log("disini", value);
+          LibNavigation.reset()
+        })
+      }, (err) => {
+        esp.log({ err });
+        LibProgress.hide()
+        // console.log("err", err)
+        LibDialog.warning('Login Gagal', err?.message)
+      }, 1)
+    })
   }
 
   const showPassword = () => {
@@ -132,10 +133,10 @@ export default function m(props: LoginIndexsProps): any {
       >
         <LibPicture
           source={esp.assets('login.png')} resizeMode='contain'
-          style={{ alignSelf: 'center', marginTop: 75,  width: 300, height: 190}}
+          style={{ alignSelf: 'center', marginTop: 75, width: 300, height: 190 }}
         />
         <Text style={{ fontSize: 24, fontWeight: 'bold', marginTop: 20 }}>
-          Selamat datang kembali! 
+          Selamat datang kembali!
         </Text>
         <Text>
           Masuk dan jadilah pengajar dan orang tua terbaik bagi siswa dan anak

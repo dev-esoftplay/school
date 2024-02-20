@@ -1,24 +1,14 @@
 // withHooks
-import { useEffect, useState } from 'react';
-import Lib, { CiCircleOutlined } from '@ant-design/icons';
-import lib from '@ant-design/icons';
-import Icon from '@ant-design/icons/lib/components/Icon';
-import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
-import { LibIcon } from 'esoftplay/cache/lib/icon/import';
-import { LibSlidingup, LibSlidingupProperty } from 'esoftplay/cache/lib/slidingup/import';
-import { LibStyle } from 'esoftplay/cache/lib/style/import';
-import navigation from 'esoftplay/modules/lib/navigation';
-import Animated, { useSharedValue, withSpring } from 'react-native-reanimated';
-import Svg, { Circle, Rect } from 'react-native-svg';
-import { show } from 'esoftplay/modules/lib/toast';
-import { useRef } from 'react';
-import PieChart from 'react-native-pie-chart'
-import React from 'react';
-import { ActivityIndicator, Button, FlatList, Image, Platform, Pressable, ScrollView, Text, View } from 'react-native';
-import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+import { LibIcon } from 'esoftplay/cache/lib/icon/import';
+import { LibSlidingup } from 'esoftplay/cache/lib/slidingup/import';
+import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import useSafeState from 'esoftplay/state';
+import React, { useEffect, useRef, useState } from 'react';
+import { FlatList, Platform, Pressable, ScrollView, Text, View } from 'react-native';
+import { useSharedValue } from 'react-native-reanimated';
+import Svg, { Circle } from 'react-native-svg';
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 
 export interface TeacherAttenreportArgs {
@@ -255,8 +245,8 @@ export default function m(props: TeacherAttenreportProps): any {
 
   const handlePress = (weeknum: number, weekke: number) => {
     setActiveWeek(weeknum === activeWeek ? null : weeknum);
-    console.log('weeknum', weeknum)
-    console.log('activeWeek', activeWeek)
+    // console.log('weeknum', weeknum)
+    // console.log('activeWeek', activeWeek)
 
     setSelectWeek(weeknum)
     // setFinalWeek(weekke)
@@ -283,33 +273,33 @@ export default function m(props: TeacherAttenreportProps): any {
   }
 
   useEffect(() => {
-    console.log('Attendance Report')
-    console.log('http://api.test.school.esoftplay.com/teacher_schedule_report?day=&week=&month&class_id&course_id')
+    // console.log('Attendance Report')
+    // console.log('http://api.test.school.esoftplay.com/teacher_schedule_report?day=&week=&month&class_id&course_id')
     new LibCurl('teacher_schedule_report?&week=2', get, (result, msg) => {
-      console.log('result', result)
+      // console.log('result', result)
     }, (err) => {
-      console.log('err', err)
+      // console.log('err', err)
     })
   }, [])
 
   const filterApi = (month: number, week: number) => {
-    console.log('ini bulan ', month)
+    // console.log('ini bulan ', month)
 
     if (activeWeek && month && week) {
-      console.log('filter bulan ', month,' dan minggu', week)
-      console.log('teacher_schedule_report?&week=' + week)
+      // console.log('filter bulan ', month,' dan minggu', week)
+      // console.log('teacher_schedule_report?&week=' + week)
       new LibCurl('teacher_schedule_report?&week=' + week, get, (result, msg) => {
-        console.log('result', JSON.stringify(result))
+        // console.log('result', JSON.stringify(result))
       }, (err) => {
-        console.log("error", err)
+        // console.log("error", err)
       }, 1)
     } else {
-      console.log('filter bulan', month)
-      console.log('teacher_schedule_report?&month=' + month)
+      // console.log('filter bulan', month)
+      // console.log('teacher_schedule_report?&month=' + month)
       new LibCurl('teacher_schedule_report?&month=' + month, get, (result, msg) => {
-        console.log('result', JSON.stringify(result))
+        // console.log('result', JSON.stringify(result))
       }, (err) => {
-        console.log("error", err)
+        // console.log("error", err)
       }, 1)
     }
   }
@@ -338,7 +328,7 @@ export default function m(props: TeacherAttenreportProps): any {
 
               onPress={() => {
                 slideup.current?.show()
-                console.log('')
+                // console.log('')
               }}
               style={{ width: LibStyle.width - 45, height: 60, backgroundColor: 'white', borderRadius: 10, justifyContent: 'center', alignSelf: 'center', marginTop: 30, ...elevation(7), paddingHorizontal: 20, marginHorizontal: 5 }}>
               <View style={{ flexDirection: 'row', paddingHorizontal: 20 }}>
@@ -359,7 +349,7 @@ export default function m(props: TeacherAttenreportProps): any {
 
             return (
               // LibNavigation.navigate('teacher/detailattendreport')
-              <Pressable onPress={() => console.log('test')} style={{ backgroundColor: item['color'], padding: 10, width: LibStyle.width - 40, paddingHorizontal: 20, borderRadius: 15, opacity: 0.8, ...shadows(3), marginVertical: 10, flexDirection: 'row', height: 120, justifyContent: 'space-between' }}>
+              <Pressable style={{ backgroundColor: item['color'], padding: 10, width: LibStyle.width - 40, paddingHorizontal: 20, borderRadius: 15, opacity: 0.8, ...shadows(3), marginVertical: 10, flexDirection: 'row', height: 120, justifyContent: 'space-between' }}>
 
                 <View style={{ justifyContent: 'space-between' }}>
                   <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item['day']}</Text>
@@ -456,7 +446,7 @@ export default function m(props: TeacherAttenreportProps): any {
                 <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white', textAlign: 'center', }}>Minggu 4</Text>
               </Pressable>
             </View>
-          </ScrollView>
+          </ScrollView >
           {/* Contoh penggunaan:
           const year = 2024;
           const month = 1; // Januari (index dimulai dari 0)
@@ -465,28 +455,29 @@ export default function m(props: TeacherAttenreportProps): any {
           let weekInYear = getWeekInYear(year, month, weekInMonth);
           ini.` */}
 
-          <Pressable onPress={() => {
+          < Pressable onPress={() => {
             const year = 2024;
             const month = SelectMonth - 1; // Januari (index dimulai dari 0)
             const weekInMonth = SelectWeek; // Minggu kedua dalam bulan
-            console.log('select week', SelectWeek)
+            // console.log('select week', SelectWeek)
             let weekInYear = getWeekInYear(year, month, weekInMonth);
-            console.log(`Minggu ke-${weekInMonth} dalam bulan ${SelectMonth} tahun ${year} adalah minggu ke-${weekInYear} dalam tahun ini`);
+            // console.log(`Minggu ke-${weekInMonth} dalam bulan ${SelectMonth} tahun ${year} adalah minggu ke-${weekInYear} dalam tahun ini`);
 
 
-            filterApi(SelectMonth, weekInMonth),
-              slideup.current?.hide(),
-              console.log('select month', SelectMonth)
+            filterApi(SelectMonth, weekInMonth)
+            slideup.current?.hide()
+            // console.log('select month', SelectMonth)
 
-          }} style={{ width: "100%", height: 60, backgroundColor: '#423a3a', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginTop: 20, }}>
+          }
+          } style={{ width: "100%", height: 60, backgroundColor: '#423a3a', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginTop: 20, }}>
             <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white', textAlign: 'center', }}>Terapkan</Text>
-          </Pressable>
+          </Pressable >
           <View style={{ height: 20 }} />
 
-        </View>
+        </View >
 
-      </LibSlidingup>
-    </View>
+      </LibSlidingup >
+    </View >
 
   )
 }

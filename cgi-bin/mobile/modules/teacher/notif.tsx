@@ -1,16 +1,11 @@
 // withHooks
-import { LibImage_shadow } from 'esoftplay/cache/lib/image_shadow/import';
 import { LibList } from 'esoftplay/cache/lib/list/import';
-import { LibSkeleton } from 'esoftplay/cache/lib/skeleton/import';
 import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import { UserNotification } from 'esoftplay/cache/user/notification/import';
 import esp from 'esoftplay/esp';
 
 import React from 'react';
 import { Text, View } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
-import childdetail from '../parent/childdetail';
-import { updateId } from 'expo-updates';
 
 
 export interface TeacherNotifArgs {
@@ -25,8 +20,8 @@ export default function m(props: TeacherNotifProps): any {
 
 
   esp.log(notifs);
-  console.log("notif", notifs);
-  console.log("notif", notifs[0]?.updated);
+  // console.log("notif", notifs);
+  // console.log("notif", notifs[0]?.updated);
 
   const notif = [
     {
@@ -89,7 +84,7 @@ export default function m(props: TeacherNotifProps): any {
       <LibList data={notifs}
         keyExtractor={(item, index) => index.toString()}
         renderItem={(item: any, index: number) => {
-          console.log("item", item?.title)
+          // console.log("item", item?.title)
           return (
             <View style={{ height: 100, backgroundColor: 'white', padding: 10, ...shadows(7), borderRadius: 12, marginHorizontal: 10, marginVertical: 10 }}>
               <View style={{ flexDirection: 'row', marginBottom: 10, justifyContent: 'space-between' }}>
