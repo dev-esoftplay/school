@@ -265,13 +265,21 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
   {
     if(!empty($value[$insert_field['nama_siswa']]) && $data_siswa == 0) 
     {
+      $data_parent = [];
       $data_ayah  = $db->getRow("SELECT `id` FROM `school_parent` WHERE `nik` = '{$value[$insert_field['nik_ayah']]}'");
       $data_ibu   = $db->getRow("SELECT `id` FROM `school_parent` WHERE `nik` = '{$value[$insert_field['nik_ibu']]}'");
       $data_wali  = $db->getRow("SELECT `id` FROM `school_parent` WHERE `nik` = '{$value[$insert_field['nik_wali']]}'");
+      $data_parent[] = $value[$insert_field['nik_ayah']]; 
+      $data_parent[] = $value[$insert_field['nik_ibu']]; 
+      $data_parent[] = $value[$insert_field['nik_wali']]; 
+      $data_user = $db->getcol('SELECT `id` FROM `bbc_user` WHERE `username` IN (\'' . implode('\',\'', $data_parent) . '\')');
+      // pr($data_user, __FILE__.':'.__LINE__);
       $data_ayah  = $data_ayah ?? 0;
       $data_ibu   = $data_ibu  ?? 0;
       $data_wali  = $data_wali ?? 0;
+      $data_user  = $data_user ?? 0;
       $name       = ['tanggal_lahir_siswa', 'tanggal_lahir_ayah', 'tanggal_lahir_ibu', 'tanggal_lahir_wali'];
+
       foreach ($name as $name) 
       {
         $rawDate          = $value[$insert_field[$name]]; // Ambil tanggal lahir mentah
@@ -279,10 +287,8 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
         $password[$name]  = encode($cleanedDate); // Kodekan tanggal lahir yang telah dibersihkan
       }
     
-      if (!empty($value[$insert_field['nama_ayah']]) && $data_ayah == 0) // INSERT DATA AYAH
+      if (!empty($value[$insert_field['nama_ayah']]) && $data_ayah == 0 && $data_user == 0) // INSERT DATA AYAH
       {
-        $ayah_exists = $db->getrow('SELECT `id` FROM `school_parent` WHERE `nik` ='. $value[$insert_field['nik_ayah']]);
-        if (!$ayah_exists) {
           $ayah_user_id_file = $db->Insert('bbc_user', array(
             'password'  => $password['tanggal_lahir_ayah'],
             'username'  => $value[$insert_field['nik_ayah']],
@@ -309,7 +315,6 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
             'username'=> $value[$insert_field['nik_ayah']],
             'name'    => $value[$insert_field['nama_ayah']],
           ));
-        }
       } else if ($data_ayah > 0) 
       {
         $ayah_parent_id_file = $data_ayah['id'];
@@ -318,11 +323,8 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
         $ayah_parent_id_file = 0;
       }
 
-      if (!empty($value[$insert_field['nama_ibu']]) && $data_ibu == 0) // INSERT DATA IBU
+      if (!empty($value[$insert_field['nama_ibu']]) && $data_ibu == 0 && $data_user == 0) // INSERT DATA IBU
       {
-        $ibu_exists = $db->getrow('SELECT `id` FROM `school_parent` WHERE `nik` ='. $value[$insert_field['nik_ibu']]);
-        pr($ibu_exists, __FILE__.':'.__LINE__);
-        if (!$ibu_exists) {
           $ibu_user_id_file = $db->Insert('bbc_user', array(
             'password'  => $password['tanggal_lahir_ibu'],
             'username'  => $value[$insert_field['nik_ibu']],
@@ -349,7 +351,7 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
             'username'=> $value[$insert_field['nik_ibu']],
             'name'    => $value[$insert_field['nama_ibu']],
           ));
-        }
+        
       } else if ($data_ibu > 0) 
       {
         $ibu_parent_id_file = $data_ibu['id'];
@@ -358,10 +360,8 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
         $ibu_parent_id_file = 0;
       }
 
-      if (!empty($value[$insert_field['nama_wali']]) && $data_wali == 0) // INSERT DATA WALI
+      if (!empty($value[$insert_field['nama_wali']]) && $data_wali == 0 && $data_user == 0) // INSERT DATA WALI
       {
-        $wali_exists = $db->getrow('SELECT `id` FROM `school_parent` WHERE `nik` ='. $value[$insert_field['nik_wali']]);
-        if (!$wali_exists) {
           $wali_user_id_file = $db->Insert('bbc_user', array(
             'password'  => $password['tanggal_lahir_wali'],
             'username'  => $value[$insert_field['nik_wali']],
@@ -388,7 +388,6 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
             'username'=> $value[$insert_field['nik_wali']],
             'name'    => $value[$insert_field['nama_wali']],
           ));
-        }
       } else if ($data_wali > 0) 
       {
         $wali_parent_id_file = $data_wali['id'];
@@ -397,10 +396,8 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
         $wali_parent_id_file = 0;
       }
 
-      if (!empty($value[$insert_field['nama_siswa']])) // INSERT DATA STUDENT
+      if (!empty($value[$insert_field['nama_siswa']]) && $data_user == 0) // INSERT DATA STUDENT
       {
-        $student_exists = $db->getrow('SELECT `id` FROM `school_student` WHERE `nis` ='. $value[$insert_field['nis']]);
-        if (!$student_exists) {  
           $student_user_id_file = $db->Insert('bbc_user', array(
             'password'  => $password['tanggal_lahir_siswa'],
             'username'  => $value[$insert_field['nis']],
@@ -429,7 +426,6 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
             'username'  => $value[$insert_field['nis']],
             'name'      => $value[$insert_field['nama_siswa']],
           ));
-        }
       }
 
       // INSERT PIVOT TABLE STUDENT && PARENT
