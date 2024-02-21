@@ -13,7 +13,7 @@ if (strtotime($date) < strtotime($current_date)) {
 $query     = 'SELECT `id`,`subject_id`,`day`,`clock_start`,`clock_end` FROM `school_schedule` WHERE `subject_id` IN (' . implode(',', $subject_ids) . ') AND `day` = ' . $day . ' ORDER BY `clock_start` ASC'; 
 $schedules = $db->getAll($query);
 
-$schedule_by_days = array();
+$schedule_days    = array();
 foreach ($schedules as $schedule) {
 
   $subject_data = $db->getrow('SELECT `id` , `course_id` , `class_id` FROM `school_teacher_subject` WHERE `id` = ' . $schedule['subject_id']);
@@ -27,28 +27,32 @@ foreach ($schedules as $schedule) {
   $start_time   = $schedule['clock_start'];
   $end_time     = $schedule['clock_end'];
 
-  if ($current_time < $start_time) {
-    $status = 5; // notyet
-  } elseif ($current_time >= $start_time && $current_time <= $end_time) {
-    $status = 4; // ongoing
-  } elseif ($current_time > $end_time && empty($student_attend)) {
-    $status = 3; // late
-    _func('alert');
-    alert_push(
-      $user_id.'-'. 5, 
-      lang('anda lupa absen'), 
-      'anda lupa absen', 
-      'ppob/transaction_detail', 
-      'ppob/order_detail/'
-    ); 
-  } elseif ($current_time > $end_time && !empty($student_attend)) {
-    $status = 2; // finished
-  } elseif ($current_time > $end_time && count($student_attend) == count($student_number)) {
-    $status = 1; // completed
+  if (date('N') == $schedule['day']) {
+    if ($current_time < $start_time) {
+      $status = 5; // notyet
+    } elseif ($current_time >= $start_time && $current_time <= $end_time) {
+      $status = 4; // ongoing
+    } elseif ($current_time > $end_time && empty($student_attend)) {
+      $status = 3; // late
+      _func('alert');
+      alert_push(
+        $user_id .'-'. 5, 
+        lang('anda lupa absen'), 
+        'anda lupa absen', 
+        'ppob/transaction_detail', 
+        'ppob/order_detail/'
+      ); 
+    } elseif ($current_time > $end_time && !empty($student_attend)) {
+      $status = 2; // finished
+    } elseif ($current_time > $end_time && count($student_attend) == count($student_number)) {
+      $status = 1; // completed
+    }
+  } else {
+    $status = 5;
   }
 
   $days = api_days($schedule['day']); // Ini adalah function untuk mengubah angka menjadi nama hari
-  $schedule_by_days[$days][] = array(
+  $schedule_days[$days][] = array(
     'schedule_id'    => $schedule['id'],
     'course'         => $course_data,
     'class'          => $class_data,
@@ -56,11 +60,11 @@ foreach ($schedules as $schedule) {
     'clock_end'      => $schedule['clock_end'],
     'student_number' => count($student_number),
     'student_attend' => count($student_attend),
-    'status'         => (strtotime($date) !== strtotime($current_date)) ? 5 : intval($status)
+    'status'         => $status
   );
 }
 
-usort($schedule_by_days[$days], function($a, $b) {
+usort($schedule_days[$days], function($a, $b) {
   if ($a['status'] == 4 || $b['status'] == 4) {
     return $a['status'] == 4 ? -1 : 1;
   } elseif ($a['status'] == 5 || $b['status'] == 5) {
@@ -74,7 +78,7 @@ if (!$schedules) {
   return api_no("data tidak data di database"); 
 }
 
-foreach ($schedule_by_days as $day => $schedules) {
+foreach ($schedule_days as $day => $schedules) {
   // pr(count($schedules), __FILE__.':'.__LINE__);die();
   $result = array(
     'day'            => $day,
@@ -84,4 +88,3 @@ foreach ($schedule_by_days as $day => $schedules) {
 }
 
 return api_ok($result);
-?>
