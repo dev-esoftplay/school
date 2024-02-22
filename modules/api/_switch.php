@@ -80,7 +80,7 @@ switch( $Bbc->mod['task'] )
 		include 'teacher_schedule.php';
 		break;
 
-	case 'teacher_schedule_report': // melisting laporan jadwal guru 
+	case 'teacher_schedule_report': // melisting laporan jadwal guru GET:{"#class_id":"","#course_id":"","#day":"", "#week":"", "#month":""}
 		include 'teacher_schedule_report.php';
 		break;
 
