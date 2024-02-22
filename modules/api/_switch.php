@@ -96,6 +96,10 @@ switch( $Bbc->mod['task'] )
 		include 'parent_student_detail.php';
 		break;
 
+	case 'test_report': // melisting laporan jadwal guru GET:{"#class_id":"","#course_id":"","#day":"", "#week":"", "#month":""}
+		include 'test_report.php';
+		break;
+
 	case 'public_image_upload': // untuk mengupload gambar yang akan disimpan ke database FILE:{"image"}
 	case 'image_upload': // untuk mengupload gambar yang akan disimpan ke database FILE:{"image"}
 		include 'image_upload.php';
