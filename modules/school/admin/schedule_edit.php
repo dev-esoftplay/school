@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 				<div class="form-group">
 					<label for="">Days</label>
 					<select name="day" id="day" class="form-control">
-						<?php echo createOption($days, $selected_subject);?> 
+						<?php echo createOption($days, $selected_day);?> 
 					</select>
 				</div>
 				<div class="form-group">
