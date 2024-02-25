@@ -1,5 +1,6 @@
 <?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');
-if (empty($teacher_id)) {
+
+if (!$teacher_id) {
   return api_no(lang('Anda tidak memiliki akses ke halaman ini.'));
 }
 

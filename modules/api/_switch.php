@@ -76,7 +76,7 @@ switch( $Bbc->mod['task'] )
 		include 'teacher_update.php';
 		break;
 
-	case 'teacher_schedule': // melisting jadwal guru 
+	case 'teacher_schedule': // melisting jadwal guru GET:{"#date":"","#day":""}
 		include 'teacher_schedule.php';
 		break;
 

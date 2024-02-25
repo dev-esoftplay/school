@@ -45,27 +45,13 @@ $name = [];
 
 $name_teacher = $db->getOne('SELECT `name` FROM `school_teacher` WHERE `user_id`=' . $result['id']);
 $name_parent  = $db->getOne('SELECT `name` FROM `school_parent` WHERE `user_id`=' . $result['id']);
+$name_student = $db->getOne('SELECT `name` FROM `school_student` WHERE `user_id`=' . $result['id']);
+$name_user    = $db->getOne('SELECT `username` FROM `bbc_user` WHERE `id`=' . $result['id']);
+
 $role         = $db->getone('SELECT `group_ids` FROM `bbc_user` WHERE `id` = ' . $result['id']);
 
 foreach (repairExplode($role) as $index => $value) {
   switch ($role) {
-
-    case '1':
-      $name = $name_user;
-      break;
-    
-    case '2':
-      $name = $name_user;
-      break;
-    
-    case '3':
-      $name = $name_user;
-      break;
-    
-    case '4':
-      $name = $name_user;
-      break;
-    
     case '5':
       $name = $name_teacher;
       break;
@@ -75,11 +61,11 @@ foreach (repairExplode($role) as $index => $value) {
       break;
 
     case '7':
-      $name = $name_parent;
+      $name = $name_student;
       break;
 
     default:
-      $name = [];
+      $name = $name_user;
       break;
   }
 }

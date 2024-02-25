@@ -1,5 +1,9 @@
 <?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
+// if (!$teacher_id) {
+//   return api_no('kamu ga dapet akses ini');
+// }
+
 $class_id              = addslashes(intval($_GET['class_id'])); 
 $verification_homeroom = $db->getone('SELECT `teacher_id` FROM `school_class` WHERE `id` = ' . $class_id);
 

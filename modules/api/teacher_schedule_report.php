@@ -1,5 +1,9 @@
 <?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
+if (!$teacher_id) {
+  return api_no(lang('Anda tidak memiliki akses ke halaman ini.'));
+}
+
 $subject_ids  = $db->getCol('SELECT `id` FROM `school_teacher_subject` WHERE `teacher_id` = ' . $teacher_id);
 
 $class_id  = isset($_GET['class_id']) ? intval($_GET['class_id']) : null;
@@ -87,9 +91,9 @@ foreach ($schedules as $schedule) {
     'status'         => intval($report_data['status']),
   );
 
-  $key_date_merge = $days . '|' . $date . '|'. $date_day;
   $key_report    = $months;
   $key_report   .= '|'.(!empty($month) ? (!empty($week) && !empty($month) ? $weeks : '') : $weeks);
+  $key_date_merge = $days . '|' . $date . '|'. $date_day;
 
   $schedule_report[$key_report][$key_date_merge][]   = $item;
 }

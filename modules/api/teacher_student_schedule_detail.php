@@ -1,5 +1,9 @@
 <?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
+if (!$teacher_id) {
+  return api_no(lang('Anda tidak memiliki akses ke halaman ini.'));
+}
+
 $date           = $_GET['date'];
 $student_id     = $_GET['student_id'];
 $formatted_date = date('Y-m-d', strtotime($date));
