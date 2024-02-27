@@ -5,8 +5,8 @@ import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 import { LibPicture } from 'esoftplay/cache/lib/picture/import';
 import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import esp from 'esoftplay/esp';
-import React, { memo } from 'react';
-import { Image, Platform, Pressable, Text, TouchableOpacity, View } from 'react-native';
+import React from 'react';
+import { Platform, Pressable, Text, TouchableOpacity, View } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 
 
@@ -58,4 +58,4 @@ function m(props: TeacherPasswordProps): any {
         </View>
     )
 }
-export default memo(m)
+export default m

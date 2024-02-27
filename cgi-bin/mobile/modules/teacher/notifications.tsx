@@ -2,8 +2,8 @@
 
 import { MaterialIcons } from '@expo/vector-icons';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
-import React, { memo, useState } from 'react';
-import { View, Switch, Text, Platform } from 'react-native';
+import React, { useState } from 'react';
+import { Platform, Switch, Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
@@ -52,4 +52,4 @@ function m(props: TeacherNotificationsProps): any {
         </View>
     );
 }
-export default memo(m)
+export default m

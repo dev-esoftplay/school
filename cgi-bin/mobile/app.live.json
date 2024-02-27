@@ -16,7 +16,7 @@
       "enabled": true,
       "url": "https://u.expo.dev/f77e515c-842e-4adf-a86a-98bb87769bdb"
     },
-    
+
     "assetBundlePatterns": [
       "**/*"
     ],
@@ -24,6 +24,7 @@
       "bundleIdentifier": "com.school",
       "buildNumber": "1",
       "supportsTablet": true,
+    
       "associatedDomains": [
         "applinks:*.domain.com",
         "applinks:domain.com"
@@ -36,6 +37,7 @@
     },
     "android": {
       "package": "com.school",
+      "googleServicesFile": "./assets/google-services.json",
       "versionCode": 1,
       "intentFilters": [
         {
@@ -66,6 +68,11 @@
       "favicon": "./assets/favicon.png"
     },
     "runtimeVersion": "school",
-    "jsEngine": "hermes"
+    "plugins": [
+      "expo-secure-store"
+    ]
+  },
+  "config": {
+    "publish_id": 1
   }
 }

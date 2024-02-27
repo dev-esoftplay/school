@@ -1,6 +1,10 @@
 <?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
-$subject_ids  = $db->getcol('SELECT `id` FROM `school_teacher_subject` WHERE `teacher_id` = ' . $teacher_id);
+if (!$teacher_id) {
+  return api_no(lang('Anda tidak memiliki akses ke halaman ini.'));
+}
+
+$subject_ids  = $db->getCol('SELECT `id` FROM `school_teacher_subject` WHERE `teacher_id` = ' . $teacher_id);
 
 $class_id  = isset($_GET['class_id']) ? intval($_GET['class_id']) : null;
 $course_id = isset($_GET['course_id']) ? intval($_GET['course_id']) : null;
@@ -41,25 +45,27 @@ if (!empty($class_id)) {
   $filters[] = ' `class_id` = ' . $class_id;
 }
 
-$query_report = 'SELECT `schedule_id` FROM `school_attendance_report`';
+$query_filter = 'SELECT `schedule_id` FROM `school_attendance_report`';
 
 if (!empty($filters)) {
-    $query_report .= ' WHERE ' . implode(' AND', $filters);
+    $query_filter .= ' WHERE ' . implode(' AND', $filters);
 }
 
-$schedule_ids = $db->getcol($query_report);
+$schedule_ids = $db->getcol($query_filter);
 
 $query = 'SELECT `id`,`subject_id`,`day`,`clock_start`,`clock_end` FROM `school_schedule` WHERE `id` IN (' . implode(',', $schedule_ids) . ') AND `subject_id` IN (' . implode(',', $subject_ids) . ') ORDER BY `clock_start` ASC';
 
-$schedule_count    = array();
-$schedules_report  = $db->getAll($query);
-$schedule_by_weeks = array();
-$schedule_by_days  = array();
+$schedules       = $db->getAll($query);
+$schedule_count  = array();
+$schedule_report = array();
 
-foreach ($schedules_report as $key => $schedule) {
-  $query_report = 'SELECT `id` ,`schedule_id`,`total_present`,`status`,`date_day`,`date_week`,`date_month`, DATE(`created`) as `date` FROM `school_attendance_report` WHERE  '. implode(' AND', $filters) . ' AND `schedule_id` =  '. $schedule['id'];
+foreach ($schedules as $schedule) {
+  $query_report = 'SELECT `id` ,`schedule_id`,`total_present`,`status`,`date_day`,`date_week`,`date_month`, DATE(`created`) as `date` 
+                   FROM `school_attendance_report` 
+                   WHERE  '. implode(' AND', $filters) . ' AND `schedule_id` =  '. $schedule['id'] . ' 
+                   ORDER BY `date_day` ASC';
   $report_data  = $db->getrow($query_report);
-
+  
   $subject_data = $db->getrow('SELECT `id` , `course_id` , `class_id` FROM `school_teacher_subject` WHERE `id` = ' . $schedule['subject_id']);
   $course_data  = $db->getrow('SELECT `id` , `name` FROM `school_course` WHERE `id` = ' . $subject_data['course_id']);
   $class_data   = $db->getrow('SELECT `id` , CONCAT_WS(" ", `grade`, `major`, `label`) as `name` FROM `school_class` WHERE `id` =' . $subject_data['class_id']);
@@ -67,26 +73,32 @@ foreach ($schedules_report as $key => $schedule) {
   $student_number = $db->getcol('SELECT `number` FROM `school_student_class` WHERE `class_id` = ' . $class_data['id']);
   $schedule_count = $db->getcol('SELECT `id` FROM `school_schedule` WHERE `subject_id` IN (' . implode(',', $subject_ids) . ') AND `day` = ' . $schedule['day'] . ' ORDER BY `clock_start` ASC'); 
 
-  $days = api_days($schedule['day']);
-  $weeks = $report_data['date_week'];
-   $schedule_by_weeks[$weeks][$days][] = array(
+  $days     = api_days($schedule['day']);
+  $date     = $report_data['date'];
+  $date_day = intval($report_data['date_day']);
+  $months   = $report_data['date_month'];
+  $weeks    = $report_data['date_week'];
+
+  $item = array(
     'report_id'      => $report_data['id'],
     'schedule_id'    => $schedule['id'],
-		'course'         => $course_data,
+    'course'         => $course_data,
     'class'          => $class_data,
     'clock_start'    => $schedule['clock_start'],
     'clock_end'      => $schedule['clock_end'],
-    'date'           => $report_data['date'],
     'student_number' => count($student_number),
     'student_attend' => intval($report_data['total_present']),
     'status'         => intval($report_data['status']),
-    'date_month'     => intval($report_data['date_month']),
-    'date_week'      => intval($report_data['date_week']),
-    'date_day'       => intval($report_data['date_day']),
   );
+
+  $key_report    = $months;
+  $key_report   .= '|'.(!empty($month) ? (!empty($week) && !empty($month) ? $weeks : '') : $weeks);
+  $key_date_merge = $days . '|' . $date . '|'. $date_day;
+
+  $schedule_report[$key_report][$key_date_merge][]   = $item;
 }
 
-if (!$schedules_report) {
+if (!$schedules) {
   $filter_info = '';
     
   if (!empty($month) && !empty($week) && !empty($day) && !empty($course_id) && !empty($class_id)) {
@@ -103,40 +115,31 @@ if (!$schedules_report) {
 }
 
 $result       = array();
-$result_week  = array();
 $result_day   = array();
-$result_month = array();
 
-$result_month = array(
-  'month' => $month,
-  'schedule_by_weeks' => array(),
-);
+foreach ($schedule_report as $key_report => $schedule_days) {
+  [$key_months, $key_weeks] = explode('|', $key_report);
 
-foreach ($schedule_by_weeks as $weeks => $schedule_days) {
-  $result_week = array(
-    'week' => $weeks,
-    'schedule_by_days' => array(),
-  );
-  foreach ($schedule_days as $days => $schedules) {
+  $result = (!empty($week) && empty($month) ? ['week' => $key_weeks] :
+            (empty($week) && empty($month) && empty($day) ? ['week' => $key_weeks] :
+            (!empty($week) && !empty($month) ? ['week' => $key_weeks] :
+            (!empty($month) ? ['month' => $key_months] : ['week' => $key_weeks]))));
+
+  $result['schedule_days'] = [];
+
+  foreach ($schedule_days as $key_date_merge => $schedule_data) {
+    [$key_day, $key_date, $key_date_day] = explode('|', $key_date_merge);
     $result_day = array(
-      'day'               => $days,
+      'day'               => $key_day,
+      'date'              => $key_date,
+      'date_day'          => $key_date_day,
       'schedule_total'    => count($schedule_count),
-      'schedule_finished' => count($schedules),
-      'schedule'          => $schedules,
+      'schedule_finished' => count($schedule_data),
+      'schedule'          => $schedule_data,
     );
-    $result_week['schedule_by_days'][]  = $result_day;
+    $result['schedule_days'][] = $result_day;
   }
-  $result_month['schedule_by_weeks'][] = $result_week;
 }
 
-if ($day !== null) {
-  $result = $result_day;
-} 
-if ($week !== null) {
-  $result = $result_week;
-} 
-if ($month !== null) {
-  $result = $result_month;
-}
 
 return api_ok($result);

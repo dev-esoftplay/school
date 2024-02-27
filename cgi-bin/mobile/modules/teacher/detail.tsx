@@ -1,21 +1,20 @@
 // withHooks
 import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import React, { memo, useEffect, useRef, useState } from 'react';
-
-import { Image, Platform, View, Text, TouchableOpacity, Pressable, Touchable, TextInput } from 'react-native';
+import { Image, Platform, View, Text, TouchableOpacity, Pressable, TextInput } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
-import navigation from 'esoftplay/modules/lib/navigation';
-import { UserClass } from 'esoftplay/cache/user/class/import';
-import { LibLocale } from 'esoftplay/cache/lib/locale/import';
-import { LibSlidingup } from 'esoftplay/cache/lib/slidingup/import';
-import { LibImage } from 'esoftplay/cache/lib/image/import';
-import useSafeState from 'esoftplay/state';
-import esp from 'esoftplay/esp';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
+import { LibImage } from 'esoftplay/cache/lib/image/import';
+import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 import { LibProgress } from 'esoftplay/cache/lib/progress/import';
-import teacher from '.';
+import { LibSlidingup } from 'esoftplay/cache/lib/slidingup/import';
+
+import { UserClass } from 'esoftplay/cache/user/class/import';
+import esp from 'esoftplay/esp';
+import useSafeState from 'esoftplay/state';
+
+
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 export interface TeacherDetailArgs {
@@ -33,7 +32,7 @@ function m(props: TeacherDetailProps): any {
         }
         return { elevation: value };
     }
-    const name: string = UserClass.state().get().name
+    const name: string = UserClass.state().get()?.name
     const data = UserClass.state().get()
     let slideup = useRef<LibSlidingup>(null)
     let [image, setImage] = useSafeState<string | null>(null)
@@ -43,8 +42,9 @@ function m(props: TeacherDetailProps): any {
     useEffect(() => {
         new LibCurl('teacher', get, (result, msg) => {
             esp.log({ result, msg });
-            console.log("result", result)
+            // console.log("result", result)
             setResApi(result)
+            setImage(result.image)
         }, (err) => {
             esp.log({ err });
             LibDialog.warning('get data gagal', err?.message)
@@ -54,21 +54,22 @@ function m(props: TeacherDetailProps): any {
     function updateData() {
         LibProgress.show()
         const post = {
-            name: username
+            name: username,
+            image: image
         }
-        console.log("post", post)
+        // console.log("post", post)
         new LibCurl('teacher_update', post, (result, msg) => {
 
             LibProgress.hide()
             esp.log({ result, msg });
-            console.log("result", result)
+            // console.log("result", result)
             LibDialog.info('Update Berhasil', result)
 
 
         }, (err) => {
             esp.log({ err });
             LibProgress.hide()
-            LibDialog.warning('Login Gagal', err?.message)
+            LibDialog.warning('Update Gagal', err?.message)
         }, 1)
     }
     return (
@@ -104,7 +105,8 @@ function m(props: TeacherDetailProps): any {
 
             <View style={{ flexDirection: 'row', marginTop: 10, marginHorizontal: 20, }}>
                 <TouchableOpacity disabled={true} style={{ flex: 1, paddingVertical: 10, backgroundColor: '#136B93', justifyContent: 'center', alignItems: 'center', borderRadius: 10, marginRight: 10 }}>
-                    <Text style={{ color: '#FFFFFF', fontSize: 15, fontWeight: 'bold' }}>Guru IPA</Text>
+                    <Text style={{ color: '#FFFFFF', fontSize: 15, fontWeight: 'bold' }}>Wali Kelas</Text>
+                    <Text style={{ color: '#FFFFFF', fontSize: 15, fontWeight: 'bold' }}>{resApi?.class_name??'nama kelas'}</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity disabled={true} style={{ flex: 1, paddingVertical: 10, backgroundColor: '#136B93', justifyContent: 'center', alignItems: 'center', borderRadius: 10, marginLeft: 10 }}>
@@ -113,7 +115,7 @@ function m(props: TeacherDetailProps): any {
             </View>
 
             <View style={{ marginHorizontal: 20, }}>
-                <Text style={{ color: '#000000', fontSize: 15, fontWeight: 'bold', marginBottom: 10, marginTop: 30, alignContent: 'flex-start', textAlign: 'left' }}>Email Pengajar</Text>
+                <Text style={{ color: '#000000', fontSize: 15, fontWeight: 'bold', marginBottom: 10, marginTop: 30, alignContent: 'flex-start', textAlign: 'left' }}>Nama Pengajar</Text>
                 <View style={{ width: '100%', height: 60, justifyContent: 'center', padding: 5, paddingHorizontal: 10, borderRadius: 8, elevation: 3, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 1, height: 1 }, shadowOpacity: 0.3, shadowRadius: 2 }}>
 
                     <TextInput placeholder={resApi?.name ?? 'name'} onChangeText={(text) => setUsername(text)} />
@@ -163,4 +165,4 @@ function m(props: TeacherDetailProps): any {
         </View>
     )
 }
-export default memo(m)
+export default m

@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 import { useState } from 'react';
 
 import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
@@ -18,7 +17,7 @@ export interface ParenChildProps {
 
 }
 
-function m(props: ParenChildProps): any {
+export default function m(props: ParenChildProps): any {
   const allDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
   const [selectedDay, setSelectedDay] = useState(allDays[0]);
@@ -162,4 +161,3 @@ function m(props: ParenChildProps): any {
     </View>
   )
 }
-export default memo(m);
