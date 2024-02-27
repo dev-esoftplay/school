@@ -9,13 +9,13 @@ $subject_ids = $db->getcol('SELECT `id` FROM `school_teacher_subject` WHERE `cla
 
 $current_date = date('Y-m-d');
 $date         = isset($_GET['date']) ? $_GET['date'] : $current_date;
-$day          = isset($_GET['day']) ? $_GET['day'] : date('N', strtotime($date));
+// $day          = isset($_GET['day']) ? $_GET['day'] : 1;
 
 if (strtotime($date) < strtotime($current_date)) {
   return api_no(lang('ga bisa lihat laporan jadwal disini, kamu harus ke teacher_schedule_report'));
 }
 
-$query     = 'SELECT `id`,`subject_id`,`day`,`clock_start`,`clock_end` FROM `school_schedule` WHERE `subject_id` IN (' . implode(',', $subject_ids) . ') AND `day` = ' . $day . ' ORDER BY `clock_start` ASC'; 
+$query     = 'SELECT `id`,`subject_id`,`day`,`clock_start`,`clock_end` FROM `school_schedule` WHERE `subject_id` IN (' . implode(',', $subject_ids) . ')  ORDER BY `school_schedule`.`day` ASC '; 
 $schedules = $db->getAll($query);
 
 $schedule_days = array();
@@ -47,7 +47,7 @@ if (!$schedules) {
 $result = array();
 
 foreach ($schedule_days as $day => $schedules) {
-  $result = array(
+  $result[] = array(
     'day'            => $day,
     'total_schedule' => count($schedules),
     'schedule'       => $schedules

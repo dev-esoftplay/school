@@ -37,6 +37,11 @@ foreach ($schedules as $key => $schedule) {
   $start_time   = $schedule['clock_start'];
   $end_time     = $schedule['clock_end'];
 
+  // if (!empty($schedule_subject)) {
+  //   $start_time = $schedule_subject['clock_start'];
+  //   $end_time   = $schedule_subject['clock_end'];
+  // }
+
   $status = 5;
   if (date('N') == $schedule['day']) {
     if ($current_time < $start_time) {
@@ -56,12 +61,11 @@ foreach ($schedules as $key => $schedule) {
     if (!is_array($schedule_subject['schedule_id'])) {
       $schedule_subject['schedule_id'] = array($schedule_subject['schedule_id']);
     }
-    $schedule_subject['schedule_id'][] = $schedule['id'];
-    $schedule_subject['clock_end']     = $schedule['clock_end'];
+    $schedule_subject['schedule_id'][]  = $schedule['id'];
+    $schedule_subject['clock_end']      = $schedule['clock_end'];
+    $schedule_subject['status']         = $status;
   } else {
     if (!empty($schedule_subject)) {
-      $schedule_subject['student_attend'] = count($student_attend);
-      $schedule_subject['status'] = $status;
       $schedules_subject[$days][] = $schedule_subject;
     }
     $schedule_subject = array(
@@ -72,6 +76,7 @@ foreach ($schedules as $key => $schedule) {
       'clock_end'      => $schedule['clock_end'],
       'student_number' => count($student_number),
       'student_attend' => count($student_attend),
+      'status'         => $status
     );
   }
 
@@ -80,9 +85,7 @@ foreach ($schedules as $key => $schedule) {
 }
 
 if (!empty($schedule_subject)) {
-  $schedule_subject['student_attend'] = count($student_attend);
-  $schedule_subject['status']         = $status; // Tambahkan status ke jadwal yang sudah digabungkan
-  $schedules_subject[$days][]         = $schedule_subject;
+  $schedules_subject[$days][] = $schedule_subject;
 }
 
 if (!$schedules) {
@@ -99,12 +102,32 @@ usort($schedules_subject[$days], function($a, $b) {
   }
 });
 
+session_start();
+
 foreach ($schedules_subject as $day => $schedule_data) {
-   $result = array(
+  $result = array(
     'day'            => $day,
     'total_schedule' => count($schedule_data),
     'schedule'       => $schedule_data,
   );
+
+  $last_schedule = end($schedule_data);
+  if ($last_schedule) {
+    $clock = $last_schedule['clock_start'] . '-'. $last_schedule['clock_end'];
+    if ($last_schedule['status'] == 3) {
+      if (!isset($_SESSION['notif_sent'])) {
+        // Kirim notifikasi
+        _func('alert');
+        alert_push(
+            $user_id . '-' . 5,
+            lang('absen hari ini'),
+            'anda lupa absen, di jam ' . $clock,
+            'teacher/notif',
+        );
+        $_SESSION['notif_sent'] = true;
+      }
+    }
+  }
 }
 
 return api_ok($result);

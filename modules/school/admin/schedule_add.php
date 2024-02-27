@@ -180,7 +180,7 @@ if(isset($_POST['class_id'])  && !isset($_POST['submit'])) {
 	<form method="POST" role="form" enctype="multipart/form-data" onsubmit="return validate_excel()">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title">Add Subject with Excel</h3>
+				<h3 class="panel-title">Add Schedule with Excel</h3>
 			</div>
 			<div class="panel-body">
 					<?php if (!empty($msg) && ($_POST['submit'] == 'submit_excel')) echo $msg; ?>
