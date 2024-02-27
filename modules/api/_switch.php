@@ -87,7 +87,11 @@ switch( $Bbc->mod['task'] )
 	case 'teacher_schedule_class': // melisting jadwal wali kelas 
 		include 'teacher_schedule_class.php';
 		break;
-
+	
+		case 'push_notification': // melisting jadwal wali kelas 
+		include 'push_notification.php';
+		break;
+	
 	case 'public_image_upload': // untuk mengupload gambar yang akan disimpan ke database FILE:{"image"}
 	case 'image_upload': // untuk mengupload gambar yang akan disimpan ke database FILE:{"image"}
 		include 'image_upload.php';
