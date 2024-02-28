@@ -33,6 +33,7 @@ $form->roll->input->nik->setTitle('nik');
 $form->roll->input->nik->setPlainText(true);
 $form->roll->input->nik->setDisplayColumn(true); 
 
+$form->roll->addReport('excel');
 $form->roll->action();
 echo  $form->roll->getForm();
 

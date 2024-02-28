@@ -21,6 +21,7 @@ $schedule_subject   = array();
 $schedules_subject  = array();
 $current_subject_id = null;
 $current_end_time   = null;
+$end_time           = null;
 
 foreach ($schedules as $key => $schedule) {
 
@@ -29,7 +30,7 @@ foreach ($schedules as $key => $schedule) {
   $class_data   = $db->getrow('SELECT `id` , CONCAT_WS(" ", `grade`, `major`, `label`) as `name` FROM `school_class` WHERE `id` =' . $subject_data['class_id']);
 
   $student_number = $db->getcol('SELECT `number` FROM `school_student_class` WHERE `class_id` =' . $class_data['id']);
-  $student_attend = $db->getcol('SELECT `id` FROM `school_attendance` WHERE `schedule_id` = ' . $schedule['id'] . ' AND DATE(`created`) = CURDATE() AND `presence` IN (1, 2, 3)');
+  $student_attend = $db->getcol('SELECT `id` FROM `school_attendance` WHERE `schedule_id` = ' . $schedule['id'] . ' AND DATE(`created`) = CURDATE() AND `presence` = 1');
 
   $days = api_days($schedule['day']);
 
@@ -37,12 +38,26 @@ foreach ($schedules as $key => $schedule) {
   $start_time   = $schedule['clock_start'];
   $end_time     = $schedule['clock_end'];
 
-  // if (!empty($schedule_subject)) {
-  //   $start_time = $schedule_subject['clock_start'];
-  //   $end_time   = $schedule_subject['clock_end'];
-  // }
+  $status  = 5;
+  $present = count($student_attend) == count($student_number);
 
-  $status = 5;
+  if (!empty($schedule_subject) && !empty($end_time)) {
+    $start_time = $schedule_subject['clock_start'];
+    if (date('N') == $schedule['day']) {
+      if ($current_time < $start_time) {
+        $status = 5; // notyet
+      } elseif ($current_time >= $start_time && $current_time <= $end_time) {
+        $status = 4; // ongoing
+      } elseif ($current_time > $end_time && empty($student_attend)) {
+        $status = 3; // late
+      } elseif ($current_time > $end_time && !empty($student_attend) && !$present) {
+        $status = 2; // finished
+      } elseif ($current_time > $end_time && $present) {
+        $status = 1; // completed
+      }
+    }
+  }
+
   if (date('N') == $schedule['day']) {
     if ($current_time < $start_time) {
       $status = 5; // notyet
@@ -50,9 +65,9 @@ foreach ($schedules as $key => $schedule) {
       $status = 4; // ongoing
     } elseif ($current_time > $end_time && empty($student_attend)) {
       $status = 3; // late
-    } elseif ($current_time > $end_time && !empty($student_attend)) {
+    } elseif ($current_time > $end_time && !empty($student_attend) && !$present) {
       $status = 2; // finished
-    } elseif ($current_time > $end_time && count($student_attend) == count($student_number)) {
+    } elseif ($current_time > $end_time && $present) {
       $status = 1; // completed
     }
   }
@@ -63,7 +78,9 @@ foreach ($schedules as $key => $schedule) {
     }
     $schedule_subject['schedule_id'][]  = $schedule['id'];
     $schedule_subject['clock_end']      = $schedule['clock_end'];
+    $schedule_subject['student_attend'] = count($student_attend);
     $schedule_subject['status']         = $status;
+    $end_time                           = $schedule_subject['clock_end'];
   } else {
     if (!empty($schedule_subject)) {
       $schedules_subject[$days][] = $schedule_subject;
@@ -116,13 +133,12 @@ foreach ($schedules_subject as $day => $schedule_data) {
     $clock = $last_schedule['clock_start'] . '-'. $last_schedule['clock_end'];
     if ($last_schedule['status'] == 3) {
       if (!isset($_SESSION['notif_sent'])) {
-        // Kirim notifikasi
         _func('alert');
         alert_push(
-            $user_id . '-' . 5,
-            lang('absen hari ini'),
-            'anda lupa absen, di jam ' . $clock,
-            'teacher/notif',
+          $user_id . '-' . 5,
+          lang('absen hari ini'),
+          'anda lupa absen, di jam ' . $clock,
+          'teacher/notif',
         );
         $_SESSION['notif_sent'] = true;
       }

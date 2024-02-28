@@ -93,6 +93,8 @@ if ($show_list)
 	$form->roll->input->birthday->setTitle('Tanggal Lahir');
 	$form->roll->input->birthday->setDisplayColumn(true);
 
+
+	$form->roll->addReport('excel');
 	$form->roll->action();
 	echo $form->roll->getForm();
 }

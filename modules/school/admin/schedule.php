@@ -57,7 +57,7 @@ if ($show_list)
 	$keyword = $form->search->keyword();
 	echo $form->search->getForm();
 
-	$form->initRoll($add_sql.' ORDER BY id DESC', 'id' );
+	$form->initRoll($add_sql.' ORDER BY day ASC', 'id' );
 
 	$form->roll->setSaveTool(true);
 
@@ -114,6 +114,7 @@ if ($show_list)
 	$form->roll->input->clock_end->setTitle('clock end');
 	$form->roll->input->clock_end->setDisplayColumn(true);
 
+	$form->roll->addReport('excel');
 	$form->roll->action();
 	echo $form->roll->getForm();
 }

@@ -1,11 +1,16 @@
 <?php  if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
-if (!$teacher_id) {
-  return api_no(lang('Anda tidak memiliki akses ke halaman ini.'));
-}
+// if (!$teacher_id) {
+//   return api_no(lang('Anda tidak memiliki akses ke halaman ini.'));
+// }
 
-$class_ids   = $db->getcol('SELECT `id` FROM `school_class` WHERE `teacher_id` =' . $teacher_id);
-$subject_ids = $db->getcol('SELECT `id` FROM `school_teacher_subject` WHERE `class_id` IN (' . implode(',', $class_ids) . ') ');
+if (!$teacher_id) {
+  $class_ids   = $_GET['class_id'];
+  $subject_ids = $db->getcol('SELECT `id` FROM `school_teacher_subject` WHERE `class_id` =' . $class_ids);
+} else {
+  $class_ids   = $db->getcol('SELECT `id` FROM `school_class` WHERE `teacher_id` =' . $teacher_id);
+  $subject_ids = $db->getcol('SELECT `id` FROM `school_teacher_subject` WHERE `class_id` IN (' . implode(',', $class_ids) . ') ');
+}
 
 $current_date = date('Y-m-d');
 $date         = isset($_GET['date']) ? $_GET['date'] : $current_date;
