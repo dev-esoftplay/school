@@ -18,11 +18,6 @@ $query     = 'SELECT `id`,`subject_id`,`day`,`clock_start`,`clock_end` FROM `sch
 $schedules = $db->getAll($query);
 
 $schedule_subject   = array();
-$schedules_subject  = array();
-$current_subject_id = null;
-$current_end_time   = null;
-$end_time           = null;
-
 foreach ($schedules as $key => $schedule) {
 
   $subject_data = $db->getrow('SELECT `id` , `course_id` , `class_id` FROM `school_teacher_subject` WHERE `id` = ' . $schedule['subject_id']);
@@ -41,23 +36,6 @@ foreach ($schedules as $key => $schedule) {
   $status  = 5;
   $present = count($student_attend) == count($student_number);
 
-  if (!empty($schedule_subject) && !empty($end_time)) {
-    $start_time = $schedule_subject['clock_start'];
-    if (date('N') == $schedule['day']) {
-      if ($current_time < $start_time) {
-        $status = 5; // notyet
-      } elseif ($current_time >= $start_time && $current_time <= $end_time) {
-        $status = 4; // ongoing
-      } elseif ($current_time > $end_time && empty($student_attend)) {
-        $status = 3; // late
-      } elseif ($current_time > $end_time && !empty($student_attend) && !$present) {
-        $status = 2; // finished
-      } elseif ($current_time > $end_time && $present) {
-        $status = 1; // completed
-      }
-    }
-  }
-
   if (date('N') == $schedule['day']) {
     if ($current_time < $start_time) {
       $status = 5; // notyet
@@ -72,44 +50,24 @@ foreach ($schedules as $key => $schedule) {
     }
   }
 
-  if ($schedule['subject_id'] == $current_subject_id && $schedule['clock_start'] == $current_end_time) {
-    if (!is_array($schedule_subject['schedule_id'])) {
-      $schedule_subject['schedule_id'] = array($schedule_subject['schedule_id']);
-    }
-    $schedule_subject['schedule_id'][]  = $schedule['id'];
-    $schedule_subject['clock_end']      = $schedule['clock_end'];
-    $schedule_subject['student_attend'] = count($student_attend);
-    $schedule_subject['status']         = $status;
-    $end_time                           = $schedule_subject['clock_end'];
-  } else {
-    if (!empty($schedule_subject)) {
-      $schedules_subject[$days][] = $schedule_subject;
-    }
-    $schedule_subject = array(
-      'schedule_id'    => $schedule['id'],
-      'course'         => $course_data,
-      'class'          => $class_data,
-      'clock_start'    => $schedule['clock_start'],
-      'clock_end'      => $schedule['clock_end'],
-      'student_number' => count($student_number),
-      'student_attend' => count($student_attend),
-      'status'         => $status
-    );
-  }
+  $schedule_subject[$days][] = array(
+    'schedule_id'    => $schedule['id'],
+    'course'         => $course_data,
+    'class'          => $class_data,
+    'clock_start'    => $schedule['clock_start'],
+    'clock_end'      => $schedule['clock_end'],
+    'student_number' => count($student_number),
+    'student_attend' => count($student_attend),
+    'status'         => $status
+  );
 
-  $current_subject_id = $schedule['subject_id'];
-  $current_end_time   = $schedule['clock_end'];
-}
-
-if (!empty($schedule_subject)) {
-  $schedules_subject[$days][] = $schedule_subject;
 }
 
 if (!$schedules) {
   return api_no("data tidak data"); 
 }
 
-usort($schedules_subject[$days], function($a, $b) {
+usort($schedule_subject[$days], function($a, $b) {
   if ($a['status'] == 4 || $b['status'] == 4) {
     return $a['status'] == 4 ? -1 : 1;
   } elseif ($a['status'] == 5 || $b['status'] == 5) {
@@ -121,7 +79,7 @@ usort($schedules_subject[$days], function($a, $b) {
 
 session_start();
 
-foreach ($schedules_subject as $day => $schedule_data) {
+foreach ($schedule_subject as $day => $schedule_data) {
   $result = array(
     'day'            => $day,
     'total_schedule' => count($schedule_data),
