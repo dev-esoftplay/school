@@ -102,6 +102,10 @@ switch( $Bbc->mod['task'] )
 		include 'push-token.php';
 		break;
 
+	case 'user_token':
+		include 'user_token.php';
+		break;
+
   case 'no_auth': // tiap API wajib pakai ini
 		api_no(lang('Authentication Failed.'));
 		break;
