@@ -50,7 +50,7 @@ export default function AuthOtp(props: AuthOtpProps): JSX.Element {
 
   return (
     <View style={styles.container}>
-      <LibPicture source={esp.assets('otp.png')} style={styles.image} />
+      <LibPicture source={esp.assets('otp.png')}  style={{ width: 300, height: 190}} />
       <Text style={styles.text}>
         Masukkan OTP yang dikirim ke email Anda untuk memperbarui kata sandi Anda
       </Text>

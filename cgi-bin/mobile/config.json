@@ -8,8 +8,8 @@
     },
     "isDebug": 1,
     "notification": 1,
-    "group_id": 5,
     "protocol": "http",
+    "group_id": 4,
     "experienceId": "f77e515c-842e-4adf-a86a-98bb87769bdb",
     "build": [
       "yasinyusuf",

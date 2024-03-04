@@ -1,122 +1,15 @@
-[
-  {
-    "created": "2024-02-15 11:38:38",
-    "group_id": "6",
-    "id": "3",
-    "message": "anak anda tidak hadir",
-    "params": "{\"action\":\"default\",\"module\":\"ppob\\/transaction_detail\",\"arguments\":{\"url\":\"ppob\\/order_detail\\/\"}}",
-    "return": null,
-    "status": "0",
-    "title": "absensi hari ini",
-    "updated": "2024-02-15 11:38:38",
-    "user_id": "3"
+{
+  "class": {
+    "id": "1",
+    "name": "10 RPL 2"
   },
-  {
-    "created": "2024-02-15 12:00:08",
-    "group_id": "5",
-    "id": "59",
-    "message": "anda lupa absen",
-    "params": "{\"action\":\"default\",\"module\":\"ppob\\/transaction_detail\",\"arguments\":\"ppob\\/order_detail\\/\"}",
-    "return": null,
-    "status": "0",
-    "title": "anda lupa absen",
-    "updated": "2024-02-15 12:00:08",
-    "user_id": "3"
+  "clock_end": "17:00",
+  "clock_start": "14:00",
+  "course": {
+    "id": "1",
+    "name": "Bahasa Indonesia"
   },
-  {
-    "created": "2024-02-15 12:00:08",
-    "group_id": "5",
-    "id": "60",
-    "message": "anda lupa absen",
-    "params": "{\"action\":\"default\",\"module\":\"ppob\\/transaction_detail\",\"arguments\":\"ppob\\/order_detail\\/\"}",
-    "return": null,
-    "status": "0",
-    "title": "anda lupa absen",
-    "updated": "2024-02-15 12:00:08",
-    "user_id": "3"
-  },
-  {
-    "created": "2024-02-15 12:00:33",
-    "group_id": "5",
-    "id": "61",
-    "message": "anda lupa absen",
-    "params": "{\"action\":\"default\",\"module\":\"ppob\\/transaction_detail\",\"arguments\":\"ppob\\/order_detail\\/\"}",
-    "return": null,
-    "status": "0",
-    "title": "anda lupa absen",
-    "updated": "2024-02-15 12:00:33",
-    "user_id": "3"
-  },
-  {
-    "created": "2024-02-15 12:00:33",
-    "group_id": "5",
-    "id": "62",
-    "message": "anda lupa absen",
-    "params": "{\"action\":\"default\",\"module\":\"ppob\\/transaction_detail\",\"arguments\":\"ppob\\/order_detail\\/\"}",
-    "return": null,
-    "status": "0",
-    "title": "anda lupa absen",
-    "updated": "2024-02-15 12:00:33",
-    "user_id": "3"
-  },
-  {
-    "created": "2024-02-15 12:00:33",
-    "group_id": "5",
-    "id": "63",
-    "message": "anda lupa absen",
-    "params": "{\"action\":\"default\",\"module\":\"ppob\\/transaction_detail\",\"arguments\":\"ppob\\/order_detail\\/\"}",
-    "return": null,
-    "status": "0",
-    "title": "anda lupa absen",
-    "updated": "2024-02-15 12:00:33",
-    "user_id": "3"
-  },
-  {
-    "created": "2024-02-15 12:00:56",
-    "group_id": "5",
-    "id": "64",
-    "message": "anda lupa absen",
-    "params": "{\"action\":\"default\",\"module\":\"ppob\\/transaction_detail\",\"arguments\":\"ppob\\/order_detail\\/\"}",
-    "return": null,
-    "status": "0",
-    "title": "anda lupa absen",
-    "updated": "2024-02-15 12:00:56",
-    "user_id": "3"
-  },
-  {
-    "created": "2024-02-15 12:00:56",
-    "group_id": "5",
-    "id": "65",
-    "message": "anda lupa absen",
-    "params": "{\"action\":\"default\",\"module\":\"ppob\\/transaction_detail\",\"arguments\":\"ppob\\/order_detail\\/\"}",
-    "return": null,
-    "status": "0",
-    "title": "anda lupa absen",
-    "updated": "2024-02-15 12:00:56",
-    "user_id": "3"
-  },
-  {
-    "created": "2024-02-15 12:15:08",
-    "group_id": "5",
-    "id": "66",
-    "message": "anda lupa absen",
-    "params": "{\"action\":\"default\",\"module\":\"ppob\\/transaction_detail\",\"arguments\":\"ppob\\/order_detail\\/\"}",
-    "return": null,
-    "status": "0",
-    "title": "anda lupa absen",
-    "updated": "2024-02-15 12:15:08",
-    "user_id": "3"
-  },
-  {
-    "created": "2024-02-15 12:15:08",
-    "group_id": "5",
-    "id": "67",
-    "message": "anda lupa absen",
-    "params": "{\"action\":\"default\",\"module\":\"ppob\\/transaction_detail\",\"arguments\":\"ppob\\/order_detail\\/\"}",
-    "return": null,
-    "status": "0",
-    "title": "anda lupa absen",
-    "updated": "2024-02-15 12:15:08",
-    "user_id": "3"
-  }
-]
+  "schedule_id": "44",
+  "student_attend": 0,
+  "student_number": 29
+}

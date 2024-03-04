@@ -8,6 +8,7 @@
     },
     "isDebug": 0,
     "notification": 1,
+    "protocol": "http",
     "group_id": 4,
     "experienceId": "@yasinyusuf/school",
     "salt": "dc6146b3bb269114cb3a9f4cdb1a08c6",

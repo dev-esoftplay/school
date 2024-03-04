@@ -117,7 +117,7 @@ export default function m(props: DetailAttendReportProps): any {
 
             return (
 
-              <View style={{ backgroundColor: 'green', padding: 10, width: '100%', paddingHorizontal: 20, borderRadius: 15, opacity: 0.8, ...shadows(3), marginVertical: 10 }}>
+              <View style={{ backgroundColor: '#0DBD5E', padding: 10, width: '100%', paddingHorizontal: 20, borderRadius: 15, opacity: 0.8, ...shadows(3), marginVertical: 10 }}>
 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                   <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item.mapel}</Text>

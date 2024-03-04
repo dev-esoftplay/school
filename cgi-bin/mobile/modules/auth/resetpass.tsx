@@ -35,8 +35,8 @@ export default function m(props: AuthResetpassProps): any {
   return (
     <View style={{ flex: 1 }} >
       <ScrollView showsVerticalScrollIndicator={false} style={{ padding: 30, alignContent: 'center' }}>
-        <LibPicture source={esp.assets('phone.png')}
-          style={styles.image} />
+ 
+        <LibPicture source={esp.assets('phone.png')} style={{ width: 300, height: 190}}/>
         <Text style={{ fontSize: 16, textAlign: 'center', fontWeight: 'bold', marginTop: 20 }}>Masukkan kata sandi baru Anda</Text>
         <Text style={{ fontSize: 16, textAlign: 'center', }}>Jangan pernah memberikan kata sandi Anda kepada siapa pun, bahkan orang yang Anda percayai.</Text>
         {/* input newpass */}
@@ -63,19 +63,3 @@ export default function m(props: AuthResetpassProps): any {
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  image: {
-    width: 255,
-    height: 255,
-    top: 34,
-    left: 52,
-  },
-
-
-});

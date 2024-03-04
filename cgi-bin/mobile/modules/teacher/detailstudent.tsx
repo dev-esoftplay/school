@@ -1,4 +1,5 @@
 // withHooks
+
 import { useEffect, useRef, useState } from 'react';
 
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
@@ -8,9 +9,10 @@ import { LibProgress } from 'esoftplay/cache/lib/progress/import';
 import { LibSlidingup } from 'esoftplay/cache/lib/slidingup/import';
 import useSafeState from 'esoftplay/state';
 import React from 'react';
-import { FlatList, Platform, Pressable, Text, View } from 'react-native';
+import { FlatList, Linking, Platform, Pressable, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+import SchoolColors from '../utils/schoolcolor';
 
 
 export interface TeacherDetailStudentArgs {
@@ -20,6 +22,7 @@ export interface TeacherDetailStudentProps {
 
 }
 export default function m(props: TeacherDetailStudentProps): any {
+  const school = new SchoolColors();
   function shadowS(value: any) {
     if (Platform.OS === "ios") {
       if (value === 0) return {};
@@ -30,44 +33,7 @@ export default function m(props: TeacherDetailStudentProps): any {
   let slideup = useRef<LibSlidingup>(null)
 
   let [Eror, setEror] = useState("")
-  const [klsSelected, setKlsSelected] = React.useState(false)
-  const Absensi = [
-    {
-      "mapel": "Matematika",
-      "pengajar": "Surya Paloh",
-      "jam": "07:45-08:45",
-      "ket": "Masuk",
-      "color": "green"
-    },
-    {
-      "mapel": "Fisika",
-      "pengajar": "Surya Paloh",
-      "jam": "08:45-09:45",
-      "ket": "Absen",
-      "color": "red"
-    },
-    {
-      "mapel": "Matematika",
-      "pengajar": "Surya Paloh",
-      "jam": "09:45-10:45",
-      "ket": "Masuk",
-      "color": "green"
-    },
-    {
-      "mapel": "Matematika",
-      "pengajar": "Surya Paloh",
-      "jam": "10:45-11:45",
-      "ket": "Masuk",
-      "color": "green"
-    },
-    {
-      "mapel": "Matematika",
-      "pengajar": "Surya Paloh",
-      "jam": "11:45-12:45",
-      "ket": "Masuk",
-      "color": "green"
-    }
-  ];
+ 
   const Bulan = [
     {
       "name": "Jan",
@@ -148,6 +114,9 @@ export default function m(props: TeacherDetailStudentProps): any {
   const studentName: string = LibNavigation.getArgsAll(props).studentName;
   const data: any = LibNavigation.getArgsAll(props).data;
   const className: string = LibNavigation.getArgsAll(props).className;
+  const currentYear = new Date().getFullYear();
+
+
   const today = new Date();
   // className:resApi2.class_name,
   // dadName:item.parent.dad.name,
@@ -334,7 +303,7 @@ export default function m(props: TeacherDetailStudentProps): any {
       // console.log("error", JSON.stringify(err))
       LibProgress.hide()
       setResApi(null)
-    }, 1)
+    })
 
 
   }, [])
@@ -351,7 +320,7 @@ export default function m(props: TeacherDetailStudentProps): any {
         setResApi(result)
       }, (err) => {
         // console.log("error", err)
-      }, 1)
+      })
     } else {
       // console.log('filter bulan', month)
       new LibCurl('student_detail_attendance?class_id=' + idclass + '&student_id=' + idstudent + '&month=' + month, get, (result, msg) => {
@@ -360,7 +329,7 @@ export default function m(props: TeacherDetailStudentProps): any {
         setResApi(result)
       }, (err) => {
         // console.log("error", err)
-      }, 1)
+      })
     }
   }
 
@@ -410,6 +379,7 @@ export default function m(props: TeacherDetailStudentProps): any {
         <FlatList data={dataParent}
           keyExtractor={(item, index) => index.toString()}
           horizontal={true}
+          showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ marginVertical: 20, height: 'auto' }}
           renderItem={
             ({ item, index }) => {
@@ -432,7 +402,7 @@ export default function m(props: TeacherDetailStudentProps): any {
                   {/* Button wa orang tua */}
 
                   {/* WeekTwoInThisMonth(1), // console.log('minggu 2:', weekTwo, 'minggu ke', weekTwo, 'dalam tahun ini') */}
-                  <Pressable onPress={() => { console.log('https://wa.me/' + item.phone) }} style={{ width: '90%', height: 60, backgroundColor: '#32b100', borderRadius: 10, justifyContent: 'center', alignSelf: 'center', marginVertical: 10, ...shadowS(7), paddingHorizontal: 20, marginHorizontal: 10, }}>
+                  <Pressable onPress={() => { console.log('https://wa.me/' + item.phone,Linking.openURL('https://wa.me/' + item.phone)) }} style={{ width: '90%', height: 60, backgroundColor: '#32b100', borderRadius: 10, justifyContent: 'center', alignSelf: 'center', marginVertical: 10, ...shadowS(7), paddingHorizontal: 20, marginHorizontal: 10, }}>
                     <View style={{ flexDirection: 'row', paddingHorizontal: 20 }}>
                       <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#ffffff', textAlign: 'center', }}>Hubungi</Text>
                       {/* <FontAwesome name="whatsapp" size={24} color="black" /> */}
@@ -449,7 +419,7 @@ export default function m(props: TeacherDetailStudentProps): any {
 
 
         {/* CARD ABSENSI */}
-        <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'black', marginTop: 20 }}>Absensi</Text>
+        {/* <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'black', marginTop: 20 }}>Absensi siswa dalam tahun {currentYear}</Text>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
 
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
@@ -461,7 +431,7 @@ export default function m(props: TeacherDetailStudentProps): any {
               <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{resApi?.attendance_data?.sakit ?? "0"}</Text>
               <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>Sakit</Text>
             </View>
-            <View style={{ width: 75, height: 70, backgroundColor: "blue", borderRadius: 10, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 10, marginHorizontal: 5 }}>
+            <View style={{ width: 75, height: 70, backgroundColor: "#0083fd", borderRadius: 10, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 10, marginHorizontal: 5 }}>
               <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{resApi?.attendance_data?.ijin ?? "0"}</Text>
               <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>Ijin</Text>
             </View>
@@ -471,14 +441,14 @@ export default function m(props: TeacherDetailStudentProps): any {
             </View>
           </View>
 
-        </View>
+        </View> */}
         {/* button filter Slide Up */}
         <Pressable onPress={() => {
           slideup.current?.show()
           // console.log('slide up')
         }
         } style={{
-          height: 50, backgroundColor: 'white', borderRadius: 10, justifyContent: 'center', alignSelf: 'center', marginVertical: 30, ...shadowS(7), width: '98%',
+          height: 50, backgroundColor: 'white', borderRadius: 10, justifyContent: 'center', alignSelf: 'center', marginVertical: 10, ...shadowS(7), width: '98%',
           paddingHorizontal: 20, marginHorizontal: 15,
         }}>
           <View style={{ flexDirection: 'row', paddingHorizontal: 20 }}>
@@ -554,8 +524,8 @@ export default function m(props: TeacherDetailStudentProps): any {
               ({ item, index }) => {
                 return (
                   <Pressable onPress={() => { setSelectMonth(allMonth[index]) }}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'center', marginRight: 10, height: 40, borderRadius: 12, borderWidth: 2, width: 'auto', paddingHorizontal: 10, alignItems: 'center', backgroundColor: item['number'] == SelectMonth ? 'gray' : 'white' }}>
-                      <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black', alignSelf: 'center' }}>{item['name']}</Text>
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', marginRight: 10, height: 40, borderRadius: 12, borderWidth: 2, width: 'auto', paddingHorizontal: 10, alignItems: 'center', backgroundColor: item['number'] == SelectMonth ? '#136B93' : 'white',borderColor: item['number'] == SelectMonth ? '#136B93' : 'gray' }}>
+                      <Text style={{ fontSize: 15, fontWeight: 'bold', color:  item['number'] == SelectMonth ?  'white':'#136B93' , alignSelf: 'center' }}>{item['name']}</Text>
                       <View style={{ height: 30 }} />
                     </View>
                   </Pressable>
@@ -564,17 +534,17 @@ export default function m(props: TeacherDetailStudentProps): any {
           />
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
             <View style={{ width: '100%', height: 45, flexDirection: 'row', justifyContent: 'center', paddingHorizontal: 20 }}>
-              <Pressable onPress={() => { console.log('minggu 1:', weekOne,), handlePress(1, weekOne) }} style={{ width: '25%', height: 40, backgroundColor: 1 == activeWeek ? '#423a3a' : 'green', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5, }}>
-                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white', textAlign: 'center', }}>Minggu 1</Text>
+              <Pressable onPress={() => { console.log('minggu 1:', weekOne,), handlePress(1, weekOne) }} style={{ width: '25%', height: 40, backgroundColor: 1 == activeWeek ?'#136B93' : 'white', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5,borderColor: 1 == activeWeek ?  'white':'#136B93'  ,borderWidth:2  }}>
+                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 1 == activeWeek ?'white':'#136B93', textAlign: 'center', }}>Minggu 1</Text>
               </Pressable>
-              <Pressable onPress={() => { console.log('minggu 2:', weekTwo,), handlePress(2, weekTwo) }} style={{ width: '25%', height: 40, backgroundColor: 2 == activeWeek ? '#423a3a' : 'green', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5, }}>
-                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white', textAlign: 'center', }}>Minggu 2</Text>
+              <Pressable onPress={() => { console.log('minggu 2:', weekTwo,), handlePress(2, weekTwo) }} style={{ width: '25%', height: 40, backgroundColor: 2 == activeWeek ?'#136B93' : 'white', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5,borderColor: 2 == activeWeek ?  'white':'#136B93'  ,borderWidth:2  }}>
+                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 2 == activeWeek ?'white':'#136B93', textAlign: 'center', }}>Minggu 2</Text>
               </Pressable>
-              <Pressable onPress={() => { console.log('minggu 3:', weekThree,), handlePress(3, weekThree) }} style={{ width: '25%', height: 40, backgroundColor: 3 == activeWeek ? '#423a3a' : 'green', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5, }}>
-                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white', textAlign: 'center', }}>Minggu 3</Text>
+              <Pressable onPress={() => { console.log('minggu 3:', weekThree,), handlePress(3, weekThree) }} style={{ width: '25%', height: 40, backgroundColor: 3 == activeWeek ?'#136B93' : 'white', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5,borderColor: 3 == activeWeek ?  'white':'#136B93'  ,borderWidth:2  }}>
+                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 3 == activeWeek ?'white':'#136B93', textAlign: 'center', }}>Minggu 3</Text>
               </Pressable>
-              <Pressable onPress={() => { console.log('minggu 4:', weekFour,), handlePress(4, weekFour) }} style={{ width: '25%', height: 40, backgroundColor: 4 == activeWeek ? '#423a3a' : 'green', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5, }}>
-                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white', textAlign: 'center', }}>Minggu 4</Text>
+              <Pressable onPress={() => { console.log('minggu 4:', weekFour,), handlePress(4, weekFour) }} style={{ width: '25%', height: 40, backgroundColor: 4 == activeWeek ?'#136B93' : 'white', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5,borderColor: 4 == activeWeek ?  'white':'#136B93'  ,borderWidth:2  }}>
+                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 4 == activeWeek ?'white':'#136B93', textAlign: 'center', }}>Minggu 4</Text>
               </Pressable>
             </View >
           </ScrollView >
@@ -599,7 +569,7 @@ export default function m(props: TeacherDetailStudentProps): any {
             slideup.current?.hide()
             console.log('select month', SelectMonth)
           }
-          } style={{ width: "100%", height: 60, backgroundColor: '#423a3a', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginTop: 20, }}>
+          } style={{ width: "100%", height: 60, backgroundColor: '#136B93', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginTop: 20, }}>
             <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white', textAlign: 'center', }}>Terapkan</Text>
           </Pressable >
           <View style={{ height: 20 }} />

@@ -59,7 +59,7 @@ export default function m(props: TeacherStudentAttendanceDetailProps): any {
       }, (err) => {
         // console.log("Eror")
         // console.log(err)
-      }, 1)
+      })
     }
     const date = moment().format('YYYY-MM-DD')
     useEffect(() => {
@@ -82,7 +82,7 @@ export default function m(props: TeacherStudentAttendanceDetailProps): any {
         },
         (err) => {
           // console.log("error", err)
-        }, 1)
+        })
   
   
     }, [])

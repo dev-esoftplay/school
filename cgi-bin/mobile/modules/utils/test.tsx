@@ -1,236 +1,116 @@
 // withHooks
 
-import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
-import React, { useRef, useState } from 'react';
-import {
-  View, SafeAreaView,
-  Image,
-  StyleSheet,
-  FlatList,
-  Text,
-  StatusBar,
-  TouchableOpacity,
-  Dimensions,
-} from 'react-native';
-import esp from 'esoftplay/esp';
+import { useState, useEffect, useRef } from 'react';
+import { Text, View, Button, Platform } from 'react-native';
 
+import * as Notifications from 'expo-notifications';
+import { LibList } from 'esoftplay/cache/lib/list/import';
+import { LibNotification } from 'esoftplay/cache/lib/notification/import';
+import { LibStyle } from 'esoftplay/cache/lib/style/import';
+import moment from 'esoftplay/moment';
+import { LibInput_rectangle2 } from 'esoftplay/cache/lib/input_rectangle2/import';
 
-export interface OnboardingArgs {
+export interface TestArgs {
 
 }
-export interface OnboardingProps {
-  navigation: any; 
+export interface TestProps {
+
 }
 
-interface SlideComponent {
-  id: string;
-  image: any;
-  title: string;
-  subtitle: string;
-}
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 
-interface SlideComponentProps {
-  item: SlideComponent;
-}
+export default function m(props: TestProps): any {
+  const [jamInput, setJamInput] = useState<string>(''); // State untuk menyimpan waktu yang diinput
+  
+    const [notification, setNotification] = useState<Notifications.Notification | null>(null);
+    const notificationListener = useRef<undefined | Notifications.Subscription>();
+    const responseListener = useRef<undefined | Notifications.Subscription>();
 
+    useEffect(() => {
+      notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+        setNotification(notification);
+      });
 
-export default function m(props: OnboardingProps): any {
-  const width = Dimensions.get('window').width;
-  const height = Dimensions.get('window').height;
-  const COLORS = { primary: '#ffffff', white: '#fff', default: "#146c94", black: "#000" };
-
-  const SlideComponents: SlideComponent[] = [
-    {
-      id: '1',
-      
-      image: esp.assets('onboarding1.png'),
-      title: 'Selamat Datang',
-      subtitle: 'Selamat datang di School! Mari bersama-sama memudahkan pencatatan absensi siswa untuk pengalaman pembelajaran yang lebih baik.',
-    },
+      responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+        console.log(response);
+      });
     
-    {
-      id: '2',
-      image: esp.assets('onboarding2.png'),
-      title: 'Absensi Mudah',
-      subtitle: 'Dengan School, guru mencatat absensi dengan cepat dan efisien, menciptakan lingkungan pembelajaran yang teratur.',
-    },
-    {
-      id: '3',
-      image: esp.assets('onboarding3.png'),
-      title: 'Pantau Kemajuan',
-      subtitle: 'Orang tua, kini Anda bisa memantau absensi anak secara real-time. Bersama, kita membangun komunikasi yang kuat antara sekolah dan rumah',
-    },
-  ];
+      return () => {
+        if (notificationListener.current) {
+          Notifications.removeNotificationSubscription(notificationListener.current);
+        }
+        if (responseListener.current) {
+          Notifications.removeNotificationSubscription(responseListener.current);
+        }
+      }
+    }, []);
 
-  const [currentSlideComponentIndex, setCurrentSlideComponentIndex] = useState(0);
-  const ref = useRef<FlatList<SlideComponent>>(null);
+    const isBetweentime = (clock_start: string, clock_end: string) => {
+      const currentTime = moment().format('HH:mm');
+      // console.log("currentTime", currentTime)
+      return currentTime >= clock_start && currentTime < clock_end;
+    };
+    
+    async function schedulePushNotification() {
+        const currentTime = moment(); // Waktu saat ini
+        const inputTime = moment(jamInput ); // Waktu yang diinput dengan format jam
 
-  const updateCurrentSlideComponentIndex = (e: any) => {
-    const contentOffsetX = e.nativeEvent.contentOffset.x;
-    const currentIndex = Math.round(contentOffsetX / width);
-    setCurrentSlideComponentIndex(currentIndex);
-  };
-
-  const goToNextSlideComponent = () => {
-    const nextSlideComponentIndex = currentSlideComponentIndex + 1;
-    if (nextSlideComponentIndex !== SlideComponents.length) {
-      const offset = nextSlideComponentIndex * width;
-      ref?.current?.scrollToOffset({ offset });
-      setCurrentSlideComponentIndex(currentSlideComponentIndex + 1);
-    }
-  };
-
-  const skip = () => {
-    const lastSlideComponentIndex = SlideComponents.length - 1;
-    const offset = lastSlideComponentIndex * width;
-    ref?.current?.scrollToOffset({ offset });
-    setCurrentSlideComponentIndex(lastSlideComponentIndex);
-  };
-
-  function SlideComponentComponent({ item }: SlideComponentProps){
-    return (
-      <View style={{ alignItems: 'center', width, padding: 20 }}>
-        <Image
-          source={item?.image}
-          style={{ height: "50%", width: "80%", resizeMode: 'contain', marginTop: 80, marginBottom: 20 }}
-        />
-        <View>
-          <Text style={styles.title}>{item?.title}</Text>
-          <Text style={styles.subtitle}>{item?.subtitle}</Text>
-        </View>
-      </View>
-    );
-  };
+       
   
-  function Footer(){
-    return (
-      <View
-        style={{
-          height: height * 0.25,
-          justifyContent: 'space-between',
-          paddingHorizontal: 20,
-        }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            marginTop: 20,
-          }}>
-          {SlideComponents.map((_, index) => (
-            <View
-              key={index}
-              style={[
-                styles.indicator,
-                currentSlideComponentIndex === index && {
-                  backgroundColor: COLORS.default,
-                  width: 25,
+
+
+        if (currentTime.format('HH:mm:ss') > inputTime.format('HH:mm:ss') ){
+          console.log('Waktu yang diinput masih belum lewat.');
+            console.log('Waktu saat ini: ', currentTime.format('HH:mm:ss'));
+            console.log('Waktu format yang diinput: ', inputTime.format('HH:mm:ss'));
+            console.log('Waktu yang diinput: ', inputTime);
+            await Notifications.scheduleNotificationAsync({
+                content: {
+                    title: "Waktu yang diinput telah lewat",
+                    body: `Waktu ${inputTime.format('HH:mm')} telah lewat.`,
+                    data: { data: 'goes here' },
                 },
-              ]}
-            />
-          ))}
-        </View>
-        <View style={{ marginBottom: 20 }}>
-          {currentSlideComponentIndex === SlideComponents.length - 1 ? (
-            <View style={{ height: 50 }}>
-              <TouchableOpacity
-                style={styles.btn}
-                onPress={() => LibNavigation.navigate('auth/login')}>
-                <Text style={{ fontWeight: 'bold', fontSize: 15 }}>
-                  GET STARTED
-                </Text>
-              </TouchableOpacity>
+                trigger: null, // Notifikasi akan muncul langsung
+            });
+        } else {
+            console.log('Waktu yang diinput masih belum lewat.');
+            console.log('Waktu saat ini: ', currentTime.format('HH:mm:ss'));
+            console.log('Waktu format yang diinput: ', inputTime.format('HH:mm:ss'));
+            console.log('Waktu yang diinput: ', jamInput);
+        }
+    }
+    
+    return (
+        <View style={{ flex: 1, backgroundColor: 'white', padding: 10, marginTop: LibStyle.STATUSBAR_HEIGHT }}>
+            {/* Konten Notifikasi */}
+            <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                <Text>Title: {notification && notification.request.content.title} </Text>
+                <Text>Body: {notification && notification.request.content.body}</Text>
+                <Text>Data: {notification && JSON.stringify(notification.request.content.data)}</Text>
             </View>
-          ) : (
-            <View style={{ flexDirection: 'row', marginBottom: 30 }}>
-              <TouchableOpacity
-                activeOpacity={0.8}
-                style={[
-                  styles.btn,
-                  {
-                    borderColor: COLORS.black,
-                    borderWidth: 1,
-                    backgroundColor: '#cf717100',
-                  },
-                ]}
-                onPress={skip}>
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                    fontSize: 15,
-                    color: COLORS.black,
-                  }}>
-                  SKIP
-                </Text>
-              </TouchableOpacity>
-              <View style={{ width: 15 }} />
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={goToNextSlideComponent}
-                style={styles.btn}>
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                    fontSize: 15,
-                  }}>
-                  NEXT
-                </Text>
-              </TouchableOpacity>
-            </View>
-          )}
-        </View>
-      </View>
-    );
-  };
-  const styles = StyleSheet.create({
-    subtitle: {
-      color: "black",
-      fontSize: 15,
-      marginTop: 10,
-      maxWidth: '70%',
-      textAlign: 'center',
-      lineHeight: 23,
-    },
-    title: {
-      color: "black",
-      fontSize: 22,
-      fontWeight: 'bold',
-      marginTop: 20,
-      textAlign: 'center',
-    },
-    indicator: {
-      height: 2.5,
-      width: 10,
-      backgroundColor: 'grey',
-      marginHorizontal: 3,
-      borderRadius: 2,
-    },
-    btn: {
-      flex: 1,
-      height: 50,
-      borderColor: COLORS.default,
-      borderWidth: 2,
-      borderRadius: 5,
-      backgroundColor: '#fff',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-  });
-  
 
-  return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.primary }}>
-    <StatusBar backgroundColor={COLORS.primary} />
-    <FlatList
-      ref={ref}
-      onMomentumScrollEnd={updateCurrentSlideComponentIndex}
-      contentContainerStyle={{ height: height * 0.75 }}
-      showsHorizontalScrollIndicator={false}
-      horizontal
-      data={SlideComponents}
-      pagingEnabled
-      renderItem={({ item }) => <SlideComponentComponent item={item} />}
-    />
-    <Footer />
-  </SafeAreaView>
-  )
+            {/* Input Jam */}
+            <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 30, marginLeft: 10 }}>Jam</Text>
+            <LibInput_rectangle2
+                placeholderTextColor='gray'
+                inputStyle={{ fontSize: 16, color: 'black', marginRight: 15, marginLeft: 8 }}
+                placeholder='(format: jammenitdetik, contoh: 125700)'
+                onChangeText={(text: string) => setJamInput(text)} // Ambil input dari pengguna
+            />
+
+            {/* Tombol untuk menjadwalkan notifikasi */}
+            <Button
+                title="Tekan untuk menjadwalkan notifikasi"
+                onPress={async () => {
+                    await schedulePushNotification();
+                }}
+            />
+        </View>
+    );
 }

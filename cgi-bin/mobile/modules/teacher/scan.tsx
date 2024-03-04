@@ -29,7 +29,7 @@ export default function m(props: TeacherScanProps): any {
     },
     (err) => {
       // console.log("error", err)
-    }, 1),
+    }),
     (async () => {
       let { status } = await Camera.getCameraPermissionsAsync();
       if (status !== 'granted') {
