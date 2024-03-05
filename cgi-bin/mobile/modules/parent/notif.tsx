@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 
 import React from 'react';
 import { FlatList, Text, View } from 'react-native';
@@ -11,7 +10,7 @@ export interface ParentNotifArgs {
 export interface ParentNotifProps {
   
 }
-function m(props: ParentNotifProps): any {
+export default function m(props: ParentNotifProps): any {
   const notif = [
     {
       "tittle": "Rapat Guru",
@@ -83,4 +82,3 @@ function m(props: ParentNotifProps): any {
     </View>
   )
 }
-export default memo(m);

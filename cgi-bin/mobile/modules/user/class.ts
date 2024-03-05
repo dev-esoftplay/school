@@ -1,6 +1,7 @@
 // noPage
 // withObject
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { UserClass } from 'esoftplay/cache/user/class/import';
 import esp from 'esoftplay/esp';
 import useGlobalState, { useGlobalReturn } from 'esoftplay/global';
 import moment from "esoftplay/moment";
@@ -8,7 +9,7 @@ import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 
-const state = useGlobalState(null, { persistKey: "user", loadOnInit: true })
+const state = useGlobalState(null, { persistKey: "user", loadOnInit: true, listener: (dt) => console.log("woy", dt) })
 
 export default {
   state(): useGlobalReturn<any> {
@@ -31,7 +32,7 @@ export default {
         if (user) {
           let juser = JSON.parse(user)
           if (callback) callback(state?.get?.() || juser)
-          r((state?.get?.() || juser))
+          r(juser)
         } else {
           if (callback) callback(null)
           r(null)
@@ -72,6 +73,8 @@ export default {
       esp.mod("lib/notification").requestPermission(async (token) => {
         if (token && token.includes("ExponentPushToken")) {
           const config = esp.config();
+          let dataUser = UserClass.state().get()
+          let apikey: string = String(dataUser?.apikey)
           const LibCrypt = esp.mod("lib/crypt")
           var post: any = {
             apikey: 0,
@@ -82,11 +85,12 @@ export default {
             is_app: Constants.appOwnership == 'expo' ? 0 : 1,
             os: Platform.OS,
             device: Constants.deviceName,
-            secretkey: new LibCrypt().encode(config.salt + "|" + moment().format("YYYY-MM-DD hh:mm:ss"))
+            secretkey: new LibCrypt().encode(config.salt + "|" + apikey)
+            // secretkey: new LibCrypt().encode(config.salt + "|" + moment().format("YYYY-MM-DD hh:mm:ss"))
           }
           esp.mod("user/class").load(async (user) => {
             if (user) {
-              user["apikey"] = user.id
+              user["apikey"] = user.id || user.apikey
               Object.keys(user).forEach((userfield) => {
                 Object.keys(post).forEach((postfield) => {
                   if (postfield == userfield && postfield != "os" && postfield != "token" && postfield != "secretkey" && postfield != "push_id" && postfield != "device") {
@@ -95,16 +99,22 @@ export default {
                 })
               })
             }
+            post['group_id'] = user.group_ids.toString()
+
+            
             var push_id = await AsyncStorage.getItem("push_id");
-            if (push_id) post["push_id"] = push_id
+            console.log("post:",post)
+            if (push_id) post["old_id"] = push_id
             const LibCurl = esp.mod("lib/curl")
             new LibCurl("push-token", post,
               (res, msg) => {
                 AsyncStorage.setItem("push_id", String(Number.isInteger(parseInt(res)) ? res : push_id));
                 AsyncStorage.setItem("token", String(token))
+                esp.log("push token :", res)
                 resolve(res)
               }, (msg) => {
                 resolve(msg.message)
+                esp.log(msg, "eror e iki")
               })
           })
         }

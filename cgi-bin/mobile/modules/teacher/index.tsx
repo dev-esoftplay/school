@@ -1,16 +1,16 @@
-import React, { useState, useMemo, memo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
-import { Text, View, Pressable } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 
 import Attenreport from './attenreport';
 import Home from './home';
 import Notif from './notif';
 import Scan from './scan';
 
-import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import { IoniconsTypes } from '@expo/vector-icons/build/esoftplay_icons';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
+import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import Profil from './profile';
 
 
@@ -21,10 +21,13 @@ export interface TeacherindexProps {
  }
 
 function m(props: TeacherindexProps): any {
-  const [menu, setMenu] = useState('Beranda')??LibNavigation.getArgsAll(props);
- 
+  const [menu, setMenu] = useState(LibNavigation.getArgsAll(props).page)
+  const page =LibNavigation.getArgsAll(props);
   const [focused, setFocused] = useState(0);
 
+  useEffect(() => {
+    console.log('page:',page  )
+  }, [])
   // Fungsi untuk merender konten berdasarkan nilai menu
   const renderContent = useMemo(() => {
     switch (menu) {
@@ -122,4 +125,4 @@ function m(props: TeacherindexProps): any {
   );
 }
 
-export default memo(m);
+export default m;

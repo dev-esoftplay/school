@@ -1,52 +1,119 @@
 <?php  if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
-$position = array('Kepala Sekolah', 'Wakil Kepala Sekolah', 'Guru BK', 'Staff', 'Tukang Kebun');
+$show_list = true;
+if (!empty($_GET['id']) && !empty($_GET['act']))
+{
+	$id = intval($_GET['id']);
+	switch ($_GET['act'])
+	{
+		case 'approve':
+			include 'approval_withdraw-'.$_GET['act'].'.php';
+			break;
+	}
+	if (!empty($_GET['is_ajax']))
+	{
+		die();
+	}else{
+		$sys->nav_add('Event '.ucwords($_GET['act']));
+		$show_list = false;
+	}
+}
 
-$form     = _lib('pea', 'school_teacher');
-$form->initSearch();
+if (!empty($_POST['template']))
+{
+	if ($_POST['template'] == 'download')
+	{
+		$r = array(
+			array(
+				'No'       => '',
+				'Name'     => '',
+				'NIP'      => '',
+				'Phone'    => '',
+				'Position' => '',
+				'Birthday' => '',
+			)
+		);
+		if (!empty($r))
+		{
+			_func('download');
+			download_excel('Template '.date('Y-m-d').' '.rand(0, 999), $r);
+		}else{
+			echo msg('Maaf, tidak ada file yg bisa di download', 'danger');
+		}
+	}
+}
 
-$form->search->addInput('position','select');
-$form->search->input->position->addOption('Select Position', '');
-$form->search->input->position->addOption($position);
+if ($show_list)
+{
+	$position = array('Kepala Sekolah', 'Wakil Kepala Sekolah', 'Guru BK', 'Staff', 'Tukang Kebun');
 
-$form->search->addInput('keyword','keyword');
-$form->search->input->keyword->addSearchField('name, nip',  false);
+	$form     = _lib('pea', 'school_teacher');
+	$form->initSearch();
 
-$add_sql 				 = $form->search->action();
-$keyword 				 = $form->search->keyword($position);
-$position_search = $form->search->action('position');
-echo $form->search->getForm();
+	$form->search->addInput('position','select');
+	$form->search->input->position->addOption('Select Position', '');
+	$form->search->input->position->addOption($position);
 
-$form  = _lib('pea', 'school_teacher');
-$form->initRoll($add_sql.' ORDER BY name ASC', 'id');
+	$form->search->addInput('keyword','keyword');
+	$form->search->input->keyword->addSearchField('name, nip',  false);
 
-$form->roll->setSaveTool(false);
-?>
-<a href="<?php echo site_url('school/teacher_add') ?>">
-<button  type="button" class="btn btn-info">Tambah Guru</button>
-</a>
-<?php
-$form->roll->addInput( 'id', 'sqlplaintext' );
-$form->roll->input->id->setDisplayColumn(true);
+	$add_sql 				 = $form->search->action();
+	$keyword 				 = $form->search->keyword($position);
+	$position_search = $form->search->action('position');
+	echo $form->search->getForm();
 
-$form->roll->addInput('name', 'sqllinks');
-$form->roll->input->name->setTitle('nama');
-$form->roll->input->name->setLinks($Bbc->mod['circuit'].'.teacher_edit');
+	$form  = _lib('pea', 'school_teacher');
+	$form->initRoll($add_sql.' ORDER BY name ASC', 'id');
 
-$form->roll->addInput('nip', 'sqlplaintext');
-$form->roll->input->nip->setTitle('nip');
+	$form->roll->setSaveTool(false);
+	?>
+	<a href="<?php echo site_url('school/teacher_add') ?>">
+	<button  type="button" class="btn btn-info">Tambah Guru</button>
+	</a>
+	<?php
+	$form->roll->addInput( 'id', 'sqlplaintext' );
+	$form->roll->input->id->setDisplayColumn(true);
 
-$form->roll->addInput('phone', 'sqlplaintext');
-$form->roll->input->phone->setTitle('no hp');
-$form->roll->input->phone->setDisplayColumn(true);
+	$form->roll->addInput('name', 'sqllinks');
+	$form->roll->input->name->setTitle('nama');
+	$form->roll->input->name->setLinks($Bbc->mod['circuit'].'.teacher_edit');
 
-$form->roll->addInput('position', 'sqlplaintext');
-$form->roll->input->position->setTitle('posisi');
-$form->roll->input->position->setDisplayColumn(true);
+	$form->roll->addInput('nip', 'sqlplaintext');
+	$form->roll->input->nip->setTitle('nip');
 
-$form->roll->addInput('birthday', 'sqlplaintext');
-$form->roll->input->birthday->setTitle('Tanggal Lahir');
-$form->roll->input->birthday->setDisplayColumn(true);
+	$form->roll->addInput('phone', 'sqlplaintext');
+	$form->roll->input->phone->setTitle('no hp');
+	$form->roll->input->phone->setDisplayColumn(true);
 
-$form->roll->action();
-echo $form->roll->getForm();
+	$form->roll->addInput('position', 'sqlplaintext');
+	$form->roll->input->position->setTitle('posisi');
+	$form->roll->input->position->setDisplayColumn(true);
+
+	$form->roll->addInput('birthday', 'sqlplaintext');
+	$form->roll->input->birthday->setTitle('Tanggal Lahir');
+	$form->roll->input->birthday->setDisplayColumn(true);
+
+
+	$form->roll->addReport('excel');
+	$form->roll->action();
+	echo $form->roll->getForm();
+}
+
+?> 
+<div class="col-md-4 col-sm-4 col-xs-4">
+  <form action="" method="POST" class="form" role="form">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Template Excel</h3>
+      </div>
+      <div class="panel-body">
+        <div class="help-block">
+          Unduh Template Excel
+        </div>
+      </div>
+      <div class="panel-footer">
+        <button type="submit" name="template" value="download" class="btn btn-default"><?php echo icon('fa-file-excel-o') ?> Download Template</button>
+      </div>
+    </div>
+  </form>
+</div>

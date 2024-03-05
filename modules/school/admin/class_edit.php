@@ -63,7 +63,7 @@ if (!empty($class_id)) {
 	$form->roll->input->day->setDisplayColumn(true);
 
 	$form->roll->addInput('subject_teacher', 'sqlplaintext');
-	$form->roll->input->subject_teacher->setTitle('subject_teacher');
+	$form->roll->input->subject_teacher->setTitle('subject teacher');
 	$form->roll->input->subject_teacher->setFieldname('subject_id AS course');
 	$form->roll->input->subject_teacher->setDisplayFunction(function ($value) use($db)
 	{

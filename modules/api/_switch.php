@@ -24,20 +24,20 @@ switch( $Bbc->mod['task'] )
 		include 'student_attendance.php';
 		break;
 		
-	case 'homeroom_student': // untuk listing siswa di kelas yang diampu wali kelas GET:{"class_id":"1"}
-		include 'homeroom_student.php';
+	case 'teacher_student': // untuk listing siswa di kelas yang diampu wali kelas GET:{"class_id":"1"}
+		include 'teacher_student.php';
 		break;
 		
-	case 'homeroom_student_detail': // untuk melihat detail siswa dari listing siswa yang diampu wali kelas GET:{"student_id":"1", "month":"1 ?? current(month)", "week":"1 ?? ""}
-		include 'homeroom_student_detail.php';
-		break;
-
-	case 'homeroom_student_schedule_detail': // untuk melihat detail siswa dari listing siswa yang diampu wali kelas GET:{"student_id":"1", "month":"1 ?? current(month)", "week":"1 ?? ""}
-		include 'homeroom_student_schedule_detail.php';
+	case 'student_detail_attendance': // untuk melihat detail siswa dari listing siswa yang diampu wali kelas GET:{"student_id":"1", "month":"1 ?? current(month)", "week":"1 ?? ""}
+		include 'student_detail_attendance.php';
 		break;
 
 	case 'parent':
 		include 'parent.php';
+		break;	
+
+	case 'parent_student':
+		include 'parent_student.php';
 		break;
 
 	case 'course':
@@ -72,11 +72,11 @@ switch( $Bbc->mod['task'] )
 		include 'teacher_update.php';
 		break;
 
-	case 'teacher_schedule': // melisting jadwal guru 
+	case 'teacher_schedule': // melisting jadwal guru GET:{"#date":"","#day":""}
 		include 'teacher_schedule.php';
 		break;
 
-	case 'teacher_schedule_report': // melisting laporan jadwal guru 
+	case 'teacher_schedule_report': // melisting laporan jadwal guru GET:{"#class_id":"","#course_id":"","#day":"", "#week":"", "#month":""}
 		include 'teacher_schedule_report.php';
 		break;
 
@@ -87,7 +87,7 @@ switch( $Bbc->mod['task'] )
 	case 'parent_student': // melisting anak dari orang tua 
 		include 'parent_student.php';
 		break;
-
+	
 	case 'public_image_upload': // untuk mengupload gambar yang akan disimpan ke database FILE:{"image"}
 	case 'image_upload': // untuk mengupload gambar yang akan disimpan ke database FILE:{"image"}
 		include 'image_upload.php';
@@ -98,12 +98,12 @@ switch( $Bbc->mod['task'] )
     redirect(_URL);
     break;
 
-  case 'public_test':
-	  pr('public', __FILE__.':'.__LINE__);die();
-  	break;
-
   case 'push-token': // untuk replace generate push_id notif
 		include 'push-token.php';
+		break;
+
+	case 'user_token':
+		include 'user_token.php';
 		break;
 
   case 'no_auth': // tiap API wajib pakai ini

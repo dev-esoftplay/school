@@ -1,5 +1,9 @@
 <?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
+// if (!$teacher_id) {
+//   return api_no('kamu ga dapet akses ini');
+// }
+
 $class_id              = addslashes(intval($_GET['class_id'])); 
 $verification_homeroom = $db->getone('SELECT `teacher_id` FROM `school_class` WHERE `id` = ' . $class_id);
 
@@ -15,15 +19,16 @@ if (!empty($class_id) && !empty($teacher_id) && ($teacher_id == $verification_ho
   {
     $student['student_id']  = intval($student['student_id']); 
     $student['image']       = $student['image'] ?? '';
+    $query_parent_data      = []; 
     
     if ($student['parent_id_dad'] && $student['parent_id_mom']) 
     { 
-      $query_parent_data['dad'] = $db->getrow('SELECT `name`, `phone` FROM `school_parent` WHERE `id` = ' . $student['parent_id_dad']);
-      $query_parent_data['mom'] = $db->getrow('SELECT `name`, `phone` FROM `school_parent` WHERE `id` = ' . $student['parent_id_mom']);
+      $query_parent_data[] = ['status' => 'dad'] + $db->getrow('SELECT `name`, `phone` FROM `school_parent` WHERE `id` = ' . $student['parent_id_dad']);
+      $query_parent_data[] = ['status' => 'mom'] + $db->getrow('SELECT `name`, `phone` FROM `school_parent` WHERE `id` = ' . $student['parent_id_mom']);
     }else 
     if($student['parent_id_guard'])
     {
-      $query_parent_data['guard'] = $db->getrow('SELECT `name`, `phone` FROM `school_parent` WHERE `id` = ' . $student['parent_id_guard']);
+      $query_parent_data[] = ['status' => 'guard'] + $db->getrow('SELECT `name`, `phone` FROM `school_parent` WHERE `id` = ' . $student['parent_id_guard']);
     }  
     $student['parent']      = $query_parent_data;
   }

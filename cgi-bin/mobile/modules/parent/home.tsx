@@ -13,7 +13,7 @@ import { LibStyle } from 'esoftplay/cache/lib/style/import';
 
 // Props untuk komponen ParentsHome
 export interface ParentsHomeProps {
-  navigation: any;
+
 }
 
 
@@ -28,7 +28,7 @@ function shadows(value: number) {
 }
 
 // Komponen ParentsHome
-function ParentsHome({ navigation }: ParentsHomeProps): JSX.Element {
+export default function ParentsHome({  }: ParentsHomeProps): JSX.Element {
   const { width, height } = Dimensions.get('window');
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const ref = useRef<FlatList<any>>(null);
@@ -211,5 +211,3 @@ function ParentsHome({ navigation }: ParentsHomeProps): JSX.Element {
     </View>
   );
 }
-
-export default memo(ParentsHome);

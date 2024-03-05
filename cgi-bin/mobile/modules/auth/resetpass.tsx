@@ -1,17 +1,13 @@
 // withHooks
-import { memo } from 'react';
 import { useState } from 'react';
 
-import Scroll from 'esoftplay/modules/lib/scroll';
-import React from 'react';
-import { Image, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
-import { check } from 'esoftplay/modules/lib/updater';
-import navigation from 'esoftplay/modules/lib/navigation';
-import { LibIcon } from 'esoftplay/cache/lib/icon/import';
-import SchoolColors from '../utils/schoolcolor';
 import { LibPicture } from 'esoftplay/cache/lib/picture/import';
 import esp from 'esoftplay/esp';
+import navigation from 'esoftplay/modules/lib/navigation';
+import React from 'react';
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import SchoolColors from '../utils/schoolcolor';
 const  schhol = new SchoolColors();
 
 export interface AuthResetpassArgs {
@@ -20,7 +16,7 @@ export interface AuthResetpassArgs {
 export interface AuthResetpassProps {
 
 }
-function m(props: AuthResetpassProps): any {
+export default function m(props: AuthResetpassProps): any {
   const [newpass, setnewpass] = useState('')
   const [confirmpass, setconfirmpass] = useState('')
 
@@ -30,7 +26,7 @@ function m(props: AuthResetpassProps): any {
         return navigation.navigate('auth/login')
         break;
       default:
-        return console.log('password tidak sama')
+        return // console.log('password tidak sama')
         break;
     }
 
@@ -39,8 +35,8 @@ function m(props: AuthResetpassProps): any {
   return (
     <View style={{ flex: 1 }} >
       <ScrollView showsVerticalScrollIndicator={false} style={{ padding: 30, alignContent: 'center' }}>
-        <LibPicture source={esp.assets('phone.png')}
-          style={styles.image} />
+ 
+        <LibPicture source={esp.assets('phone.png')} style={{ width: 300, height: 190}}/>
         <Text style={{ fontSize: 16, textAlign: 'center', fontWeight: 'bold', marginTop: 20 }}>Masukkan kata sandi baru Anda</Text>
         <Text style={{ fontSize: 16, textAlign: 'center', }}>Jangan pernah memberikan kata sandi Anda kepada siapa pun, bahkan orang yang Anda percayai.</Text>
         {/* input newpass */}
@@ -67,20 +63,3 @@ function m(props: AuthResetpassProps): any {
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  image: {
-    width: 255,
-    height: 255,
-    top: 34,
-    left: 52,
-  },
-
-
-});
-export default memo(m);

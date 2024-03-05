@@ -1,0 +1,82 @@
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f8f9fa;
+}
+
+.text-center {
+  text-align: center;
+  margin-bottom: 15px;
+}
+.filter h2 {
+  font-weight: bold;
+}
+
+.filter ul {
+  list-style: none;
+  padding: 0;
+  margin: 60px 0;
+}
+
+.filter li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.filter li label {
+  order: 1;
+  margin-right: 5px;
+}
+
+.filter li input[type='checkbox'] {
+  order: 2;
+  accent-color: rgb(30, 32, 30);
+}
+
+.notification-container {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  height: 600px; /* Set the height to 600px */
+  overflow-y: auto; /* Add scrollbar if content exceeds the height */
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.btn-submit {
+  width: 100%;
+  color: white;
+  background-color: #000;
+}
+
+.btn-filter {
+  position: absolute;
+  bottom: 0;
+  color: white;
+  background-color: #000;
+  width: 80px;
+}
+
+.clear {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.apply {
+  position: absolute;
+  bottom: 0;
+  left: 10;
+}
+
+.send {
+  position: absolute;
+  bottom: 0;
+  padding: 0px;
+  width: 95%;
+}

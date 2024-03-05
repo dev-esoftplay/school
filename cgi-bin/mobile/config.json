@@ -1,0 +1,24 @@
+{
+  "config": {
+    "domain": "test.school.esoftplay.com",
+    "errorReport": {
+      "telegramIds": [
+        "6947428073"
+      ]
+    },
+    "isDebug": 1,
+    "notification": 1,
+    "protocol": "http",
+    "group_id": 4,
+    "experienceId": "f77e515c-842e-4adf-a86a-98bb87769bdb",
+    "build": [
+      "yasinyusuf",
+      "y451nmyu5uf"
+    ],
+    "salt": "dc6146b3bb269114cb3a9f4cdb1a08c6",
+    "home": {
+      "public": "auth/login",
+      "member": "main/index"
+    }
+  }
+}

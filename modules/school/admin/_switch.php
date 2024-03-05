@@ -80,4 +80,7 @@ switch( $Bbc->mod['task'] )
 		include 'attendance_edit.php';
 		break;
 
+	case 'notification':
+		include 'notification.php';
+		break;
 }

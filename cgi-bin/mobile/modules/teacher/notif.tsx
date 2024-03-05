@@ -1,9 +1,16 @@
 // withHooks
-import { memo } from 'react';
+import lib from '@ant-design/icons';
+import { LibIcon } from 'esoftplay/cache/lib/icon/import';
+import { LibList } from 'esoftplay/cache/lib/list/import';
+import { LibNotification } from 'esoftplay/cache/lib/notification/import';
+import { LibStyle } from 'esoftplay/cache/lib/style/import';
+import { UserNotification } from 'esoftplay/cache/user/notification/import';
+import esp from 'esoftplay/esp';
+import { useEffect } from 'react';
 
 import React from 'react';
 import { Text, View } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
+import SchoolColors from '../utils/schoolcolor';
 
 
 export interface TeacherNotifArgs {
@@ -14,38 +21,22 @@ export interface TeacherNotifProps {
 }
 function m(props: TeacherNotifProps): any {
 
-  const notif = [
-    {
-      "tittle": "Rapat Guru",
-      "message": "Selamat pagi Bapa/Ibu Guru. Hari ini ada rapat guru di ruang guru. Terima kasih.",
-      "status": "Pengumuman",
-    },
-    {
-      "tittle": "Gibran Rakabuming Raka",
-      "message": "Selamat pagi, Pak. Saya izin tidak masuk sekolah hari ini karena sedang sakit. Terima kasih.",
-      "kelas": " | XII IPA 1",
-      "status": "ijin Sakit",
+  let notifs = UserNotification.state().useSelector(s => s.data);
 
-    },
-    {
-      "tittle": "Prabowo Subianto",
-      "message": "Selamat pagi, Pak. Saya izin tidak masuk sekolah hari ini karena sedang sakit. Terima kasih.",
-      "kelas": " | XII IPA 1",
-      "status": "ijin Sakit",
 
-    },
-    {
-      "tittle": "Muhaimin Iskandar",
-      "message": "Selamat pagi, Pak. Saya izin tidak masuk sekolah hari ini kerena ikut pengajian. Terima kasih.",
-      "kelas": " |  | XII IPA 1",
-      "status": "ijin Sakit",
 
-    },
 
-  ];
+  useEffect(() => {
 
-  function shadows (value:number) {
-    return{
+    // LibNotification.loadData(true)
+    esp.log(notifs);
+    console.log("notif", notifs);
+    // console.log("notif", notifs[0]?.updated);
+
+  }, [])
+
+  function shadows(value: number) {
+    return {
       elevation: 3, // For Android
       shadowColor: '#000', // For iOS
       shadowOffset: { width: 1, height: 5 },
@@ -53,29 +44,39 @@ function m(props: TeacherNotifProps): any {
       shadowRadius: value,
     }
   }
+  const school= new SchoolColors()
   return (
-    <View style={{ flex: 1, backgroundColor: 'white', padding: 10 }}>
-      <Text style={{ fontSize: 24, fontWeight: 'bold' ,marginBottom:30,marginLeft:10}}>Notifikasi</Text>
+    <View style={{ flex: 1, backgroundColor: 'white', padding: 10, }}>
+      <View style={{}} >
+        <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 30, marginLeft: 10, marginTop: 20 }}>Notifikasi</Text>
+      </View>
 
-      <FlatList data={notif}
+      <LibList data={notifs}
+        onRefresh={() => LibNotification.loadData(true)}
         keyExtractor={(item, index) => index.toString()}
-        renderItem={
-          ({ item, index }) => {
-            return (
-              <View style={{ height: 100, backgroundColor: 'white', padding: 10 ,...shadows(7),borderRadius:12,marginHorizontal:10,marginVertical:10}}>
-                <View style={{ flexDirection: 'row', marginBottom: 10, justifyContent: 'space-between' }}>
-                  <Text style={{ fontSize: 14 }}>{item['tittle']}{item['kelas'] ?? ""}</Text>
-                  <View style={{ backgroundColor: 'green', padding: 5, borderRadius: 10, opacity: 0.8, paddingHorizontal: 15 }}>
-                    <Text style={{ fontSize: 12, fontWeight: 'bold', color: "white" }}>{item['status']}</Text>
-                  </View>
+
+        renderItem={(item: any, index: number) => {
+          // console.log("item", item?.title)
+          return (
+            <View style={{ height: 'auto', backgroundColor: 'white', padding: 10, ...shadows(7), borderRadius: 12, marginHorizontal: 10, marginVertical: 10 }}>
+              <View style={{ marginBottom: 10, justifyContent: 'space-between', flex: 1 }}>
+               <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+               <Text style={{ fontSize: 16, fontWeight: 'bold', marginBottom: 10 }}>{item?.title ?? 'tittle'}</Text>
+             
+               <LibIcon.Ionicons name="notifications" size={20} color={school.primary} />
                 </View>
-                <Text style={{ fontSize: 14 }}>{item['message']}</Text>
+
+                <Text style={{ fontSize: 14, fontWeight: '600' }}>{item?.message}</Text>
               </View>
-            )
-          }
+
+              <Text style={{ fontSize: 12, color: 'gray' }}>{item?.updated}</Text>
+
+            </View>
+          )
+        }
         }
       />
     </View>
   )
 }
-export default memo(m);
+export default m;
