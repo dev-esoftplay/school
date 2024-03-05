@@ -1,6 +1,6 @@
 <?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
-$user_id   = $merchant_id = $member_id = $mitra_id = 0;
+$user_id   = $teacher_id = 0;
 $user_args = [];
 $output    = array(
 	'ok'          => 0,
@@ -9,24 +9,26 @@ $output    = array(
 	'result'      => []
 );
 
-if (!empty($Bbc->user_id)) {
-	$q   = "SELECT `id` FROM `bbc_user` WHERE id={$Bbc->user_id} AND `active`=1";
-	$usr = $db->cacheGetOne($q);
-	if (!empty($usr)) $user_id = $usr;
-
-	if (!empty($Bbc->installation_id)) {
-		$exist = $db->cacheGetOne('SELECT `id` FROM `member_device` WHERE `user_id` = ' . $user_id . ' AND `installation_id` = "' . addslashes($Bbc->installation_id) . '"');
-		if (empty($exist)) {
-			$output['message']     = lang('Sesi anda habis, silahkan login kembali.');
-			$output['status_code'] = 440;
-
-			output_json($output);
-		}
-	}
+if (empty($Bbc->apikey)) {
+	$Bbc->mod['task'] = 'no_auth';
+	return false;
 }
 
+if ($Bbc->apikey != 1) {
+	$device_data = $db->getRow('SELECT `user_id`, `member_id` FROM `member_device` WHERE `key`="'.$Bbc->apikey.'"');
+	if (empty($device_data)) {
+		$Bbc->mod['task'] = 'no_auth';
+		return false;
+	}
 
-// if($user_id <= 0)
-// {
-// 	output_json(['ok' => 0,'message' => lang('User tidak valid')]);
-// }
+	$user_id = intval($db->getOne('SELECT `id` FROM `bbc_user` WHERE `id`='.$device_data['user_id'].' AND `active`=1'));
+	if (empty($user_id)) {
+		output_json(['ok' => 0, 'message' => lang('User anda tidak aktif. Silahkan hubungi admin untuk info lebih lanjut.')]);
+		return false;
+	}
+
+	$teacher_id = intval($db->getOne('SELECT `id` FROM `school_teacher` WHERE `user_id`='.$device_data['user_id']));
+	$parent_id  = intval($db->getOne('SELECT `id` FROM `school_parent` WHERE `user_id`='.$device_data['user_id']));
+
+	// $schedule_id = intval($db->getone('SELECT id from school_schedule WHERE '))
+}

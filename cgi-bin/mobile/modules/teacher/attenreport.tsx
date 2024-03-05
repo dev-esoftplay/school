@@ -1,5 +1,6 @@
 // withHooks
-import Lib from '@ant-design/icons';
+import { memo } from 'react';
+import Lib, { CiCircleOutlined } from '@ant-design/icons';
 import lib from '@ant-design/icons';
 import Icon from '@ant-design/icons/lib/components/Icon';
 import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
@@ -7,11 +8,14 @@ import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import { LibSlidingup, LibSlidingupProperty } from 'esoftplay/cache/lib/slidingup/import';
 import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import navigation from 'esoftplay/modules/lib/navigation';
+import Animated, { useSharedValue, withSpring } from 'react-native-reanimated';
+import Svg, { Circle, Rect } from 'react-native-svg';
 import { show } from 'esoftplay/modules/lib/toast';
-import { memo, useRef } from 'react';
-
+import { useRef } from 'react';
+import PieChart from 'react-native-pie-chart'
 import React from 'react';
-import { FlatList, Image, Platform, Pressable, ScrollView, Text, View } from 'react-native';
+import { ActivityIndicator, Button, FlatList, Image, Platform, Pressable, ScrollView, Text, View } from 'react-native';
+import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 
 
 export interface TeacherAttenreportArgs {
@@ -22,9 +26,44 @@ export interface TeacherAttenreportProps {
 }
 function m(props: TeacherAttenreportProps): any {
   const [klsSelected, setKlsSelected] = React.useState(false)
+  const dayAttendance = [
+    {
+      day: 'Senin',
+      date: '2024-01-01',
+      indicator: 0.9,
+      status: 'completed',
+      color: 'green'
+    },
+    {
+      day: 'Selasa',
+      date: '2024-01-02',
+      indicator: 0.7,
+      status: 'completed',
+      color: 'green'
+    },
+    {
+      day: 'Rabu',
+      date: '2024-01-03',
+      indicator: 0.0,
+      status: 'uncompleted',
+      color: 'red'
+    },
+    {
+      day: 'Kamis',
+      date: '2024-01-04',
+      indicator: 0.0,
+      status: 'uncompleted',
+      color: 'red'
+    },
+    {
+      day: 'Jumat',
+      date: '2024-01-05',
+      indicator: 0.8,
+      color: 'green'
+    }
+
+  ]
   const Absensi = [
-
-
 
     {
       'nama kelas': 'XII IPA 1',
@@ -68,84 +107,80 @@ function m(props: TeacherAttenreportProps): any {
     }
 
   ]
-  const Bulan =[
-      {
-        "name": "January",
-        "abbreviation": "Jan",
-        "number": 1,
-        "days": 31
-      },
-      {
-        "name": "February",
-        "abbreviation": "Feb",
-        "number": 2,
-        "days": 28
-      },
-      {
-        "name": "March",
-        "abbreviation": "Mar",
-        "number": 3,
-        "days": 31
-      },
-      {
-        "name": "April",
-        "abbreviation": "Apr",
-        "number": 4,
-        "days": 30
-      },
-      {
-        "name": "May",
-        "abbreviation": "May",
-        "number": 5,
-        "days": 31
-      },
-      {
-        "name": "June",
-        "abbreviation": "Jun",
-        "number": 6,
-        "days": 30
-      },
-      {
-        "name": "July",
-        "abbreviation": "Jul",
-        "number": 7,
-        "days": 31
-      },
-      {
-        "name": "August",
-        "abbreviation": "Aug",
-        "number": 8,
-        "days": 31
-      },
-      {
-        "name": "September",
-        "abbreviation": "Sep",
-        "number": 9,
-        "days": 30
-      },
-      {
-        "name": "October",
-        "abbreviation": "Oct",
-        "number": 10,
-        "days": 31
-      },
-      {
-        "name": "November",
-        "abbreviation": "Nov",
-        "number": 11,
-        "days": 30
-      },
-      {
-        "name": "December",
-        "abbreviation": "Dec",
-        "number": 12,
-        "days": 31
-      }
-    ]
-  
-
-
-
+  const Bulan = [
+    {
+      "name": "January",
+      "abbreviation": "Jan",
+      "number": 1,
+      "days": 31
+    },
+    {
+      "name": "February",
+      "abbreviation": "Feb",
+      "number": 2,
+      "days": 28
+    },
+    {
+      "name": "March",
+      "abbreviation": "Mar",
+      "number": 3,
+      "days": 31
+    },
+    {
+      "name": "April",
+      "abbreviation": "Apr",
+      "number": 4,
+      "days": 30
+    },
+    {
+      "name": "May",
+      "abbreviation": "May",
+      "number": 5,
+      "days": 31
+    },
+    {
+      "name": "June",
+      "abbreviation": "Jun",
+      "number": 6,
+      "days": 30
+    },
+    {
+      "name": "July",
+      "abbreviation": "Jul",
+      "number": 7,
+      "days": 31
+    },
+    {
+      "name": "August",
+      "abbreviation": "Aug",
+      "number": 8,
+      "days": 31
+    },
+    {
+      "name": "September",
+      "abbreviation": "Sep",
+      "number": 9,
+      "days": 30
+    },
+    {
+      "name": "October",
+      "abbreviation": "Oct",
+      "number": 10,
+      "days": 31
+    },
+    {
+      "name": "November",
+      "abbreviation": "Nov",
+      "number": 11,
+      "days": 30
+    },
+    {
+      "name": "December",
+      "abbreviation": "Dec",
+      "number": 12,
+      "days": 31
+    }
+  ]
 
   let slideup = useRef<LibSlidingup>(null)
 
@@ -156,8 +191,8 @@ function m(props: TeacherAttenreportProps): any {
     }
     return { elevation: value };
   }
-  function shadows (value:number) {
-    return{
+  function shadows(value: number) {
+    return {
       elevation: 3, // For Android
       shadowColor: 'black', // For iOS
       shadowOffset: { width: 2, height: 5 },
@@ -166,24 +201,35 @@ function m(props: TeacherAttenreportProps): any {
     }
   }
 
-  return (
-    <View style={{ flex: 1, backgroundColor: 'white',}}>
 
-      <FlatList data={Absensi}
-        style={{ height: 'auto',paddingHorizontal:20 }}
+
+  const progress = useSharedValue(0)
+
+  const BACKGROUND_STROKE_COLOR = '#ffffff'
+  const STROKE_COLOR = '#11b81f'
+  const R = 30
+  const Circle_length = 2 * Math.PI * R
+  const height = LibStyle.height
+  const width = LibStyle.width
+
+  return (
+    <View style={{ flex: 1, backgroundColor: 'white', }}>
+
+      <FlatList data={dayAttendance}
+        style={{ height: 'auto', paddingHorizontal: 20 }}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={
 
-          <View style={{ marginBottom: 20 ,}}>
+          <View style={{ marginBottom: 20, }}>
             {/* schadule */}
             <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'black', marginTop: 20 }}>Laporan Absensi</Text>
             <Pressable
-            
+
               onPress={() => {
                 slideup.current?.show()
                 console.log('')
-              }} 
-              style={{ width: LibStyle.width-45, height: 60, backgroundColor: 'white', borderRadius: 10, justifyContent: 'center', alignSelf: 'center', marginTop: 30,...elevation(7),paddingHorizontal:20,marginHorizontal:5}}>
+              }}
+              style={{ width: LibStyle.width - 45, height: 60, backgroundColor: 'white', borderRadius: 10, justifyContent: 'center', alignSelf: 'center', marginTop: 30, ...elevation(7), paddingHorizontal: 20, marginHorizontal: 5 }}>
               <View style={{ flexDirection: 'row', paddingHorizontal: 20 }}>
                 <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black', textAlign: 'center', }}>Filter</Text>
                 <LibIcon.Feather name="filter" size={20} color="black" style={{ position: 'absolute', right: 20 }} />
@@ -195,27 +241,63 @@ function m(props: TeacherAttenreportProps): any {
         keyExtractor={(item, index) => index.toString()}
         renderItem={
           ({ item, index }) => {
+
+            const widthAndHeight = 80
+            const series = [70, 10, 20,]
+            const sliceColor = ['#009b00', '#ffb300', '#ff3c00']
+
             return (
-              <Pressable onPress={() => LibDialog.info("test", "cakep")} style={{backgroundColor: item['color'], padding: 10, width: '100%', paddingHorizontal: 20, borderRadius: 15, opacity: 0.8 ,...shadows(3),marginVertical:10}}>
+              <Pressable onPress={() => LibNavigation.navigate('teacher/detailattendreport')} style={{ backgroundColor: item['color'], padding: 10, width: LibStyle.width - 40, paddingHorizontal: 20, borderRadius: 15, opacity: 0.8, ...shadows(3), marginVertical: 10, flexDirection: 'row', height: 120, justifyContent: 'space-between' }}>
 
-                <View style={{ }}>
-
-                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item['nama kelas']} | {item['materi']}</Text>
-                    <View style={{ height: 30, width: 'auto', borderRadius: 8, backgroundColor: item['color'], justifyContent: 'center', alignItems: 'center', paddingHorizontal: 10 }}>
-
-                      <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item['jumlah siswa']}</Text>
-                    </View>
-                  </View>
-
+                <View style={{ justifyContent: 'space-between' }}>
+                  <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item['day']}</Text>
                   <View style={{ height: 30, }} />
-                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item['jamke']}</Text>
-                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item['jam']}</Text>
-                  </View>
+                  <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item['date']}</Text>
                 </View>
 
+                <View style={{ width: 100, height: 100, justifyContent: 'center', alignItems: 'center',  }}>
+                  {/* <PieChart
+                    style={{ alignSelf: 'center' }}
+                    widthAndHeight={widthAndHeight}
+                    series={[70,5,20]}
+                    sliceColor={sliceColor}
+                    coverRadius={0.45}
+                    coverFill={'none'}
+                  /> */}
 
+                  <Svg width={100} height={100} style={{ justifyContent: 'center', alignItems: 'center' }}>
+                  {/* Lingkaran luar untuk indikator persentase  */}
+                    <Circle
+                        cx={100 / 2}
+                        cy={100 / 2}
+                        r={R}
+                        fillOpacity={0.8}
+                        stroke={BACKGROUND_STROKE_COLOR}
+                        strokeWidth={18}
+                        fill={'none'}
+                        
+                    /> 
+                  {/* Lingkaran dalam untuk menunjukkan persentase */}
+                 <Circle
+                    cx={100 / 2}
+                    cy={100 / 2}
+                    r={R}
+                    // strokeOpacity={0.8}
+                    stroke={STROKE_COLOR}
+                    strokeWidth={12}
+
+                    fill={'none'}
+                    // fillOpacity={0.8}
+                    strokeDasharray={`${Circle_length}`}
+                    strokeDashoffset={Circle_length * (1 - item['indicator'])}
+                    strokeLinecap="round"
+                  />
+                  </Svg>
+
+                  <Text style={{ position: 'absolute', color: 'white' }}>
+                    {` ${item['indicator'] * 10}/8`}
+                  </Text>
+                </View>
 
               </Pressable>
             )
@@ -226,46 +308,46 @@ function m(props: TeacherAttenreportProps): any {
         <View style={{ height: 500, backgroundColor: 'white', padding: 10, borderTopRightRadius: 20, borderTopLeftRadius: 20, paddingHorizontal: 20 }}>
           <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'black', marginTop: 20, alignSelf: 'center' }}>Filter Absensi</Text>
           <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black', marginTop: 20 }}>Pilih Kelas</Text>
-        
-              <FlatList data={Absensi}
-              style={{ height:60, marginTop: 20 }}
-              keyExtractor={(item, index) => index.toString()}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              renderItem={
-                ({ item, index }) => {
-                  return (
-                    <Pressable onPress={()=>{setKlsSelected(true)}}>
-                      <View style={{ flexDirection: 'row', justifyContent: 'center', marginRight: 10 ,height:40,borderRadius:12,borderWidth:2,width:'auto',paddingHorizontal:10,alignItems:'center',backgroundColor:klsSelected?'gray':'white'}}>
-                      <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black',  alignSelf: 'center' }}>{item['nama kelas']}</Text>
+
+          <FlatList data={Absensi}
+            style={{ height: 60, marginTop: 20 }}
+            keyExtractor={(item, index) => index.toString()}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            renderItem={
+              ({ item, index }) => {
+                return (
+                  <Pressable onPress={() => { setKlsSelected(true) }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', marginRight: 10, height: 40, borderRadius: 12, borderWidth: 2, width: 'auto', paddingHorizontal: 10, alignItems: 'center', backgroundColor: klsSelected ? 'gray' : 'white' }}>
+                      <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black', alignSelf: 'center' }}>{item['nama kelas']}</Text>
                     </View>
-                    </Pressable>
-                  )
-                }}
-                />
-                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black', marginTop: 20 }}>Pilih bulan</Text>
-              <FlatList data={Bulan}
-              style={{ height: 'auto', marginTop: 20 }}
-              keyExtractor={(item, index) => index.toString()}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              renderItem={
-                ({ item, index }) => {
-                  return (
-                    <Pressable onPress={()=>{setKlsSelected(true)}}>
-                      <View style={{ flexDirection: 'row', justifyContent: 'center', marginRight: 10 ,height:40,borderRadius:12,borderWidth:2,width:'auto',paddingHorizontal:10,alignItems:'center',backgroundColor:klsSelected?'gray':'white'}}>
-                      <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black',  alignSelf: 'center' }}>{item['name']}</Text>
-                      <View style={{height:30}}/> 
+                  </Pressable>
+                )
+              }}
+          />
+          <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black', marginTop: 20 }}>Pilih bulan</Text>
+          <FlatList data={Bulan}
+            style={{ height: 'auto', marginTop: 20 }}
+            keyExtractor={(item, index) => index.toString()}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            renderItem={
+              ({ item, index }) => {
+                return (
+                  <Pressable onPress={() => { setKlsSelected(true) }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', marginRight: 10, height: 40, borderRadius: 12, borderWidth: 2, width: 'auto', paddingHorizontal: 10, alignItems: 'center', backgroundColor: klsSelected ? 'gray' : 'white' }}>
+                      <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black', alignSelf: 'center' }}>{item['name']}</Text>
+                      <View style={{ height: 30 }} />
                     </View>
-                    </Pressable>
-                  )
-                }}
-                />
-                <Pressable onPress={()=>{slideup.current?.hide()}} style={{ width: "100%", height: 60, backgroundColor: '#423a3a', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginTop: 30, }}>
-                  <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white', textAlign: 'center', }}>Terapkan</Text>
-                </Pressable>
-                <View style={{height:120}}/>
-             
+                  </Pressable>
+                )
+              }}
+          />
+          <Pressable onPress={() => { slideup.current?.hide() }} style={{ width: "100%", height: 60, backgroundColor: '#423a3a', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginTop: 30, }}>
+            <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white', textAlign: 'center', }}>Terapkan</Text>
+          </Pressable>
+          <View style={{ height: 120 }} />
+
         </View>
 
       </LibSlidingup>

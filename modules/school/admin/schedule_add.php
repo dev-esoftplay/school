@@ -1,23 +1,19 @@
 <?php  if (!defined('_VALID_BBC')) exit('No direct script access allowed');
-
-?> 
-<div class="col-md-4">
-	<?php 
 	if ($_SERVER["REQUEST_METHOD"] == "POST") // HANDLE INSERT DATA FROM INPUT MANUAL DATA
 	{
 		if (isset($_POST)) {
-	    $selected_class = isset($_POST['select_class_id']) ? $_POST['select_class_id'] : null;
-	    $selected_subject = isset($_POST['add_subject_id']) ? $_POST['add_subject_id'] : null;
-	    $days = isset($_POST['add_days']) ? $_POST['add_days'] : null;
-	    $clock_start = isset($_POST['clock_start']) ? $_POST['clock_start'] : null;
-	    $clock_end = isset($_POST['clock_end']) ? $_POST['clock_end'] : null;
+	    $selected_class   = isset($_POST['select_class_id']) ? $_POST['select_class_id'] : null;
+	    $selected_subject = isset($_POST['select_subject_id']) ? $_POST['select_subject_id'] : null;
+	    $add_days         = isset($_POST['add_days']) ? $_POST['add_days'] : null;
+	    $clock_start      = isset($_POST['clock_start']) ? $_POST['clock_start'] : null;
+	    $clock_end        = isset($_POST['clock_end']) ? $_POST['clock_end'] : null;
 
-		  if (!empty($_POST['add_days']) && !empty($_POST['clock_start']) && !empty($_POST['clock_end']) && !empty($_POST['add_subject_id'])) {
-		  	$schedule_row = $db->getrow("SELECT * FROM `school_schedule` WHERE `subject_id` = $selected_subject AND `day` = $days AND `clock_start` = $clock_start AND `clock_end` = $clock_end");
+		  if (!empty($_POST['add_days']) && !empty($_POST['clock_start']) && !empty($_POST['clock_end']) && !empty($_POST['select_subject_id'])) {
+		  	$schedule_row = $db->getrow("SELECT * FROM `school_schedule` WHERE `subject_id` = $selected_subject AND `day` = $add_days AND `clock_start` = '$clock_start' AND `clock_end` = '$clock_end'");
 		  	if (!$schedule_row) {
 			  	$schedule_id = $db->Insert('school_schedule', array(
 						'subject_id'  => $selected_subject,
-						'day'         => $days,
+						'day'         => $add_days,
 						'clock_start' => $clock_start,
 						'clock_end'   => $clock_end
 			  	));
@@ -26,9 +22,9 @@
 		  	}
 		  }
 		}
-   
 	}
-	?>
+?> 
+<div class="col-md-6">
 	<form method="POST" role="form" enctype="multipart/form-data" >
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -42,26 +38,27 @@
 					?>
 					<select name="select_class_id" id="select_class_id" class="form-control">
 						<option>Select Class</option>
-						<?php echo createOption($db->getAssoc($class_id)); ?>
+						<?php echo createOption($db->getAssoc($class_id));?>
 					</select>
 				</div>	
 				<div class="form-group">
 					<label for="">Days</label>
 					<select name="add_days" class="form-control">
-						<?php echo createOption($days); ?>
+						<option>Select Days</option>
+						<?php echo createOption($days);?>
 					</select>
 				</div>
 				<div class="form-group">
 					<label for="">Clock Start</label>
-					<input type="text" name="clock_start" class="form-control" id="" placeholder="Input " value="">
+					<input type="time" name="clock_start" class="form-control" id="" placeholder="Input " value="">
 				</div>			
 				<div class="form-group">
 					<label for="">Clock End</label>
-					<input type="text" name="clock_end" class="form-control" id="" placeholder="Input " value="">
+					<input type="time" name="clock_end" class="form-control" id="" placeholder="Input " value="">
 				</div>	
 				<div class="form-group">
 					<label for="">Course</label>
-					<select name="add_subject_id" id="course_by_class" class="form-control" required="" disabled>
+					<select name="select_subject_id" id="course_by_class" class="form-control" required="" disabled>
 						<option>Select Course</option>
 					</select>
 				</div>
@@ -92,9 +89,7 @@
 	</script>
 </div>
 
-<!-- Input Schedule With Excel -->
-
-<div class="col-md-4">
+<div class="col-md-6">
 	<form method="POST" role="form" enctype="multipart/form-data" onsubmit="return validateForm()">
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -161,10 +156,10 @@ $datashown_schedule = false;
 	  foreach ($output as $key => $value) {
 
 				if ((isset($value[$day]) || isset($value['B'])) &&
-						(isset($value[$course]) || isset($value['C'])) &&
+						(isset($value[$course])  || isset($value['C'])) &&
 						(isset($value[$teacher]) || isset($value['D'])) &&
-						(isset($value[$class]) || isset($value['E'])) &&
-						(isset($value[$clock]) || isset($value['F']))) {
+						(isset($value[$class])   || isset($value['E'])) &&
+						(isset($value[$clock])   || isset($value['F']))) {
 
 		    $course_name = $db->getOne("SELECT `name` FROM `school_course` WHERE `name` = '" . ($value[$course] ?? $value['C']) . "' ");
 
@@ -175,25 +170,25 @@ $datashown_schedule = false;
 		        echo "Nama course berhasil ditambahkan\n";
 		    } else {
 					$course_id  = $db->getOne("SELECT `id` FROM `school_course` WHERE `name` = '" . ($value[$course] ?? $value['C']) . "'");
-					 if (!$datashown_course) {
-			        echo "Data course sudah ada di database\n";
-			        $datashown_course = true; // Set variabel penanda
-				    }
+					if (!$datashown_course) {
+		        echo "Data course sudah ada di database\n";
+		        $datashown_course = true; // Set variabel penanda
+				  }
 		    }
 
 		    $teacher_name = $db->getOne("SELECT `name` FROM `school_teacher` WHERE `name` = '" . ($value[$teacher] ?? $value['D']) . "'");
 
 		    if (!$teacher_name) {
-		        $teacher_id = $db->Insert('school_teacher', array(
-		            'name' => $value[$teacher] ?? $value['D']
-		        ));
-		        echo "Nama guru berhasil ditambahkan\n";
+	        $teacher_id = $db->Insert('school_teacher', array(
+	          'name' => $value[$teacher] ?? $value['D']
+	        ));
+	        echo "Nama guru berhasil ditambahkan\n";
 		    } else {
 		      $teacher_id = $db->getOne("SELECT `id` FROM `school_teacher` WHERE `name` = '" . ($value[$teacher] ?? $value['D']) . "'");
-		       if (!$datashown_teacher) {
-			        echo "Data teacher sudah ada di database\n";
-			        $datashown_teacher = true; // Set variabel penanda
-				    }
+		      if (!$datashown_teacher) {
+		        echo "Data teacher sudah ada di database\n";
+		        $datashown_teacher = true; // Set variabel penanda
+				 	}
 		    }
 
 		    if (isset($teacher_id) && $teacher_id !== null) {

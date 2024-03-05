@@ -1,7 +1,12 @@
 // withHooks
-import { memo } from 'react';
+import React, { memo } from 'react';
+import { useEffect } from 'react';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 import { Auth } from '../auth/login';
+import { UserClass } from 'esoftplay/cache/user/class/import';
+import { Pressable, Text, View } from 'react-native';
+import esp from 'esoftplay/esp';
+import { LibStyle } from 'esoftplay/cache/lib/style/import';
 
 
 
@@ -14,23 +19,41 @@ export interface MainIndexProps {
 }
 function m(props: MainIndexProps): any {
 
-  const [isSignedIn] = Auth.useSelector(data => [data.isLogin,{ persistKey: 'auth' }])
-  const [loginAs]=Auth.useSelector(data=>[data.status,{persistKey:'auth'}])
+  const user = UserClass.state().useState()
 
-  
-    if (isSignedIn==true && loginAs=="teacher") {
-      LibNavigation.navigate('teacher/index');
-    }else if (isSignedIn==true && loginAs=="parent") {
-      console.log("login as parent")
-      LibNavigation.navigate('parent/index');
-    } 
-    else {
-      LibNavigation.navigate('onboarding/onboarding');
+  esp.log(user);
+  useEffect(() => {
+    if (user) {
+      console.log('user:',user);
+      console.log('user.group_ids:',user[0]?.group_ids);
+      console.log('user.group_ids[0]',typeof user[0].group_ids[0])
+      // user.group_ids: ["6","5"]
+      if (user[0]?.group_ids[0] == "6") {
+        LibNavigation.replace('parent/index')
+      } else if (user[0]?.group_ids[0] == "5") {
+        LibNavigation.replace('teacher/index')
+      }else{
+        UserClass.delete()
+        LibNavigation.reset()
+      }
+    }else {
+      
+       LibNavigation.replace('auth/login')
     }
-  // return (
-  //   <View style={{ flex: 1, backgroundColor: 'white', alignContent: 'center',justifyContent:'center'}}>
-  //     <Button title="Go to Login" onPress={() => {navigation.navigate('auth/login',console.log("click"))}} />
-  //   </View>    
-  // ) 
+  }, [user])
+
+  return (
+    <View style={{paddingTop: LibStyle.STATUSBAR_HEIGHT}}>
+      <Text>main</Text>
+      <Pressable onPress={() => {   LibNavigation.replace('parent/index')}} style={{ backgroundColor: 'red', padding: 10, margin: 10 }}>
+        <Text>parent</Text>
+      </Pressable>
+      
+      <Pressable onPress={() => {   LibNavigation.replace('teacher/index')}} style={{ backgroundColor: 'red', padding: 10, margin: 10 }}>
+        <Text>teacher</Text>
+      </Pressable>
+    </View>
+  );
+
 }
 export default memo(m);

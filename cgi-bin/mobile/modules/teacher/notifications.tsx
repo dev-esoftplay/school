@@ -1,8 +1,8 @@
 // withHooks
 
 import { MaterialIcons } from '@expo/vector-icons';
-import React, { useState } from 'react';
-import { memo } from 'react';
+import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
+import React, { memo, useState } from 'react';
 import { View, Switch, Text, Platform } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -33,7 +33,7 @@ function m(props: TeacherNotificationsProps): any {
 
         <View style={{ marginTop: -150 }}>
         <View style={{ justifyContent: 'flex-start', alignItems: 'flex-start', marginTop: 20 }}>
-                <TouchableOpacity style={{ marginLeft: 15 }}>
+                <TouchableOpacity style={{ marginLeft: 15 }} onPress={()=>LibNavigation.back()}>
                     <MaterialIcons name='arrow-back-ios' size={30} color='#000000' />
                 </TouchableOpacity>
             </View>

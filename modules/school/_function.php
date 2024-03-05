@@ -14,7 +14,7 @@ function school_schedule_day($day_id='none')
 		);
 	if (is_numeric($day_id))
 	{
-		return !empty($r[$day_id]) ? $r[$day_id] : $r[0];
+		return !empty($r[$day_id]) ? $r[$day_id] : $r[1];
 	}else{
 		return $r;
 	}
@@ -33,4 +33,17 @@ function school_schedule_days_numeric($namaHari) {
     ];
 
     return $hariNumerik[$namaHari] ?? null; // Mengembalikan nilai numerik atau null jika tidak ditemukan.
+}
+
+function school_phone_replace($phone) 
+{
+	// Hapus semua karakter kecuali angka
+	$phone = preg_replace('/[^0-9]/', '', $phone);
+
+	// Jika nomor dimulai dengan "08", gantilah dengan "628"
+	if (substr($phone, 0, 2) === '08') {
+		$phone = '628' . substr($phone, 2);
+	}
+
+	return $phone;
 }

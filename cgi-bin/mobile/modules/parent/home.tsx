@@ -1,88 +1,21 @@
 // withHooks
+import { memo } from 'react';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
+import { LibPicture } from 'esoftplay/cache/lib/picture/import';
+import esp from 'esoftplay/esp';
+import { useRef, useState, useEffect } from 'react';
 // import { LibStyle } from 'esoftplay/cache/lib/style/import';
-import { memo, useRef, useState } from 'react';
 import React from 'react';
 import { Dimensions, FlatList, Image, Pressable, Text, View } from 'react-native';
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+import { LibStyle } from 'esoftplay/cache/lib/style/import';
 
 // Props untuk komponen ParentsHome
 export interface ParentsHomeProps {
   navigation: any;
 }
 
-// Data anak-anak dan kehadirannya
-interface ChildData {
-  nama: string;
-  kelas: string;
-  sekolah: string;
-  image: any;
-  kehadiran?: any[];
-}
-
-// Data kehadiran anak pada setiap slide
-const slides: ChildData[] = [
-  {
-    nama: 'Naufal Dinaja',
-    kelas: '12 PPLG 2',
-    sekolah: 'SMK Rus Kudus',
-    image: require('../../assets/naufal.png'),
-    kehadiran: [
-      {
-        kategori: 'Hadir',
-        value: 30,
-        color: '#0DBD5E',
-      },
-      {
-        kategori: 'Sakit',
-        value: 10,
-        color: '#F6C956',
-      },
-      {
-        kategori: 'Izin',
-        value: 5,
-        color: '#0083FD',
-      },
-      {
-        kategori: 'Alfa',
-        value: 5,
-        color: '#FF4343',
-      },
-
-    ]
-  },
-  {
-    nama: 'Ilham Maulana',
-    kelas: '12 PPLG 2',
-    sekolah: 'SMK Rus Kudus',
-    image: require('../../assets/roki.png'),
-    kehadiran: [
-      {
-        kategori: 'Hadir',
-        value: 30,
-        color: '#0DBD5E',
-      },
-      {
-        kategori: 'Sakit',
-        value: 10,
-        color: '#F6C956',
-      },
-      {
-        kategori: 'Izin',
-        value: 5,
-        color: '#0083FD',
-      },
-      {
-        kategori: 'Alfa',
-        value: 5,
-        color: '#FF4343',
-      },
-
-    ]
-  },
-  // Tambahkan data anak lainnya jika diperlukan
-];
 
 function shadows(value: number) {
   return {
@@ -98,7 +31,7 @@ function shadows(value: number) {
 function ParentsHome({ navigation }: ParentsHomeProps): JSX.Element {
   const { width, height } = Dimensions.get('window');
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-  const ref = useRef<FlatList<ChildData>>(null);
+  const ref = useRef<FlatList<any>>(null);
 
   // Fungsi untuk memperbarui indeks slide saat digulirkan
   const updateCurrentSlideIndex = (e: any) => {
@@ -124,46 +57,51 @@ function ParentsHome({ navigation }: ParentsHomeProps): JSX.Element {
     }
   };
 
-  const [resApi, setResApi] = useState<any>([])
-  
-  const hitApi =() => {
-    console.log('test')
-    new LibCurl('student_attendance_detail' , get, (result, msg) => {
-      console.log("result detail siswa", result)
-      setResApi(result)
+  const [ParentStudent, setParentStudent] = useState<any>([])
+
+  const hitApi = () => { }
+
+  function loadParentStudent() {
+    new LibCurl('parent_student', get, (result, msg) => {
+      setParentStudent(result)
     }, (err) => {
       console.log("error", err)
     }, 1)
   }
 
-  // // Efek untuk auto slide setiap beberapa detik
-  // useEffect(() => {
-  //   const interval = setInterval(goToNextSlide, 5000);
 
-  //   // Membersihkan interval saat komponen tidak lagi digunakan
-  //   return () => clearInterval(interval);
-  // }, [currentSlideIndex]);
+  // // Efek untuk auto slide setiap beberapaslides detik
+  useEffect(() => {
+    loadParentStudent();
+  }, []);
+
+  // Data anak-anak dan kehadirannya
+
+
+  // Data kehadiran anak pada setiap slide
+  const slides: [] = ParentStudent.student_data
 
   return (
     <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       {/* Kartu Orang Tua */}
-      <View style={{ flex: 1, backgroundColor: '#4B7AD6', justifyContent: 'flex-start', padding: 20, borderBottomRightRadius: 12, borderBottomLeftRadius: 12 }}>
+      <View style={{ flex: 1, backgroundColor: '#4B7AD6', justifyContent: 'flex-start', padding: 20, paddingTop: 40, borderBottomRightRadius: 12, borderBottomLeftRadius: 12 }}>
 
-          <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#FFFFFF' }}>Selamat Datang,</Text>
+        <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#FFFFFF' }}>Selamat Datang,</Text>
 
-          <Pressable onPress={() => hitApi()}>
-            <Text>hitApi</Text>
-          </Pressable>
+        <Pressable onPress={() => { hitApi() }}>
 
-        <View style={{ backgroundColor: '#FFFFFF', height: 120, justifyContent: 'flex-start', alignItems: 'center', marginVertical: 20, padding: 15, flexDirection: 'row', borderRadius: 10 }}>
-          <Image source={require('../../assets/anies.png')} style={{ width: 95, height: 95, justifyContent: 'center' }} />
 
-          <View style={{ marginLeft: 15, alignItems: 'flex-start', justifyContent: 'center' }}>
-            <Text style={{ fontSize: 18, color: '#000000', textAlign: 'center', fontWeight: '600' }}>Anies Rasyid Baswedan</Text>
-            <Text style={{ fontSize: 18, color: '#000000', textAlign: 'center', fontWeight: '600' }}>Presiden RI 2024</Text>
+          <View style={{ backgroundColor: '#FFFFFF', height: 120, justifyContent: 'flex-start', alignItems: 'center', marginVertical: 20, padding: 15, flexDirection: 'row', borderRadius: 10 }}>
+            <Image source={{ uri: ParentStudent.image ?? 'https://images.unsplash.com/photo-1507823782123-27db7f9fd196?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }} style={{ width: 105, height: 105, borderRadius: 135 / 2, borderWidth: 3, borderColor: '#FFFFFF' }} />
+            <View style={{ marginLeft: 15, alignItems: 'flex-start', justifyContent: 'center' }}>
+              <Text style={{ fontSize: 18, color: '#000000', textAlign: 'center', fontWeight: '600' }}>{ParentStudent.name}</Text>
+              <Text style={{ fontSize: 18, color: '#000000', textAlign: 'center', fontWeight: '600' }}>+{ParentStudent.phone}</Text>
+            </View>
           </View>
-        </View>
+
+        </Pressable>
       </View>
+
 
       <View>
         <Text style={{ fontSize: 20, fontWeight: '600', marginTop: 15, marginLeft: 15 }}>Awasi aktivitas anak anda</Text>
@@ -179,73 +117,95 @@ function ParentsHome({ navigation }: ParentsHomeProps): JSX.Element {
           contentContainerStyle={{ height: height * 0.6, alignItems: 'center', backgroundColor: '#ffffff' }}
           showsHorizontalScrollIndicator={false}
           horizontal
-          data={slides}
+          data={ParentStudent.student_data}
           pagingEnabled
-          renderItem={({ item }) => (
-
-            <View style={{ alignItems: 'center', width: width - 40, paddingBottom: 20, borderRadius: 12, backgroundColor: '#ffffff', marginRight: 20, justifyContent: 'center', height: height * 0.8, padding: 10 }}>
-
-              <Pressable onPress={() => LibNavigation.navigate('parent/childdetail')}>
-                <View style={{ height: height * 0.54, backgroundColor: '#4B7AD6', width: width - 50, borderRadius: 12, marginTop: 10, ...shadows(3), paddingTop: 79 }}>
-
-    
-                  <View style={{ padding: 20, alignItems: 'center', backgroundColor: 'white', borderBottomLeftRadius: 12, borderBottomRightRadius: 12, height: height * 0.44 }}>
-                    <Image
-                      source={item.image}
-                      style={{ width: 100, height: 100, borderRadius: 75, alignSelf: 'center', borderWidth: 2, borderColor: 'white', marginLeft: 10, position: 'absolute', top: -65 }} />
-                    <View style={{ alignItems: 'center', marginTop: 20 }}>
-                      <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'black' }}>{item.nama}</Text>
-                      <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'black' }}>{item.kelas}</Text>
-                      <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'black' }}>{item.sekolah}</Text>
-                    </View>
-                    {/* grid  daftar kehadiran */}
-                    <FlatList
-                      data={item.kehadiran}
-                      numColumns={2} // Sesuaikan dengan jumlah kolom yang diinginkan
-                      keyExtractor={(item, index) => index.toString()}
-                      scrollEnabled={false}
-                      contentContainerStyle={{ padding: 10, }}
-                      renderItem={({ item: kehadiranItem }) => (
-                        <View style={{ height: 80, width: '45%', alignItems: 'center', backgroundColor: kehadiranItem.color, justifyContent: 'center', borderRadius: 10, padding: 5, margin: '2.5%' }}>
-                          <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>{kehadiranItem.value}</Text>
-                          <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white' }}>{kehadiranItem.kategori}</Text>
-                        </View>
-                      )} />
-                  </View>
-
-                </View>
-              </Pressable>
-              {/* slide indicator */}
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  marginTop: 10,
-                }}>
-                {slides.map((_, index) => (
-                  <View
-                    key={index}
-                    style={[
-                      {
-                        height: 15,
-                        width: 30,
-                        backgroundColor: '#757171',
-                        marginHorizontal: 3,
-                        borderRadius: 12,
-                      },
-                      currentSlideIndex === index && {
-                        backgroundColor: '#3F8DFD',
-                        width: 25,
-                      },
-                    ]}
-                  />
-                ))}
-              </View>
-            </View>
-          )}
-          onScroll={(e) => updateCurrentSlideIndex(e)}
           keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => {
+            console.log('item:', JSON.stringify(item))
+            console.log(item.class_name)
+
+            return (
+              <View style={{ alignItems: 'center', width: width - 40, paddingBottom: 20, borderRadius: 12, backgroundColor: '#ffffff', marginRight: 20, justifyContent: 'center', height: height * 0.8, padding: 10 }}>
+
+                <Pressable onPress={() => LibNavigation.navigate('parent/childdetail', console.log('data_anak', item))}>
+                  <View style={{ height: height * 0.54, backgroundColor: '#4B7AD6', width: width - 50, borderRadius: 12, marginTop: 10, ...shadows(3), paddingTop: 79 }}>
+
+
+                    <View style={{ padding: 20, alignItems: 'center', backgroundColor: '#FFFFFF', borderBottomLeftRadius: 12, borderBottomRightRadius: 12, height: height * 0.44 }}>
+                      <Image
+                        source={ParentStudent.image}
+                        style={{ width: 100, height: 100, borderRadius: 75, alignSelf: 'center', borderWidth: 2, borderColor: '#FFFFFF', marginLeft: 10, position: 'absolute', top: -65 }} />
+
+                      <View style={{ alignItems: 'center', marginTop: 20 }}>
+                        <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#000000' }}>{item.student_name}</Text>
+                        <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#000000' }}>{item.nis}</Text>
+                        <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#000000' }}>{item.birthday}</Text>
+                      </View>
+
+                      {/* grid  daftar kehadiran */}
+                      <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', marginTop: 10 }}>
+                        <View style={{ height: 80, width: '45%', alignItems: 'center', backgroundColor: '#0EBD5E', justifyContent: 'center', borderRadius: 10, padding: 5, margin: '2.5%' }}>
+                          <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#FFFFFF' }}>{item.student_attendance.hadir} </Text>
+                          <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#FFFFFF' }}>Hadir</Text>
+                        </View>
+
+                        <View style={{ height: 80, width: '45%', alignItems: 'center', backgroundColor: '#F6C856', justifyContent: 'center', borderRadius: 10, padding: 5, margin: '2.5%' }}>
+                          <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#FFFFFF' }}>{item.student_attendance.sakit} </Text>
+                          <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#FFFFFF' }}>Sakit</Text>
+                        </View>
+
+                        <View style={{ height: 80, width: '45%', alignItems: 'center', backgroundColor: '#0083FD', justifyContent: 'center', borderRadius: 10, padding: 5, margin: '2.5%' }}>
+                          <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#FFFFFF' }}>{item.student_attendance.sakit} </Text>
+                          <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#FFFFFF' }}>Izin</Text>
+                        </View>
+
+                        <View style={{ height: 80, width: '45%', alignItems: 'center', backgroundColor: '#FF4342', justifyContent: 'center', borderRadius: 10, padding: 5, margin: '2.5%' }}>
+                          <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#FFFFFF' }}>{item.student_attendance.sakit} </Text>
+                          <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#FFFFFF' }}>Alfa</Text>
+                        </View>
+
+                      </View>
+                    </View>
+                  </View>
+                </Pressable>
+                {/* slide indicator */}
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    marginTop: 10,
+                  }}>
+                </View>
+
+              </View>
+            )
+          }}
+          onScroll={(e) => updateCurrentSlideIndex(e)}
+
         />
+        
+        {/* <View style={{ flexDirection: "row", alignContent: 'center', justifyContent: 'center', width: LibStyle.width }}>
+          <View style={{ flexDirection: "row", width: LibStyle.width / 4 }}>
+            {ParentStudent.student_data.map((_: any, index: React.Key | null | undefined) => (
+              <View
+                key={index}
+                style={[
+                  {
+                    height: 15,
+                    width: 20,
+                    backgroundColor: '#757171',
+                    marginHorizontal: 3,
+                    borderRadius: 12,
+                  },
+                  currentSlideIndex === index && {
+                    backgroundColor: '#3F8DFD',
+                    width: 35,
+                  },
+                ]}
+              />
+            ))}
+          </View>
+        </View> */}
 
       </View>
     </View>

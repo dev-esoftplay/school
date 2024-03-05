@@ -1,5 +1,6 @@
 // withHooks
-import { memo, useMemo, useState } from 'react';
+import { memo } from 'react';
+import { useMemo, useState } from 'react';
 
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
@@ -87,9 +88,9 @@ function m(props: ParentIndexProps): any {
         }} >
 
         {/* Render item-menu untuk setiap layar */}
-        {renderMenuItem('ios-home', 'Beranda', 0, 'ios-home-outline', 0)}
-        {renderMenuItem('ios-mail', 'Notif', 3, 'ios-mail-outline', 3)}
-        {renderMenuItem('ios-person', 'Profil', 4, 'ios-person-outline', 4)}
+        {renderMenuItem('home', 'Beranda', 0, 'home-outline', 0)}
+        {renderMenuItem('mail', 'Notif', 3, 'mail-outline', 3)}
+        {renderMenuItem('person', 'Profil', 4, 'person-outline', 4)}
       </View>
     </View>
   );

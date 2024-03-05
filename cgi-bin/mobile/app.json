@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "mobile",
-    "slug": "mobile",
+    "name": "School Test",
+    "slug": "schooltest",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -11,13 +11,16 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-
-    
+    "updates": {
+      "fallbackToCacheTimeout": 0,
+      "enabled": true,
+      "url": "https://u.expo.dev/f77e515c-842e-4adf-a86a-98bb87769bdb"
+    },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
-      "bundleIdentifier": "com.domain",
+      "bundleIdentifier": "com.schooltest",
       "buildNumber": "1",
       "supportsTablet": true,
       "associatedDomains": [
@@ -31,7 +34,7 @@
       }
     },
     "android": {
-      "package": "com.domain",
+      "package": "com.schooltest",
       "versionCode": 1,
       "intentFilters": [
         {
@@ -61,7 +64,12 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "runtimeVersion": "1",
-    "jsEngine": "hermes"
+    "runtimeVersion": "schooltest",
+    "jsEngine": "hermes",
+    "extra": {
+      "eas": {
+        "projectId": "f77e515c-842e-4adf-a86a-98bb87769bdb"
+      }
+    }
   }
 }

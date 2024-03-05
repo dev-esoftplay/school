@@ -4,10 +4,6 @@ $form = _lib('pea', 'school_schedule');
 $form->initSearch();
 
 $days = school_schedule_day();
-// $form->search->addInput('day','select');
-// $form->search->input->day->setTitle('Search by days');
-// $form->search->input->day->addOption('Select days', '');
-// $form->search->input->day->addOption($days);
 
 $form->search->addInput('keyword','keyword');
 $form->search->input->keyword->addSearchField('keyword,day,clock_start,clock_end');
@@ -20,8 +16,12 @@ $form->initRoll($add_sql.' ORDER BY id DESC', 'id' );
 
 $form->roll->setSaveTool(true);
 
-$form->roll->addInput( 'id', 'sqlplaintext' );
+$form->roll->addInput('id', 'sqlplaintext');
 $form->roll->input->id->setDisplayColumn(true);
+
+$form->roll->addInput('id','sqllinks');
+$form->roll->input->id->setFieldName('id AS edit');
+$form->roll->input->id->setLinks($Bbc->mod['circuit'].'.schedule_edit');
 
 $form->roll->addInput( 'day', 'select' );
 $form->roll->input->day->setTitle( 'day' );

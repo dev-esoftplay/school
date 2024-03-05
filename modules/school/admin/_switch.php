@@ -19,6 +19,14 @@ switch( $Bbc->mod['task'] )
 	case 'student_add':
 		include 'student_add.php';
 		break;
+
+	case 'student_class':
+		include 'student_class.php';
+		break;	
+
+	case 'student_class_add':
+		include 'student_class_add.php';
+		break;	
 		
 	case 'teacher':
 		include 'teacher.php';
@@ -48,12 +56,12 @@ switch( $Bbc->mod['task'] )
 		include 'schedule_edit.php';
 		break;
 		
-	case 'course':
-		include 'course.php';
+	case 'subject':
+		include 'subject.php';
 		break;
 		
-	case 'course_edit':
-		include 'course_edit.php';
+	case 'subject_edit':
+		include 'subject_edit.php';
 		break;
 		
 	case 'parent':

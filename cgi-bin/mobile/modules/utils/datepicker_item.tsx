@@ -1,5 +1,6 @@
 // withHooks
-import React, { memo } from 'react';
+import { memo } from 'react';
+import React from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 export interface UtilsDatepicker_itemArgs {

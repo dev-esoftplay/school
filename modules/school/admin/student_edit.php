@@ -11,6 +11,10 @@ $form->edit->addInput('name','text');
 $form->edit->input->name->setTitle('nama');
 $form->edit->input->name->setRequire($require='any', $is_mandatory=1);
 
+$form->edit->addInput('birthday','text');
+$form->edit->input->birthday->setTitle('tanggal lahir');
+$form->edit->input->birthday->setRequire($require='any', $is_mandatory=1);
+
 $form->edit->addInput('nokk','text');
 $form->edit->input->nokk->setTitle('nomer kk');
 $form->edit->input->nokk->setRequire($require='any', $is_mandatory=1);
@@ -37,6 +41,5 @@ $form->edit->input->parent_id_guard->setTitle('guard');
 $form->edit->input->parent_id_guard->setReferenceTable('school_parent');
 $form->edit->input->parent_id_guard->setReferenceField('name','id');
 $form->edit->input->parent_id_guard->setPlaintext(true);
-
 
 echo $form->edit->getForm();

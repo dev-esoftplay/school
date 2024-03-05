@@ -1,5 +1,6 @@
 // withHooks
-import { memo, useState } from 'react';
+import { memo } from 'react';
+import { useState } from 'react';
 
 import Scroll from 'esoftplay/modules/lib/scroll';
 import React from 'react';
@@ -9,6 +10,8 @@ import { check } from 'esoftplay/modules/lib/updater';
 import navigation from 'esoftplay/modules/lib/navigation';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import SchoolColors from '../utils/schoolcolor';
+import { LibPicture } from 'esoftplay/cache/lib/picture/import';
+import esp from 'esoftplay/esp';
 const  schhol = new SchoolColors();
 
 export interface AuthResetpassArgs {
@@ -36,7 +39,7 @@ function m(props: AuthResetpassProps): any {
   return (
     <View style={{ flex: 1 }} >
       <ScrollView showsVerticalScrollIndicator={false} style={{ padding: 30, alignContent: 'center' }}>
-        <Image source={require('../../assets/phone.png')}
+        <LibPicture source={esp.assets('phone.png')}
           style={styles.image} />
         <Text style={{ fontSize: 16, textAlign: 'center', fontWeight: 'bold', marginTop: 20 }}>Masukkan kata sandi baru Anda</Text>
         <Text style={{ fontSize: 16, textAlign: 'center', }}>Jangan pernah memberikan kata sandi Anda kepada siapa pun, bahkan orang yang Anda percayai.</Text>

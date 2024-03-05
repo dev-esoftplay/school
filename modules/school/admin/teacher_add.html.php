@@ -8,20 +8,24 @@
       </div>
       <div class="panel-body">
         <div class="form-group">
-          <label for="">Field Nama Guru</label>
-          <input type="text" name="nama_guru" class="form-control input-file" id="" placeholder="Input field" required>
+          <label for="">Nama Guru</label>
+          <input type="text" name="name" class="form-control input-file" id="" placeholder="Input field" required>
         </div>
         <div class="form-group">
-          <label for="">Field NIP Guru</label>
+          <label for="">NIP Guru</label>
           <input type="text" name="nip" class="form-control input-file" id="" placeholder="Input field" required>
         </div>
         <div class="form-group">
-          <label for="">Field No HP Guru</label>
-          <input type="text" name="phone" class="form-control input-file" id="" placeholder="Input field" required>
+          <label for="">No HP Guru</label>
+          <input type="number" name="phone" class="form-control input-file" id="" placeholder="Input field" required>
         </div>
         <div class="form-group">
-          <label for="">Field Posisi Guru</label>
+          <label for="">Posisi Guru</label>
           <input type="text" name="position" class="form-control input-file" id="" placeholder="Input field" required>
+        </div>
+        <div class="form-group">
+          <label for="tanggal">Tanggal Lahir</label>
+          <input type="date" id="tanggal" name="birthday" class="form-control" required>
         </div>
         <button type="submit" class="btn btn-primary" name="submit" value="submit_form1">Submit</button>
       </div>
@@ -40,7 +44,7 @@
         <p>Jika Field dibawah ini tidak diisi, maka Nama Guru akan mengambil kolom B, NIP kolom C, NoHp kolom D, Posisi kolom E </p>
         <div class="form-group">
           <label for="">Field Nama Guru</label>
-          <input type="text" name="nama_guru" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['nama_guru'] ?>">
+          <input type="text" name="name" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['name'] ?>">
         </div>
         <div class="form-group">
           <label for="">Field NIP</label>
@@ -51,8 +55,12 @@
           <input type="text" name="phone" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['phone'] ?>">
         </div>
         <div class="form-group">
-          <label for="">Field Posisition</label>
+          <label for="">Field Posisi</label>
           <input type="text" name="position" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['position'] ?>">
+        </div>
+        <div class="form-group">
+          <label for="">Field Tanggal Lahir</label>
+          <input type="text" name="birthday" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['birthday'] ?>">
         </div>
         <div class="form-group">
           <label for="fileInput">Pilih File</label>

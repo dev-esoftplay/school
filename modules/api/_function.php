@@ -1,5 +1,11 @@
 <?php  if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
+include_once __DIR__ . '/functions/image.php';
+include_once __DIR__ . '/functions/key.php';
+include_once __DIR__ . '/functions/phone.php';
+include_once __DIR__ . '/functions/days.php';
+include_once __DIR__ . '/functions/week.php';
+
 /**
  * membuat return bahwa api yang diakses tidak true
  * */
@@ -50,9 +56,9 @@ function api_ok($value, $is_ok = 1, $status_code=200)
   }
  }else{
   $output     = array(
-   'ok'        => $is_ok,
-   'message'     => $is_ok ? 'success' : (is_string($value) ? $value : (!empty($output['message']) ? $output['message'] : 'failed')),
-   'result'      => $value
+   'ok'       => $is_ok,
+   'message'  => $is_ok ? 'success' : (is_string($value) ? $value : (!empty($output['message']) ? $output['message'] : 'failed')),
+   'result'   => $value
    );
  }
 

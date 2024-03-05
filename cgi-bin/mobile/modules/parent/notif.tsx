@@ -54,7 +54,7 @@ function m(props: ParentNotifProps): any {
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       
-      <View style={{ flex: 0.3, backgroundColor: '#4B7AD6', justifyContent: 'flex-start', padding: 20, borderBottomRightRadius: 12, borderBottomLeftRadius: 12 }}>
+      <View style={{ flex: 0.3, backgroundColor: '#4B7AD6', justifyContent: 'flex-start', padding: 20, paddingTop: 40, borderBottomRightRadius: 12, borderBottomLeftRadius: 12 }}>
         <Text style={{ fontSize: 20, marginTop: 10, color: '#FFFFFF', justifyContent: 'center', textAlign: 'center'}}>Notifikasi</Text>
       </View>
 

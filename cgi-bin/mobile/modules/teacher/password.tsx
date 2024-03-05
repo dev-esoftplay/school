@@ -2,9 +2,10 @@
 
 import { MaterialIcons } from '@expo/vector-icons';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
+import { LibPicture } from 'esoftplay/cache/lib/picture/import';
 import { LibStyle } from 'esoftplay/cache/lib/style/import';
-import React from 'react';
-import { memo } from 'react';
+import esp from 'esoftplay/esp';
+import React, { memo } from 'react';
 import { Image, Platform, Pressable, Text, TouchableOpacity, View } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 
@@ -27,13 +28,14 @@ function m(props: TeacherPasswordProps): any {
         <View style={{ flex: 2, backgroundColor: '#FFFFFF', marginTop: LibStyle.STATUSBAR_HEIGHT}}>
 
             <View style={{ justifyContent: 'flex-start', alignItems: 'flex-start', marginTop: 5 }}>
-                <TouchableOpacity style={{ position: 'absolute', marginTop: 20, marginLeft: 20 }}>
+                <TouchableOpacity style={{ position: 'absolute', marginTop: 20, marginLeft: 20 }}onPress={()=>LibNavigation.back()}>
                     <MaterialIcons name='arrow-back-ios' size={30} color='#000000' />
                 </TouchableOpacity>
             </View>
 
             <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 95 }}>
-                <Image source={require('../../assets/otp.png')} style={{ width: 300, height: 190}}/>
+                <LibPicture source={esp.assets('otp.png')} style={{ width: 300, height: 190}}/>
+               {/* <Image source={require('../../assets/otp.png')} style={{ width: 300, height: 190}}/> */}
             </View>
 
             <View style={{ alignContent: 'center', justifyContent: 'center', marginTop: 55 }}>

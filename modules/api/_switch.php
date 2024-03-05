@@ -16,6 +16,26 @@ switch( $Bbc->mod['task'] )
 		include 'student.php';
 		break;
 
+	case 'student_class': // untuk melisting kelas siswa sesuai dengan jadwal yang dipilih guru GET:{"class_id":"1","schedule_id":"1"}
+		include 'student_class.php';
+		break;
+
+	case 'student_attendance': // untuk memasukkan data absensi siswa POST:{"student_id":"1","schedule_id":"1","status":"1"}
+		include 'student_attendance.php';
+		break;
+		
+	case 'homeroom_student': // untuk listing siswa di kelas yang diampu wali kelas GET:{"class_id":"1"}
+		include 'homeroom_student.php';
+		break;
+		
+	case 'homeroom_student_detail': // untuk melihat detail siswa dari listing siswa yang diampu wali kelas GET:{"student_id":"1", "month":"1 ?? current(month)", "week":"1 ?? ""}
+		include 'homeroom_student_detail.php';
+		break;
+
+	case 'homeroom_student_schedule_detail': // untuk melihat detail siswa dari listing siswa yang diampu wali kelas GET:{"student_id":"1", "month":"1 ?? current(month)", "week":"1 ?? ""}
+		include 'homeroom_student_schedule_detail.php';
+		break;
+
 	case 'parent':
 		include 'parent.php';
 		break;
@@ -36,5 +56,63 @@ switch( $Bbc->mod['task'] )
 		include 'subject.php';
 		break;
 
+	case 'teacher_subject_class': // melisting class guru 
+		include 'teacher_subject_class.php';
+		break;
+
+	case 'teacher_subject_course': // melisting course guru 
+		include 'teacher_subject_course.php';
+		break;
+
+	case 'public_login':
+		include 'public_login.php';
+		break;
+	
+	case 'teacher_update': // untuk mengubah data guru POST:{"#image":"url imgae"}
+		include 'teacher_update.php';
+		break;
+
+	case 'teacher_schedule': // melisting jadwal guru 
+		include 'teacher_schedule.php';
+		break;
+
+	case 'teacher_schedule_report': // melisting laporan jadwal guru 
+		include 'teacher_schedule_report.php';
+		break;
+
+	case 'teacher_schedule_class': // melisting jadwal wali kelas 
+		include 'teacher_schedule_class.php';
+		break;
+	
+	case 'parent_student': // melisting anak dari orang tua 
+		include 'parent_student.php';
+		break;
+
+	case 'public_image_upload': // untuk mengupload gambar yang akan disimpan ke database FILE:{"image"}
+	case 'image_upload': // untuk mengupload gambar yang akan disimpan ke database FILE:{"image"}
+		include 'image_upload.php';
+		break;
+
+ 	case 'logout': // Halaman untuk logout bagi user yang sudah login
+    user_logout($Bbc->user_id);
+    redirect(_URL);
+    break;
+
+  case 'public_test':
+	  pr('public', __FILE__.':'.__LINE__);die();
+  	break;
+
+  case 'push-token': // untuk replace generate push_id notif
+		include 'push-token.php';
+		break;
+
+  case 'no_auth': // tiap API wajib pakai ini
+		api_no(lang('Authentication Failed.'));
+		break;
+
+	default: // tiap API wajib pakai ini
+		api_no(lang('Invalid action <b>%s</b> has been received...', $Bbc->mod['task']));
+		break;
 }
 output_json($output);
+

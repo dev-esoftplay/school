@@ -1,146 +1,216 @@
-<?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');?>
+<?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');
+$fields = [
+  'nama_siswa',
+  'tanggal_lahir_siswa',
+  'nis',
+  'nomer_kk',
+  'alamat',
+  'nama_ayah',
+  'tanggal_lahir_ayah',
+  'nik_ayah',
+  'nomer_telepon_ayah',
+  'nama_ibu',
+  'tanggal_lahir_ibu',
+  'nik_ibu',
+  'nomer_telepon_ibu',
+  'nama_wali',
+  'tanggal_lahir_wali',
+  'nik_wali',
+  'nomer_kk_wali',
+  'nomer_telepon_wali',
+  'alamat_wali',
+];
 
-<style>
-  .btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-    border-radius: 5px;
-    margin: 40px 0px;
-    color: white;
-  }
+$data_siswa = 0;
+if (isset($fields[1]) && !empty($_POST[$fields[1]])) 
+{ 
+  $data_siswa = $db->getRow("SELECT * FROM `school_student` WHERE `nis` = '{$_POST[$fields[1]]}'");
+}
 
-  .form-group {
-    margin-bottom: 10px;
-    padding: 0px 20px;
-  } 
-
-  .input-file {
-    text-transform: uppercase; 
-  }
-  .button-file{
-    margin:20px;
-  }
-</style>
-<body>
-<?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") // HANDLE INSERT DATA FROM INPUT MANUAL DATA
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['manual']) && !empty($_POST[$fields[1]]) && !$data_siswa)  
 {
-  $phone_ayah     = isset($_POST['nomer_telepon_ayah']) ? $_POST['nomer_telepon_ayah'] : null;
-  $phone_wali     = isset($_POST['nomer_telepon_wali']) ? $_POST['nomer_telepon_wali'] : null;
-  $phone_ibu      = isset($_POST['nomer_telepon_ibu']) ? $_POST['nomer_telepon_ibu'] : null;
-  $nomer_kk_wali  = isset($_POST['nomer_kk_wali']) ? $_POST['nomer_kk_wali'] : null;
-  $alamat_wali    = isset($_POST['alamat_wali']) ? $_POST['alamat_wali'] : null;
-  $nama_siswa     = isset($_POST['nama_siswa']) ? $_POST['nama_siswa'] : null;
-  $nama_ayah      = isset($_POST['nama_ayah']) ? $_POST['nama_ayah'] : null;
-  $nama_wali      = isset($_POST['nama_wali']) ? $_POST['nama_wali'] : null;
-  $nama_ibu       = isset($_POST['nama_ibu']) ? $_POST['nama_ibu'] : null;
-  $nomer_kk       = isset($_POST['nomer_kk']) ? $_POST['nomer_kk'] : null;
-  $nik_ayah       = isset($_POST['nik_ayah']) ? $_POST['nik_ayah'] : null;
-  $nik_wali       = isset($_POST['nik_wali']) ? $_POST['nik_wali'] : null;
-  $nik_ibu        = isset($_POST['nik_ibu']) ? $_POST['nik_ibu'] : null;
-  $alamat         = isset($_POST['alamat']) ? $_POST['alamat'] : null;
-  $nis            = isset($_POST['nis']) ? $_POST['nis'] : null;
+  foreach ($fields as $field) 
+  {
+    $data[$field]       = isset($_POST[$field]) ? $_POST[$field] : null;
+    $input_post[$field] = isset($_POST[$field]) ? htmlspecialchars($_POST[$field]) : '';
+  }
+  if (isset($data['nik_ayah']))
+  {
+    $data['nik_ayah'] = $data['nik_ayah'] ?? null;
+  }
+  if (isset($data['nik_ibu']))
+  {
+    $data['nik_ibu'] = $data['nik_ibu'] ?? null;
+  }
+  if (isset($data['nik_wali']))
+  {
+    $data['nik_wali'] = $data['nik_wali'] ?? null;
+  }
+  $data_siswa = 0;
+  $data_ayah  = 0;
+  $data_ibu   = 0;
+  $data_wali  = 0;
+  if (!empty($data['nik_ayah'])) 
+  {
+    $data_ayah    = $db->getRow("SELECT * FROM `school_parent` WHERE `nik` = {$data['nik_ayah']}");
+  }
+  if (!empty($data['nik_ibu'])) 
+  {
+    $data_ibu     = $db->getRow("SELECT * FROM `school_parent` WHERE `nik` = {$data['nik_ibu']}");
+  }
+  if (!empty($data['nik_wali'])) 
+  {
+    $data_wali    = $db->getRow("SELECT * FROM `school_parent` WHERE `nik` = {$data['nik_wali']}");
+  }
 
-  if ($nama_ayah) // INSERT DATA AYAH
+  $data_siswa   = $db->getRow("SELECT * FROM `school_student` WHERE `nis` = {$data['nis']}");
+  $name         = ['tanggal_lahir_siswa', 'tanggal_lahir_ayah', 'tanggal_lahir_ibu', 'tanggal_lahir_wali'];
+  foreach ($name as $name) 
+  {
+    $rawDate          = $data[$name]; // Ambil tanggal lahir mentah
+    $cleanedDate      = str_replace('-', '', $rawDate); // Hilangkan karakter "-"
+    $password[$name]  = encode($cleanedDate); // Kodekan tanggal lahir yang telah dibersihkan
+  }
+
+  if ($data_ayah == 0 && !empty($data['nik_ayah']) && !empty($data['nama_ayah'])) // INSERT DATA AYAH
   {
     $ayah_user_id = $db->Insert('bbc_user', array(
-      'password'  => $nama_ayah,
-      'username'  => $nik_ayah,
-      'group_ids' => '4'
+      'password'  => $password['tanggal_lahir_ayah'],
+      'username'  => $data['nik_ayah'],
+      'group_ids' => '6'
     ));
 
     $ayah_parent_id = $db->Insert('school_parent', array(
       'user_id' => $ayah_user_id,
-      'name'    => $nama_ayah,
-      'phone'   => $phone_ayah,
-      'nik'     => $nik_ayah,
-      'nokk'    => $nomer_kk,
-      'address' => $alamat,
+      'name'    => $data['nama_ayah'],
+      'birthday'=> $data['tanggal_lahir_ayah'],
+      'phone'   => school_phone_replace($data['nomer_telepon_ayah']),
+      'nik'     => $data['nik_ayah'],
+      'nokk'    => $data['nomer_kk'],
+      'address' => $data['alamat'],
+    ));
+
+    $db->insert('member', array(
+      'user_id' => $ayah_user_id,
+      'name'    => $data['nama_ayah']
     ));
     
     $db->insert('bbc_account', array(
       'user_id' => $ayah_user_id,
-      'username'=> $nik_ayah,
-      'name'    => $nama_ayah
+      'username'=> $data['nik_ayah'],
+      'name'    => $data['nama_ayah']
     ));
+  } else if ($data_ayah) 
+  {
+    $ayah_parent_id = $data_ayah['id'];
   }
 
-  if ($nama_ibu) // INSERT DATA IBU 
+  if ($data_ibu == 0 && !empty($data['nik_ibu']) && !empty($data['nama_ibu'])) // INSERT DATA IBU
   {
     $ibu_user_id = $db->Insert('bbc_user', array(
-      'password'  => $nama_ibu,
-      'username'  => $nik_ibu,
-      'group_ids' => '4'
+      'password'  => $password['tanggal_lahir_ibu'],
+      'username'  => $data['nik_ibu'],
+      'group_ids' => '6'
     ));
   
     $ibu_parent_id = $db->Insert('school_parent', array(
       'user_id' => $ibu_user_id,
-      'name'    => $nama_ibu,
-      'phone'   => $phone_ibu,
-      'nik'     => $nik_ibu,
-      'nokk'    => $nomer_kk,
-      'address' => $alamat,
+      'name'    => $data['nama_ibu'],
+      'birthday'=> $data['tanggal_lahir_ibu'],
+      'phone'   => school_phone_replace($data['nomer_telepon_ibu']),
+      'nik'     => $data['nik_ibu'],
+      'nokk'    => $data['nomer_kk'],
+      'address' => $data['alamat'],
+    ));
+
+    $db->insert('member', array(
+      'user_id' => $ibu_user_id,
+      'name'    => $data['nama_ibu']
     ));
   
     $db->insert('bbc_account', array(
       'user_id' => $ibu_user_id,
-      'username'=> $nik_ibu,
-      'name'    => $nama_ibu
+      'username'=> $data['nik_ibu'],
+      'name'    => $data['nama_ibu']
     ));
-  }
+  } else if ($data_ibu) 
+  {
+    $ibu_parent_id = $data_ibu['id'];
+  }  
 
-  if ($nama_wali) // INSERT DATA WALI
+  if ($data_wali) // INSERT DATA WALI
+  {
+    $wali_parent_id = $data_wali['id'];
+  } else if ($data_wali == 0 && !empty($data['nama_wali']))
   {
     $wali_user_id = $db->Insert('bbc_user', array(
-      'password'  => $nama_wali,
-      'username'  => $nik_wali,
-      'group_ids' => '4'
+      'password'  => $password['tanggal_lahir_wali'],
+      'username'  => $data['nik_wali'],
+      'group_ids' => '6'
     ));
   
     $wali_parent_id = $db->Insert('school_parent', array(
       'user_id' => $wali_user_id,
-      'name'    => $nama_wali,
-      'phone'   => $phone_wali,
-      'nik'     => $nik_wali,
-      'nokk'    => $nomer_kk_wali,
-      'address' => $alamat_wali,
+      'name'    => $data['nama_wali'],
+      'birthday'=> $data['tanggal_lahir_wali'],
+      'phone'   => school_phone_replace($data['nomer_telepon_wali']),
+      'nik'     => $data['nik_wali'],
+      'nokk'    => $data['nomer_kk_wali'],
+      'address' => $data['alamat_wali'],
+    ));
+
+    $db->insert('member', array(
+      'user_id' => $wali_user_id,
+      'name'    => $data['nama_wali']
     ));
   
     $db->insert('bbc_account', array(
       'user_id' => $wali_user_id,
-      'username'=> $nik_wali,
-      'name'    => $nama_wali
+      'username'=> $data['nik_wali'],
+      'name'    => $data['nama_wali']
     ));
   }
   
-  if ($nama_siswa) // INSERT DATA STUDENT
+  if ($data_siswa == 0) // INSERT DATA STUDENT
   {
     $student_user_id = $db->Insert('bbc_user', array(
-      'password'  => $nama_siswa,
-      'username'  => $nis,
-      'group_ids' => '4'
+      'password'  => $password['tanggal_lahir_siswa'],
+      'username'  => $data['nis'],
+      'group_ids' => '7'
     ));
   
     $student_id = $db->Insert('school_student', array(
       'user_id'         => $student_user_id,
       'parent_id_dad'   => $ayah_parent_id ?? null,
-      'parent_id_mom'   => $ibu_parent_id ?? null,
+      'parent_id_mom'   => $ibu_parent_id  ?? null,
       'parent_id_guard' => $wali_parent_id ?? null,
-      'name'            => $nama_siswa,
-      'nokk'            => $nomer_kk,
-      'address'         => $alamat,
-      'nis'             => $nis,
+      'name'            => $data['nama_siswa'],
+      'birthday'        => $data['tanggal_lahir_siswa'],
+      'nokk'            => $data['nomer_kk'],
+      'address'         => $data['alamat'],
+      'nis'             => $data['nis'],
+    ));
+
+    $db->insert('member', array(
+      'user_id' => $student_user_id,
+      'name'    => $data['nama_siswa']
     ));
   
     $db->insert('bbc_account', array(
       'user_id' => $student_user_id,
-      'username'=> $nis,
-      'name'    => $nama_siswa
+      'username'=> $data['nis'],
+      'name'    => $data['nama_siswa']
     ));
-  }
+  } 
 
   // INSERT PIVOT TABLE STUDENT && PARENT
-  if ($nama_wali) 
+  if ($data_wali) 
+  {
+    $db->Insert('school_student_parent', array(
+      'student_id' => $student_id,
+      'parent_id'  => $data_wali['id']
+    ));
+  } else if ($data_wali == 0 && !empty($data['nama_wali']))
   {
     $db->Insert('school_student_parent', array(
       'student_id' => $student_id,
@@ -148,327 +218,209 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") // HANDLE INSERT DATA FROM INPUT MANUA
     ));
   }
 
-  if ($nama_ayah) 
+  if ($data_ayah) 
+  {
+    $db->Insert('school_student_parent', array(
+      'student_id' => $student_id,
+      'parent_id'  => $data_ayah['id']
+    ));
+  } else if ($data_ayah == 0 && !empty($data['nik_ayah']) && !empty($data['nama_ayah']))
   {
     $db->Insert('school_student_parent', array(
       'student_id' => $student_id,
       'parent_id'  => $ayah_parent_id
     ));
   }
-
-  if ($nama_ibu) 
+  
+  if ($data_ibu) 
+  {
+    $db->Insert('school_student_parent', array(
+      'student_id' => $student_id,
+      'parent_id'  => $data_ibu['id']
+    ));
+  } else if ($data_ibu == 0 && !empty($data['nik_ibu']) && !empty($data['nama_ibu']))
   {
     $db->Insert('school_student_parent', array(
       'student_id' => $student_id,
       'parent_id'  => $ibu_parent_id
     ));
   }
+}else if ($data_siswa > 0 && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['manual'])) 
+{
+  echo '<span id="error-span" class="hide-span bg-danger text-center col-md-12">nis '. $_POST['nis'].' sudah ada</span>';
 }
-?>
-  <h2 class="text-center">Form Siswa</h2>
-  <form method="post" enctype="multipart/form-data" class="col-md-7">
-    <!-- ========================================== -->
-    <!-- START STUDENT -->
-    <!-- ========================================== -->
-    <div class="form-group siswa">
-      <label for="nama_siswa">Nama Siswa :</label>
-      <input type="text" class="form-control" name="nama_siswa" <?php echo isset($_POST['nama_siswa']) ? htmlspecialchars($_POST['nama_siswa']) : ''; ?> required>
-    </div>
 
-    <div class="form-group siswa">
-      <label for="nis">NIS :</label>
-      <input type="number" class="form-control" name="nis" <?php echo isset($_POST['nis']) ? htmlspecialchars($_POST['nis']) : ''; ?> required>
-    </div>
+foreach ($fields as $name) 
+{
+  $input_post[$name]    = isset($_POST[$name]) ? htmlspecialchars($_POST[$name]) : null;
+  $insert_field[$name]  = isset($_POST[$name]) ? $_POST[$name] : null;
+}
 
-    <div class="form-group siswa">
-      <label for="nomer_kk">Nomor KK :</label>
-      <input type="number" class="form-control" name="nomer_kk" <?php echo isset($_POST['nomer_kk']) ? htmlspecialchars($_POST['nomer_kk']) : ''; ?> required>
-    </div>
-
-    <div class="form-group siswa">
-      <label for="alamat">Alamat :</label>
-      <input type="text" class="form-control" name="alamat" <?php echo isset($_POST['alamat']) ? htmlspecialchars($_POST['alamat']) : ''; ?> required>
-    </div>
-
-    <div class="form-group">
-      <input type="radio" name="MyRadio" value="orang tua" checked> orang tua <br>
-      <input type="radio" name="MyRadio" value="wali"> wali
-    </div>
-
-    
-    <!-- ========================================== -->
-    <!-- START AYAH -->
-    <!-- ========================================== -->
-
-    <div class="form-group ayah">
-      <label for="nama_ayah">Nama Ayah :</label>
-      <input type="text" class="form-control" name="nama_ayah" required>
-    </div> 
-
-    <div class="form-group ayah">
-      <label for="nik_ayah">NIK Ayah :</label>
-      <input type="number" class="form-control" name="nik_ayah" required>
-    </div>
-
-    <div class="form-group ayah">
-      <label for="nomer_telepon_ayah">Nomor Telepon Ayah :</label>
-      <input type="text" class="form-control" name="nomer_telepon_ayah" required>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- START IBU -->
-    <!-- ========================================== -->
-
-    <div class="form-group ibu">
-      <label for="nama_ibu">Nama Ibu :</label>
-      <input type="text" class="form-control" name="nama_ibu" required>
-    </div> 
-
-    <div class="form-group ibu">
-      <label for="nik_ibu">NIK Ibu :</label>
-      <input type="number" class="form-control" name="nik_ibu" required>
-    </div>
-
-    <div class="form-group ibu">
-      <label for="nomer_telepon_ibu">Nomor Telepon Ibu :</label>
-      <input type="text" class="form-control" name="nomer_telepon_ibu" required>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- START WALI -->
-    <!-- ========================================== -->
-
-    <div class="form-group wali">
-      <label for="nama_wali">Nama Wali :</label>
-      <input type="text" class="form-control" name="nama_wali" required>
-    </div> 
-
-    <div class="form-group wali">
-      <label for="nik_wali">NIK wali :</label>
-      <input type="number" class="form-control" name="nik_wali" required>
-    </div>
-
-    <div class="form-group wali">
-      <label for="nomer_kk_wali">Nomor KK wali :</label>
-      <input type="number" class="form-control" name="nomer_kk_wali" required>
-    </div>
-
-    <div class="form-group wali">
-      <label for="nomer_telepon_wali">Nomor Telepon wali :</label>
-      <input type="text" class="form-control" name="nomer_telepon_wali" required>
-    </div>
-
-    <div class="form-group wali">
-      <label for="alamat_wali">Alamat wali :</label>
-      <input type="text" class="form-control" name="alamat_wali" required>
-    </div>
-
-    <div class="form-group">
-      <button type="submit" class="btn btn-primary col-md-12">Submit</button>
-    </div>
-  </form>
-  <!-- import data with Excel -->
-  <div class="col-md-4">
-    <form method="POST" role="form" enctype="multipart/form-data">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h1 class="panel-title">Add Student Parent with Excel</h1>
-        </div>
-        <div class="panel-body">
-          <div class="form-group">
-            <label for="">Field Nama Siswa</label>
-            <input type="text" name="nama_siswa" class="form-control input-file" id="" placeholder="Input field" value="<?php echo isset($_POST['nama_siswa']) ? htmlspecialchars($_POST['nama_siswa']) : ''; ?>">
-          </div>	
-          <div class="form-group">
-            <label for="">Field Nis</label>
-            <input type="text" name="nis" class="form-control input-file" id="" placeholder="Input field" value="<?php echo isset($_POST['nis']) ? htmlspecialchars($_POST['nis']) : ''; ?>">
-          </div>	
-          <div class="form-group">
-            <label for="">Field Nomer KK</label>
-            <input type="text" name="nokk" class="form-control input-file" id="" placeholder="Input field" value="<?php echo isset($_POST['nokk']) ? htmlspecialchars($_POST['nokk']) : ''; ?>">
-          </div>	
-          <div class="form-group">
-            <label for="">Field Alamat</label>
-            <input type="text" name="alamat" class="form-control input-file" id="" placeholder="Input field" value="<?php echo isset($_POST['alamat']) ? htmlspecialchars($_POST['alamat']) : ''; ?>">
-          </div>
-          <div class="form-group">
-            <label for="">Field Nama Ayah</label>
-            <input type="text" name="nama_ayah" class="form-control input-file" id="" placeholder="Input field" value="<?php echo isset($_POST['nama_ayah']) ? htmlspecialchars($_POST['nama_ayah']) : ''; ?>">
-          </div>	
-          <div class="form-group">
-            <label for="">Field Nik Ayah</label>
-            <input type="text" name="nik_ayah" class="form-control input-file" id="" placeholder="Input field" value="<?php echo isset($_POST['nik_ayah']) ? htmlspecialchars($_POST['nik_ayah']) : ''; ?>">
-          </div>	
-          <div class="form-group">
-            <label for="">Field Nomer Telepon Ayah</label>
-            <input type="text" name="nomer_telepon_ayah" class="form-control input-file" id="" placeholder="Input field" value="<?php echo isset($_POST['nomer_telepon_ayah']) ? htmlspecialchars($_POST['nomer_telepon_ayah']) : ''; ?>">
-          </div>	
-          <div class="form-group">
-            <label for="">Field Nama Ibu</label>
-            <input type="text" name="nama_ibu" class="form-control input-file" id="" placeholder="Input field" value="<?php echo isset($_POST['nama_ibu']) ? htmlspecialchars($_POST['nama_ibu']) : ''; ?>">
-          </div>
-          <div class="form-group">
-            <label for="">Field Nik Ibu</label>
-            <input type="text" name="nik_ibu" class="form-control input-file" id="" placeholder="Input field" value="<?php echo isset($_POST['nik_ibu']) ? htmlspecialchars($_POST['nik_ibu']) : ''; ?>">
-          </div>	
-          <div class="form-group">
-            <label for="">Field Nomer Telepon Ibu</label>
-            <input type="text" name="nomer_telepon_ibu" class="form-control input-file" id="" placeholder="Input field" value="<?php echo isset($_POST['nomer_telepon_ibu']) ? htmlspecialchars($_POST['nomer_telepon_ibu']) : ''; ?>">
-          </div>	
-          <div class="form-group">
-            <label for="">Field Nama Wali</label>
-            <input type="text" name="nama_wali" class="form-control input-file" id="" placeholder="Input field" value="<?php echo isset($_POST['nama_wali']) ? htmlspecialchars($_POST['nama_wali']) : ''; ?>">
-          </div>	
-          <div class="form-group">
-            <label for="">Field Nik Wali</label>
-            <input type="text" name="nik_wali" class="form-control input-file" id="" placeholder="Input field" value="<?php echo isset($_POST['nik_wali']) ? htmlspecialchars($_POST['nik_wali']) : ''; ?>">
-          </div>	
-          <div class="form-group">
-            <label for="">Field Nomer KK Wali</label>
-            <input type="text" name="nokk_wali" class="form-control input-file" id="" placeholder="Input field" value="<?php echo isset($_POST['nokk_wali']) ? htmlspecialchars($_POST['nokk_wali']) : ''; ?>">
-          </div>	
-          <div class="form-group">
-            <label for="">Field Nomer Telepon Wali</label>
-            <input type="text" name="nomer_telepon_wali" class="form-control input-file" id="" placeholder="Input field" value="<?php echo isset($_POST['nomer_telepon_wali']) ? htmlspecialchars($_POST['nomer_telepon_wali']) : ''; ?>">
-          </div>
-          <div class="form-group">
-            <label for="">Field Alamat Wali</label>
-            <input type="text" name="alamat_wali" class="form-control input-file" id="" placeholder="Input field" value="<?php echo isset($_POST['alamat_wali']) ? htmlspecialchars($_POST['alamat_wali']) : ''; ?>">
-          </div>	
-          <div class="form-group">
-            <label for="fileInput">Pilih File</label>
-            <input type="file" name="file" class="form-control">
-          </div>
-          <button type="submit" class="btn btn-primary button-file col-md-11" name="submit" value="submit">Submit</button>
-        </div>
-      </div>
-    </form>
-  </div>
-  <?php 
-  $data = array('params' => '');
-	if (!empty($_FILES['file']) && (!empty($_POST) || isset($_POST))) 
+// import data from excel
+if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['import_excel'])) 
+{ 
+  $output = _lib('excel')->read($_FILES['file']['tmp_name'])->sheet(1)->fetch();
+  unset($output[1]);
+  foreach ($output as $key => $value) //LOOPING DATA FROM IMPORT EXCEL
   {
-	  $output = _lib('excel')->read($_FILES['file']['tmp_name'])->sheet(1)->fetch();
-		unset($output[1]);
-		$nama_siswa   = isset($_POST['nama_siswa']) ? $_POST['nama_siswa'] : null;
-		$nis          = isset($_POST['nis']) ? $_POST['nis'] : null;
-		$nokk         = isset($_POST['nokk']) ? $_POST['nokk'] : null;
-		$alamat       = isset($_POST['alamat']) ? $_POST['alamat'] : null;
-		$nama_ayah    = isset($_POST['nama_ayah']) ? $_POST['nama_ayah'] : null;
-		$nik_ayah     = isset($_POST['nik_ayah']) ? $_POST['nik_ayah'] : null;
-		$no_hp_ayah   = isset($_POST['nomer_telepon_ayah']) ? $_POST['nomer_telepon_ayah'] : null;
-		$nama_ibu     = isset($_POST['nama_ibu']) ? $_POST['nama_ibu'] : null;
-		$nik_ibu      = isset($_POST['nik_ibu']) ? $_POST['nik_ibu'] : null;
-		$no_hp_ibu    = isset($_POST['nomer_telepon_ibu']) ? $_POST['nomer_telepon_ibu'] : null;
-		$nama_wali    = isset($_POST['nama_wali']) ? $_POST['nama_wali'] : null;
-		$nik_wali     = isset($_POST['nik_wali']) ? $_POST['nik_wali'] : null;
-		$nokk_wali    = isset($_POST['nokk_wali']) ? $_POST['nokk_wali'] : null;
-		$no_hp_wali   = isset($_POST['nomer_telepon_wali']) ? $_POST['nomer_telepon_wali'] : null;
-		$alamat_wali  = isset($_POST['alamat_wali']) ? $_POST['alamat_wali'] : null;
-
-
-	  foreach ($output as $key => $value) //LOOPING DATA FROM IMPORT EXCEL
+    if(!empty($value[$insert_field['nama_siswa']]) && $data_siswa == 0) 
     {
-      if ($value[$nama_ayah] !== null) // INSERT DATA AYAH
+      $data_ayah  = $db->getRow("SELECT * FROM `school_parent` WHERE `nik` = '{$value[$insert_field['nik_ayah']]}'");
+      $data_ibu   = $db->getRow("SELECT * FROM `school_parent` WHERE `nik` = '{$value[$insert_field['nik_ibu']]}'");
+      $data_wali  = $db->getRow("SELECT * FROM `school_parent` WHERE `nik` = '{$value[$insert_field['nik_wali']]}'");
+      $data_ayah  = $data_ayah ?? 0;
+      $data_ibu   = $data_ibu  ?? 0;
+      $data_wali  = $data_wali ?? 0;
+      $name       = ['tanggal_lahir_siswa', 'tanggal_lahir_ayah', 'tanggal_lahir_ibu', 'tanggal_lahir_wali'];
+      foreach ($name as $name) 
+      {
+          $rawDate          = $value[$insert_field[$name]]; // Ambil tanggal lahir mentah
+          $cleanedDate      = str_replace('-', '', $rawDate); // Hilangkan karakter "-"
+          $password[$name]  = encode($cleanedDate); // Kodekan tanggal lahir yang telah dibersihkan
+      }
+    
+      if (!empty($value[$insert_field['nama_ayah']]) && $data_ayah == 0) // INSERT DATA AYAH
       {
         $ayah_user_id_file = $db->Insert('bbc_user', array(
-          'password'  => $value[$nama_ayah],
-          'username'  => $value[$nik_ayah],
-          'group_ids' => '4'
+          'password'  => $password['tanggal_lahir_ayah'],
+          'username'  => $value[$insert_field['nik_ayah']],
+          'group_ids' => '6'
         ));
 
         $ayah_parent_id_file = $db->Insert('school_parent', array(
-          'name'    => $value[$nama_ayah],
           'user_id' => $ayah_user_id_file,
-          'nik'     => $value[$nik_ayah],
-          'nokk'    => $value[$nokk],
-          'address' => $value[$alamat],
-          'phone'   => $value[$no_hp_ayah]
+          'name'    => $value[$insert_field['nama_ayah']],
+          'birthday'=> $value[$insert_field['tanggal_lahir_ayah']],
+          'nik'     => $value[$insert_field['nik_ayah']],
+          'nokk'    => $value[$insert_field['nomer_kk']],
+          'address' => $value[$insert_field['alamat']],
+          'phone'   => school_phone_replace($value[$insert_field['nomer_telepon_ayah']]),
+        ));
+
+        $db->insert('member', array(
+          'user_id' => $ayah_user_id_file,
+          'name'    => $value[$insert_field['nama_ayah']],
         ));
 
         $db->insert('bbc_account', array(
           'user_id' => $ayah_user_id_file,
-          'username'=> $value[$nik_ayah],
-          'name'    => $value[$nama_ayah]
+          'username'=> $value[$insert_field['nik_ayah']],
+          'name'    => $value[$insert_field['nama_ayah']],
         ));
+      } else if ($data_ayah > 0) 
+      {
+        $ayah_parent_id_file = $data_ayah['id'];
+      } else if (empty($value[$insert_field['nama_ayah']])) 
+      {
+        $ayah_parent_id_file = 0;
       }
 
-      if ($value[$nama_ibu] !== null) // INSERT DATA IBU
+      if (!empty($value[$insert_field['nama_ibu']]) && $data_ibu == 0) // INSERT DATA IBU
       {
         $ibu_user_id_file = $db->Insert('bbc_user', array(
-          'password'  => $value[$nama_ibu],
-          'username'  => $value[$nik_ibu],
-          'group_ids' => '4'
+          'password'  => $password['tanggal_lahir_ibu'],
+          'username'  => $value[$insert_field['nik_ibu']],
+          'group_ids' => '6'
         ));
 
         $ibu_parent_id_file = $db->Insert('school_parent', array(
-          'name'    => $value[$nama_ibu],
           'user_id' => $ibu_user_id_file,
-          'nik'     => $value[$nik_ibu],
-          'nokk'    => $value[$nokk],
-          'address' => $value[$alamat],
-          'phone'   => $value[$no_hp_ibu],
+          'name'    => $value[$insert_field['nama_ibu']],
+          'birthday'=> $value[$insert_field['tanggal_lahir_ibu']],
+          'nik'     => $value[$insert_field['nik_ibu']],
+          'nokk'    => $value[$insert_field['nomer_kk']],
+          'address' => $value[$insert_field['alamat']],
+          'phone'   => school_phone_replace($value[$insert_field['nomer_telepon_ibu']]),
         ));
-        
+
+        $db->insert('member', array(
+          'user_id' => $ibu_user_id_file,
+          'name'    => $value[$insert_field['nama_ibu']],
+        ));
+
         $db->insert('bbc_account', array(
           'user_id' => $ibu_user_id_file,
-          'username'=> $value[$nik_ibu],
-          'name'    => $value[$nama_ibu],
+          'username'=> $value[$insert_field['nik_ibu']],
+          'name'    => $value[$insert_field['nama_ibu']],
         ));
+      } else if ($data_ibu > 0) 
+      {
+        $ibu_parent_id_file = $data_ibu['id'];
+      } else if (empty($value[$insert_field['nama_ibu']])) 
+      {
+        $ibu_parent_id_file = 0;
       }
 
-      if ($value[$nama_wali] !== null) // INSERT DATA WALI
+      if (!empty($value[$insert_field['nama_wali']]) && $data_wali == 0) // INSERT DATA WALI
       {
         $wali_user_id_file = $db->Insert('bbc_user', array(
-          'password'  => $value[$nama_wali],
-          'username'  => $value[$nik_wali],
-          'group_ids' => '4'
+          'password'  => $password['tanggal_lahir_wali'],
+          'username'  => $value[$insert_field['nik_wali']],
+          'group_ids' => '6'
         ));
       
         $wali_parent_id_file = $db->Insert('school_parent', array(
-          'name'    => $value[$nama_wali],
           'user_id' => $wali_user_id_file,
-          'nik'     => $value[$nik_wali],
-          'nokk'    => $value[$nokk_wali],
-          'address' => $value[$alamat_wali],
-          'phone'   => $value[$no_hp_wali],
+          'name'    => $value[$insert_field['nama_wali']],
+          'birthday'=> $value[$insert_field['tanggal_lahir_wali']],
+          'nik'     => $value[$insert_field['nik_wali']],
+          'nokk'    => $value[$insert_field['nomer_kk_wali']],
+          'address' => $value[$insert_field['alamat_wali']],
+          'phone'   => school_phone_replace($value[$insert_field['nomer_telepon_wali']]),
+        ));
+
+        $db->insert('member', array(
+          'user_id' => $wali_user_id_file,
+          'name'    => $value[$insert_field['nama_wali']],
         ));
       
         $db->insert('bbc_account', array(
           'user_id' => $wali_user_id_file,
-          'username'=> $value[$nik_wali],
-          'name'    => $value[$nama_wali],
+          'username'=> $value[$insert_field['nik_wali']],
+          'name'    => $value[$insert_field['nama_wali']],
         ));
+      } else if ($data_wali > 0) 
+      {
+        $wali_parent_id_file = $data_wali['id'];
+      } else if (empty($value[$insert_field['nama_wali']])) 
+      {
+        $wali_parent_id_file = 0;
       }
 
-      if ($value[$nama_siswa]) // INSERT DATA STUDENT
+      if (!empty($value[$insert_field['nama_siswa']])) // INSERT DATA STUDENT
       {
         $student_user_id_file = $db->Insert('bbc_user', array(
-          'password'  => $value[$nama_siswa],
-          'username'  => $value[$nis],
-          'group_ids' => '4'
+          'password'  => $password['tanggal_lahir_siswa'],
+          'username'  => $value[$insert_field['nis']],
+          'group_ids' => '7'
         ));
       
         $student_id_file = $db->Insert('school_student', array(
           'user_id'         => $student_user_id_file,
           'parent_id_dad'   => $ayah_parent_id_file ?? null,
-          'parent_id_mom'   => $ibu_parent_id_file ?? null,
+          'parent_id_mom'   => $ibu_parent_id_file  ?? null,
           'parent_id_guard' => $wali_parent_id_file ?? null,
-          'name'            => $value[$nama_siswa],
-          'nokk'            => $value[$nokk],
-          'address'         => $value[$alamat],
-          'nis'             => $value[$nis],
+          'name'            => $value[$insert_field['nama_siswa']],
+          'birthday'        => $value[$insert_field['tanggal_lahir_siswa']],
+          'nokk'            => $value[$insert_field['nomer_kk']],
+          'address'         => $value[$insert_field['alamat']],
+          'nis'             => $value[$insert_field['nis']],
+        ));
+
+        $db->insert('member', array(
+          'user_id' => $student_user_id_file,
+          'name'    => $value[$insert_field['nama_siswa']],
         ));
       
         $db->insert('bbc_account', array(
-          'user_id' => $student_user_id_file,
-          'username'=> $value[$nis],
-          'name'    => $value[$nama_siswa]
+          'user_id'   => $student_user_id_file,
+          'username'  => $value[$insert_field['nis']],
+          'name'      => $value[$insert_field['nama_siswa']],
         ));
       }
 
-    // INSERT PIVOT TABLE STUDENT && PARENT
-    if ($value[$nama_wali]) 
+      // INSERT PIVOT TABLE STUDENT && PARENT
+      if ($value[$insert_field['nama_wali']]) 
       {
         $db->Insert('school_student_parent', array(
           'student_id' => $student_id_file,
@@ -476,7 +428,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") // HANDLE INSERT DATA FROM INPUT MANUA
         ));
       }
 
-      if ($value[$nama_ayah]) 
+      if ($value[$insert_field['nama_ayah']]) 
       {
         $db->Insert('school_student_parent', array(
           'student_id' => $student_id_file,
@@ -484,7 +436,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") // HANDLE INSERT DATA FROM INPUT MANUA
         ));
       }
 
-      if ($value[$nama_ibu]) 
+      if ($value[$insert_field['nama_ibu']]) 
       {
         $db->Insert('school_student_parent', array(
           'student_id' => $student_id_file,
@@ -492,50 +444,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") // HANDLE INSERT DATA FROM INPUT MANUA
         ));
       }
     }
-	}
-  ?>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  }
+}
+link_css(__DIR__ . '/css/student_add.css'); //untuk memanggil file css
+include tpl('student_add.html.php'); //untuk mengincludekan file html
 
-  <script>
-    $(document).ready(function()
-    {
-      $("input[name='MyRadio']").on('change', function() 
-      {
-        let value = $("input[name='MyRadio']:checked").val();
-
-        // Clear the required attribute for all fields
-        $(".form-group input").prop('required', false);
-
-        // Set the required attribute based on the selected value
-        if(value == "orang tua") {
-          $(".wali input").prop('required', false);
-          $(".ayah input, .ibu input").prop('required', true);
-          $(".wali").hide();
-          $(".ayah, .ibu").show();
-        } else if(value == "wali") {
-          $(".ayah input, .ibu input").prop('required', false);
-          $(".wali input").prop('required', true);
-          $(".wali").show();
-          $(".ayah, .ibu").hide();
-        }
-      });
-
-      // Set initial state based on the default selected radio button
-      let initialValue = $("input[name='MyRadio']:checked").val();
-      if (initialValue == "orang tua") 
-      {
-        $(".wali input").prop('required', false);
-        $(".ayah input, .ibu input").prop('required', true);
-        $(".wali").hide();
-        $(".ayah, .ibu").show();
-      } else if (initialValue == "wali") 
-      {
-        $(".ayah input, .ibu input").prop('required', false);
-        $(".wali input").prop('required', true);
-        $(".wali").show();
-        $(".ayah, .ibu").hide();
-      }
-    });
-  </script>
-</body>
-</html>
