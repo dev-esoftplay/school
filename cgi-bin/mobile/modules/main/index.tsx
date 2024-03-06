@@ -1,4 +1,5 @@
 // withHooks
+import { memo } from 'react';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import { UserClass } from 'esoftplay/cache/user/class/import';
@@ -20,7 +21,7 @@ export interface MainIndexArgs {
 export interface MainIndexProps {
 
 }
-export default function m(props: MainIndexProps): any {
+function m(props: MainIndexProps): any {
 
   const user = UserClass.state().useSelector(s => s);
    const timeout= useTimeout()
@@ -103,3 +104,4 @@ export default function m(props: MainIndexProps): any {
   }
 
 }
+export default memo(m);

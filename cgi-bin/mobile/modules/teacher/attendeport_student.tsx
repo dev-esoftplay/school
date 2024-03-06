@@ -1,4 +1,5 @@
 // withHooks
+import { memo } from 'react';
 
 import { MaterialIconsTypes } from '@expo/vector-icons/build/esoftplay_icons';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
@@ -20,7 +21,7 @@ export interface AttendReportStudentArgs {
 export interface AttendReportStudentProps {
     
 }
-export default function m(props: AttendReportStudentProps): any {
+function m(props: AttendReportStudentProps): any {
    
     const [ApiResponse, setResApi] = useSafeState<any>();
     //<Pressable onPress={() => LibNavigation.navigate('teacher/attendeport_student', { idclas: item?.class?.id, date: dates ,schedule_id:item.schedule_id})}> 
@@ -194,3 +195,4 @@ export default function m(props: AttendReportStudentProps): any {
       </View>
     )
 }
+export default memo(m);

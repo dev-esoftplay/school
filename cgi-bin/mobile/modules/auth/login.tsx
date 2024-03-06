@@ -1,4 +1,5 @@
 // withHooks
+import { memo } from 'react';
 import { LibCrypt } from 'esoftplay/cache/lib/crypt/import';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
@@ -65,7 +66,7 @@ export interface ResApi {
 
 // export const curlState = useGlobalState<any>(undefined)
 
-export default function m(props: LoginIndexsProps): any {
+function m(props: LoginIndexsProps): any {
 
   const school = new SchoolColors();
   // const cState = curlState.useSelector(s => s)
@@ -76,30 +77,9 @@ export default function m(props: LoginIndexsProps): any {
 
 
   function login(username?: string, password?: string) {
-<<<<<<< HEAD
-    const post = {
-      username: new LibCrypt().encode(String(username)),
-      password: new LibCrypt().encode(String(password)),
-      installation_id: 'a3'
-    }
-    LibProgress.show('Loading')
-    new LibCurl('public_login', post, (result, msg) => {
-
-      LibProgress.hide()
-      // UserClass berfungsi untuk menyimpan data user yang login
-      UserClass.create(result).then((value) => {
-        LibNavigation.reset()
-      })
-    }, (err) => {
-      LibProgress.hide()
-      LibDialog.warning('Login Gagal', err?.message)
-    }, 1)
-
-=======
     LibUtils.getInstallationID().then((installation_id) => {
       console.log("installation_id type: ", typeof installation_id)
       console.log("installation_id: ", String(installation_id))
->>>>>>> eb3dd804f2fcd0e1d0b005f7645de012a1dedde8
 
       const post = {
         username: new LibCrypt().encode(String(username || '55555')),
@@ -300,3 +280,5 @@ export default function m(props: LoginIndexsProps): any {
     </View>
   );
 }
+
+export default memo(m);

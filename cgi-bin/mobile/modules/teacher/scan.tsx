@@ -1,4 +1,5 @@
 // withHooks
+import { memo } from 'react';
 
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibLazy } from 'esoftplay/cache/lib/lazy/import';
@@ -14,7 +15,7 @@ import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 export interface TeacherScanArgs {}
 export interface TeacherScanProps {}
 
-export default function m(props: TeacherScanProps): any {
+function m(props: TeacherScanProps): any {
  let isScanned = useRef<boolean>(false);
   const [hasPermission, setHasPermission] = useSafeState();
   let [result, setResult] = useSafeState<any>(null);
@@ -130,3 +131,5 @@ export default function m(props: TeacherScanProps): any {
     </View>
   );
 }
+
+export default memo(m);

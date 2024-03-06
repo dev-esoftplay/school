@@ -19,7 +19,7 @@ export interface ParentAccountArgs {
 export interface ParentAccountProps {
 
 }
-export default function m(props: ParentAccountProps): any {
+function m(props: ParentAccountProps): any {
   const logout = () => {
     Auth.reset()
     navigation.navigate('auth/login')
@@ -85,3 +85,4 @@ export default function m(props: ParentAccountProps): any {
     </View>
   )
 }
+export default memo(m);

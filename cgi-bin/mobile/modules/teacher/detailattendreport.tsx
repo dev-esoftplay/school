@@ -1,4 +1,5 @@
 // withHooks
+import { memo } from 'react';
 import { useEffect } from 'react';
 
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
@@ -17,7 +18,7 @@ export interface DetailAttendReportArgs {
 export interface DetailAttendReportProps {
 
 }
-export default function m(props: DetailAttendReportProps): any {
+function m(props: DetailAttendReportProps): any {
   const data: any = LibNavigation.getArgsAll(props).data;
   const idstudent: string = LibNavigation.getArgsAll(props).idstudent;
   const [resApi, setResApi] = useSafeState<any>([])
@@ -141,3 +142,4 @@ export default function m(props: DetailAttendReportProps): any {
     </View>
   )
 }
+export default memo(m);

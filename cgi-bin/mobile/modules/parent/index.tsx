@@ -1,4 +1,5 @@
 // withHooks
+import { memo } from 'react';
 import { useMemo, useState } from 'react';
 
 import React from 'react';
@@ -19,7 +20,7 @@ export interface ParentIndexArgs {
 export interface ParentIndexProps {
 
 }
-export default function m(props: ParentIndexProps): any {
+function m(props: ParentIndexProps): any {
   const [menu, setMenu] = useState('Beranda')??LibNavigation.getArgsAll(props);
  
   const [focused, setFocused] = useState(0);
@@ -94,3 +95,4 @@ export default function m(props: ParentIndexProps): any {
     </View>
   );
 }
+export default memo(m);

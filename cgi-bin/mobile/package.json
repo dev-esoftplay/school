@@ -19,24 +19,15 @@
     "@react-navigation/native-stack": "^6.9.17",
     "@react-navigation/stack": "^6.3.20",
     "@shopify/flash-list": "1.6.3",
-<<<<<<< HEAD
-    "esoftplay": "0.0.137-g",
-    "expo": "~50.0.5",
-    "expo-barcode-scanner": "~12.9.2",
-=======
-    "esoftplay": "^0.0.137-s",
+    "esoftplay": "^0.0.137-u",
     "expo": "~50.0.5",
     "expo-barcode-scanner": "~12.9.2",
     "expo-build-properties": "~0.11.1",
->>>>>>> eb3dd804f2fcd0e1d0b005f7645de012a1dedde8
     "expo-camera": "~14.0.3",
     "expo-checkbox": "~2.7.0",
     "expo-clipboard": "~5.0.1",
     "expo-dev-client": "~3.3.8",
-<<<<<<< HEAD
-=======
     "expo-device": "~5.9.3",
->>>>>>> eb3dd804f2fcd0e1d0b005f7645de012a1dedde8
     "expo-document-picker": "~11.10.1",
     "expo-image-manipulator": "~11.8.0",
     "expo-image-picker": "~14.7.1",

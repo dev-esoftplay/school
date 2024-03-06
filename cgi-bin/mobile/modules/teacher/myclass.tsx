@@ -1,4 +1,5 @@
 // withHooks
+import { memo } from 'react';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
@@ -17,7 +18,7 @@ export interface TeacherMyClassArgs {
 export interface TeacherMyClassProps {
 
 }
-export default function m(props: TeacherMyClassProps): any {
+function m(props: TeacherMyClassProps): any {
   const idclass: string = LibNavigation.getArgsAll(props).clasid;
   const school = new SchoolColors();
   function shadowS(value: any) {
@@ -256,3 +257,5 @@ export default function m(props: TeacherMyClassProps): any {
           /> */}
 
 {/* <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000000' }}>{selectedDay}</Text> */ }
+
+export default memo(m);

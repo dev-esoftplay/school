@@ -1,4 +1,5 @@
 // withHooks
+import { memo } from 'react';
 
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 import React, { useRef, useState } from 'react';
@@ -34,7 +35,7 @@ interface SlideComponentProps {
 }
 
 
-export default function m(props: OnboardingProps): any {
+function m(props: OnboardingProps): any {
   const width = Dimensions.get('window').width;
   const height = Dimensions.get('window').height;
   const COLORS = { primary: '#ffffff', white: '#fff', default: "#146c94", black: "#000" };
@@ -234,3 +235,4 @@ export default function m(props: OnboardingProps): any {
   </SafeAreaView>
   )
 }
+export default memo(m);
