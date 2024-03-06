@@ -107,7 +107,7 @@ function ParentsHome({  }: ParentsHomeProps): JSX.Element {
   // Data kehadiran anak pada setiap slide
   const slides: [] = ParentStudent.student_data
   const timeout = useTimeout()
-  
+
   const data = UserClass.state().useSelector(s => s)
   async function apilogout(){
     console.log('menjalankan apilogout....');
@@ -207,6 +207,7 @@ function ParentsHome({  }: ParentsHomeProps): JSX.Element {
                         style={{ width: 100, height: 100, borderRadius: 75, alignSelf: 'center', borderWidth: 2, borderColor: '#FFFFFF', marginLeft: 10, position: 'absolute', top: -65 }} />
 
                       <View style={{ alignItems: 'center', marginTop: 20 }}>
+                        <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#000000' }}> student id :{item.student_id}</Text>
                         <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#000000' }}>{item.student_name}</Text>
                         <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#000000' }}>{item.nis}</Text>
                         <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#000000' }}>{item.birthday}</Text>
