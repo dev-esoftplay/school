@@ -19,9 +19,9 @@ export interface ParentIndexArgs {
 export interface ParentIndexProps {
 
 }
-export default function m(props: ParentIndexProps): any {
-  const [menu, setMenu] = useState('Beranda')??LibNavigation.getArgsAll(props);
- 
+ function m(props: ParentIndexProps): any {
+  const [menu, setMenu] = useState('Beranda')
+
   const [focused, setFocused] = useState(0);
 
   // Fungsi untuk merender konten berdasarkan nilai menu
@@ -29,9 +29,9 @@ export default function m(props: ParentIndexProps): any {
     switch (menu) {
       case 'Beranda':
         return <Home />;
-      case 'Notif':
+      case 'Notifikasi':
         return <Notif />;
-      case 'Profil':
+      case 'Akun':
         return <Account />;
       default:
         return <Home  />;
@@ -50,6 +50,8 @@ export default function m(props: ParentIndexProps): any {
       onPress={() => {
         setMenu(label);
         setFocused(setpage);
+        console.log('setmenu', label)
+ 
       }}
       style={{ width: 55, backgroundColor: 'white', marginHorizontal: 10, alignItems: 'center' }} >
       <View style={{ alignItems: 'center' }}>
@@ -94,3 +96,4 @@ export default function m(props: ParentIndexProps): any {
     </View>
   );
 }
+export default m;

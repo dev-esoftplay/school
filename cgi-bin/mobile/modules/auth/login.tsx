@@ -76,30 +76,9 @@ export default function m(props: LoginIndexsProps): any {
 
 
   function login(username?: string, password?: string) {
-<<<<<<< HEAD
-    const post = {
-      username: new LibCrypt().encode(String(username)),
-      password: new LibCrypt().encode(String(password)),
-      installation_id: 'a3'
-    }
-    LibProgress.show('Loading')
-    new LibCurl('public_login', post, (result, msg) => {
-
-      LibProgress.hide()
-      // UserClass berfungsi untuk menyimpan data user yang login
-      UserClass.create(result).then((value) => {
-        LibNavigation.reset()
-      })
-    }, (err) => {
-      LibProgress.hide()
-      LibDialog.warning('Login Gagal', err?.message)
-    }, 1)
-
-=======
     LibUtils.getInstallationID().then((installation_id) => {
       console.log("installation_id type: ", typeof installation_id)
       console.log("installation_id: ", String(installation_id))
->>>>>>> eb3dd804f2fcd0e1d0b005f7645de012a1dedde8
 
       const post = {
         username: new LibCrypt().encode(String(username || '55555')),
@@ -115,6 +94,7 @@ export default function m(props: LoginIndexsProps): any {
         LibProgress.hide()
         // esp.log({ result, msg });
         console.log("result", result, typeof result)
+        // LibDialog.info('Login Berhasil', JSON.stringify(result))
         // UserClass berfungsi untuk menyimpan data user yang login
         UserClass.create(result).then((value) => {
           esp.log("disini", value);
