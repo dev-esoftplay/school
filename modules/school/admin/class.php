@@ -94,6 +94,16 @@ if ($show_list)
 	$form->roll->input->teacher_id->setDisplayColumn(true);
 	$form->roll->input->teacher_id->textTip='';
 
+	$form->roll->addInput('number', 'sqlplaintext');
+	$form->roll->input->number->setTitle('number');
+	$form->roll->input->number->setFieldName('id as class_id_student');
+	$form->roll->input->number->setDisplayFunction(function ($value) use($db)
+	{
+		// $course_id = $db->getone("SELECT course_id from school_teacher_subject WHERE id=$value");
+		$student_number = $db->getone('SELECT count(`number`) FROM `school_student_class` WHERE `class_id` =' . $value);
+		return $student_number;
+	});
+
 	$form->roll->addReport('excel');
 	echo $form->roll->getForm();
 }

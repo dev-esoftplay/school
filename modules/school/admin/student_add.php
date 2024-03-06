@@ -20,14 +20,16 @@ $fields = [
   'S' => 'nomer_telepon_wali',
   'T' => 'alamat_wali',
 ];
-
+$data_user = 0;
 $data_siswa = 0;
-if (isset($fields[1]) && !empty($_POST[$fields[1]])) 
+if (isset($fields['D']) && !empty($_POST[$fields['D']])) 
 { 
-  $data_siswa = $db->getRow("SELECT * FROM `school_student` WHERE `nis` = '{$_POST[$fields[1]]}'");
+  $data_siswa = $db->getrow("SELECT * FROM `school_student` WHERE `nis` = '{$_POST[$fields['D']]}'");
+  $data_user = $db->getrow("SELECT * FROM `bbc_user` WHERE `username` = '{$_POST[$fields['D']]}'");
 }
+// pr(!$data_siswa,!$data_user, __FILE__.':'.__LINE__);
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['manual']) && !empty($_POST[$fields[1]]) && !$data_siswa)  
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['manual']) && !empty($_POST[$fields['D']]) && !$data_siswa && !$data_user)  
 {
   foreach ($fields as $field) 
   {
@@ -246,7 +248,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['manual']) && !empty($_
     ));
   }
   echo '<div class="alert alert-success" style="text-align:center;" role="alert"><span class="glyphicon glyphicon-ok-s ign" title="ok sign"></span> Sukses Tambah data.</div>';
-}else if ($data_siswa > 0 && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['manual'])) 
+}else if ($data_siswa > 0 && $data_user > 0 && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['manual'])) 
 {
   echo '<div class="alert alert-danger" style="text-align:center;" role="alert"><span class="glyphicon glyphicon-exclamation-sign" title="exclamation sign"></span>nis '. $_POST['nis'].' sudah ada</div>';
 }
@@ -257,6 +259,7 @@ foreach ($fields as $name)
   $insert_field[$name]  = isset($_POST[$name]) ? $_POST[$name] : null;
 }
 
+    $msg = '';
 // import data from excel
 if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['import_excel'])) 
 { 
@@ -264,22 +267,29 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
   unset($output[1]);
   foreach ($output as $key => $value) //LOOPING DATA FROM IMPORT EXCEL
   {
-    if(!empty($value[$insert_field['nama_siswa']]) && $data_siswa == 0) 
+    $data_siswa = $db->getrow("SELECT * FROM `school_student` WHERE `nis` = '{$value[$insert_field['nis']]}'");
+    $data_user_people = [];
+    $data_user_people[] = $value[$insert_field['nis']]; 
+    $data_user_people[] = $value[$insert_field['nik_ayah']]; 
+    $data_user_people[] = $value[$insert_field['nik_ibu']]; 
+    $data_user_people[] = $value[$insert_field['nik_wali']];  
+    $data_user_people[] = $value[$insert_field['nomer_telepon_ayah']]; 
+    $data_user_people[] = $value[$insert_field['nomer_telepon_ibu']]; 
+    $data_user_people[] = $value[$insert_field['nomer_telepon_wali']]; 
+    $data_user_id = $db->getone("SELECT `id` FROM `bbc_user` WHERE `username` = '{$value[$insert_field['nis']]}'");
+    $data_siswa   = $data_siswa ?? 0;
+    $data_user_id = $data_user_id ?? 0;
+
+    // pr($data_user_id == 0 ,$data_siswa == 0, __FILE__.':'.__LINE__);die();
+    if(!empty($value[$insert_field['nama_siswa']]) && $data_siswa == 0 && $data_user_id == 0) 
     {
-      $data_parent = [];
-      $data_ayah  = $db->getRow("SELECT `id` FROM `school_parent` WHERE `nik` = '{$value[$insert_field['nik_ayah']]}'");
-      $data_ibu   = $db->getRow("SELECT `id` FROM `school_parent` WHERE `nik` = '{$value[$insert_field['nik_ibu']]}'");
-      $data_wali  = $db->getRow("SELECT `id` FROM `school_parent` WHERE `nik` = '{$value[$insert_field['nik_wali']]}'");
-      $data_parent[] = $value[$insert_field['nik_ayah']]; 
-      $data_parent[] = $value[$insert_field['nik_ibu']]; 
-      $data_parent[] = $value[$insert_field['nik_wali']]; 
-      $data_user = $db->getcol('SELECT `id` FROM `bbc_user` WHERE `username` IN (\'' . implode('\',\'', $data_parent) . '\')');
-      // pr($data_user, __FILE__.':'.__LINE__);
-      $data_ayah  = $data_ayah ?? 0;
-      $data_ibu   = $data_ibu  ?? 0;
-      $data_wali  = $data_wali ?? 0;
-      $data_user  = $data_user ?? 0;
-      $name       = ['tanggal_lahir_siswa', 'tanggal_lahir_ayah', 'tanggal_lahir_ibu', 'tanggal_lahir_wali'];
+      $data_ayah = $db->getrow("SELECT * FROM `school_parent` WHERE `nik` = '{$value[$insert_field['nik_ayah']]}'");
+      $data_ibu  = $db->getRow("SELECT * FROM `school_parent` WHERE `nik` = '{$value[$insert_field['nik_ibu']]}'");
+      $data_wali = $db->getRow("SELECT * FROM `school_parent` WHERE `nik` = '{$value[$insert_field['nik_wali']]}'");
+      $data_ayah = $data_ayah ?? 0;
+      $data_ibu  = $data_ibu  ?? 0;
+      $data_wali = $data_wali ?? 0;
+      $name      = ['tanggal_lahir_siswa', 'tanggal_lahir_ayah', 'tanggal_lahir_ibu', 'tanggal_lahir_wali'];
 
       foreach ($name as $name) 
       {
@@ -288,7 +298,7 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
         $password[$name]  = encode($cleanedDate); // Kodekan tanggal lahir yang telah dibersihkan
       }
     
-      if (!empty($value[$insert_field['nama_ayah']]) && $data_ayah == 0 && $data_user == 0) // INSERT DATA AYAH
+      if (!empty($value[$insert_field['nama_ayah']]) && $data_ayah == 0) // INSERT DATA AYAH
       {
           $ayah_user_id_file = $db->Insert('bbc_user', array(
             'password'  => $password['tanggal_lahir_ayah'],
@@ -324,7 +334,7 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
         $ayah_parent_id_file = 0;
       }
 
-      if (!empty($value[$insert_field['nama_ibu']]) && $data_ibu == 0 && $data_user == 0) // INSERT DATA IBU
+      if (!empty($value[$insert_field['nama_ibu']]) && $data_ibu == 0) // INSERT DATA IBU
       {
           $ibu_user_id_file = $db->Insert('bbc_user', array(
             'password'  => $password['tanggal_lahir_ibu'],
@@ -361,7 +371,7 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
         $ibu_parent_id_file = 0;
       }
 
-      if (!empty($value[$insert_field['nama_wali']]) && $data_wali == 0 && $data_user == 0) // INSERT DATA WALI
+      if (!empty($value[$insert_field['nama_wali']]) && $data_wali == 0) // INSERT DATA WALI
       {
           $wali_user_id_file = $db->Insert('bbc_user', array(
             'password'  => $password['tanggal_lahir_wali'],
@@ -397,7 +407,9 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
         $wali_parent_id_file = 0;
       }
 
-      if (!empty($value[$insert_field['nama_siswa']]) && $data_user == 0) // INSERT DATA STUDENT
+      // pr($data_siswa, __FILE__.':'.__LINE__);die();
+
+      if (!empty($value[$insert_field['nama_siswa']]) && $data_siswa == 0) // INSERT DATA STUDENT
       {
           $student_user_id_file = $db->Insert('bbc_user', array(
             'password'  => $password['tanggal_lahir_siswa'],
@@ -455,13 +467,13 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
           ));
         }
       }
+      $msg = msg('Data berhasil ditambah','success');
+    }else{
+      $msg = msg('Data sudah ada di database');
     }
   }
-  if(!empty($value[$insert_field['nama_siswa']]) && $data_siswa == 0) 
-  {
-    echo '<div class="alert alert-success" style="text-align:center;" role="alert"><span class="glyphicon glyphicon-ok-s ign" title="ok sign"></span> Sukses Tambah data.</div>';
-  }
-  echo '<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok-s ign" title="ok sign"></span> Sukses Tambah data.</div>';
+  echo $msg;
+  // echo '<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok-s ign" title="ok sign"></span> Sukses Tambah data.</div>';
 }
 link_css(__DIR__ . '/css/student_add.css'); //untuk memanggil file css
 include tpl('student_add.html.php'); //untuk mengincludekan file html

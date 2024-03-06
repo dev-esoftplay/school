@@ -1,0 +1,19 @@
+@import url('../../admin/bootstrap/css/bootstrap-theme.min.css');
+@import url('../../admin/bootstrap/css/bootstrap.min.css');
+
+@import url('vendor/animate.css');
+@import url('vendor/default-skin.css');
+@import url('vendor/bootstrap.min.css');
+@import url('vendor/flexslider.css');
+@import url('vendor/icomoon.css');
+@import url('vendor/magnific-popup.css');
+@import url('vendor/owl.carousel.min.css');
+@import url('vendor/owl.theme.default.min.css');
+@import url('vendor/photoswipe.css');
+
+@import url('main.css');
+@import url('styles.min.css');
+@import url('styles-merged.css');
+@import url('styles-merged.css.map');
+
+@import url('default-skin/default-skin.css');

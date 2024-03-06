@@ -91,15 +91,18 @@ foreach ($schedule_subject as $day => $schedule_data) {
     $clock = $last_schedule['clock_start'] . '-'. $last_schedule['clock_end'];
     if ($last_schedule['status'] == 3) {
       if (!isset($_SESSION['notif_sent'])) {
-        _func('alert');
-        alert_push(
-          $user_id . '-' . 5,
-          lang('absen hari ini'),
-          'anda lupa absen, di jam ' . $clock,
-          'teacher/notif',
-        );
-        $_SESSION['notif_sent'] = true;
-      }
+				// $existing_notif = $db->getone('SELECT `id` FROM `bbc_user_push_notif` WHERE `user_id` = ' . $user_id . ' AND DATE(created) = CURDATE()');
+        // if (!$existing_notif) {
+					_func('alert');
+					alert_push(
+						$user_id . '-' . 5,
+						lang('absen hari ini'),
+						'anda lupa absen, di jam ' . $clock,
+						'teacher/notif',
+					);
+        	$_SESSION['notif_sent'] = true;
+      	// }
+			}
     }
   }
 }
