@@ -10,8 +10,11 @@ import { Auth } from '../auth/login';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+import { LibNotification } from 'esoftplay/cache/lib/notification/import';
+import { UserClass } from 'esoftplay/cache/user/class/import';
+import esp from 'esoftplay/esp';
 // import { LibStyle } from 'esoftplay/cache/lib/style/import';
-
+import { useTimeout } from 'esoftplay/timeout';
 
 export interface ParentAccountArgs {
 
@@ -19,11 +22,8 @@ export interface ParentAccountArgs {
 export interface ParentAccountProps {
 
 }
-function m(props: ParentAccountProps): any {
-  const logout = () => {
-    Auth.reset()
-    navigation.navigate('auth/login')
-  }
+export default function m(props: ParentAccountProps): any {
+
 
   const [ParentStudent, setParentStudent] = useState<any>([])
 
@@ -40,6 +40,50 @@ function m(props: ParentAccountProps): any {
   useEffect(() => {
     loadParentStudent();
   }, []);
+
+  const data = UserClass.state().useSelector(s => s)
+  async function apilogout(){
+    console.log('menjalankan apilogout....');
+    esp.mod("lib/notification").requestPermission((token) => {
+        console.log('token :..==', token);
+        // const data = UserClass.state().useSelector(s => s)
+
+        const post = { token: token }
+
+
+        new LibCurl('logout', get, (result, msg) => {
+            console.log('check post', post);
+            console.log('check apikey', data.apikey);
+            console.log('check uri', data.uri);
+            console.log('result', result);
+            console.log('msg', msg);
+
+
+        }, (error) => {
+            console.log('check post', post);
+            console.log('check apikey', data.apikey);
+            console.log('check uri', data.uri);
+            console.log("api logout error :", error);
+            console.log('apilogout');
+
+        }, 1)
+    }
+    )
+}
+const timeout = useTimeout()
+  const logout = () => {
+    console.log('menjalankan logout....');
+    apilogout()
+    timeout(() => {
+        UserClass.pushToken()
+        // pushToken()
+        LibNotification.drop()
+        Auth.reset()
+        UserClass.delete()
+        navigation.reset('auth/login')
+    }, 1000)
+  }
+   
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
@@ -85,4 +129,3 @@ function m(props: ParentAccountProps): any {
     </View>
   )
 }
-export default memo(m);

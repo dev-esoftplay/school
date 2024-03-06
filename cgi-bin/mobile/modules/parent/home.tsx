@@ -7,10 +7,15 @@ import esp from 'esoftplay/esp';
 import { useRef, useState, useEffect } from 'react';
 // import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import React from 'react';
+import navigation from 'esoftplay/modules/lib/navigation';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Dimensions, FlatList, Image, Pressable, Text, View } from 'react-native';
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 import { LibStyle } from 'esoftplay/cache/lib/style/import';
-
+import { useTimeout } from 'esoftplay/timeout';
+import { Auth } from '../auth/login';
+import { LibNotification } from 'esoftplay/cache/lib/notification/import';
+import { UserClass } from 'esoftplay/cache/user/class/import';
 // Props untuk komponen ParentsHome
 export interface ParentsHomeProps {
 
@@ -27,6 +32,27 @@ function shadows(value: number) {
   }
 }
 
+export function pushToken(): void {
+  console.log("Api pushToken ...")
+  AsyncStorage.getItem("token").then((token: any) => {
+      if (token) {
+          let post = { token: token }
+          new LibCurl('user_token', post, (result, msg) => {
+              console.log(token)
+              console.log("result", result)
+              console.log("msg", msg)
+              UserClass?.pushToken()
+
+          }, (error) => {
+              console.log("error", error)
+              console.log(token)
+              AsyncStorage.removeItem("push_id")
+
+          })
+      }
+
+  })
+}
 // Komponen ParentsHome
 function ParentsHome({  }: ParentsHomeProps): JSX.Element {
   const { width, height } = Dimensions.get('window');
@@ -80,7 +106,51 @@ function ParentsHome({  }: ParentsHomeProps): JSX.Element {
 
   // Data kehadiran anak pada setiap slide
   const slides: [] = ParentStudent.student_data
+  const timeout = useTimeout()
+  
+  const data = UserClass.state().useSelector(s => s)
+  async function apilogout(){
+    console.log('menjalankan apilogout....');
+    esp.mod("lib/notification").requestPermission((token) => {
+        console.log('token :..==', token);
+        // const data = UserClass.state().useSelector(s => s)
 
+        const post = { token: token }
+
+
+        new LibCurl('logout', get, (result, msg) => {
+            console.log('check post', post);
+            console.log('check apikey', data.apikey);
+            console.log('check uri', data.uri);
+            console.log('result', result);
+            console.log('msg', msg);
+
+
+        }, (error) => {
+            console.log('check post', post);
+            console.log('check apikey', data.apikey);
+            console.log('check uri', data.uri);
+            console.log("api logout error :", error);
+            console.log('apilogout');
+
+        }, 1)
+    }
+    )
+}
+
+  const logout = () => {
+    console.log('menjalankan logout....');
+    apilogout()
+    timeout(() => {
+        UserClass.pushToken()
+        // pushToken()
+        LibNotification.drop()
+        Auth.reset()
+        UserClass.delete()
+        navigation.reset('auth/login')
+    }, 1000)
+   
+}
   return (
     <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       {/* Kartu Orang Tua */}
@@ -88,7 +158,7 @@ function ParentsHome({  }: ParentsHomeProps): JSX.Element {
 
         <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#FFFFFF' }}>Selamat Datang,</Text>
 
-        <Pressable onPress={() => { hitApi() }}>
+        <Pressable onPress={() => { LibNavigation.navigate('parent/account') }}>
 
 
           <View style={{ backgroundColor: '#FFFFFF', height: 120, justifyContent: 'flex-start', alignItems: 'center', marginVertical: 20, padding: 15, flexDirection: 'row', borderRadius: 10 }}>

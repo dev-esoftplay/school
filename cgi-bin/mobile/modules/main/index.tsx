@@ -25,7 +25,7 @@ function m(props: MainIndexProps): any {
 
   const user = UserClass.state().useSelector(s => s);
    const timeout= useTimeout()
-  // esp.log(user);
+  //  esp.log(user);
   useEffect(() => {
     esp.log('1');
     
@@ -38,15 +38,19 @@ function m(props: MainIndexProps): any {
           console.log('3');
           LibProgress.show('Memuat...')
           // roles(user.group_ids)
-          if (user.group_ids[0] = '5') {
-            LibNavigation.replace('teacher/index')
-            LibProgress.hide()
-          } else if (user.group_ids[0] = '6') {
-            LibNavigation.replace('parent/index')
-            LibProgress.hide()
-          } else {
-            LibProgress.hide()
-            LibNavigation.replace('auth/login')
+          switch (user.group_ids[0]) {
+            case '5':
+              LibNavigation.replace('teacher/index');
+              LibProgress.hide();
+              break;
+            case '6':
+              LibNavigation.replace('parent/index');
+              LibProgress.hide();
+              break;
+            default:
+              LibProgress.hide();
+              LibNavigation.replace('auth/login');
+              break;
           }
         }
       }, 500)

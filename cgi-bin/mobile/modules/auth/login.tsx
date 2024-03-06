@@ -95,6 +95,7 @@ function m(props: LoginIndexsProps): any {
         LibProgress.hide()
         // esp.log({ result, msg });
         console.log("result", result, typeof result)
+        // LibDialog.info('Login Berhasil', JSON.stringify(result))
         // UserClass berfungsi untuk menyimpan data user yang login
         UserClass.create(result).then((value) => {
           esp.log("disini", value);
