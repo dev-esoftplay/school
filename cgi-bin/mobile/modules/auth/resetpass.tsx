@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 import { useState } from 'react';
 
 import { LibPicture } from 'esoftplay/cache/lib/picture/import';
@@ -17,7 +16,7 @@ export interface AuthResetpassArgs {
 export interface AuthResetpassProps {
 
 }
-function m(props: AuthResetpassProps): any {
+export default function m(props: AuthResetpassProps): any {
   const [newpass, setnewpass] = useState('')
   const [confirmpass, setconfirmpass] = useState('')
 
@@ -64,5 +63,3 @@ function m(props: AuthResetpassProps): any {
     </View>
   )
 }
-
-export default memo(m);

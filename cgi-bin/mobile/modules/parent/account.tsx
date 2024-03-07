@@ -1,5 +1,5 @@
 // withHooks
-import { memo, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
 // import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import navigation from 'esoftplay/modules/lib/navigation';

@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 
 import { MaterialIconsTypes } from '@expo/vector-icons/build/esoftplay_icons';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
@@ -21,7 +20,7 @@ export interface TeacherStudentAttendanceDetailArgs {
 export interface TeacherStudentAttendanceDetailProps {
     
 }
-function m(props: TeacherStudentAttendanceDetailProps): any {
+export default function m(props: TeacherStudentAttendanceDetailProps): any {
     const [popupVisible, setPopupVisible] = useState(false);
     const [ijinVisible, setIjinVisible] = useState(false)
     let [studentId, setstudentId] = useSafeState(0)
@@ -416,4 +415,3 @@ function m(props: TeacherStudentAttendanceDetailProps): any {
       </View>
     )
   }
-export default memo(m);

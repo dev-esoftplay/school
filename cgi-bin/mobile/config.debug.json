@@ -17,7 +17,7 @@
     ],
     "salt": "dc6146b3bb269114cb3a9f4cdb1a08c6",
     "home": {
-      "public": "auth/login",
+      "public": "onboarding/onboarding",
       "member": "main/index"
     }
   }

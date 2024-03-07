@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 import { MaterialIconsTypes } from '@expo/vector-icons/build/esoftplay_icons';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
@@ -26,7 +25,7 @@ export interface TeacherAttendenceProps {
 }
 
 
-function m(props: TeacherAttendenceProps): any {
+export default function m(props: TeacherAttendenceProps): any {
   const [popupVisible, setPopupVisible] = useState(false);
   const [ijinVisible, setIjinVisible] = useState(false)
   const [sickVisible, setSickVisible] = useState(false)
@@ -468,5 +467,3 @@ function m(props: TeacherAttendenceProps): any {
     </View>
   )
 }
-
-export default memo(m);

@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import { LibList } from 'esoftplay/cache/lib/list/import';
@@ -15,7 +14,7 @@ export interface AttendReport_detailArgs {
 export interface AttendReport_detailProps {
 
 }
-function m(props: AttendReport_detailProps): any {
+export default function m(props: AttendReport_detailProps): any {
     const data_schadule: [] = LibNavigation.getArgsAll(props).data;
     const dates:string = LibNavigation.getArgsAll(props).date;
     function shadows(value: number) {
@@ -72,4 +71,3 @@ function m(props: AttendReport_detailProps): any {
         </View>
     )
 }
-export default memo(m);

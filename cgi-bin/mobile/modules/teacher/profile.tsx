@@ -100,7 +100,7 @@ function m(props: TeacherProfileProps): any {
             LibNotification.drop()
             Auth.reset()
             UserClass.delete()
-            navigation.reset('auth/login')
+            navigation.reset('onboarding/onboarding')
         }, 1000)
        
     }

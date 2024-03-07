@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 
 import { useState, useEffect, useRef } from 'react';
 import { Text, View, Button, Platform } from 'react-native';
@@ -26,7 +25,7 @@ Notifications.setNotificationHandler({
   }),
 });
 
-function m(props: TestProps): any {
+export default function m(props: TestProps): any {
   const [jamInput, setJamInput] = useState<string>(''); // State untuk menyimpan waktu yang diinput
   
     const [notification, setNotification] = useState<Notifications.Notification | null>(null);
@@ -115,5 +114,3 @@ function m(props: TestProps): any {
         </View>
     );
 }
-
-export default memo(m);

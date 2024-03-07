@@ -1,5 +1,5 @@
 // withHooks
-import { memo, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
@@ -26,7 +26,7 @@ export interface ChildDetailProps {
 
 }
 
-function m(props: ChildDetailProps): any {
+export default function m(props: ChildDetailProps): any {
   const allDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const allMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   const allWeeks = ['Week 1', 'Week 2', 'Week 3', 'Week 4'];
@@ -554,7 +554,6 @@ function m(props: ChildDetailProps): any {
     </View>
   )
 }
-export default memo(m);
 
 
 {/* <View key={index} style={{ marginBottom: 10, backgroundColor: '#4B7AD6', borderRadius: 10, alignItems: 'flex-end', ...elevation(4), width: 350, padding: 2 }}>

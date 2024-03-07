@@ -1,7 +1,7 @@
 // withHooks
 import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import React, { useEffect, useRef, useState } from 'react';
-import { Image, Platform, View, Text, TouchableOpacity, Pressable, TextInput, ScrollView } from 'react-native';
+import { Image, Platform, View, Text, TouchableOpacity, Pressable, TextInput, ScrollView, Modal } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
@@ -9,20 +9,14 @@ import { LibImage } from 'esoftplay/cache/lib/image/import';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 import { LibProgress } from 'esoftplay/cache/lib/progress/import';
 import { LibSlidingup } from 'esoftplay/cache/lib/slidingup/import';
-
-import { UserClass } from 'esoftplay/cache/user/class/import';
 import esp from 'esoftplay/esp';
 import useSafeState from 'esoftplay/state';
-
-
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
-import { LibList } from 'esoftplay/cache/lib/list/import';
-import { LibNotification } from 'esoftplay/cache/lib/notification/import';
-import { LibScroll } from 'esoftplay/cache/lib/scroll/import';
 import { FlatList } from 'react-native-gesture-handler';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import SchoolColors from '../utils/schoolcolor';
-
+import { LibPicture } from 'esoftplay/cache/lib/picture/import';
+import { BlurView } from 'expo-blur';
 export interface TeacherDetailArgs {
 
 }
@@ -38,14 +32,13 @@ function m(props: TeacherDetailProps): any {
         }
         return { elevation: value };
     }
-    const name: string = UserClass.state().get()?.name
-    const data = UserClass.state().get()
+
     let slideup = useRef<LibSlidingup>(null)
     let [image, setImage] = useSafeState<string | null>(null)
-    let images: string = String(image) ?? '../../assets/anies.png'
     const [username, setUsername] = useSafeState('');
-    const [phone, setPhone] = useSafeState('+62');
+    const [phone, setPhone] = useSafeState('');
     const [resApi, setResApi] = useState<any>([])
+    const [prfilevisible, setProfileVisible] = useState(false)
     useEffect(() => {
         new LibCurl('teacher', get, (result, msg) => {
             esp.log({ result, msg });
@@ -71,7 +64,7 @@ function m(props: TeacherDetailProps): any {
             LibProgress.hide()
             esp.log({ result, msg });
             // console.log("result", result)
-           
+
 
 
         }, (err) => {
@@ -85,15 +78,19 @@ function m(props: TeacherDetailProps): any {
             // console.log("result", result)
             setResApi(result)
             setImage(result.image)
+            setPhone('+62' + result.phone)
             LibProgress.hide()
             LibDialog.info('Update Berhasil', 'Data berhasil diupdate')
         }, (err) => {
             esp.log({ err });
             LibProgress.hide()
             LibDialog.warning('Update Gagal', err?.message)
-        
+
         })
     }
+
+
+
     function shadows(value: number) {
         return {
             elevation: 3, // For Android
@@ -103,19 +100,39 @@ function m(props: TeacherDetailProps): any {
             shadowRadius: value,
         }
     }
+    interface ProfilePopupProps {
+        visible: boolean,
+        onClose: () => void
+    }
+    function ProfilePopup({ visible, onClose, }: ProfilePopupProps) {
+        return (
+            <Modal transparent={true} visible={prfilevisible}>
+                <Pressable style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center' }} onPress={onClose}>
+                </Pressable>
+
+                <View style={{ width: '80%', borderRadius: 10, padding: 20, justifyContent: 'center', alignItems: 'center', position: 'absolute', top: LibStyle.height / 4, marginHorizontal: '10%' }}>
+                    <LibPicture source={image ? { uri: image } : esp.assets('anies.png')} style={{ width:LibStyle.width*80/100, height:LibStyle.width*80/100,borderRadius:(LibStyle.width*80/100)/2 }} />
+                </View>
+
+            </Modal>
+        )
+    }
     return (
         <View style={{ marginTop: LibStyle.STATUSBAR_HEIGHT, flex: 1, }}>
             <ScrollView showsVerticalScrollIndicator={false} style={{ paddingHorizontal: 20, }}>
                 <View style={{ justifyContent: 'flex-start', alignSelf: 'flex-start', marginTop: 5, }}>
-                    <TouchableOpacity style={{ alignSelf: 'center', flexDirection: 'row' }} onPress={() => LibNavigation.replace('teacher/index',{page:'Akun'})}>
+                    <TouchableOpacity style={{ alignSelf: 'center', flexDirection: 'row' }} onPress={() => LibNavigation.replace('teacher/index', { page: 'Akun' })}>
                         <MaterialIcons name='arrow-back-ios' size={30} color='#000000' />
                         <Text style={{ color: '#000000', fontSize: 20, fontWeight: 'bold' }}>kembali</Text>
                     </TouchableOpacity>
                 </View>
 
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
+                   
                     <View style={{}}>
-                        <Image source={image ? { uri: image } : esp.assets('anies.png')} style={{ width: 135, height: 135, borderRadius: 135 / 2, borderWidth: 3, borderColor: school.primary }} />
+                        <Pressable onPress={() => setProfileVisible(true)}>
+                            <Image source={image ? { uri: image } : esp.assets('anies.png')} style={{ width: 135, height: 135, borderRadius: 135 / 2, borderWidth: 3, borderColor: school.primary }} />
+                        </Pressable>
                         <Pressable
                             onPress={() => slideup.current?.show()}
                             style={{
@@ -131,12 +148,17 @@ function m(props: TeacherDetailProps): any {
                         </Pressable>
 
                     </View>
+            
                     <Text style={{ color: '#000000', fontWeight: 'bold', fontSize: 20, textAlign: 'center', padding: 10 }}>{resApi?.name ?? 'name'}</Text>
                 </View>
 
 
                 <View style={{ marginHorizontal: 10, paddingHorizontal: 5, marginBottom: 50 }}>
-                    <Text style={{ color: '#000000', fontSize: 15, fontWeight: 'bold', marginTop: 30, alignContent: 'flex-start', textAlign: 'left' }}>Posisi</Text>
+                   
+
+                        <Text style={{ color: '#000000', fontSize: 15, fontWeight: 'bold', marginTop: 30, alignContent: 'flex-start', textAlign: 'left' }}>Posisi</Text>
+                    
+
                     <View style={{ height: 'auto', padding: 5, }}>
                         <FlatList
                             data={resApi?.position}
@@ -154,16 +176,18 @@ function m(props: TeacherDetailProps): any {
                             }}
                         />
                     </View>
-                    
+
                     <Text style={{ color: '#000000', fontSize: 15, fontWeight: 'bold', marginBottom: 10, marginTop: 10, alignContent: 'flex-start', textAlign: 'left' }}>Nama Pengajar</Text>
-                    <View style={{ width: '100%', height: 60, paddingHorizontal: 10, borderRadius: 8, elevation: 3, backgroundColor: '#fff', shadowColor: '#000',justifyContent:'space-between',alignItems:'center',
-                    shadowOffset: { width: 1, height: 1 }, shadowOpacity: 0.3, shadowRadius: 2 ,flexDirection:'row'}}>
-                        <TextInput placeholder={resApi?.name ?? 'name'} 
-                        style={{flex:1}}
-                        onChangeText={(text) => setUsername(text)} 
+                    <View style={{
+                        width: '100%', height: 60, paddingHorizontal: 10, borderRadius: 8, elevation: 3, backgroundColor: '#fff', shadowColor: '#000', justifyContent: 'space-between', alignItems: 'center',
+                        shadowOffset: { width: 1, height: 1 }, shadowOpacity: 0.3, shadowRadius: 2, flexDirection: 'row'
+                    }}>
+                        <TextInput placeholder={resApi?.name ?? 'name'}
+                            style={{ flex: 1 }}
+                            onChangeText={(text) => setUsername(text)}
                         />
                         <MaterialIcons name='edit' size={20} color={school.primary} style={{ alignContent: 'flex-end' }} />
-                       
+
                     </View>
 
 
@@ -178,15 +202,17 @@ function m(props: TeacherDetailProps): any {
                     </View>
 
                     <Text style={{ color: '#000000', fontSize: 15, fontWeight: 'bold', marginBottom: 10, marginTop: 15, alignContent: 'flex-start', textAlign: 'left' }}>Nomor Telepon</Text>
-                    
-                    <View style={{ width: '100%', height: 60, paddingHorizontal: 10, borderRadius: 8, elevation: 3, backgroundColor: '#fff', shadowColor: '#000',justifyContent:'space-between',alignItems:'center',
-                    shadowOffset: { width: 1, height: 1 }, shadowOpacity: 0.3, shadowRadius: 2 ,flexDirection:'row'}}>
-                        <TextInput placeholder={'+'+resApi?.phone ?? '+62'} 
-                        style={{flex:1}}
-                        onChangeText={(text) => setPhone(text)} 
+
+                    <View style={{
+                        width: '100%', height: 60, paddingHorizontal: 10, borderRadius: 8, elevation: 3, backgroundColor: '#fff', shadowColor: '#000', justifyContent: 'space-between', alignItems: 'center',
+                        shadowOffset: { width: 1, height: 1 }, shadowOpacity: 0.3, shadowRadius: 2, flexDirection: 'row'
+                    }}>
+                        <TextInput placeholder={'+' + resApi?.phone ?? '+62'}
+                            style={{ flex: 1 }}
+                            onChangeText={(text) => setPhone(text)}
                         />
                         <MaterialIcons name='edit' size={20} color={school.primary} style={{ alignContent: 'flex-end' }} />
-                       
+
                     </View>
 
                     <Pressable onPress={() => updateData()} style={{ width: '100%', height: 60, justifyContent: 'center', padding: 5, paddingHorizontal: 10, borderRadius: 8, elevation: 3, backgroundColor: '#107ac0', shadowColor: '#000', shadowOffset: { width: 1, height: 1 }, shadowOpacity: 0.3, shadowRadius: 2, marginTop: 15 }}>
@@ -194,7 +220,7 @@ function m(props: TeacherDetailProps): any {
                     </Pressable>
                 </View>
             </ScrollView>
-
+            <ProfilePopup visible={prfilevisible} onClose={() => setProfileVisible(false)} />
             <LibSlidingup ref={slideup} >
                 <View style={{ backgroundColor: 'white', borderTopRightRadius: 20, borderTopLeftRadius: 20, paddingBottom: 35, paddingHorizontal: 19, }}>
                     <Text allowFontScaling={false} style={{ marginTop: 26, marginBottom: 23, fontFamily: "Arial", fontSize: 16, fontWeight: "bold", fontStyle: "normal", lineHeight: 22, letterSpacing: 0, textAlign: "center", color: "#34495e" }}></Text>
@@ -207,7 +233,7 @@ function m(props: TeacherDetailProps): any {
                                     slideup.current!.hide()
                                     setImage(url)
                                 })} >
-                            <View style={{ width: 60, height: 60, backgroundColor: '#ffffff', borderRadius: 50, justifyContent: 'center', alignItems: 'center', borderColor: school.primary,borderWidth:2,marginBottom:10}}>
+                            <View style={{ width: 60, height: 60, backgroundColor: '#ffffff', borderRadius: 50, justifyContent: 'center', alignItems: 'center', borderColor: school.primary, borderWidth: 2, marginBottom: 10 }}>
                                 <LibIcon.FontAwesome name="camera" size={30} color="#136B93" />
                             </View>
                             <Text style={{ color: '#000000', fontSize: 20, fontWeight: 'bold' }}>Camera</Text>
@@ -222,9 +248,9 @@ function m(props: TeacherDetailProps): any {
                                     slideup.current!.hide()
                                     setImage(String(url))
                                 })
-                                } >
-                            <View style={{ width: 60, height: 60, backgroundColor: '#ffffff', borderRadius: 50, justifyContent: 'center', alignItems: 'center', borderColor: school.primary,borderWidth:2,marginBottom:10}}>
-                                <LibIcon.FontAwesome name="image" size={30} color="#136B93"  />
+                            } >
+                            <View style={{ width: 60, height: 60, backgroundColor: '#ffffff', borderRadius: 50, justifyContent: 'center', alignItems: 'center', borderColor: school.primary, borderWidth: 2, marginBottom: 10 }}>
+                                <LibIcon.FontAwesome name="image" size={30} color="#136B93" />
                             </View>
                             <Text style={{ color: '#000000', fontSize: 20, fontWeight: 'bold' }}>Gallery</Text>
 

@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import { UserClass } from 'esoftplay/cache/user/class/import';
@@ -21,7 +20,7 @@ export interface MainIndexArgs {
 export interface MainIndexProps {
 
 }
-function m(props: MainIndexProps): any {
+export default function m(props: MainIndexProps): any {
 
   const user = UserClass.state().useSelector(s => s);
    const timeout= useTimeout()
@@ -39,6 +38,10 @@ function m(props: MainIndexProps): any {
           LibProgress.show('Memuat...')
           // roles(user.group_ids)
           switch (user.group_ids[0]) {
+            case '1':
+              LibNavigation.replace('teacher/account');
+              LibProgress.hide();
+              break;
             case '5':
               LibNavigation.replace('teacher/index');
               LibProgress.hide();
@@ -108,4 +111,3 @@ function m(props: MainIndexProps): any {
   }
 
 }
-export default memo(m);

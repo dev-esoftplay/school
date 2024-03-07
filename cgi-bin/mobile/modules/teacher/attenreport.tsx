@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import { LibSlidingup } from 'esoftplay/cache/lib/slidingup/import';
@@ -20,7 +19,7 @@ export interface TeacherAttenreportArgs {
 export interface TeacherAttenreportProps {
 
 }
-function m(props: TeacherAttenreportProps): any {
+export default function m(props: TeacherAttenreportProps): any {
   const getWeekNumber = () => {
     // Buat objek tanggal untuk tanggal hari ini
     const today = new Date();
@@ -406,4 +405,3 @@ function m(props: TeacherAttenreportProps): any {
 
   )
 }
-export default memo(m);

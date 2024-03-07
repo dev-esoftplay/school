@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 import { useRef } from 'react';
 import { useEffect, useState } from 'react';
 
@@ -36,7 +35,7 @@ Notifications.setNotificationHandler({
   }),
 });
 
-function m(props: TeacherHomeProps): any {
+export default function m(props: TeacherHomeProps): any {
 
 
   //mengambil data dari userClass
@@ -355,5 +354,3 @@ function m(props: TeacherHomeProps): any {
 }
 
 
-
-export default memo(m);

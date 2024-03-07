@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 
 import { MaterialIconsTypes } from '@expo/vector-icons/build/esoftplay_icons';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
@@ -22,7 +21,7 @@ export interface ScanAttendenceArgs {
 export interface ScanAttendenceProps {
 
 }
-function m(props: ScanAttendenceProps): any {
+export default function m(props: ScanAttendenceProps): any {
     const datas: any = LibNavigation.getArgsAll(props).data;
     const schedule_id: any = LibNavigation.getArgsAll(props).schedule_id;
     const class_id: any = LibNavigation.getArgsAll(props).class_id;
@@ -438,4 +437,3 @@ function m(props: ScanAttendenceProps): any {
         </View>
     )
 }
-export default memo(m);
