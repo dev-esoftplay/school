@@ -220,12 +220,12 @@ function m(props: TeacherProfileProps): any {
                     <MaterialIcons name='logout' size={24} color='#FFFFFF' />
                 </Pressable>
             </View>
-            <View style={{ alignItems: 'center', marginTop: 15 }}>
+            {/* <View style={{ alignItems: 'center', marginTop: 15 }}>
                 <Pressable onPress={() => LibNavigation.navigate('utils/test')} style={{ height: 55, width: LibStyle.width - 25, backgroundColor: '#136B93', justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', borderRadius: 15, paddingHorizontal: 20 }}>
                     <Text style={{ color: '#FFFFFF', fontWeight: '400', fontSize: 18, }}>test </Text>
                     <MaterialIcons name='warning' size={24} color='#FFFFFF' />
                 </Pressable>
-            </View>
+            </View> */}
         </LibScroll>
 
 
