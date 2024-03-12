@@ -1,7 +1,7 @@
 <?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 if ($parent_id)
 {
-  $parent_data = $db->getrow('SELECT `id`, `name`, `phone` FROM `school_parent` WHERE `id` = ' . $parent_id);
+  $parent_data = $db->getrow('SELECT `id`, `name`, `phone`, `image` FROM `school_parent` WHERE `id` = ' . $parent_id);
   $student_ids = $db->getcol('SELECT `student_id` FROM `school_student_parent` WHERE `parent_id` = ' . $parent_id);
   
   $student_data = [];
@@ -39,24 +39,25 @@ if ($parent_id)
     }
 
     $student_data[] = [
-      "student_id"          => intval($student_info['id']),
-      "student_name"        => $student_info['name'],
-      "birthday"            => $student_info['birthday'],
-      "nis"                 => $student_info['nis'],
-      "teacher_name"        => ($teacher_data != null) ? $teacher_data['name'] : '',
-      "teacher_phone"       => ($teacher_data != null) ? $teacher_data['phone'] : '',
-      "class_id"            => $class_id,
-      "class_name"          => $class_name ? $class_name : '',
-      "student_image"       => api_image_url($student_info['image'], $student_id, 'school/student') ?? '',
-      "student_attendance"  => $attendance_report_data
+      'student_id'          => intval($student_info['id']),
+      'student_name'        => $student_info['name'],
+      'birthday'            => $student_info['birthday'],
+      'nis'                 => $student_info['nis'],
+      'teacher_name'        => ($teacher_data != null) ? $teacher_data['name'] : '',
+      'teacher_phone'       => ($teacher_data != null) ? $teacher_data['phone'] : '',
+      'class_id'            => $class_id,
+      'class_name'          => $class_name ? $class_name : '',
+      'student_image'       => api_image_url($student_info['image'], $student_id, 'school/student') ?? '',
+      'student_attendance'  => $attendance_report_data
     ];
   }
   
   $parent_data = array(
-    "parent_id"     => intval($parent_data['id']),
-    "name"          => $parent_data['name'],
-    "phone"         => $parent_data['phone'],
-    "student_data"  => $student_data,
+    'parent_id'     => intval($parent_data['id']),
+    'name'          => $parent_data['name'],
+    'phone'         => $parent_data['phone'],
+    'image'         => api_image_url($parent_data['image'], $parent_id, 'school/parent') ?? '',
+    'student_data'  => $student_data,
   );
   
   return api_ok($parent_data);
