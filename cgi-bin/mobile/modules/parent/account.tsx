@@ -22,7 +22,7 @@ export interface ParentAccountArgs {
 export interface ParentAccountProps {
 
 }
-function m(props: ParentAccountProps): any {
+export default function m(props: ParentAccountProps): any {
 
 
   const [Parent, setParent] = useState<any>([])
@@ -130,8 +130,5 @@ const timeout = useTimeout()
   )
 }
 
-export default memo(m);
 
-function memo(m: (props: ParentAccountProps) => any) {
-  throw new Error('Function not implemented.');
-}
+

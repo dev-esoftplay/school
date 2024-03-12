@@ -5,9 +5,7 @@ import React from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { IoniconsTypes } from '@expo/vector-icons/build/esoftplay_icons';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
-import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 import { LibStyle } from 'esoftplay/cache/lib/style/import';
-
 import Home from './home';
 import Notif from './notif';
 import Account from './account';
@@ -29,7 +27,7 @@ export interface ParentIndexProps {
     switch (menu) {
       case 'Beranda':
         return <Home />;
-      case 'Notif':
+      case 'Notifikasi':
         return <Notif />;
       case 'Akun':
         return <Account />;
@@ -90,7 +88,7 @@ export interface ParentIndexProps {
 
         {/* Render item-menu untuk setiap layar */}
         {renderMenuItem('home', 'Beranda', 0, 'home-outline', 0)}
-        {renderMenuItem('mail', 'Notif', 3, 'mail-outline', 3)}
+        {renderMenuItem('mail', 'Notifikasi', 3, 'mail-outline', 3)}
         {renderMenuItem('person', 'Akun', 4, 'person-outline', 4)}
       </View>
     </View>

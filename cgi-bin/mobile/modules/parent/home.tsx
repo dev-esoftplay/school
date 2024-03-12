@@ -53,7 +53,7 @@ export function pushToken(): void {
   })
 }
 // Komponen ParentsHome
-function ParentsHome({ }: ParentsHomeProps): JSX.Element {
+export default function ParentsHome({ }: ParentsHomeProps): JSX.Element {
   const { width, height } = Dimensions.get('window');
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const ref = useRef<FlatList<any>>(null);
