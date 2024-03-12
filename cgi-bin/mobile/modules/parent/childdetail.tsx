@@ -27,7 +27,7 @@ export interface ChildDetailProps {
 
 }
 
-function m(props: ChildDetailProps): any {
+export default function m(props: ChildDetailProps): any {
   const allMonths = [
     {
       "name": "January",
