@@ -5,7 +5,8 @@ class SchoolColors {
   secondary: string;
 
   constructor() {
-    this.primary = '#146c94';
+ 
+    this.primary = '#136B93';
     this.secondary = '#19A7CE';
   }
 }

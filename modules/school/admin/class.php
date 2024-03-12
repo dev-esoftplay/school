@@ -43,16 +43,35 @@ if (!empty($_POST['template']))
 if ($show_list)
 {
 	$form = _lib('pea', 'school_class');
-	$form->initroll("WHERE 1 ORDER BY grade ASC");
+	$form->initSearch();
+
+	$form->search->addInput('grade', 'select');
+	$form->search->input->grade->setTitle('Judul Field');
+	$form->search->input->grade->addOption(['10', '11', '12']);
+
+	$form->search->addInput('keyword','keyword');
+	$form->search->input->keyword->addSearchField('grade,major,label');
+
+	$add_sql = $form->search->action();
+	$keyword = $form->search->keyword();
+	echo $form->search->getForm();
+
+	$form->initRoll($add_sql.' ORDER BY id DESC', 'id' );
+
 	$form->roll->setSaveTool(false);
 
 	$form->roll->addInput( 'id', 'sqlplaintext' );
 	$form->roll->input->id->setFieldName( 'id AS class_id' );
 	$form->roll->input->id->setDisplayColumn(true);
 
+	$form->roll->addInput('id','sqllinks');
+	$form->roll->input->id->setFieldName('id AS edit');
+	$form->roll->input->id->setLinks($Bbc->mod['circuit'].'.class_edit');
+
 	$form->roll->addInput( 'class_name', 'sqllinks' );
 	$form->roll->input->class_name->setFieldName( 'CONCAT_WS(" ",grade,label,major) AS class_name' );
-	$form->roll->input->class_name->setLinks($Bbc->mod['circuit'].'.class_edit');
+	// $form->roll->input->class_name->setLinks($Bbc->mod['circuit'].'.class_edit');
+	$form->roll->input->class_name->setDisplayColumn(false);
 
 	$form->roll->addInput('grade', 'sqlplaintext');
 	$form->roll->input->grade->setTitle('Grade');
@@ -75,6 +94,17 @@ if ($show_list)
 	$form->roll->input->teacher_id->setDisplayColumn(true);
 	$form->roll->input->teacher_id->textTip='';
 
+	$form->roll->addInput('number', 'sqlplaintext');
+	$form->roll->input->number->setTitle('number');
+	$form->roll->input->number->setFieldName('id as class_id_student');
+	$form->roll->input->number->setDisplayFunction(function ($value) use($db)
+	{
+		// $course_id = $db->getone("SELECT course_id from school_teacher_subject WHERE id=$value");
+		$student_number = $db->getone('SELECT count(`number`) FROM `school_student_class` WHERE `class_id` =' . $value);
+		return $student_number;
+	});
+
+	$form->roll->addReport('excel');
 	echo $form->roll->getForm();
 }
 include 'class_add.php';

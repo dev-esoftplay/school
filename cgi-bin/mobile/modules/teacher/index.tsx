@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import { Pressable, Text, View } from 'react-native';
@@ -21,10 +21,29 @@ export interface TeacherindexProps {
  }
 
 function m(props: TeacherindexProps): any {
-  const [menu, setMenu] = useState('Beranda')??LibNavigation.getArgsAll(props);
- 
+  const [menu, setMenu] = useState(LibNavigation.getArgsAll(props).page)
+  const page =LibNavigation.getArgsAll(props);
   const [focused, setFocused] = useState(0);
-
+  const syncfocused = (page: string) => {
+    switch (page) {
+      case 'Beranda':
+        return setFocused(0);
+      case 'Absensi':
+        return setFocused(1);
+      case 'Scan':
+        return setFocused(2);
+      case 'Notifikasi':
+        return setFocused(3);
+      case 'Akun':
+        return setFocused(4);
+      default:
+        return setFocused(0);
+    }
+  }
+  useEffect(() => {
+    console.log('page:',page  )
+    syncfocused(page.page)
+  }, [])
   // Fungsi untuk merender konten berdasarkan nilai menu
   const renderContent = useMemo(() => {
     switch (menu) {

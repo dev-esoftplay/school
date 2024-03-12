@@ -15,7 +15,8 @@ if (!empty($token))
 			)
 		);
 	}
-}else{
+}else
+{
 	api_no(
 		array(
 			'message' => lang('Token tidak boleh kosong.')

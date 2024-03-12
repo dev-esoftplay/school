@@ -10,7 +10,6 @@ import moment from 'esoftplay/moment';
 import useSafeState from 'esoftplay/state';
 import React, { useEffect, useRef, useState } from 'react';
 import { FlatList, Modal, Pressable, Text, TouchableOpacity, View } from 'react-native';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 
 
@@ -24,12 +23,10 @@ export interface TeacherAttendenceProps {
 }
 
 
-
-
-
 export default function m(props: TeacherAttendenceProps): any {
   const [popupVisible, setPopupVisible] = useState(false);
   const [ijinVisible, setIjinVisible] = useState(false)
+  const [sickVisible, setSickVisible] = useState(false)
   let [studentId, setstudentId] = useSafeState(0)
   let [studentName, setstudentName] = useSafeState('')
   const data: string = LibNavigation.getArgsAll(props).data;
@@ -37,7 +34,75 @@ export default function m(props: TeacherAttendenceProps): any {
   const course_id = LibNavigation.getArgsAll(props).courseId;
   const [ApiResponse, setResApi] = useSafeState<any>();
   let inputnotess = useRef<LibInput_rectangle2>(null)
-  let [mappedData, setMappedData] = useState<any>({});
+  let [mappedData, setMappedData] = useSafeState<any>({});
+
+  const PresentStatus = (index: number) => {
+   ;
+    mappedData.student_list[index].status = 1;
+    mappedData.student_list[index].notes = '';
+    setMappedData({ ...mappedData });
+  };
+ 
+  const attenpost = () => {
+    // console.log("post.....")
+    // console.log('1')
+    const url: string = "http://api.test.school.esoftplay.com/student_attendance"
+    console.log("url", url)
+    let dataabsen = JSON.stringify(mappedData.student_list)
+    // console.log("data",JSON.stringify(mappedData.student_list))
+    const post = {
+      data: String(dataabsen),
+      schedule_id: '['+ data.toString()+']',
+      class_id: idclass,
+      course_id: course_id,
+      clock_start: ApiResponse?.clock_start,
+      clock_end: ApiResponse?.clock_end,
+    }
+    // console.log("data yang di post", post)
+    console.log('schadule_id: ['+ data.toString()+']')
+    console.log('schaedule_id', data)
+    console.log('schadule_id type', typeof (data))
+    new LibCurl('student_attendance', post, (result) => {
+      console.log('Jadwal Result:', result);
+      // console.log('2')
+      // console.log(msg)
+    }, (err) => {
+     console.log("Eror")
+      // console.log('3')
+     console.log(err)
+    })
+  }
+  const date = moment().format('YYYY-MM-DD')
+  useEffect(() => {
+
+    // console.log(moment().format('YYYY-MM-DD'))
+    // jangan lupa ganti class_id dan schadule_id dan date di url 
+    //   http://api.test.school.esoftplay.com/student_class?class_id=1
+
+
+    // console.log("class_id", idclass)
+    // console.log("schedule_id", data)
+    new LibCurl("student_class?class_id=" + idclass + "&schedule_id=" + data + "&date=" + date, null,
+      (result) => {
+         console.log('Jadwal Result:', result);
+        // console.log("msg", msg)
+        setResApi(result)
+        setMappedData(result);
+        // console.log("link", url)
+        // console.log("data", data)
+      },
+      (err) => {
+        console.log("error", err)
+      }, 1)
+
+
+  }, [])
+
+
+  let timeStart = ApiResponse?.clock_start ?? ''
+  let timeEnd = ApiResponse?.clock_end ?? ''
+  let time: string = timeStart + " - " + timeEnd
+
   interface CustomPopupProps {
     visible: boolean;
     onClose: () => void;
@@ -50,68 +115,7 @@ export default function m(props: TeacherAttendenceProps): any {
     student_id: number;
     nama: string;
   }
-
-  const attenpost = () => {
-    // console.log("post.....")
-    // console.log('1')
-    const url: string = "http://api.test.school.esoftplay.com/student_attendance"
-    // console.log("url", url)
-    let dataabsen = JSON.stringify(mappedData.student_list)
-    // console.log("data",JSON.stringify(mappedData.student_list))
-    const post = {
-      data: String(dataabsen),
-      schedule_id: data,
-      class_id: idclass,
-      course_id: course_id,
-      clock_start: ApiResponse?.clock_start,
-      clock_end: ApiResponse?.clock_end,
-    }
-    // console.log("data yang di post", post)
-    // console.log()
-    new LibCurl('student_attendance', post, (result, msg) => {
-      // console.log('Jadwal Result:', result);
-      // console.log('2')
-      // console.log(msg)
-    }, (err) => {
-      // console.log("Eror")
-      // console.log('3')
-      // console.log(err)
-    }, 1)
-  }
-  const date = moment().format('YYYY-MM-DD')
-  useEffect(() => {
-
-    // console.log(moment().format('YYYY-MM-DD'))
-    // jangan lupa ganti class_id dan schadule_id dan date di url 
-    //   http://api.test.school.esoftplay.com/student_class?class_id=1
-    const url: string = "http://api.test.school.esoftplay.com/student_class?class_id=1&schedule_id=1&date=" + date
-
-
-    // console.log("class_id", idclass)
-    // console.log("schedule_id", data)
-    new LibCurl("student_class?class_id=" + idclass + "&schedule_id=" + data + "&date=" + date, get,
-      (result, msg) => {
-        // console.log('Jadwal Result:', result);
-        // console.log("msg", msg)
-        setResApi(result)
-        const data = JSON.stringify(result)
-        setMappedData(result);
-        // console.log("link", url)
-        // console.log("data", data)
-      },
-      (err) => {
-        // console.log("error", err)
-      }, 1)
-
-
-  }, [])
-
-
-  let timeStart = ApiResponse?.clock_start ?? ''
-  let timeEnd = ApiResponse?.clock_end ?? ''
-  let time: string = timeStart + " - " + timeEnd
-
-
+  
   /*
   1=hadir,
   2-sakit,
@@ -123,18 +127,18 @@ export default function m(props: TeacherAttendenceProps): any {
 
 
   // //menampilkan jumlah siswa hadir
-  const studentsPresentArray = mappedData.student_list?.filter((student: { status: number; }) => student.status === 1) ?? []
+  let studentsPresentArray = mappedData.student_list?.filter((student: { status: number; }) => student.status === 1) ?? []
   // //menampilkan jumlah siswa sakit
-  const studentsSickArray = mappedData.student_list?.filter((student: { status: number; }) => student.status === 2) ?? [];
+  let studentsSickArray = mappedData.student_list?.filter((student: { status: number; }) => student.status === 2) ?? [];
   // //menampilkan jumlah siswa ijin
-  const studentsAbsentArray = mappedData.student_list?.filter((student: { status: number; }) => student.status === 3) ?? [];
+  let studentsAbsentArray = mappedData.student_list?.filter((student: { status: number; }) => student.status === 3) ?? [];
   // //menampilkan jumlah siswa alfa
-  const studentsAlphaArray = mappedData.student_list?.filter((student: { status: number; }) => student.status === 4) ?? [];
+  let studentsAlphaArray = mappedData.student_list?.filter((student: { status: number; }) => student.status === 4) ?? [];
 
-  const numberStudentsPresent = studentsPresentArray.length;
-  const numberStudentsSick = studentsSickArray.length;
-  const numberStudentsAbsent = studentsAbsentArray.length;
-  const numberStudentsAlpha = studentsAlphaArray.length;
+  let numberStudentsPresent = studentsPresentArray.length;
+  let numberStudentsSick = studentsSickArray.length;
+  let numberStudentsAbsent = studentsAbsentArray.length;
+  let numberStudentsAlpha = studentsAlphaArray.length;
 
   let getStudentIcon = (statusCode: number) => {
     // console.log(["status code", statusCode]);
@@ -162,35 +166,10 @@ export default function m(props: TeacherAttendenceProps): any {
 
     return icon;
   }
-  let PresentStatus = (indeks: number) => {
-    console.clear()
-    // console.log("sebelum ganti status")
-    // console.log(mappedData.student_list[indeks].status)
-    // console.log("ganti status")
-    mappedData.student_list[indeks].status = 1
-    mappedData.student_list[indeks].notes = ''
-    // a.permission.total_present=numberStudentsPresent
-    getStudentIcon(1)
-    // console.log(mappedData.student_list[indeks].status)
-    // console.log("data a setelah ganti status", mappedData)
-    setMappedData(mappedData)
 
-  }
-  let sickStatus = (indeks: number) => {
-    console.clear()
-    // console.log("sebelum ganti status")
-    // console.log(mappedData.student_list[indeks].status)
-    // console.log("ganti status")
-    mappedData.student_list[indeks].status = 2
-    mappedData.student_list[indeks].notes = ''
-    // a.permission.total_s=numberStudentsSick
-    getStudentIcon(2)
-    // console.log(mappedData.student_list[indeks].status)
-    // console.log("data a setelah ganti status", mappedData)
-    setMappedData(mappedData)
-  }
-  let absenceStatus = (indeks: number) => {
-    console.clear()
+
+  function absenceStatus(indeks: number) {
+   
     // console.log("sebelum ganti status")
     // console.log(mappedData.student_list[indeks].status)
     // console.log("ganti status")
@@ -202,8 +181,9 @@ export default function m(props: TeacherAttendenceProps): any {
     // console.log("data a setelah ganti status", mappedData)
     setMappedData(mappedData)
   }
-  let alphaStatus = (indeks: number) => {
-    console.clear()
+  function alphaStatus(indeks: number) {
+   
+    console.log(indeks)
     // console.log("sebelum ganti status")
     // console.log(mappedData.student_list[indeks].status)
     // console.log("ganti status")
@@ -217,19 +197,19 @@ export default function m(props: TeacherAttendenceProps): any {
     // console.log("data a setelah ganti status", mappedData)
     setMappedData(mappedData)
   }
-  let absentNotes = (indeks: number) => {
-    // console.log("indeks", indeks)
-    // a.permission.total_s=numberStudentsAbsent
-    mappedData.student_list[indeks].notes = inputnotess?.current?.getText()
-    // console.log("data a setelah ganti status", mappedData)
-    setMappedData(mappedData)
-  }
   let [icon, setIcon] = useState<any>();
 
 
-  function AbsentDialog({ visible, onClose, nama, student_id }: absentDialogProps): JSX.Element {
+  function AbsentDialog({ visible, onClose, nama, student_id }: absentDialogProps) {
 
-    let idS: number = student_id ?? 0
+    let absentNotes = (indeks: number) => {
+      // console.log("indeks", indeks)
+      // a.permission.total_s=numberStudentsAbsent
+      mappedData.student_list[indeks].notes = inputnotess?.current?.getText()
+      // console.log("data a setelah ganti status", mappedData)
+      setMappedData(mappedData)
+    }
+    let idSiswa: number = student_id ?? 0
 
     return (
       <Modal
@@ -251,7 +231,7 @@ export default function m(props: TeacherAttendenceProps): any {
             <Pressable onPress={() => {
               esp.log(inputnotess?.current?.getText());
               onClose(),
-                absenceStatus(idS), absentNotes(idS)
+                absenceStatus(idSiswa), absentNotes(idSiswa)
             }} style={{ marginTop: 10, padding: 10, backgroundColor: '#0083FD', borderRadius: 5, width: "100%", alignItems: 'center' }}>
               <Text style={{ color: 'white', fontSize: 16, }}>Ijinkan</Text>
             </Pressable>
@@ -260,10 +240,54 @@ export default function m(props: TeacherAttendenceProps): any {
       </Modal>
     );
   }
-  function CustomPopup({ visible, onClose, nama, student_id }: CustomPopupProps): JSX.Element {
+  function SickDialog({ visible, onClose, nama, student_id }: absentDialogProps) {
 
-    // console.log("student_id", student_id)
-    let idS: number = student_id ?? 0
+    let idSiswa: number = student_id ?? 1
+    let sickStatus = (indeks: number) => {
+     
+      // console.log("sebelum ganti status")
+      // console.log(mappedData.student_list[indeks].status)
+      // console.log("ganti status")
+      mappedData.student_list[indeks].status = 2
+      mappedData.student_list[indeks].notes = ''
+      // a.permission.total_s=numberStudentsSick
+      getStudentIcon(2)
+      // console.log(mappedData.student_list[indeks].status)
+      // console.log("data a setelah ganti status", mappedData)
+      mappedData.student_list[indeks].notes = inputnotess?.current?.getText()
+      setMappedData(mappedData)
+    }
+    return (
+      <Modal
+        transparent={true}
+        visible={visible} >
+        <View style={{ flex: 1, justifyContent: 'center', alignContent: 'center', backgroundColor: 'rgba(0, 0, 0, 0.116)', alignItems: 'center' }}>
+          <View style={{ width: 300, padding: 20, backgroundColor: 'white', borderRadius: 10, alignItems: 'center', }}>
+            {/* Text field */}
+            <Text style={{ fontSize: 16, marginBottom: 10, }}>{nama}  Sakit </Text>
+            <LibInput_rectangle2
+              placeholderTextColor='gray'
+              // hint="Alasan"
+              inputStyle={{ fontSize: 16, color: 'black', marginRight: 15, marginLeft: 8 }}
+              ref={inputnotess}
+              placeholder='Keterangan Sakit'
+            />
+
+            {/* ijin*/}
+            <Pressable onPress={() => {
+              esp.log(inputnotess?.current?.getText());
+              onClose(), sickStatus(idSiswa)
+            }} style={{ marginTop: 10, padding: 10, backgroundColor: 'orange', borderRadius: 5, width: "100%", alignItems: 'center' }}>
+              <Text style={{ color: 'white', fontSize: 16, }}>Ijinkan</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+    );
+  }
+  function CustomPopup({ visible, onClose, nama, student_id }: CustomPopupProps) {
+   
+    let idSiswa: number = student_id ?? 0
     // // console.log("student_id type",typeof(student_id))
     return (
       <Modal
@@ -277,19 +301,19 @@ export default function m(props: TeacherAttendenceProps): any {
             </TouchableOpacity>
             <Text style={{ fontSize: 16, marginBottom: 10, }}>Ganti Status {nama}</Text>
             {/* Hadir */}
-            <Pressable onPress={() => { onClose(), PresentStatus(idS) }} style={{ marginTop: 10, padding: 10, backgroundColor: '#0DBD5E', borderRadius: 5, width: "100%", alignItems: 'center' }}>
+            <Pressable onPress={() => {PresentStatus(idSiswa),onClose()}} style={{ marginTop: 10, padding: 10, backgroundColor: '#0DBD5E', borderRadius: 5, width: "100%", alignItems: 'center' }}>
               <Text style={{ color: 'white', fontSize: 16, }}>Hadir</Text>
             </Pressable>
             {/* sakit */}
-            <Pressable onPress={() => { onClose(), sickStatus(idS) }} style={{ marginTop: 10, padding: 10, backgroundColor: '#F6C956', borderRadius: 5, width: "100%", alignItems: 'center' }}>
+            <Pressable onPress={() => { setSickVisible(true), onClose(),   console.log("student_id", student_id) }} style={{ marginTop: 10, padding: 10, backgroundColor: '#F6C956', borderRadius: 5, width: "100%", alignItems: 'center' }}>
               <Text style={{ color: 'white', fontSize: 16, }}>Sakit</Text>
             </Pressable>
             {/* alfa */}
-            <Pressable onPress={() => { onClose(), alphaStatus(idS) }} style={{ marginTop: 10, padding: 10, backgroundColor: '#FF4343', borderRadius: 5, width: "100%", alignItems: 'center' }}>
+            <Pressable onPress={() => { alphaStatus(idSiswa), onClose() }} style={{ marginTop: 10, padding: 10, backgroundColor: '#FF4343', borderRadius: 5, width: "100%", alignItems: 'center' }}>
               <Text style={{ color: 'white', fontSize: 16, }}>Alfa</Text>
             </Pressable>
             {/* ijin*/}
-            <Pressable onPress={() => { onClose(), setIjinVisible(true) }} style={{ marginTop: 10, padding: 10, backgroundColor: '#0083FD', borderRadius: 5, width: "100%", alignItems: 'center' }}>
+            <Pressable onPress={() => { setIjinVisible(true), onClose() }} style={{ marginTop: 10, padding: 10, backgroundColor: '#0083FD', borderRadius: 5, width: "100%", alignItems: 'center' }}>
               <Text style={{ color: 'white', fontSize: 16, }}>Izin</Text>
             </Pressable>
           </View>
@@ -408,11 +432,12 @@ export default function m(props: TeacherAttendenceProps): any {
                       <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>{String(item.name) ?? "tejo"} </Text>
 
                       <View style={{ alignItems: 'center', padding: 5, backgroundColor: 'white', borderRadius: 5, justifyContent: 'center', marginTop: 10 }}>
-                        <Text style={{ fontSize: 14, fontWeight: 'bold' }}>{getStudentStatus(item.status)} {index + 1} </Text>
+                        <Text style={{ fontSize: 14, fontWeight: 'bold' }}>{getStudentStatus(item.status)} {item?.notes ?? ''} </Text>
                       </View>
+
                     </View>
-                    <View style={{ flex: 1 }} />
-                    <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white', alignSelf: 'baseline' }}>{item?.notes ?? ''}</Text>
+
+
                   </View>
                   {/* make a circle */}
                   {/*  style={{ backgroundColor: getStudentColor(item.status), borderRadius: 50, marginLeft: 20, padding: 20, height: 60, width: 60, alignItems: 'center', justifyContent: 'center' }} */}
@@ -423,14 +448,15 @@ export default function m(props: TeacherAttendenceProps): any {
           }} />
       <CustomPopup visible={popupVisible} onClose={() => setPopupVisible(false)} student_id={studentId} nama={studentName} />
       <AbsentDialog visible={ijinVisible} onClose={() => setIjinVisible(false)} student_id={studentId} nama={studentName} />
-
+      <SickDialog visible={sickVisible} onClose={() => setSickVisible(false)} student_id={studentId} nama={studentName} />
+      {/* kirim */}
       <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', padding: 10, height: 80 }}>
         <Pressable onPress={() => {
           console.log(mappedData)
           attenpost()
           LibNavigation.replace('teacher/index')
         }} style={{ backgroundColor: '#0083FD', borderRadius: 10, padding: 10, width: '80%', alignItems: 'center', height: 50, }}>
-          <Text style={{ color: 'white', fontSize: 16, alignSelf: 'center' }}>Laporan</Text>
+          <Text style={{ color: 'white', fontSize: 14, alignSelf: 'center' }}>Kirim</Text>
         </Pressable>
       </View>
 

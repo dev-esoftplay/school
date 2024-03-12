@@ -1,8 +1,8 @@
 <?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
-if (!$teacher_id) {
-  return api_no('kamu ga dapet akses ini');
-}
+// if (!$teacher_id) {
+//   return api_no('kamu ga dapet akses ini');
+// }
 
 $student_id                 = addslashes(intval($_GET['student_id']));
 $class_id                   = addslashes(intval($_GET['class_id']));

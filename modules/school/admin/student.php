@@ -98,6 +98,7 @@ $form->roll->input->nis->setTitle('nis');
 $form->roll->input->nis->setPlainText(true);
 $form->roll->input->nis->setDisplayColumn(true); 
 
+$form->roll->addReport('excel');
 $form->roll->action();
 echo $form->roll->getForm();
 }

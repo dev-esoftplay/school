@@ -67,7 +67,15 @@
     },
     "runtimeVersion": "schooltest",
     "plugins": [
-      "expo-secure-store"
+      "expo-secure-store",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ]
     ],
     "extra": {
       "eas": {
@@ -76,6 +84,6 @@
     }
   },
   "config": {
-    "publish_id": 7
+    "publish_id": 54
   }
 }

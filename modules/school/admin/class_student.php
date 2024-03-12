@@ -10,9 +10,8 @@ $form->roll->setSaveTool(false);
 $form->roll->addInput( 'id', 'sqlplaintext' );
 $form->roll->input->id->setFieldName( 'id AS page_id' );
 
-$form->roll->addInput('number', 'sqllinks');
+$form->roll->addInput('number', 'sqlplaintext');
 $form->roll->input->number->setTitle('number');
-$form->roll->input->number->setLinks($Bbc->mod['circuit'].'.'.$Bbc->mod['task'].'_edit');
 
 $form->roll->addInput('name', 'sqlplaintext');
 $form->roll->input->name->setTitle('name');

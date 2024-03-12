@@ -21,6 +21,9 @@ import {
   View
 } from 'react-native';
 import SchoolColors from '../utils/schoolcolor';
+import { LibTextstyle } from 'esoftplay/cache/lib/textstyle/import';
+import { LibToastProperty } from 'esoftplay/cache/lib/toast/import';
+import { LibUpdaterProperty } from 'esoftplay/cache/lib/updater/import';
 
 export interface LoginIndexsArgs { }
 export interface LoginIndexsProps { }
@@ -60,12 +63,12 @@ export interface ResApi {
 
 }
 
-
+// export const curlState = useGlobalState<any>(undefined)
 
 export default function m(props: LoginIndexsProps): any {
 
   const school = new SchoolColors();
-
+  // const cState = curlState.useSelector(s => s)
 
   const [username, setUsername] = useSafeState('');
   const [password, setPassword] = useSafeState('');
@@ -74,13 +77,15 @@ export default function m(props: LoginIndexsProps): any {
 
   function login(username?: string, password?: string) {
     LibUtils.getInstallationID().then((installation_id) => {
+      console.log("installation_id type: ", typeof installation_id)
+      console.log("installation_id: ", String(installation_id))
 
       const post = {
         username: new LibCrypt().encode(String(username || '55555')),
         password: new LibCrypt().encode(String(password || '20240101')),
         installation_id: installation_id
       }
-      console.log("post", post) 
+      console.log("post", post)
       // // console.log("username", username)
       // // console.log("password", password)
       LibProgress.show('Loading')
@@ -89,6 +94,7 @@ export default function m(props: LoginIndexsProps): any {
         LibProgress.hide()
         // esp.log({ result, msg });
         console.log("result", result, typeof result)
+        // LibDialog.info('Login Berhasil', JSON.stringify(result))
         // UserClass berfungsi untuk menyimpan data user yang login
         UserClass.create(result).then((value) => {
           esp.log("disini", value);
@@ -131,6 +137,10 @@ export default function m(props: LoginIndexsProps): any {
         style={{ flex: 1, paddingHorizontal: 30 }}
         showsVerticalScrollIndicator={false}
       >
+        {/* {
+          cState &&
+          <Text>{JSON.stringify(cState)}</Text>
+        } */}
         <LibPicture
           source={esp.assets('login.png')} resizeMode='contain'
           style={{ alignSelf: 'center', marginTop: 75, width: 300, height: 190 }}
@@ -166,6 +176,7 @@ export default function m(props: LoginIndexsProps): any {
             style={{ marginRight: 10 }}
           />
           <TextInput
+            style={{ flex: 1 }}
             placeholder="Username"
             onChangeText={(text) => setUsername(text)}
           />
@@ -192,6 +203,7 @@ export default function m(props: LoginIndexsProps): any {
             style={{ marginRight: 10 }}
           />
           <TextInput
+            style={{ flex: 1 }}
             placeholder="Password"
             secureTextEntry={selectedIndex}
             onChangeText={(text) => setPassword(text)}
@@ -200,7 +212,7 @@ export default function m(props: LoginIndexsProps): any {
           {showPassword()}
         </View>
         <View style={{ marginTop: 20 }} />
-        <Pressable onPress={() => navigation.replace('auth/forgotpass')}>
+        {/* <Pressable onPress={() => navigation.replace('auth/forgotpass')}>
           <Text
             style={{
               fontSize: 14,
@@ -212,7 +224,7 @@ export default function m(props: LoginIndexsProps): any {
           >
             Lupa Password?
           </Text>
-        </Pressable>
+        </Pressable> */}
         <View style={{ marginTop: 20 }} />
         <Pressable
           // onPress={()=>LibNavigation.navigate('teacher/index')}
@@ -231,6 +243,38 @@ export default function m(props: LoginIndexsProps): any {
           <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'white' }}>
             Masuk
           </Text>
+
+
+        </Pressable>
+        <Pressable onPress={() => {
+          if (!__DEV__) {
+            LibProgress.show("sedang memeriksa versi")
+          }
+          let timeout: any = setTimeout(() => {
+            LibProgress.hide()
+          }, 10000)
+
+          LibUpdaterProperty.check((isNew) => {
+            if (isNew) {
+              if (timeout) {
+                clearTimeout(timeout)
+                timeout = undefined
+              }
+              LibProgress.hide()
+              LibUpdaterProperty.install()
+            } else {
+              if (timeout) {
+                clearTimeout(timeout)
+                timeout = undefined
+              }
+              LibProgress.hide()
+              LibToastProperty.show("Versi terbaru sudah terpasang")
+            }
+          })
+        }} >
+          <LibTextstyle
+            style={{ textAlign: 'center', color: "#999", marginTop: 10, marginBottom: 10 }}
+            textStyle='caption2' text={esp.appjson().expo.name + esp.versionName()} />
         </Pressable>
       </ScrollView>
     </View>

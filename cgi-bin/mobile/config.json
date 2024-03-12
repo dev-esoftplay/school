@@ -8,8 +8,8 @@
     },
     "isDebug": 1,
     "notification": 1,
-    "group_id": 5,
     "protocol": "http",
+    "group_id": 4,
     "experienceId": "f77e515c-842e-4adf-a86a-98bb87769bdb",
     "build": [
       "yasinyusuf",
@@ -17,7 +17,7 @@
     ],
     "salt": "dc6146b3bb269114cb3a9f4cdb1a08c6",
     "home": {
-      "public": "auth/login",
+      "public": "onboarding/onboarding",
       "member": "main/index"
     }
   }

@@ -5,9 +5,7 @@ import React from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { IoniconsTypes } from '@expo/vector-icons/build/esoftplay_icons';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
-import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 import { LibStyle } from 'esoftplay/cache/lib/style/import';
-
 import Home from './home';
 import Notif from './notif';
 import Account from './account';
@@ -19,9 +17,9 @@ export interface ParentIndexArgs {
 export interface ParentIndexProps {
 
 }
-export default function m(props: ParentIndexProps): any {
-  const [menu, setMenu] = useState('Beranda')??LibNavigation.getArgsAll(props);
- 
+ function m(props: ParentIndexProps): any {
+  const [menu, setMenu] = useState('Beranda')
+
   const [focused, setFocused] = useState(0);
 
   // Fungsi untuk merender konten berdasarkan nilai menu
@@ -34,7 +32,7 @@ export default function m(props: ParentIndexProps): any {
       case 'Akun':
         return <Account />;
       default:
-        return <Home />;
+        return <Home  />;
     }
   }, [menu]);
 
@@ -50,6 +48,8 @@ export default function m(props: ParentIndexProps): any {
       onPress={() => {
         setMenu(label);
         setFocused(setpage);
+        console.log('setmenu', label)
+ 
       }}
       style={{ width: 55, backgroundColor: 'white', marginHorizontal: 10, alignItems: 'center' }} >
       <View style={{ alignItems: 'center' }}>
@@ -58,10 +58,10 @@ export default function m(props: ParentIndexProps): any {
           name={focused === index ? iconName : `${iconNameOutline}`}
           size={24}
           // Warna ikon berubah berdasarkan apakah menu difokuskan atau tidak
-          color={index === focused ? "#00848d" : "#bfbfbf"}
+          color={index === focused ? "#3F8DFD" : "#bfbfbf"}
         />
         {/* Label menu dengan styling tertentu */}
-        <Text style={{ fontSize: 12, fontWeight: 'bold', marginBottom: 0, marginVertical: 5, color: index === focused ? "#00848d" : "#bfbfbf" }}>{label}</Text>
+        <Text style={{ fontSize: 12, fontWeight: 'bold', marginBottom: 0, marginVertical: 5, color: index === focused ? "#3F8DFD" : "#bfbfbf" }}>{label}</Text>
       </View>
     </Pressable>
   );
@@ -94,3 +94,4 @@ export default function m(props: ParentIndexProps): any {
     </View>
   );
 }
+export default m;

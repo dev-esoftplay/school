@@ -92,8 +92,8 @@ if ($show_list)
 	$form->roll->input->class_id->setDisplayColumn(true);
 	$form->roll->input->class_id->textTip='';
 
-	$form->roll->action();
 	$form->roll->addReport('excel');
+	$form->roll->action();
 	echo $form->roll->getForm();
 }
 

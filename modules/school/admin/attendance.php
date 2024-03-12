@@ -13,7 +13,7 @@ $form->search->addInput('class_id','selecttable');
 $form->search->input->class_id->setTitle('Search by Class');
 $form->search->input->class_id->addOption('Select Class', '');
 $form->search->input->class_id->setReferenceTable('school_class');
-$form->search->input->class_id->setReferenceField('grade', 'id');
+$form->search->input->class_id->setReferenceField('CONCAT_WS(" ",grade,major,label)', 'id');
 
 $form->search->addInput('keyword','keyword');
 $form->search->input->keyword->addSearchField('total_present,total_s,total_i,total_a,date_day,date_week,date_month,date_year');
@@ -43,7 +43,7 @@ $form->roll->addInput('class', 'selecttable');
 $form->roll->input->class->setTitle('class');
 $form->roll->input->class->setFieldName( 'class_id' );
 $form->roll->input->class->setReferenceTable('school_class');
-$form->roll->input->class->setReferenceField('grade','id');
+$form->roll->input->class->setReferenceField('CONCAT_WS(" ",grade,major,label)','id');
 $form->roll->input->class->setPlaintext(true);
 $form->roll->input->class->setDisplayColumn(true);
 $form->roll->input->class->textTip='';
@@ -83,6 +83,8 @@ $form->roll->input->date_month->setDisplayColumn(false);
 $form->roll->addInput('date_year', 'sqlplaintext');
 $form->roll->input->date_year->setTitle('Year');
 $form->roll->input->date_year->setDisplayColumn(false);
+
+$form->roll->addReport('excel');
 
 $form->roll->action();
 echo $form->roll->getForm();

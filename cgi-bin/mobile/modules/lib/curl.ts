@@ -18,7 +18,8 @@ export default class m extends LibCurl {
     } else {
       token += "|" + 0
     }
-    console.log({ apikey: data?.apikey, uri: this.url + this.uri, token })
+    console.log('test hit api:',{ apikey: data?.apikey, uri: this.url + this.uri, token })
+    console.log( 'token yang sudah di encode:', crypt.encode(token))
     this.header['token'] = crypt.encode(token)
   }
 }

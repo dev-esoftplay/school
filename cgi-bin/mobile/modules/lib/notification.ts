@@ -95,13 +95,13 @@ export default {
     return date.getTime() + gmtDiff
   },
   loadData(isFirst?: boolean): void {
-    return
+
     const config = esp.config();
     let dataUser = UserClass.state().get()
-    let apikey: string = String(dataUser.apikey)
-    let time = this.getTimeByTimeZone(config.timezone)
+    let apikey: string = String(dataUser?.apikey)
+    let time:any = this.getTimeByTimeZone(config.timezone)
 
-    let _uri = mainUrl() + "push_notification"
+    let _uri = mainUrl() + "push_notification/desc"
     esp.log("loadData:", _uri)
     let lastUrl = lastUrlState.get()
     if (isFirst) {
@@ -120,20 +120,22 @@ export default {
     const { salt } = esp.config()
     let post: any = {
       user_id: "",
-      secretkey: new LibCrypt().encode(apikey + "|" + time)
+      secretkey: apikey ? new LibCrypt().encode(time + "|" + apikey) : new LibCrypt().encode(time)
     }
     if (user) {
       post["user_id"] = user.id || user.user_id
-      post["group_id"] = user.group_id || esp.config('group_id')
+      post["group_id"] = user.group_ids.toString() || esp.config('group_id')
     }
     // console.log(esp.logColor.green, 'apikey: ' + apikey, esp.logColor.reset)
     // console.log(esp.logColor.cyan, 'curl: ' + _uri, esp.logColor.reset)
-    // console.log(esp.logColor.red, 'post: ' + JSON.stringify(post), esp.logColor.reset)
+    console.log(esp.logColor.blue, 'scretkey: ' + new LibCrypt().encode(apikey + "|" + time), esp.logColor.reset)
+    console.log(esp.logColor.red, 'post: ' + JSON.stringify(post), esp.logColor.reset)
     // console.log(esp.logColor.yellow, 'time: ' + time, esp.logColor.reset)
 
     new LibCurl(_uri, post,
+ 
       (res: any) => {
-        // console.log(esp.logColor.green, 'next: ' + res.next, '\n length: ' + res?.list?.length, res.list[0].message, esp.logColor.reset)
+        console.log(esp.logColor.green, 'next: ' + res, '\n length: ' + res?.list?.length, res.list[0].message, esp.logColor.reset)
         if (res?.list?.length > 0) {
           let urls: string[] = UserNotification.state().get().urls
           if (isFirst) {
@@ -171,7 +173,7 @@ export default {
           lastUrlState.set(-1)
         }
       }, (msg) => {
-        // console.log(esp.logColor.cyan, 'errr: ' + JSON.stringify(msg), esp.logColor.reset)
+         console.log(esp.logColor.cyan, 'errr: ' + JSON.stringify(msg), esp.logColor.reset)
 
       }, 1
     )
@@ -280,13 +282,14 @@ export default {
         let experienceId = esp.config('experienceId')
 
         expoToken = await Notifications.getExpoPushTokenAsync({ projectId: experienceId })
-        // console.log('expoToken', expoToken)
-
+        console.log('expoToken : ', expoToken)
+        
         if (expoToken) {
           clearTimeout(defaultToken)
           r(expoToken.data);
           if (callback) callback(expoToken.data);
         }
+   
       }
     })
   },

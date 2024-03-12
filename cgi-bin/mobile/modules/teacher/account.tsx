@@ -2,8 +2,6 @@
 
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
-import Home from './home';
-import { ParentIndex } from 'esoftplay/cache/parent/index/import';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 
 
