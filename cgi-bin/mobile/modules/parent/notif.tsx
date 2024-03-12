@@ -1,4 +1,5 @@
 // withHooks
+import { memo } from 'react';
 
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import { LibList } from 'esoftplay/cache/lib/list/import';
@@ -16,7 +17,7 @@ export interface ParentNotifArgs {
 export interface ParentNotifProps {
   
 }
-export default function m(props: ParentNotifProps): any {
+function m(props: ParentNotifProps): any {
   let notifs = UserNotification.state().useSelector(s => s.data);
   useEffect(() => {
 
@@ -69,7 +70,7 @@ export default function m(props: ParentNotifProps): any {
   return (
     <View style={{ flex: 1, backgroundColor: 'white', padding: 10, }}>
       <View style={{}} >
-        <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 30, marginLeft: 10, marginTop: 20 }}>Notifikasi</Text>
+        <Text style={{ fontSize: 24, fontWeight: 'bold', marginLeft: 10, marginTop: 40 }}>Notifikasi</Text>
       </View>
 
       <LibList data={notifs}
@@ -84,7 +85,7 @@ export default function m(props: ParentNotifProps): any {
                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                <Text style={{ fontSize: 16, fontWeight: 'bold', marginBottom: 10 }}>{item?.title ?? 'tittle'}</Text>
              
-               <LibIcon.Ionicons name="notifications" size={20} color={school.primary} />
+               <LibIcon.Ionicons name="notifications" size={25} color='#4B7AD6' />
                 </View>
 
                 <Text style={{ fontSize: 14, fontWeight: '600' }}>{item?.message}</Text>
@@ -100,3 +101,5 @@ export default function m(props: ParentNotifProps): any {
     </View>
   )
 }
+
+export default memo(m);

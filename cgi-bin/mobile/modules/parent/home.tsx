@@ -35,26 +35,26 @@ function shadows(value: number) {
 export function pushToken(): void {
   console.log("Api pushToken ...")
   AsyncStorage.getItem("token").then((token: any) => {
-      if (token) {
-          let post = { token: token }
-          new LibCurl('user_token', post, (result, msg) => {
-              console.log(token)
-              console.log("result", result)
-              console.log("msg", msg)
-              UserClass?.pushToken()
+    if (token) {
+      let post = { token: token }
+      new LibCurl('user_token', post, (result, msg) => {
+        console.log(token)
+        console.log("result", result)
+        console.log("msg", msg)
+        UserClass?.pushToken()
 
-          }, (error) => {
-              console.log("error", error)
-              console.log(token)
-              AsyncStorage.removeItem("push_id")
+      }, (error) => {
+        console.log("error", error)
+        console.log(token)
+        AsyncStorage.removeItem("push_id")
 
-          })
-      }
+      })
+    }
 
   })
 }
 // Komponen ParentsHome
-function ParentsHome({  }: ParentsHomeProps): JSX.Element {
+function ParentsHome({ }: ParentsHomeProps): JSX.Element {
   const { width, height } = Dimensions.get('window');
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const ref = useRef<FlatList<any>>(null);
@@ -109,48 +109,48 @@ function ParentsHome({  }: ParentsHomeProps): JSX.Element {
   const timeout = useTimeout()
 
   const data = UserClass.state().useSelector(s => s)
-  async function apilogout(){
+  async function apilogout() {
     console.log('menjalankan apilogout....');
     esp.mod("lib/notification").requestPermission((token) => {
-        console.log('token :..==', token);
-        // const data = UserClass.state().useSelector(s => s)
+      console.log('token :..==', token);
+      // const data = UserClass.state().useSelector(s => s)
 
-        const post = { token: token }
-
-
-        new LibCurl('logout', get, (result, msg) => {
-            console.log('check post', post);
-            console.log('check apikey', data.apikey);
-            console.log('check uri', data.uri);
-            console.log('result', result);
-            console.log('msg', msg);
+      const post = { token: token }
 
 
-        }, (error) => {
-            console.log('check post', post);
-            console.log('check apikey', data.apikey);
-            console.log('check uri', data.uri);
-            console.log("api logout error :", error);
-            console.log('apilogout');
+      new LibCurl('logout', get, (result, msg) => {
+        console.log('check post', post);
+        console.log('check apikey', data.apikey);
+        console.log('check uri', data.uri);
+        console.log('result', result);
+        console.log('msg', msg);
 
-        }, 1)
+
+      }, (error) => {
+        console.log('check post', post);
+        console.log('check apikey', data.apikey);
+        console.log('check uri', data.uri);
+        console.log("api logout error :", error);
+        console.log('apilogout');
+
+      }, 1)
     }
     )
-}
+  }
 
   const logout = () => {
     console.log('menjalankan logout....');
     apilogout()
     timeout(() => {
-        UserClass.pushToken()
-        // pushToken()
-        LibNotification.drop()
-        Auth.reset()
-        UserClass.delete()
-        navigation.reset('auth/login')
+      UserClass.pushToken()
+      // pushToken()
+      LibNotification.drop()
+      Auth.reset()
+      UserClass.delete()
+      navigation.reset('auth/login')
     }, 1000)
-   
-}
+
+  }
   return (
     <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       {/* Kartu Orang Tua */}
@@ -197,24 +197,23 @@ function ParentsHome({  }: ParentsHomeProps): JSX.Element {
             return (
               <View style={{ alignItems: 'center', width: width - 40, paddingBottom: 20, borderRadius: 12, backgroundColor: '#ffffff', marginRight: 20, justifyContent: 'center', height: height * 0.8, padding: 10 }}>
 
-                <Pressable onPress={() => LibNavigation.navigate('parent/childdetail', console.log('data_anak', item))}>
+                <Pressable onPress={() => LibNavigation.navigate('parent/childdetail')}>
                   <View style={{ height: height * 0.54, backgroundColor: '#4B7AD6', width: width - 50, borderRadius: 12, marginTop: 10, ...shadows(3), paddingTop: 79 }}>
 
 
                     <View style={{ padding: 20, alignItems: 'center', backgroundColor: '#FFFFFF', borderBottomLeftRadius: 12, borderBottomRightRadius: 12, height: height * 0.44 }}>
                       <Image
                         source={ParentStudent.image}
-                        style={{ width: 100, height: 100, borderRadius: 75, alignSelf: 'center', borderWidth: 2, borderColor: '#FFFFFF', marginLeft: 10, position: 'absolute', top: -65 }} />
+                      />
 
-                      <View style={{ alignItems: 'center', marginTop: 20 }}>
-                        <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#000000' }}> student id :{item.student_id}</Text>
-                        <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#000000' }}>{item.student_name}</Text>
-                        <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#000000' }}>{item.nis}</Text>
-                        <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#000000' }}>{item.birthday}</Text>
+                      <View style={{ alignItems: 'center', marginTop: 10 }}>
+                        <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#000000' }}>{item.student_name}</Text>
+                        <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#000000' }}>{item.class_name}</Text>
+                        <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#000000' }}>{item.nis}</Text>
                       </View>
 
                       {/* grid  daftar kehadiran */}
-                      <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', marginTop: 10 }}>
+                      <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', marginTop: 35 }}>
                         <View style={{ height: 80, width: '45%', alignItems: 'center', backgroundColor: '#0EBD5E', justifyContent: 'center', borderRadius: 10, padding: 5, margin: '2.5%' }}>
                           <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#FFFFFF' }}>{item.student_attendance.hadir} </Text>
                           <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#FFFFFF' }}>Hadir</Text>
@@ -254,7 +253,7 @@ function ParentsHome({  }: ParentsHomeProps): JSX.Element {
           onScroll={(e) => updateCurrentSlideIndex(e)}
 
         />
-        
+
         {/* <View style={{ flexDirection: "row", alignContent: 'center', justifyContent: 'center', width: LibStyle.width }}>
           <View style={{ flexDirection: "row", width: LibStyle.width / 4 }}>
             {ParentStudent.student_data.map((_: any, index: React.Key | null | undefined) => (

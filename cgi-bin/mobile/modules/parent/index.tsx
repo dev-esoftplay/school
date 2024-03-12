@@ -30,7 +30,7 @@ export interface ParentIndexProps {
     switch (menu) {
       case 'Beranda':
         return <Home />;
-      case 'Notifikasi':
+      case 'Notif':
         return <Notif />;
       case 'Akun':
         return <Account />;
@@ -91,7 +91,7 @@ export interface ParentIndexProps {
 
         {/* Render item-menu untuk setiap layar */}
         {renderMenuItem('home', 'Beranda', 0, 'home-outline', 0)}
-        {renderMenuItem('mail', 'Notifikasi', 3, 'mail-outline', 3)}
+        {renderMenuItem('mail', 'Notif', 3, 'mail-outline', 3)}
         {renderMenuItem('person', 'Akun', 4, 'person-outline', 4)}
       </View>
     </View>

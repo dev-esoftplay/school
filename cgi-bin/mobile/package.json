@@ -19,7 +19,7 @@
     "@react-navigation/native-stack": "^6.9.17",
     "@react-navigation/stack": "^6.3.20",
     "@shopify/flash-list": "1.6.3",
-    "esoftplay": "^0.0.137-u",
+    "esoftplay": "^0.0.137-w",
     "expo": "~50.0.5",
     "expo-barcode-scanner": "~12.9.2",
     "expo-build-properties": "~0.11.1",
