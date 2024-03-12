@@ -1,6 +1,7 @@
 <?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');?>
 <div class="col-lg-9 col-md-9 col-sm-9 probootstrap-top-quick-contact-info">
 	<?php 
+	unset($config['template']);
 		foreach ($config as $key => $value) {
 			switch ($key) {
 				case 'location':
