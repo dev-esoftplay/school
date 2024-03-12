@@ -1,16 +1,15 @@
-<?php if (!defined('_VALID_BBC'))
-  exit('No direct script access allowed');
+<?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
 if (!empty($_POST['message']) && !empty($_POST['title']) && isset($_POST['btn-notification'])) {
-  $teacher_id_all = $db->getcol('SELECT `id` FROM `school_teacher` WHERE 1');
+  $user_id_teacher   = $db->getcol('SELECT `user_id` FROM `school_teacher` WHERE 1');
 
-  $title = $_POST['title'];
-  $message = $_POST['message'];
+  $title    = $_POST['title'];
+  $message  = $_POST['message'];
 
   _func('alert');
-  foreach ($teacher_id_all as $teacher_id) {
+  foreach ($user_id_teacher as $user_id) {
     alert_push(
-      $teacher_id . '-' . '5',
+      $user_id . '-' . '5',
       $title,
       $message,
       'teacher/notif',
