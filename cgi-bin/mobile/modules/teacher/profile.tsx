@@ -7,18 +7,13 @@ import { UserClass } from 'esoftplay/cache/user/class/import';
 import esp from 'esoftplay/esp';
 import navigation from 'esoftplay/modules/lib/navigation';
 import React, { useEffect } from 'react';
-import { FlatList, Image, Platform, Pressable, Text, TouchableOpacity, View } from 'react-native';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+import { Platform, Pressable, Text, View } from 'react-native';
 import { Auth } from '../auth/login';
 import { LibScroll } from 'esoftplay/cache/lib/scroll/import';
 import { LibPicture } from 'esoftplay/cache/lib/picture/import';
-import { LibSkeleton } from 'esoftplay/cache/lib/skeleton/import';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { hide } from 'esoftplay/modules/lib/toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { TeacherProfileProperty } from 'esoftplay/cache/teacher/profile/import';
 import { LibNotification } from 'esoftplay/cache/lib/notification/import';
-import { LibProgress } from 'esoftplay/cache/lib/progress/import';
 import { useTimeout } from 'esoftplay/timeout';
 
 
@@ -64,7 +59,7 @@ function m(props: TeacherProfileProps): any {
             const post = { token: token }
 
 
-            new LibCurl('logout', get, (result, msg) => {
+            new LibCurl('logout', null, (result, msg) => {
                 console.log('check post', post);
                 console.log('check apikey', data.apikey);
                 console.log('check uri', data.uri);
@@ -107,7 +102,7 @@ function m(props: TeacherProfileProps): any {
 
     useEffect(() => {
 
-        new LibCurl('teacher', get, (result, msg) => {
+        new LibCurl('teacher', null, (result, msg) => {
 
             // esp.log({ result, msg });
             // console.log(esp.logColor.cyan, 'res: ' + JSON.stringify(result), esp.logColor.reset)
@@ -122,7 +117,7 @@ function m(props: TeacherProfileProps): any {
 
     useEffect(() => {
 
-        new LibCurl('teacher', get, (result, msg) => {
+        new LibCurl('teacher', null, (result, msg) => {
 
             // esp.log({ result, msg });
             // console.log(esp.logColor.cyan, 'res: ' + JSON.stringify(result), esp.logColor.reset)
@@ -225,12 +220,12 @@ function m(props: TeacherProfileProps): any {
                     <MaterialIcons name='logout' size={24} color='#FFFFFF' />
                 </Pressable>
             </View>
-            {/* <View style={{ alignItems: 'center', marginTop: 15 }}>
-                <Pressable onPress={() => apilogout()} style={{ height: 55, width: LibStyle.width - 25, backgroundColor: '#136B93', justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', borderRadius: 15, paddingHorizontal: 20 }}>
-                    <Text style={{ color: '#FFFFFF', fontWeight: '400', fontSize: 18, }}>test api logout</Text>
+            <View style={{ alignItems: 'center', marginTop: 15 }}>
+                <Pressable onPress={() => LibNavigation.navigate('utils/test')} style={{ height: 55, width: LibStyle.width - 25, backgroundColor: '#136B93', justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', borderRadius: 15, paddingHorizontal: 20 }}>
+                    <Text style={{ color: '#FFFFFF', fontWeight: '400', fontSize: 18, }}>test </Text>
                     <MaterialIcons name='warning' size={24} color='#FFFFFF' />
                 </Pressable>
-            </View> */}
+            </View>
         </LibScroll>
 
 

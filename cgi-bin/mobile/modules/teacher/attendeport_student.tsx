@@ -1,17 +1,12 @@
 // withHooks
 
-import { MaterialIconsTypes } from '@expo/vector-icons/build/esoftplay_icons';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
-import { LibInput_rectangle2 } from 'esoftplay/cache/lib/input_rectangle2/import';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 import { LibStyle } from 'esoftplay/cache/lib/style/import';
-import esp from 'esoftplay/esp';
-import moment from 'esoftplay/moment';
 import useSafeState from 'esoftplay/state';
-import React, { useEffect, useRef, useState } from 'react';
-import { FlatList, Modal, Pressable, Text, TouchableOpacity, View } from 'react-native';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+import React, { useEffect } from 'react';
+import { FlatList, Pressable, Text, View } from 'react-native';
 
 
 export interface AttendReportStudentArgs {
@@ -34,12 +29,11 @@ export default function m(props: AttendReportStudentProps): any {
       // console.log(moment().format('YYYY-MM-DD'))
       // jangan lupa ganti class_id dan schadule_id dan date di url 
       //   http://api.test.school.esoftplay.com/student_class?class_id=1
-      const url: string = "http://api.test.school.esoftplay.com/student_class?class_id=1&schedule_id=1&date=" + dates
   
     console.log("idclass", idclass)
   
-      new LibCurl("student_class?class_id=" + idclass + "&schedule_id=" + schadule_id + "&date=" + dates, get,
-        (result, msg) => {
+      new LibCurl("student_class?class_id=" + idclass + "&schedule_id=" + schadule_id + "&date=" + dates, null,
+        (result) => {
            console.log('Jadwal Result:', result);
           // console.log("msg", msg)
           setResApi(result)
@@ -114,7 +108,7 @@ export default function m(props: AttendReportStudentProps): any {
           }
           keyExtractor={(item, index) => index.toString()}
           renderItem={
-            ({ item, index }) => {
+            ({ item }) => {
   
               function getStudentStatus(statusCode: number) {
                 let status = '';

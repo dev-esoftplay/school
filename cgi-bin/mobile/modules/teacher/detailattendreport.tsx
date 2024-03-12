@@ -7,8 +7,7 @@ import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import useSafeState from 'esoftplay/state';
 import React from 'react';
-import { FlatList, Platform, Pressable, Text, View } from 'react-native';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+import { FlatList, Pressable, Text, View } from 'react-native';
 
 
 export interface DetailAttendReportArgs {
@@ -21,57 +20,6 @@ export default function m(props: DetailAttendReportProps): any {
   const data: any = LibNavigation.getArgsAll(props).data;
   const idstudent: string = LibNavigation.getArgsAll(props).idstudent;
   const [resApi, setResApi] = useSafeState<any>([])
-  const Absensi = [
-
-    {
-      'nama kelas': 'XII IPA 1',
-      'jam': '07.00-08.00',
-      'jamke': 'jam ke 1 -jam ke 2',
-      'jumlah siswa': '30/30',
-      'materi': 'Matematika',
-      'color': 'green'
-    },
-    {
-      'nama kelas': 'XII IPA 2',
-      'jam': '08.00-09.00',
-      'jamke': 'jam ke 3 -jam ke 4',
-      'materi': 'Fisika',
-      'jumlah siswa': '00/30',
-      'color': 'red'
-    },
-    {
-      'nama kelas': 'XII IPA 3',
-      'jam': '09.00-10.00',
-      'jamke': 'jam ke 5 -jam ke 6',
-      'materi': 'Matematika',
-      'jumlah siswa': '30/30',
-      'color': 'green'
-    },
-    {
-      'nama kelas': 'XII IPA 4',
-      'jam': '10.00-11.00',
-      'jamke': 'jam ke 7 -jam ke 8',
-      'materi': 'Matematika',
-      'jumlah siswa': '30/30',
-      'color': 'green'
-    },
-    {
-      'nama kelas': 'XII IPA 5',
-      'jam': '11.00-12.00',
-      'jamke': 'jam ke 9 -jam ke 10',
-      'materi': 'Matematika',
-      'jumlah siswa': '30/30',
-      'color': 'green'
-    }
-
-  ]
-  function elevation(value: any) {
-    if (Platform.OS === "ios") {
-      if (value === 0) return {};
-      return { shadowColor: "black", shadowOffset: { width: 0, height: value / 2 }, shadowRadius: value, shadowOpacity: 0.24 };
-    }
-    return { elevation: value };
-  }
   function shadows(value: number) {
     return {
       elevation: 3, // For Android
@@ -86,7 +34,7 @@ export default function m(props: DetailAttendReportProps): any {
     // console.log(data.created_date)
     // console.log('idstudent',idstudent)
     // console.log('student_detail_schedule_attendance?student_id='+idstudent+'&date='+data.created_date)
-    new LibCurl('student_detail_schedule_attendance?student_id=' + idstudent + '&date=' + data.created_date, get, (result, msg) => {
+    new LibCurl('student_detail_schedule_attendance?student_id=' + idstudent + '&date=' + data.created_date, null, (result) => {
 
       // console.log(result)
       setResApi(result)
@@ -113,7 +61,7 @@ export default function m(props: DetailAttendReportProps): any {
         }
         keyExtractor={(item, index) => index.toString()}
         renderItem={
-          ({ item, index }) => {
+          ({ item }) => {
 
             return (
 

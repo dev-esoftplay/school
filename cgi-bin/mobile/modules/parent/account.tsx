@@ -30,7 +30,7 @@ export default function m(props: ParentAccountProps): any {
   const hitApi = () => { }
 
   function loadParentStudent() {
-    new LibCurl('parent_student', get, (result, msg) => {
+    new LibCurl('parent_student', null, (result, msg) => {
       setParentStudent(result)
     }, (err) => {
       console.log("error", err)
@@ -51,7 +51,7 @@ export default function m(props: ParentAccountProps): any {
         const post = { token: token }
 
 
-        new LibCurl('logout', get, (result, msg) => {
+        new LibCurl('logout', null, (result, msg) => {
             console.log('check post', post);
             console.log('check apikey', data.apikey);
             console.log('check uri', data.uri);

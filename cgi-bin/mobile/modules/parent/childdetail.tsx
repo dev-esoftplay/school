@@ -132,7 +132,7 @@ export default function m(props: ChildDetailProps): any {
   const hitApi = () => { }
 
   function loadParentStudent() {
-    new LibCurl('parent_student', get, (result, msg) => {
+    new LibCurl('parent_student', null, (result, msg) => {
       console.log("result parent detail", JSON.stringify(result))
       setParentStudent(result)
     }, (err: any) => {
@@ -141,7 +141,7 @@ export default function m(props: ChildDetailProps): any {
   }
 
   function loadStudentDetailAttendance() {
-    new LibCurl('student_detail_attendance?class_id=' + id + '&student_id=' + id, get, (result, msg) => {
+    new LibCurl('student_detail_attendance?class_id=' + id + '&student_id=' + id, null, (result, msg) => {
       console.log("result attendance detail", JSON.stringify(result))
       setStudentDetailAttendance(result)
     }, (err: any) => {
@@ -150,7 +150,7 @@ export default function m(props: ChildDetailProps): any {
   }
 
   function loadTeacherScheduleClass() {
-    new LibCurl('teacher_schedule_class?class_id=' + id, get, (result, msg) => {
+    new LibCurl('teacher_schedule_class?class_id=' + id, null, (result, msg) => {
       // console.log("result schedule detail", JSON.stringify(result))
       setTeacherScheduleClass(result)
     }, (err: any) => {

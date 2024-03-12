@@ -11,7 +11,6 @@ import moment from 'esoftplay/moment';
 import useSafeState from 'esoftplay/state';
 import React, { useEffect, useRef, useState } from 'react';
 import { FlatList, Modal, Pressable, Text, TouchableOpacity, View } from 'react-native';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 
 export interface TeacherStudentAttendanceDetailArgs {
@@ -25,8 +24,6 @@ export default function m(props: TeacherStudentAttendanceDetailProps): any {
     const [ijinVisible, setIjinVisible] = useState(false)
     let [studentId, setstudentId] = useSafeState(0)
     let [studentName, setstudentName] = useSafeState('')
-    const data: string = LibNavigation.getArgsAll(props).data;
-    const idclass: string = LibNavigation.getArgsAll(props).idclass;
     const [ApiResponse, setResApi] = useSafeState<any>();
     let inputnotess = useRef<LibInput_rectangle2>(null)
     let [mappedData, setMappedData] = useState<any>({});
@@ -45,7 +42,6 @@ export default function m(props: TeacherStudentAttendanceDetailProps): any {
   
     const attenpost = () => {
       // console.log("post.....")
-      const url: string = "http://api.school.lc/student_attendance"
       const post = {
         course_id: 1,
         schedule_id: 1,
@@ -53,10 +49,10 @@ export default function m(props: TeacherStudentAttendanceDetailProps): any {
         data: JSON.stringify(mappedData.student_list)
       }
       // console.log("data yang di post", post)
-      new LibCurl('student_attendance', post, (result, msg) => {
+      new LibCurl('student_attendance', post, () => {
         // console.log('Jadwal Result:', result);
         // console.log(msg)
-      }, (err) => {
+      }, () => {
         // console.log("Eror")
         // console.log(err)
       })
@@ -66,21 +62,19 @@ export default function m(props: TeacherStudentAttendanceDetailProps): any {
   
       // console.log(moment().format('YYYY-MM-DD'))
       // jangan lupa ganti class_id dan schadule_id dan date di url 
-      const url: string = "http://api.school.lc/student_class?class_id=1&schedule_id=1&date=" + date
   
      
   
-      new LibCurl("student_class?class_id=1&schedule_id=1&date=" + date, get,
-        (result, msg) => {
+      new LibCurl("student_class?class_id=1&schedule_id=1&date=" + date, null,
+        (result) => {
           // console.log('Jadwal Result:', result);
           // console.log("msg", msg)
           setResApi(result)
-          const data = JSON.stringify(result)
           setMappedData(result);
           // console.log("link", url)
           // console.log("data", data)
         },
-        (err) => {
+        () => {
           // console.log("error", err)
         })
   

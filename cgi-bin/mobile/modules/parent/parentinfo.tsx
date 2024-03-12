@@ -38,7 +38,7 @@ export default function m(props: ParentInfoProps): any {
     const hitApi = () => { }
 
     function loadParentStudent() {
-        new LibCurl('parent_student', get, (result, msg) => {
+        new LibCurl('parent_student', null, (result, msg) => {
             console.log(ParentStudent)
             setParentStudent(result)
         }, (err) => {

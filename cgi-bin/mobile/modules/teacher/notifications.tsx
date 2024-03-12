@@ -4,7 +4,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import React, { useState } from 'react';
-import { Platform, Pressable, Switch, Text, View } from 'react-native';
+import { Pressable, Switch, Text, View } from 'react-native';
 
 
 
@@ -16,13 +16,6 @@ export interface TeacherNotificationsProps {
 
 }
 function m(props: TeacherNotificationsProps): any {
-    function elevation(value: any) {
-        if (Platform.OS === "ios") {
-            if (value === 0) return {};
-            return { shadowColor: 'black', shadowOffset: { width: 0, height: value / 2 }, shadowRadius: value, shadowOpacity: 0.24 };
-        }
-        return { elevation: value };
-    }
 
     const [isEnabled, setIsEnabled] = useState(false);
     const toggleswitch = () => setIsEnabled(previousState => !previousState);

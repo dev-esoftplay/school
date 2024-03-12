@@ -4,8 +4,7 @@ import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import { UserClass } from 'esoftplay/cache/user/class/import';
 import esp from 'esoftplay/esp';
 import { useEffect } from 'react';
-import { FlatList, Platform, Pressable, Text, View } from 'react-native';
-import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
+import {  Platform, Pressable, Text, View } from 'react-native';
 import { LibProgress } from 'esoftplay/cache/lib/progress/import';
 import { useTimeout } from 'esoftplay/timeout';
 
@@ -90,6 +89,8 @@ export default function m(props: MainIndexProps): any {
       case "5":
         return "Guru"
         break;
+      default:
+        return "Tidak ada peran"
     }
   }
 

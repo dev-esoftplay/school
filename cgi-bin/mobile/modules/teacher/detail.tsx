@@ -1,7 +1,7 @@
 // withHooks
 import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import React, { useEffect, useRef, useState } from 'react';
-import { Image, Platform, View, Text, TouchableOpacity, Pressable, TextInput, ScrollView, Modal } from 'react-native';
+import { Image, View, Text, TouchableOpacity, Pressable, TextInput, ScrollView, Modal } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
@@ -11,12 +11,11 @@ import { LibProgress } from 'esoftplay/cache/lib/progress/import';
 import { LibSlidingup } from 'esoftplay/cache/lib/slidingup/import';
 import esp from 'esoftplay/esp';
 import useSafeState from 'esoftplay/state';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 import { FlatList } from 'react-native-gesture-handler';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import SchoolColors from '../utils/schoolcolor';
 import { LibPicture } from 'esoftplay/cache/lib/picture/import';
-import { BlurView } from 'expo-blur';
+
 export interface TeacherDetailArgs {
 
 }
@@ -25,13 +24,6 @@ export interface TeacherDetailProps {
 }
 function m(props: TeacherDetailProps): any {
     const school = new SchoolColors();
-    function elevation(value: any) {
-        if (Platform.OS === "ios") {
-            if (value === 0) return {};
-            return { shadowColor: 'black', shadowOffset: { width: 0, height: value / 2 }, shadowRadius: value, shadowOpacity: 0.24 };
-        }
-        return { elevation: value };
-    }
 
     let slideup = useRef<LibSlidingup>(null)
     let [image, setImage] = useSafeState<string | null>(null)
@@ -40,7 +32,7 @@ function m(props: TeacherDetailProps): any {
     const [resApi, setResApi] = useState<any>([])
     const [prfilevisible, setProfileVisible] = useState(false)
     useEffect(() => {
-        new LibCurl('teacher', get, (result, msg) => {
+        new LibCurl('teacher', null, (result, msg) => {
             esp.log({ result, msg });
             // console.log("result", result)
             setResApi(result)
@@ -73,7 +65,7 @@ function m(props: TeacherDetailProps): any {
             LibDialog.warning('Update Gagal', err?.message)
         })
 
-        new LibCurl('teacher', get, (result, msg) => {
+        new LibCurl('teacher', null, (result, msg) => {
             esp.log({ result, msg });
             // console.log("result", result)
             setResApi(result)

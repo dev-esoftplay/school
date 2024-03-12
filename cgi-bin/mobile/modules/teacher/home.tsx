@@ -1,6 +1,5 @@
 // withHooks
-import { useRef } from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
@@ -15,7 +14,6 @@ import useSafeState from 'esoftplay/state';
 import React from 'react';
 import { Pressable, Text, TouchableOpacity, View } from 'react-native';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import * as Notifications from 'expo-notifications';
@@ -35,7 +33,7 @@ Notifications.setNotificationHandler({
   }),
 });
 
-export default function m(props: TeacherHomeProps): any {
+export default function m(): any {
 
 
   //mengambil data dari userClass
@@ -51,10 +49,9 @@ export default function m(props: TeacherHomeProps): any {
 
   useEffect(() => {
     console.log('data user', data)
-    const url: string = "http://api.school.lc/teacher_schedule"
     // console.log('apikey in page home', apikey)
 
-    new LibCurl('teacher', get, (result, msg) => {
+    new LibCurl('teacher', null, (result, msg) => {
       esp.log({ result, msg });
       console.log("result profil", result)
       setProfil(result)
@@ -63,43 +60,32 @@ export default function m(props: TeacherHomeProps): any {
       LibDialog.warning('get data gagal', err?.message)
     })
 
-    new LibCurl('teacher_schedule', get,
-      (result, msg) => {
+    new LibCurl('teacher_schedule', null,
+      (result) => {
         // console.log('Jadwal Result:', result);
         // console.log("msg", msg)
         setResApi(result)
 
       },
-      (err) => {
+      () => {
         // console.log("error", err)
       })
 
     let TommorowDate = moment().add(1, "days").format('YYYY-MM-DD');
     // console.log("TommorowDate", TommorowDate)
-    let CurrentDate = moment().format('YYYY-MM-DD');
     // console.log("CurrentDate", CurrentDate)
 
     // get schadule tomorrow from api
-    let url1: string = 'http://api.school.lc/teacher_schedule?date=' + TommorowDate
-    new LibCurl('teacher_schedule?date=' + TommorowDate, get, (result, msg) => {
+    new LibCurl('teacher_schedule?date=' + TommorowDate, null, (result) => {
       console.log('Jadwal Result besok:', result);
       console.log(result.schedule[0].class.name)
       // console.log("msg", msg)
       setResApi2(result)
-    }, (err) => {
+    }, () => {
       // console.log("error", err)
     })
   }, [])
 
-  function convertClockEndTimeToSeconds(clock_end:string) {
-    // Parsing string waktu menjadi jam dan menit
-    const [hours, minutes] = clock_end.split(':').map(Number);
-
-    // Mengonversi jam dan menit menjadi jumlah detik
-    const totalSeconds = hours * 3600 + minutes * 60;
-
-    return totalSeconds;
-}
   //  async function latenotif(status: number, clock_end: any) {
       
 
@@ -173,9 +159,7 @@ export default function m(props: TeacherHomeProps): any {
     }
   }
   const Tab = () => {
-    let TommorowDate = moment().add(1, "days").format('YYYY-MM-DD');
     // console.log("TommorowDate", TommorowDate)
-    let CurrentDate = moment().format('YYYY-MM-DD');
     // console.log("CurrentDate", CurrentDate)
     if (selectTab === allTabs[0]) {
       //jadwal hari ini
