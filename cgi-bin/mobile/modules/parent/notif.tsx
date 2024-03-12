@@ -22,7 +22,7 @@ function m(props: ParentNotifProps): any {
   useEffect(() => {
 
     // LibNotification.loadData(true)
-    esp.log(notifs);
+    // esp.log(notifs);
     console.log("notif", notifs);
     // console.log("notif", notifs[0]?.updated);
 

@@ -62,22 +62,22 @@ export default function m(props: ParentInfoProps): any {
         new LibCurl('parent_update', post, (result, msg) => {
 
             LibProgress.hide()
-            esp.log({ result, msg });
+            // esp.log({ result, msg });
 
         }, (err) => {
-            esp.log({ err });
+            // esp.log({ err });
             LibProgress.hide()
             LibDialog.warning('Update Gagal', err?.message)
         })
 
         new LibCurl('parent', get, (result, msg) => {
-            esp.log({ result, msg });
+            // esp.log({ result, msg });
             setParent(result)
             setImage(result.image)
             LibProgress.hide()
             LibDialog.info('Update Berhasil', 'Data Berhasil Diupdate')
         }, (err) => {
-            esp.log({ err });
+            // esp.log({ err });
             LibProgress.hide()
             LibDialog.warning('Update Gagal', err?.message)
         })
@@ -197,7 +197,7 @@ export default function m(props: ParentInfoProps): any {
                             style={{ justifyContent: 'center', alignItems: 'center' }}
                             onPress={() =>
                                 LibImage.fromGallery({ crop: { ratio: "1:1", forceCrop: true } }).then((url) => {
-                                    esp.log(url)
+                                    // esp.log(url)
                                     console.log("url", url)
                                     slideup.current!.hide()
                                     setImage(String(url))

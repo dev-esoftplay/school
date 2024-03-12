@@ -351,7 +351,7 @@ function m(props: ChildDetailProps): any {
     // console.log('ini bulan ', month)
 
     new LibCurl('student_detail_attendance?class_id=' + id + '&student_id=' + id + '&month=' + month + '&week=' + week, null, (result, msg) => {
-      esp.log(result);
+      // esp.log(result);
       setStudentDetailAttendance(result)
     }, (err: any) => {
       console.log("error", err)
@@ -369,7 +369,7 @@ function m(props: ChildDetailProps): any {
 
   function loadStudentDetailAttendance() {
     new LibCurl('student_detail_attendance?class_id=' + id + '&student_id=' + id, null, (result, msg) => {
-      esp.log(result);
+      // esp.log(result);
       setStudentDetailAttendance(result)
     }, (err: any) => {
       console.log("error", err)
@@ -768,7 +768,6 @@ function m(props: ChildDetailProps): any {
     </View>
   )
 }
-export default memo(m);
 
 {/* <View key={index} style={{ marginBottom: 10, backgroundColor: '#4B7AD6', borderRadius: 10, alignItems: 'flex-end', ...elevation(4), width: 350, padding: 2 }}>
 <View style={{width: 340, height: 100, backgroundColor: '#FFFFFF', ...elevation(4), borderRadius: 10 }}>
