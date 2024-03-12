@@ -16,6 +16,10 @@ switch( $Bbc->mod['task'] )
 		include 'student.php';
 		break;
 
+	case 'user_token':
+		include 'user_token.php';
+		break;
+
 	case 'student_class': // untuk melisting kelas siswa sesuai dengan jadwal yang dipilih guru GET:{"class_id":"1","schedule_id":"1"}
 		include 'student_class.php';
 		break;
@@ -31,13 +35,21 @@ switch( $Bbc->mod['task'] )
 	case 'student_detail_attendance': // untuk melihat detail siswa dari listing siswa yang diampu wali kelas GET:{"student_id":"1", "month":"1 ?? current(month)", "week":"1 ?? ""}
 		include 'student_detail_attendance.php';
 		break;
-
+		
+	case 'student_detail_schedule_attendance': // untuk melihat detail siswa dari listing siswa yang diampu wali kelas GET:{"student_id":"1", "month":"1 ?? current(month)", "week":"1 ?? ""}
+		include 'student_detail_schedule_attendance.php';
+		break;
+	
 	case 'parent':
 		include 'parent.php';
 		break;	
 
 	case 'parent_student':
 		include 'parent_student.php';
+		break;
+
+	case 'parent_update': // untuk mengubah data orang tua POST:{"#image":"url imgae"}
+		include 'parent_update.php';
 		break;
 
 	case 'course':
@@ -94,12 +106,19 @@ switch( $Bbc->mod['task'] )
 		break;
 
  	case 'logout': // Halaman untuk logout bagi user yang sudah login
-    user_logout($Bbc->user_id);
-    redirect(_URL);
+    include 'logout.php';
     break;
 
   case 'push-token': // untuk replace generate push_id notif
 		include 'push-token.php';
+		break;
+
+	case 'push_notification': // untuk replace generate push_id notif
+		include 'push_notification.php';
+		break;
+	
+	case 'public_test':
+		include 'test.php';
 		break;
 
   case 'no_auth': // tiap API wajib pakai ini
