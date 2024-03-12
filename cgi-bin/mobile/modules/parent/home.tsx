@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 import { LibPicture } from 'esoftplay/cache/lib/picture/import';
@@ -88,7 +87,7 @@ function ParentsHome({ }: ParentsHomeProps): JSX.Element {
   const hitApi = () => { }
 
   function loadParentStudent() {
-    new LibCurl('parent_student', get, (result, msg) => {
+    new LibCurl('parent_student', null, (result, msg) => {
       setParentStudent(result)
     }, (err) => {
       console.log("error", err)
@@ -281,5 +280,3 @@ function ParentsHome({ }: ParentsHomeProps): JSX.Element {
     </View>
   );
 }
-
-export default memo(ParentsHome);

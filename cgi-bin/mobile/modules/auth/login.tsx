@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 import { LibCrypt } from 'esoftplay/cache/lib/crypt/import';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
@@ -66,7 +65,7 @@ export interface ResApi {
 
 // export const curlState = useGlobalState<any>(undefined)
 
-function m(props: LoginIndexsProps): any {
+export default function m(props: LoginIndexsProps): any {
 
   const school = new SchoolColors();
   // const cState = curlState.useSelector(s => s)
@@ -213,7 +212,7 @@ function m(props: LoginIndexsProps): any {
           {showPassword()}
         </View>
         <View style={{ marginTop: 20 }} />
-        <Pressable onPress={() => navigation.replace('auth/forgotpass')}>
+        {/* <Pressable onPress={() => navigation.replace('auth/forgotpass')}>
           <Text
             style={{
               fontSize: 14,
@@ -225,7 +224,7 @@ function m(props: LoginIndexsProps): any {
           >
             Lupa Password?
           </Text>
-        </Pressable>
+        </Pressable> */}
         <View style={{ marginTop: 20 }} />
         <Pressable
           // onPress={()=>LibNavigation.navigate('teacher/index')}
@@ -281,5 +280,3 @@ function m(props: LoginIndexsProps): any {
     </View>
   );
 }
-
-export default memo(m);

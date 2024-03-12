@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibLazy } from 'esoftplay/cache/lib/lazy/import';
@@ -10,25 +9,24 @@ import useSafeState from 'esoftplay/state';
 import { Camera } from 'expo-camera';
 import React, { useEffect, useRef } from 'react';
 import { Pressable, Text, View } from 'react-native';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 export interface TeacherScanArgs {}
 export interface TeacherScanProps {}
 
-function m(props: TeacherScanProps): any {
+export default function m(): any {
  let isScanned = useRef<boolean>(false);
   const [hasPermission, setHasPermission] = useSafeState();
-  let [result, setResult] = useSafeState<any>(null);
+  let [, setResult] = useSafeState<any>(null);
   const [ApiResponse, setResApi] = useSafeState<any>();
   useEffect(() => {
-    new LibCurl('teacher_schedule', get,
-    (result, msg) => {
+    new LibCurl('teacher_schedule', null,
+    (result) => {
       // console.log('Jadwal Result:', result);
       // console.log("msg", msg)
       setResApi(result)
      
     },
-    (err) => {
+    () => {
       // console.log("error", err)
     }),
     (async () => {
@@ -88,7 +86,6 @@ function m(props: TeacherScanProps): any {
     // }
   }
 
-  const cekscan: string = String(hasPermission) + " " + String(isScanned);
 
   // Fungsi untuk memulai pemindaian ulang
   const startScanningAgain = () => {
@@ -131,5 +128,3 @@ function m(props: TeacherScanProps): any {
     </View>
   );
 }
-
-export default memo(m);

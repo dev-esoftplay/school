@@ -1,8 +1,6 @@
 // withHooks
-import { memo } from 'react';
 import { MaterialIconsTypes } from '@expo/vector-icons/build/esoftplay_icons';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
-import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import { LibInput_rectangle2 } from 'esoftplay/cache/lib/input_rectangle2/import';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
@@ -12,7 +10,6 @@ import moment from 'esoftplay/moment';
 import useSafeState from 'esoftplay/state';
 import React, { useEffect, useRef, useState } from 'react';
 import { FlatList, Modal, Pressable, Text, TouchableOpacity, View } from 'react-native';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 
 
@@ -26,7 +23,7 @@ export interface TeacherAttendenceProps {
 }
 
 
-function m(props: TeacherAttendenceProps): any {
+export default function m(props: TeacherAttendenceProps): any {
   const [popupVisible, setPopupVisible] = useState(false);
   const [ijinVisible, setIjinVisible] = useState(false)
   const [sickVisible, setSickVisible] = useState(false)
@@ -65,7 +62,7 @@ function m(props: TeacherAttendenceProps): any {
     console.log('schadule_id: ['+ data.toString()+']')
     console.log('schaedule_id', data)
     console.log('schadule_id type', typeof (data))
-    new LibCurl('student_attendance', post, (result, msg) => {
+    new LibCurl('student_attendance', post, (result) => {
       console.log('Jadwal Result:', result);
       // console.log('2')
       // console.log(msg)
@@ -81,17 +78,15 @@ function m(props: TeacherAttendenceProps): any {
     // console.log(moment().format('YYYY-MM-DD'))
     // jangan lupa ganti class_id dan schadule_id dan date di url 
     //   http://api.test.school.esoftplay.com/student_class?class_id=1
-    const url: string = "http://api.test.school.esoftplay.com/student_class?class_id=1&schedule_id=1&date=" + date
 
 
     // console.log("class_id", idclass)
     // console.log("schedule_id", data)
-    new LibCurl("student_class?class_id=" + idclass + "&schedule_id=" + data + "&date=" + date, get,
-      (result, msg) => {
+    new LibCurl("student_class?class_id=" + idclass + "&schedule_id=" + data + "&date=" + date, null,
+      (result) => {
          console.log('Jadwal Result:', result);
         // console.log("msg", msg)
         setResApi(result)
-        const data = JSON.stringify(result)
         setMappedData(result);
         // console.log("link", url)
         // console.log("data", data)
@@ -468,5 +463,3 @@ function m(props: TeacherAttendenceProps): any {
     </View>
   )
 }
-
-export default memo(m);

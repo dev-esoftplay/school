@@ -1,7 +1,6 @@
 // withHooks
 
 import React from 'react';
-import { memo } from 'react';
 import { Platform, View, TouchableOpacity, Text } from 'react-native';
 import { MaterialIcons, Feather } from '@expo/vector-icons';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
@@ -14,7 +13,7 @@ export interface ParentHelpArgs {
 export interface ParentHelpProps {
 
 }
-function m(props: ParentHelpProps): any {
+export default function m(props: ParentHelpProps): any {
     function elevation(value: any) {
         if (Platform.OS === "ios") {
             if (value === 0) return {};
@@ -83,4 +82,3 @@ function m(props: ParentHelpProps): any {
         </View>
     )
 }
-export default memo(m);

@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 
 import { MaterialIconsTypes } from '@expo/vector-icons/build/esoftplay_icons';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
@@ -12,7 +11,6 @@ import moment from 'esoftplay/moment';
 import useSafeState from 'esoftplay/state';
 import React, { useEffect, useRef, useState } from 'react';
 import { FlatList, Modal, Pressable, Text, TouchableOpacity, View } from 'react-native';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 
 
@@ -22,7 +20,7 @@ export interface ScanAttendenceArgs {
 export interface ScanAttendenceProps {
 
 }
-function m(props: ScanAttendenceProps): any {
+export default function m(props: ScanAttendenceProps): any {
     const datas: any = LibNavigation.getArgsAll(props).data;
     const schedule_id: any = LibNavigation.getArgsAll(props).schedule_id;
     const class_id: any = LibNavigation.getArgsAll(props).class_id;
@@ -58,7 +56,6 @@ function m(props: ScanAttendenceProps): any {
 
     const attenpost = () => {
         // console.log("post.....")
-        const url: string = "http://api.test.school.esoftplay.com/student_attendance"
         const post = {
             data: JSON.stringify(mappedData.student_list),
             course_id: course_id,
@@ -67,10 +64,10 @@ function m(props: ScanAttendenceProps): any {
         }
         // console.log("data yang di post", post)
         // console.log()
-        new LibCurl('student_attendance', post, (result, msg) => {
+        new LibCurl('student_attendance', post, () => {
             // console.log('Jadwal Result:', result);
             // console.log(msg)
-        }, (err) => {
+        }, () => {
             // console.log("Eror")
             // console.log(err)
         })
@@ -82,20 +79,18 @@ function m(props: ScanAttendenceProps): any {
         // console.log(moment().format('YYYY-MM-DD'))
         // jangan lupa ganti class_id dan schadule_id dan date di url 
         //   http://api.test.school.esoftplay.com/student_class?class_id=1
-        const url: string = "http://api.test.school.esoftplay.com/student_class?class_id=" + class_id + "&schedule_id=" + schedule_id + "&date=" + date
         // console.log("class_id", class_id)
 
-        new LibCurl(datas + "&schedule_id=" + schedule_id + "&date=" + date, get,
-            (result, msg) => {
+        new LibCurl(datas + "&schedule_id=" + schedule_id + "&date=" + date, null,
+            (result) => {
                 // console.log('Jadwal Result:', result);
                 // console.log("msg", msg)
                 setResApi(result)
-                const data = JSON.stringify(result)
                 setMappedData(result);
                 // console.log("link", url)
                 // console.log("data", data)
             },
-            (err) => {
+            () => {
                 // console.log("error", err)
             })
 
@@ -438,4 +433,3 @@ function m(props: ScanAttendenceProps): any {
         </View>
     )
 }
-export default memo(m);

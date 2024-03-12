@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 
 import { useEffect, useRef, useState } from 'react';
 
@@ -12,8 +11,6 @@ import useSafeState from 'esoftplay/state';
 import React from 'react';
 import { FlatList, Linking, Platform, Pressable, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
-import SchoolColors from '../utils/schoolcolor';
 
 
 export interface TeacherDetailStudentArgs {
@@ -22,8 +19,7 @@ export interface TeacherDetailStudentArgs {
 export interface TeacherDetailStudentProps {
 
 }
-function m(props: TeacherDetailStudentProps): any {
-  const school = new SchoolColors();
+export default function m(props: TeacherDetailStudentProps): any {
   function shadowS(value: any) {
     if (Platform.OS === "ios") {
       if (value === 0) return {};
@@ -115,7 +111,6 @@ function m(props: TeacherDetailStudentProps): any {
   const studentName: string = LibNavigation.getArgsAll(props).studentName;
   const data: any = LibNavigation.getArgsAll(props).data;
   const className: string = LibNavigation.getArgsAll(props).className;
-  const currentYear = new Date().getFullYear();
 
 
   const today = new Date();
@@ -163,22 +158,6 @@ function m(props: TeacherDetailStudentProps): any {
   const [finalWeek, setFinalWeek] = useSafeState(0)
 
   ///
-  const getWeeksInMonth = (year: number, month: number): number[] => {
-    const weeks: number[] = [];
-    const firstDayOfMonth = new Date(year, month, 1);
-    const lastDayOfMonth = new Date(year, month + 1, 0);
-    const daysInMonth = lastDayOfMonth.getDate();
-    const firstDayOfWeek = firstDayOfMonth.getDay(); // Hari pertama dalam minggu pertama bulan ini
-    const daysBeforeFirstSunday = (7 - firstDayOfWeek) % 7; // Hari sebelum Minggu pertama dimulai
-    const daysFromFirstSunday = daysInMonth - daysBeforeFirstSunday; // Hari setelah Minggu pertama dimulai
-    const weeksCount = Math.ceil(daysFromFirstSunday / 7); // Jumlah minggu dalam bulan ini
-
-    for (let i = 0; i < weeksCount; i++) {
-      weeks.push(i + 1);
-    }
-
-    return weeks;
-  };
 
 
 
@@ -231,7 +210,7 @@ function m(props: TeacherDetailStudentProps): any {
     }
   }
   const allMonth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-  const [CurentMonth, setCurentMonth] = useSafeState(allMonth[today.getMonth()])
+  // const [CurentMonth, setCurentMonth] = useSafeState(allMonth[today.getMonth()])
   const [SelectMonth, setSelectMonth] = useSafeState(allMonth[today.getMonth()])
 
   const [SelectWeek, setSelectWeek] = useSafeState(weekNumberInMonth)
@@ -290,10 +269,9 @@ function m(props: TeacherDetailStudentProps): any {
     setFinalWeek(weekNumberInMonth)
     // console.log('select week', SelectWeek)
 
-    const url = 'student_detail_attendance?class_id=' + idclass + '&student_id=' + idstudent
     // console.log('url', url)
     //http://api.test.school.esoftplay.com/student_detail_attendance?class_id=1&student_id=1&month=2&week=6
-    new LibCurl('student_detail_attendance?class_id=' + idclass + '&student_id=' + idstudent, get, (result, msg) => {
+    new LibCurl('student_detail_attendance?class_id=' + idclass + '&student_id=' + idstudent, null, (result) => {
       // console.log("result detail siswa", result)
       // console.log("msg detail siswa", msg)
       LibProgress.hide()
@@ -315,20 +293,20 @@ function m(props: TeacherDetailStudentProps): any {
 
     if (activeWeek && month && week) {
       // console.log('filter bulan dan minggu', month, week)
-      new LibCurl('student_detail_attendance?class_id=' + idclass + '&student_id=' + idstudent + '&month=' + month + '&week=' + week, get, (result, msg) => {
+      new LibCurl('student_detail_attendance?class_id=' + idclass + '&student_id=' + idstudent + '&month=' + month + '&week=' + week, null, (result) => {
         // console.log('student_detail_attendance?class_id=' + idclass + '&student_id=' + idstudent + '&month=' + month + '&week=' + week,)
         // console.log("result detail siswa", result)
         setResApi(result)
-      }, (err) => {
+      }, () => {
         // console.log("error", err)
       })
     } else {
       // console.log('filter bulan', month)
-      new LibCurl('student_detail_attendance?class_id=' + idclass + '&student_id=' + idstudent + '&month=' + month, get, (result, msg) => {
+      new LibCurl('student_detail_attendance?class_id=' + idclass + '&student_id=' + idstudent + '&month=' + month, null, (result) => {
         // console.log('student_detail_attendance?class_id=' + idclass + '&student_id=' + idstudent + '&month=' + month)
         // console.log("result detail siswa", result)
         setResApi(result)
-      }, (err) => {
+      }, () => {
         // console.log("error", err)
       })
     }
@@ -383,7 +361,7 @@ function m(props: TeacherDetailStudentProps): any {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ marginVertical: 20, height: 'auto' }}
           renderItem={
-            ({ item, index }) => {
+            ({ item }) => {
               // console.log('item', item)
               return (
                 <View style={{ flex: 1, backgroundColor: 'white', borderRadius: 10, marginTop: 5, padding: 10, ...shadowS(5), margin: 5, width: 200 }}>
@@ -465,7 +443,7 @@ function m(props: TeacherDetailStudentProps): any {
           contentContainerStyle={{ paddingBottom: 20 }}
 
           renderItem={
-            ({ item, index }) => {
+            ({ item }) => {
 
               const getDay = (date: string) => {
                 switch (date) {
@@ -581,5 +559,3 @@ function m(props: TeacherDetailStudentProps): any {
   )
 }
 
-
-export default memo(m);

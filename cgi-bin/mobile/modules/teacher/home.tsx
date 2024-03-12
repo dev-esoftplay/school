@@ -1,7 +1,5 @@
 // withHooks
-import { memo } from 'react';
-import { useRef } from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
@@ -16,7 +14,6 @@ import useSafeState from 'esoftplay/state';
 import React from 'react';
 import { Pressable, Text, TouchableOpacity, View } from 'react-native';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import * as Notifications from 'expo-notifications';
@@ -36,7 +33,7 @@ Notifications.setNotificationHandler({
   }),
 });
 
-function m(props: TeacherHomeProps): any {
+export default function m(): any {
 
 
   //mengambil data dari userClass
@@ -52,10 +49,9 @@ function m(props: TeacherHomeProps): any {
 
   useEffect(() => {
     console.log('data user', data)
-    const url: string = "http://api.school.lc/teacher_schedule"
     // console.log('apikey in page home', apikey)
 
-    new LibCurl('teacher', get, (result, msg) => {
+    new LibCurl('teacher', null, (result, msg) => {
       esp.log({ result, msg });
       console.log("result profil", result)
       setProfil(result)
@@ -64,43 +60,32 @@ function m(props: TeacherHomeProps): any {
       LibDialog.warning('get data gagal', err?.message)
     })
 
-    new LibCurl('teacher_schedule', get,
-      (result, msg) => {
+    new LibCurl('teacher_schedule', null,
+      (result) => {
         // console.log('Jadwal Result:', result);
         // console.log("msg", msg)
         setResApi(result)
 
       },
-      (err) => {
+      () => {
         // console.log("error", err)
       })
 
     let TommorowDate = moment().add(1, "days").format('YYYY-MM-DD');
     // console.log("TommorowDate", TommorowDate)
-    let CurrentDate = moment().format('YYYY-MM-DD');
     // console.log("CurrentDate", CurrentDate)
 
     // get schadule tomorrow from api
-    let url1: string = 'http://api.school.lc/teacher_schedule?date=' + TommorowDate
-    new LibCurl('teacher_schedule?date=' + TommorowDate, get, (result, msg) => {
+    new LibCurl('teacher_schedule?date=' + TommorowDate, null, (result) => {
       console.log('Jadwal Result besok:', result);
       console.log(result.schedule[0].class.name)
       // console.log("msg", msg)
       setResApi2(result)
-    }, (err) => {
+    }, () => {
       // console.log("error", err)
     })
   }, [])
 
-  function convertClockEndTimeToSeconds(clock_end:string) {
-    // Parsing string waktu menjadi jam dan menit
-    const [hours, minutes] = clock_end.split(':').map(Number);
-
-    // Mengonversi jam dan menit menjadi jumlah detik
-    const totalSeconds = hours * 3600 + minutes * 60;
-
-    return totalSeconds;
-}
   //  async function latenotif(status: number, clock_end: any) {
       
 
@@ -174,9 +159,7 @@ function m(props: TeacherHomeProps): any {
     }
   }
   const Tab = () => {
-    let TommorowDate = moment().add(1, "days").format('YYYY-MM-DD');
     // console.log("TommorowDate", TommorowDate)
-    let CurrentDate = moment().format('YYYY-MM-DD');
     // console.log("CurrentDate", CurrentDate)
     if (selectTab === allTabs[0]) {
       //jadwal hari ini
@@ -200,7 +183,7 @@ function m(props: TeacherHomeProps): any {
                         <View style={{ backgroundColor: '#ffffff9f', padding: 10, marginLeft: 20, width: '85%', }}>
 
                           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black' }}>{item?.class?.name ?? "kelas"} {item?.schedule_id ?? '0'}</Text>
+                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black' }}>{item?.class?.name ?? "kelas"} </Text>
                             <View style={{ height: 30, width: 'auto', borderRadius: 8, backgroundColor: studentStatus_color(item?.status), justifyContent: 'center', alignItems: 'center', paddingHorizontal: 10 }}>
 
                               <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item.student_attend} / {item.student_number}</Text>
@@ -355,5 +338,3 @@ function m(props: TeacherHomeProps): any {
 }
 
 
-
-export default memo(m);

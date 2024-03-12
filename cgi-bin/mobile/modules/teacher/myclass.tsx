@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
@@ -8,7 +7,6 @@ import useSafeState from 'esoftplay/state';
 import React, { useEffect, useState } from 'react';
 import { FlatList, Platform, Pressable, ScrollView, Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 import SchoolColors from '../utils/schoolcolor';
 
 
@@ -18,7 +16,7 @@ export interface TeacherMyClassArgs {
 export interface TeacherMyClassProps {
 
 }
-function m(props: TeacherMyClassProps): any {
+export default function m(props: TeacherMyClassProps): any {
   const idclass: string = LibNavigation.getArgsAll(props).clasid;
   const school = new SchoolColors();
   function shadowS(value: any) {
@@ -31,29 +29,20 @@ function m(props: TeacherMyClassProps): any {
   const allTabs = ['Jadwal Kelas', 'Daftar Siswa'];
   const [selectTab, setSelectTab] = React.useState(allTabs[0])
   const [resApi2, setResApi2] = useState<any>([])
-  const [resApi, setResApi] = useState<any>([])
-
-  const daysOfWeek = ['1', '2', '3', '4', '5', '6', '7'];
-  const getDayOfWeek = () => {
-    const today = new Date();
-    const dayOfWeek = today.getDay() - 1 // Mendapatkan nilai antara 0 (Minggu) hingga 6 (Sabtu)
-
-    return dayOfWeek;
-  };
-  const [day, setday] = useSafeState(daysOfWeek[getDayOfWeek()])
-
+  const[teacherSchadule, setTeacherSchadule] = useState<any>([])
+  const[allDays, setAllDays] = useState<any>([])
   useEffect(() => {
 
-    const url = "http://api.test.school.esoftplay.com/teacher_schedule_class"
     // console.log('url :', url)
-    new LibCurl('teacher_schedule_class', get, (result, msg) => {
+    new LibCurl('teacher_schedule_class', null, (result) => {
       // console.log('url :', url)
       console.log('Jadwal Result:', result);
-      setResApi(result)
-    }, (err) => {
+      setTeacherSchadule(result.schedules)
+      setAllDays(result.days)
+    }, () => {
       // console.log("error", err)
     })
-    new LibCurl('teacher_student?class_id=' + idclass, get, (result, msg) => {
+    new LibCurl('teacher_student?class_id=' + idclass, null, (result, msg) => {
       // console.log('Jadwal Result besok:', result);
       console.log("msg", msg)
       setResApi2(result)
@@ -63,15 +52,6 @@ function m(props: TeacherMyClassProps): any {
 
   }, [])
 
-  const schaduleData = () => {
-    new LibCurl('teacher_student?class_id=' + idclass, get, (result, msg) => {
-      console.log('Jadwal Result:', result);
-      setResApi2(result)
-    }, (err) => {
-      console.log("error", err)
-    })
-
-  }
 
   const Tabs = () => {
     if (selectTab == 'Jadwal Kelas') {
@@ -79,9 +59,8 @@ function m(props: TeacherMyClassProps): any {
       const today = new Date();
       // Mendapatkan nilai antara 0 (Minggu) hingga 6 (Sabtu)
 
-      const allDays = [ ,'senin', 'selasa', 'rabu', 'kamis', 'jumat', 'sabtu',];
+     
       const [selectedDay, setSelectedDay] = useSafeState(allDays[today.getDay()]);
-      const scheduleData = resApi;
 
       const renderScheduleItem = ({ item }: { item: any }) => (
         console.log('item', item),
@@ -112,7 +91,7 @@ function m(props: TeacherMyClassProps): any {
         <View style={{ flex: 1, backgroundColor: 'white' }}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10, marginBottom: 20 }}>
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-              {allDays.map(day => (
+              {allDays.map((day:any) => (
                 <TouchableOpacity
                   key={day}
                   onPress={() => setSelectedDay(day || '')}
@@ -122,14 +101,14 @@ function m(props: TeacherMyClassProps): any {
                     borderRadius: 5,
                     marginRight: 10,
                   }}>
-                  <Text style={{ color: selectedDay === day ? 'white' : 'black' }}>{day}</Text>
+                  <Text style={{ color: selectedDay === day ? 'white' : 'black' }}>{day?.toLocaleUpperCase()}</Text>
                 </TouchableOpacity>
               ))}
             </ScrollView>
           </View>
           {/* <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000000' }}>{selectedDay}</Text> */}
           <FlatList
-            data={resApi.filter((item: { day: string; }) => item.day === selectedDay)}
+            data={teacherSchadule.filter((item: { day: string; }) => item.day === selectedDay)}
             scrollEnabled={true}
             keyExtractor={(item, index) => index.toString()}
             contentContainerStyle={{ width: '100%' }}
@@ -229,33 +208,3 @@ function m(props: TeacherMyClassProps): any {
   )
 }
 
-
-{/* jadwal per hari */ }
-{/* <FlatList
-            data={resApi.schedule}
-            scrollEnabled={true}
-            keyExtractor={(item, index) => index.toString()}
-            contentContainerStyle={{ width: '100%' }}
-            renderItem={
-              ({ item,index }: { item: any,index:number}) => {
-                
-                return (
-                  <View key={item.item_id} style={{ flexDirection: 'row', backgroundColor: '#e7e7e7', borderRadius: 10, padding: 15, marginBottom: 10 ,alignItems:'center'}}>
-              
-                <View style={{ marginRight: 10, width: 50, height: 50, borderRadius: 25, backgroundColor: 'lightgray' ,alignItems:'center',justifyContent:'center'}} >
-                <Text style={{ fontSize: 16, color: '#000000' }}>{index+1}</Text>
-                </View>
-                <Text style={{ fontSize: 16, color: '#555' }}>{item.day}</Text>
-                <View style={{ marginBottom: 10 }}>
-                  <Text style={{ fontSize: 16, color: '#555' }}>{item.course.name}</Text>
-                  <Text style={{ fontSize: 16, color: '#555' }}>{item.clock_start} - {item.clock_end}</Text>
-                  <Text style={{ fontSize: 16, color: '#555' }}>{item.class.name}</Text>
-                </View>
-              </View>
-                )
-              }}
-          /> */}
-
-{/* <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000000' }}>{selectedDay}</Text> */ }
-
-export default memo(m);

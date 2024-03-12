@@ -1,5 +1,5 @@
 // withHooks
-import { memo, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
 // import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import navigation from 'esoftplay/modules/lib/navigation';
@@ -51,7 +51,7 @@ function m(props: ParentAccountProps): any {
         const post = { token: token }
 
 
-        new LibCurl('logout', get, (result, msg) => {
+        new LibCurl('logout', null, (result, msg) => {
             console.log('check post', post);
             console.log('check apikey', data.apikey);
             console.log('check uri', data.uri);
@@ -131,3 +131,7 @@ const timeout = useTimeout()
 }
 
 export default memo(m);
+
+function memo(m: (props: ParentAccountProps) => any) {
+  throw new Error('Function not implemented.');
+}

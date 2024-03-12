@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import { LibSlidingup } from 'esoftplay/cache/lib/slidingup/import';
@@ -7,9 +6,7 @@ import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import useSafeState from 'esoftplay/state';
 import React, { useEffect, useRef, useState } from 'react';
 import { FlatList, Platform, Pressable, ScrollView, Text, View } from 'react-native';
-import { useSharedValue } from 'react-native-reanimated';
 import Svg, { Circle } from 'react-native-svg';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 import SchoolColors from '../utils/schoolcolor';
 
@@ -20,21 +17,9 @@ export interface TeacherAttenreportArgs {
 export interface TeacherAttenreportProps {
 
 }
-function m(props: TeacherAttenreportProps): any {
-  const getWeekNumber = () => {
-    // Buat objek tanggal untuk tanggal hari ini
-    const today = new Date();
-    const firstDayOfYear = new Date(today.getFullYear(), 0, 1);
-
-    // Hitung selisih antara tanggal hari ini dengan tanggal 1 Januari
-    const pastDays = (today.getTime() - firstDayOfYear.getTime()) / 86400000;
-
-    // Ambil minggu keberapa dengan membagi selisih hari dengan 7
-    return Math.ceil((pastDays + firstDayOfYear.getDay() + 1) / 7);
-  };
+export default function m(): any {
 
   // Gunakan fungsi getWeekNumber untuk mendapatkan minggu keberapa dalam tahun ini
-  const weeksNumber = getWeekNumber();
   const today = new Date();
 
   const getWeekNumberInMonth = () => {
@@ -136,24 +121,6 @@ function m(props: TeacherAttenreportProps): any {
     }
   ]
 
-  function getWeekInYear(year: number, month: number, weekInMonth: number): number {
-    // Mendapatkan tanggal pertama dalam bulan
-    const firstDayOfMonth = new Date(year, month, 1);
-
-    // Mendapatkan hari pertama dalam minggu pertama
-    const firstWeekDay = firstDayOfMonth.getDay(); // Minggu dimulai dari hari ke-0 (Minggu)
-
-    // Menghitung hari yang dibutuhkan untuk mencapai minggu yang dimaksud
-    const daysToAdd = (7 * (weekInMonth - 1)) - firstWeekDay;
-
-    // Menciptakan tanggal pada minggu yang dimaksud
-    const targetWeekDate = new Date(firstDayOfMonth.getTime() + daysToAdd * 86400000); // 86400000 milidetik dalam sehari
-
-    // Mendapatkan minggu keberapa dalam tahun itu jatuh
-    const weekOfYear = Math.ceil((targetWeekDate.getTime() - new Date(year, 0, 1).getTime()) / 604800000); // 604800000 milidetik dalam seminggu
-
-    return weekOfYear + 1;
-  }
   let slideup = useRef<LibSlidingup>(null)
   const [resApi, setResApi] = React.useState<any>([])
   const allMonth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
@@ -166,7 +133,7 @@ function m(props: TeacherAttenreportProps): any {
 
   const [activeWeek, setActiveWeek] = useState<number | null>(null);
 
-  const handlePress = (weeknum: number, weekke: number) => {
+  const handlePress = (weeknum: number) => {
     setActiveWeek(weeknum === activeWeek ? null : weeknum);
     // console.log('weeknum', weeknum)
     // console.log('activeWeek', activeWeek)
@@ -199,7 +166,7 @@ function m(props: TeacherAttenreportProps): any {
     console.log('Attendance Report')
     // console.log('http://api.test.school.esoftplay.com/teacher_schedule_report?day=&week=&month&class_id&course_id')
     console.log('teacher_schedule_report?&month=' + CurentMonth)
-    new LibCurl('teacher_schedule_report?&month='+CurentMonth, get, (result, msg) => {
+    new LibCurl('teacher_schedule_report?&month='+CurentMonth, null, (result) => {
       console.log('result', result)
       setResApi(result)
     }, (err) => {
@@ -214,7 +181,7 @@ function m(props: TeacherAttenreportProps): any {
     if (activeWeek && month && week) {
       console.log('filter bulan ', month, ' dan minggu', week)
       // console.log('teacher_schedule_report?&week=' + week)
-      new LibCurl('teacher_schedule_report?&week=' + week, get, (result, msg) => {
+      new LibCurl('teacher_schedule_report?&week=' + week, null, (result) => {
         console.log('result', JSON.stringify(result))
         setResApi(result)
       }, (err) => {
@@ -224,7 +191,7 @@ function m(props: TeacherAttenreportProps): any {
     } else {
       console.log('filter bulan', month)
        console.log('teacher_schedule_report?&month=' + month)
-      new LibCurl('teacher_schedule_report?&month=' + month, get, (result, msg) => {
+      new LibCurl('teacher_schedule_report?&month=' + month, null, (result) => {
         console.log('result', JSON.stringify(result))
         setResApi(result)
       }, (err) => {
@@ -234,14 +201,11 @@ function m(props: TeacherAttenreportProps): any {
     }
   }
 
-  const progress = useSharedValue(0)
   const school = new SchoolColors();
   const BACKGROUND_STROKE_COLOR = '#ffffff'
   const STROKE_COLOR = '#11b81f'
   const R = 30
   const Circle_length = 2 * Math.PI * R
-  const height = LibStyle.height
-  const width = LibStyle.width
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white', }}>
@@ -271,11 +235,8 @@ function m(props: TeacherAttenreportProps): any {
         }
         keyExtractor={(item, index) => index.toString()}
         renderItem={
-          ({ item, index }) => {
+          ({ item }) => {
 
-            const widthAndHeight = 80
-            const series = [70, 10, 20,]
-            const sliceColor = ['#009b00', '#ffb300', '#ff3c00']
             // console.log('item', item)
             // console.log('schadule finish /schadule total',   item.schedule_finished,'/',item.schedule_total )
             return (
@@ -365,27 +326,24 @@ function m(props: TeacherAttenreportProps): any {
           />
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
             <View style={{ width: '100%', height: 45, flexDirection: 'row', justifyContent: 'center', paddingHorizontal: 20 }}>
-              <Pressable onPress={() => { console.log('minggu 1:', weekOne,), handlePress(1, weekOne) }} style={{ width: '25%', height: 40, backgroundColor: 1 == activeWeek ?school.primary : 'white', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5,borderColor: 1 == activeWeek ?  'white':school.primary  ,borderWidth:2   }}>
+              <Pressable onPress={() => { console.log('minggu 1:', weekOne,), handlePress(1, ) }} style={{ width: '25%', height: 40, backgroundColor: 1 == activeWeek ?school.primary : 'white', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5,borderColor: 1 == activeWeek ?  'white':school.primary  ,borderWidth:2   }}>
                 <Text style={{ fontSize: 15, fontWeight: 'bold',color: 1 == activeWeek ?'white':school.primary, textAlign: 'center', }}>Minggu 1</Text>
               </Pressable>
-              <Pressable onPress={() => { console.log('minggu 2:', weekTwo,), handlePress(2, weekTwo) }} style={{ width: '25%', height: 40, backgroundColor: 2 == activeWeek ?school.primary : 'white', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5,borderColor: 2 == activeWeek ?  'white':school.primary  ,borderWidth:2   }}>
+              <Pressable onPress={() => { console.log('minggu 2:', weekTwo,), handlePress(2, ) }} style={{ width: '25%', height: 40, backgroundColor: 2 == activeWeek ?school.primary : 'white', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5,borderColor: 2 == activeWeek ?  'white':school.primary  ,borderWidth:2   }}>
                 <Text style={{ fontSize: 15, fontWeight: 'bold', color: 2 == activeWeek ?'white':school.primary, textAlign: 'center', }}>Minggu 2</Text>
               </Pressable>
-              <Pressable onPress={() => { console.log('minggu 3:', weekThree,), handlePress(3, weekThree) }} style={{ width: '25%', height: 40, backgroundColor: 3 == activeWeek ?school.primary : 'white', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5,borderColor: 3 == activeWeek ?  'white':school.primary  ,borderWidth:2   }}>
+              <Pressable onPress={() => { console.log('minggu 3:', weekThree,), handlePress(3, ) }} style={{ width: '25%', height: 40, backgroundColor: 3 == activeWeek ?school.primary : 'white', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5,borderColor: 3 == activeWeek ?  'white':school.primary  ,borderWidth:2   }}>
                 <Text style={{ fontSize: 15, fontWeight: 'bold', color: 3 == activeWeek ?'white':school.primary, textAlign: 'center', }}>Minggu 3</Text>
               </Pressable>
-              <Pressable onPress={() => { console.log('minggu 4:', weekFour,), handlePress(4, weekFour) }} style={{ width: '25%', height: 40, backgroundColor: 4 == activeWeek ?school.primary : 'white', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5,borderColor: 4 == activeWeek ?  'white':school.primary  ,borderWidth:2   }}>
+              <Pressable onPress={() => { console.log('minggu 4:', weekFour,), handlePress(4, ) }} style={{ width: '25%', height: 40, backgroundColor: 4 == activeWeek ?school.primary : 'white', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5,borderColor: 4 == activeWeek ?  'white':school.primary  ,borderWidth:2   }}>
                 <Text style={{ fontSize: 15, fontWeight: 'bold', color: 4 == activeWeek ?'white':school.primary, textAlign: 'center', }}>Minggu 4</Text>
               </Pressable>
             </View>
           </ScrollView >
          
           < Pressable onPress={() => {
-            const year = 2024;
-            const month = SelectMonth - 1; // Januari (index dimulai dari 0)
             const weekInMonth = SelectWeek; // Minggu kedua dalam bulan
             // console.log('select week', SelectWeek)
-            let weekInYear = getWeekInYear(year, month, weekInMonth);
             // console.log(`Minggu ke-${weekInMonth} dalam bulan ${SelectMonth} tahun ${year} adalah minggu ke-${weekInYear} dalam tahun ini`);
 
             filterApi(SelectMonth, weekInMonth)
@@ -406,4 +364,3 @@ function m(props: TeacherAttenreportProps): any {
 
   )
 }
-export default memo(m);
