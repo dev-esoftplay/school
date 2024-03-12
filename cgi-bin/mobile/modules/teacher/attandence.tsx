@@ -215,8 +215,10 @@ export default function m(props: TeacherAttendenceProps): any {
       <Modal
         transparent={true}
         visible={visible} >
-        <View style={{ flex: 1, justifyContent: 'center', alignContent: 'center', backgroundColor: 'rgba(0, 0, 0, 0.116)', alignItems: 'center' }}>
-          <View style={{ width: 300, padding: 20, backgroundColor: 'white', borderRadius: 10, alignItems: 'center', }}>
+         <Pressable style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center' }} onPress={onClose}>
+                </Pressable>
+
+        <View style={{  width: '80%', padding: 20, backgroundColor: 'white', borderRadius: 10, alignItems: 'center',position:'absolute' ,marginHorizontal: '10%',top: LibStyle.height / 4}}>
             {/* Text field */}
             <Text style={{ fontSize: 16, marginBottom: 10, }}>Alasan {nama}</Text>
             <LibInput_rectangle2
@@ -236,7 +238,7 @@ export default function m(props: TeacherAttendenceProps): any {
               <Text style={{ color: 'white', fontSize: 16, }}>Ijinkan</Text>
             </Pressable>
           </View>
-        </View>
+       
       </Modal>
     );
   }
@@ -261,8 +263,11 @@ export default function m(props: TeacherAttendenceProps): any {
       <Modal
         transparent={true}
         visible={visible} >
-        <View style={{ flex: 1, justifyContent: 'center', alignContent: 'center', backgroundColor: 'rgba(0, 0, 0, 0.116)', alignItems: 'center' }}>
-          <View style={{ width: 300, padding: 20, backgroundColor: 'white', borderRadius: 10, alignItems: 'center', }}>
+     
+        <Pressable style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center' }} onPress={onClose}>
+                </Pressable>
+
+          <View style={{  width: '80%', padding: 20, backgroundColor: 'white', borderRadius: 10, alignItems: 'center',position:'absolute' ,marginHorizontal: '10%',top: LibStyle.height / 4}}>
             {/* Text field */}
             <Text style={{ fontSize: 16, marginBottom: 10, }}>{nama}  Sakit </Text>
             <LibInput_rectangle2
@@ -281,7 +286,7 @@ export default function m(props: TeacherAttendenceProps): any {
               <Text style={{ color: 'white', fontSize: 16, }}>Ijinkan</Text>
             </Pressable>
           </View>
-        </View>
+      
       </Modal>
     );
   }
