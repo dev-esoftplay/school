@@ -6,15 +6,19 @@ if (!$teacher_id) {
 $subject_ids  = $db->getcol('SELECT `id` FROM `school_teacher_subject` WHERE `teacher_id` =' . $teacher_id);
 $current_date = date('Y-m-d');
 $date         = isset($_GET['date']) ? $_GET['date'] : $current_date;
-$day          = isset($_GET['day']) ? $_GET['day'] : date('N', strtotime($date));
+$day          = isset($_GET['day']) ? addslashes($_GET['day']) : date('N', strtotime($date));
 if (strtotime($date) < strtotime($current_date)) {
   return api_no(lang('ga bisa lihat laporan jadwal disini, kamu harus ke teacher_schedule_report'));
 }
 $query            = 'SELECT `id`,`subject_id`,`day`,`clock_start`,`clock_end` FROM `school_schedule` WHERE `subject_id` IN (' . implode(',', $subject_ids) . ') AND `day` = ' . $day . ' ORDER BY `clock_start` ASC'; 
 $schedules        = $db->getAll($query);
 $schedule_subject = array();
-
 foreach ($schedules as $key => $schedule) {
+  // pr($schedule, __FILE__.':'.__LINE__);die();
+  // foreach ($schedule as $key => $value2) {
+  //   pr($value2, __FILE__.':'.__LINE__);die();
+
+  // }
   $subject_data = $db->getrow('SELECT `sts`.`id`,
                                       `sc`.`id`   AS `course_id`,
                                       `sc`.`name` AS `course_name`,

@@ -61,10 +61,13 @@ if (!$schedules) {
   return api_no(["data tidak data"]); 
 }
 
-$result = array();
+$result = array(
+  'days' => array_values(api_days()),
+  'schedules' => array()
+);
 
 foreach ($schedule_days as $day => $schedules) {
-  $result[] = array(
+  $result['schedules'][] = array(
     'day'            => $day,
     'total_schedule' => count($schedules),
     'schedule'       => $schedules
