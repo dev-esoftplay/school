@@ -212,7 +212,7 @@ export default function m(props: LoginIndexsProps): any {
           {showPassword()}
         </View>
         <View style={{ marginTop: 20 }} />
-        <Pressable onPress={() => navigation.replace('auth/forgotpass')}>
+        {/* <Pressable onPress={() => navigation.replace('auth/forgotpass')}>
           <Text
             style={{
               fontSize: 14,
@@ -224,7 +224,7 @@ export default function m(props: LoginIndexsProps): any {
           >
             Lupa Password?
           </Text>
-        </Pressable>
+        </Pressable> */}
         <View style={{ marginTop: 20 }} />
         <Pressable
           // onPress={()=>LibNavigation.navigate('teacher/index')}

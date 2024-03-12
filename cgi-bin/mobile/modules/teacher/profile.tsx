@@ -200,19 +200,19 @@ function m(props: TeacherProfileProps): any {
             )}
 
 
-            <View style={{ alignItems: 'center', marginTop: 15 }}>
+            {/* <View style={{ alignItems: 'center', marginTop: 15 }}>
                 <Pressable onPress={() => { LibNavigation.navigate('teacher/notifications') }} style={{ height: 55, width: LibStyle.width - 25, backgroundColor: '#136B93', justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', borderRadius: 15, paddingHorizontal: 20 }}>
                     <Text style={{ color: '#FFFFFF', fontWeight: '400', fontSize: 18, }}>Notifikasi</Text>
                     <MaterialIcons name='notifications' size={24} color='#FFFFFF' />
-                </Pressable>
-            </View>
+                </Pressable> */}
+            {/* </View> */}
 
-            <View style={{ alignItems: 'center', marginTop: 15 }}>
+            {/* <View style={{ alignItems: 'center', marginTop: 15 }}>
                 <Pressable onPress={() => { LibNavigation.navigate('teacher/password') }} style={{ height: 55, width: LibStyle.width - 25, backgroundColor: '#136B93', justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', borderRadius: 15, paddingHorizontal: 20 }}>
                     <Text style={{ color: '#FFFFFF', fontWeight: '400', fontSize: 18, }}>Ganti Kata Sandi</Text>
                     <MaterialIcons name='lock' size={24} color='#FFFFFF' />
                 </Pressable>
-            </View>
+            </View> */}
 
             <View style={{ alignItems: 'center', marginTop: 15 }}>
                 <Pressable onPress={() => LibDialog.confirm('Peringatan', 'apakah Anda Ingin Keluar?', 'ya', () => { logout() }, 'tidak', () => hide())} style={{ height: 55, width: LibStyle.width - 25, backgroundColor: '#136B93', justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', borderRadius: 15, paddingHorizontal: 20 }}>

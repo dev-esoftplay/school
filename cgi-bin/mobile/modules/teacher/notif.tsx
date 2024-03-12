@@ -26,7 +26,7 @@ function m(props: TeacherNotifProps): any {
 
   useEffect(() => {
 
-    // LibNotification.loadData(true)
+    LibNotification.loadData(true)
     esp.log(notifs);
     console.log("notif", notifs);
     // console.log("notif", notifs[0]?.updated);

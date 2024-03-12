@@ -68,7 +68,7 @@ export default function m(props: AttendReportStudentProps): any {
                 <Pressable onPress={() => LibNavigation.back()} style={{ alignItems: 'center', }}>
                   <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}>
                     <LibIcon.EntypoIcons name="chevron-left" size={30} color="black" />
-                    <Text style={{ fontSize: 20 }}>{ApiResponse?.class_name ?? ''}| {ApiResponse?.schedule_id}</Text>
+                    <Text style={{ fontSize: 20 }}>{ApiResponse?.class_name ?? ''}</Text>
                   </View>
                 </Pressable>
                 <Text style={{ fontSize: 20 }}>{time}</Text>

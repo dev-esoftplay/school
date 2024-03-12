@@ -183,7 +183,7 @@ export default function m(): any {
                         <View style={{ backgroundColor: '#ffffff9f', padding: 10, marginLeft: 20, width: '85%', }}>
 
                           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black' }}>{item?.class?.name ?? "kelas"} {item?.schedule_id ?? '0'}</Text>
+                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black' }}>{item?.class?.name ?? "kelas"} </Text>
                             <View style={{ height: 30, width: 'auto', borderRadius: 8, backgroundColor: studentStatus_color(item?.status), justifyContent: 'center', alignItems: 'center', paddingHorizontal: 10 }}>
 
                               <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item.student_attend} / {item.student_number}</Text>
