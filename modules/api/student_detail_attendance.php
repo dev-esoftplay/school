@@ -1,9 +1,5 @@
 <?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
-if (!$teacher_id) {
-  return api_no('kamu ga dapet akses ini');
-}
-
 $student_id                 = addslashes(intval($_GET['student_id']));
 $class_id                   = addslashes(intval($_GET['class_id']));
 $filter_month               = addslashes($_GET['month'] ?? date('m'));
@@ -14,8 +10,10 @@ $attendance_presence_report = $db->getall('SELECT `presence`, COUNT(*) as `count
 $homeroom_verification      = $db->getone('SELECT `teacher_id` FROM `school_class` WHERE `id` = ' . $class_id);
 $parent_verification        = $db->getone('SELECT `parent_id` FROM `school_student_parent` WHERE `student_id` = ' . $student_id);
 $week_condition             = $filter_week !== null ? ' AND WEEK(created, 3) = ' . $filter_week : '';
-$query_attendance_presence  = $db->getall('SELECT `presence`, COUNT(*) as count FROM school_attendance WHERE student_id = ' . $student_id . ' AND MONTH(created) = ' . $filter_month . $week_condition . ' GROUP BY presence');
+$query_attendance_presence  = $db->getall('SELECT `presence`, COUNT(*) as count FROM `school_attendance` WHERE `student_id` = ' . $student_id . ' AND MONTH(created) = ' . $filter_month . $week_condition . ' GROUP BY presence');
 $schedule_by_day            = $db->getall('SELECT DATE(sa.created) as created_date, ss.day, sa.presence, COUNT(*) as count FROM school_attendance AS sa LEFT JOIN school_schedule AS ss ON sa.schedule_id = ss.id WHERE sa.student_id = ' . $student_id . ' AND MONTH(sa.created) = ' . $filter_month . $week_condition . ' GROUP BY created_date, sa.presence');
+$teacher_id                 = $db->getone('SELECT `teacher_id` FROM `school_class` WHERE `id` = ' . $class_id);
+$teacher_phone              = $db->getone('SELECT `phone` FROM `school_teacher` WHERE `id` = ' . $teacher_id);
 
 $processed_data = [];
 foreach ($schedule_by_day as $data) 
@@ -52,7 +50,6 @@ foreach ($schedule_by_day as $data)
 }
 $processed_data = array_values($processed_data);
 
-
 $attendance_report_data = array(
   'hadir'       => 0,
   'sakit'       => 0,
@@ -80,6 +77,7 @@ foreach ($attendance_presence_report as $data)
 }
 
 $result = array(
+  'teacher_phone'   => $teacher_phone,
   'attendance_data' => $attendance_report_data,
   'schedule_day'    => $processed_data,
 ); 

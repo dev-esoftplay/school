@@ -23,8 +23,8 @@ if (!empty($class_id) && !empty($teacher_id) && ($teacher_id == $verification_ho
     
     if ($student['parent_id_dad'] && $student['parent_id_mom']) 
     { 
-      $query_parent_data[] = ['status' => 'dad'] + $db->getrow('SELECT `name`, `phone` FROM `school_parent` WHERE `id` = ' . $student['parent_id_dad']);
-      $query_parent_data[] = ['status' => 'mom'] + $db->getrow('SELECT `name`, `phone` FROM `school_parent` WHERE `id` = ' . $student['parent_id_mom']);
+      $query_parent_data[] = ['status' => 'ayah'] + $db->getrow('SELECT `name`, `phone` FROM `school_parent` WHERE `id` = ' . $student['parent_id_dad']);
+      $query_parent_data[] = ['status' => 'ibu'] + $db->getrow('SELECT `name`, `phone` FROM `school_parent` WHERE `id` = ' . $student['parent_id_mom']);
     }else 
     if($student['parent_id_guard'])
     {
