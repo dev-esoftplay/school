@@ -1,24 +1,19 @@
 <?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');
-
+session_start();
 if (!$teacher_id) {
   return api_no(lang('Anda tidak memiliki akses ke halaman ini.'));
 }
 $subject_ids  = $db->getcol('SELECT `id` FROM `school_teacher_subject` WHERE `teacher_id` =' . $teacher_id);
-$current_date = date('Y-m-d');
-$date         = isset($_GET['date']) ? $_GET['date'] : $current_date;
+$date_current = date('Y-m-d');
+$date         = isset($_GET['date']) ? $_GET['date'] : $date_current;
 $day          = isset($_GET['day']) ? addslashes($_GET['day']) : date('N', strtotime($date));
-if (strtotime($date) < strtotime($current_date)) {
+if (strtotime($date) < strtotime($date_current)) {
   return api_no(lang('ga bisa lihat laporan jadwal disini, kamu harus ke teacher_schedule_report'));
 }
 $query            = 'SELECT `id`,`subject_id`,`day`,`clock_start`,`clock_end` FROM `school_schedule` WHERE `subject_id` IN (' . implode(',', $subject_ids) . ') AND `day` = ' . $day . ' ORDER BY `clock_start` ASC'; 
 $schedules        = $db->getAll($query);
 $schedule_subject = array();
 foreach ($schedules as $key => $schedule) {
-  // pr($schedule, __FILE__.':'.__LINE__);die();
-  // foreach ($schedule as $key => $value2) {
-  //   pr($value2, __FILE__.':'.__LINE__);die();
-
-  // }
   $subject_data = $db->getrow('SELECT `sts`.`id`,
                                       `sc`.`id`   AS `course_id`,
                                       `sc`.`name` AS `course_name`,
@@ -40,20 +35,20 @@ foreach ($schedules as $key => $schedule) {
   $student_attend = $db->getcol('SELECT `id` FROM `school_attendance` WHERE `schedule_id` = ' . $schedule['id'] . ' AND DATE(`created`) = CURDATE() AND `presence` = 1');
   $present        = count($student_attend) == count($student_number);
   $days           = api_days($schedule['day']);
-  $current_time   = date('H:i:s');
-  $start_time     = $schedule['clock_start'];
-  $end_time       = $schedule['clock_end'];
+  $time_current   = date('H:i:s');
+  $time_start     = $schedule['clock_start'];
+  $time_end       = $schedule['clock_end'];
   $status         = 5;
   if (date('N') == $schedule['day']) {
-    if ($current_time < $start_time) {
+    if ($time_current < $time_start) {
       $status = 5; // notyet
-    } elseif ($current_time >= $start_time && $current_time <= $end_time) {
+    } elseif ($time_current >= $time_start && $time_current <= $time_end) {
       $status = 4; // ongoing
-    } elseif ($current_time > $end_time && empty($student_attend)) {
+    } elseif ($time_current > $time_end && empty($student_attend)) {
       $status = 3; // late
-    } elseif ($current_time > $end_time && !empty($student_attend) && !$present) {
+    } elseif ($time_current > $time_end && !empty($student_attend) && !$present) {
       $status = 2; // finished
-    } elseif ($current_time > $end_time && $present) {
+    } elseif ($time_current > $time_end && $present) {
       $status = 1; // completed
     }
   }
@@ -80,7 +75,6 @@ usort($schedule_subject[$days], function($a, $b) {
     return strcmp($a['clock_start'], $b['clock_start']);
   }
 });
-session_start();
 foreach ($schedule_subject as $day => $schedule_data) {
   $result = array(
     'day'            => $day,
@@ -89,18 +83,20 @@ foreach ($schedule_subject as $day => $schedule_data) {
   );
   $last_schedule = end($schedule_data);
   if ($last_schedule) {
-    $clock = $last_schedule['clock_start'] . '-'. $last_schedule['clock_end'];
+    $clock          = $last_schedule['clock_start'] . '-'. $last_schedule['clock_end'];
+    $message        = 'anda lupa absen, di jam ' . $clock;
+    $existing_notif = $db->getone('SELECT `id` FROM `bbc_user_push_notif` WHERE `user_id` = ' . $user_id . ' AND `message` = \''.$message .'\' AND DATE(created) = CURDATE()');
     if ($last_schedule['status'] == 3) {
-      if (!isset($_SESSION['notif_sent'])) {
-				_func('alert');
-				alert_push(
-					$user_id . '-' . 5,
-					lang('absen hari ini'),
-					'anda lupa absen, di jam ' . $clock,
-					'teacher/notif',
-				);
-      	$_SESSION['notif_sent'] = true;
-			}
+      if (!isset($_SESSION['notif_sent']) && !$existing_notif) {
+        _func('alert');
+        alert_push(
+          $user_id . '-' . 5,
+          lang('absen hari ini'),
+          $message,
+          'teacher/notif',
+        );
+        $_SESSION['notif_sent'] = true;
+      }
     }
   }
 }

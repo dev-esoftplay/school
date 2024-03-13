@@ -3,58 +3,45 @@
 if (!$teacher_id) {
   return api_no(lang('Anda tidak memiliki akses ke halaman ini.'));
 }
-
-$subject_ids  = $db->getCol('SELECT `id` FROM `school_teacher_subject` WHERE `teacher_id` = ' . $teacher_id);
-
-$class_id  = isset($_GET['class_id']) ? intval($_GET['class_id']) : null;
-$course_id = isset($_GET['course_id']) ? intval($_GET['course_id']) : null;
-$month     = isset($_GET['month']) ? intval($_GET['month']) : null;
-$week      = isset($_GET['week']) ? intval($_GET['week']) : null;
-$day       = isset($_GET['day']) ? intval($_GET['day']) : null;
+$subject_ids = $db->getCol('SELECT `id` FROM `school_teacher_subject` WHERE `teacher_id` = ' . $teacher_id);
+$class_id    = isset($_GET['class_id']) ? intval($_GET['class_id']) : null;
+$course_id   = isset($_GET['course_id']) ? intval($_GET['course_id']) : null;
+$month       = isset($_GET['month']) ? intval($_GET['month']) : null;
+$week        = isset($_GET['week']) ? intval($_GET['week']) : null;
+$day         = isset($_GET['day']) ? intval($_GET['day']) : null;
 
 $filters = [];
-
 if (!empty($day)) {
   $filters[] = ' `date_day` = '. $day;
 }
-
 if (!empty($month)) {
   $filters[] = ' `date_month` = '. $month;
 } else {
   $filters[] = ' `date_month` = ' . date('n');
 }
-
 if (!empty($week) && empty($month)) {
   $filters[] = ' `date_week` = '. $week;
 } 
-
 if (empty($week) && empty($month) && empty($day)) {
   $week = api_week_month(strtotime('today'));
   $filters[] = ' `date_week` = ' . api_week_month(strtotime('today'));
 } 
-
 if (!empty($week) && !empty($month) ) {
   $filters[] = ' `date_week` = '. $week;
 }
-
 if (!empty($course_id)) {
   $filters[] = ' `course_id` = ' . $course_id;
 }
-
 if (!empty($class_id)) {
   $filters[] = ' `class_id` = ' . $class_id;
 }
-
 $query_filter = 'SELECT `schedule_id` FROM `school_attendance_report`';
-
 if (!empty($filters)) {
-    $query_filter .= ' WHERE ' . implode(' AND', $filters);
+  $query_filter .= ' WHERE ' . implode(' AND', $filters);
 }
 
-$schedule_ids = $db->getcol($query_filter);
-
-$query = 'SELECT `id`,`subject_id`,`day`,`clock_start`,`clock_end` FROM `school_schedule` WHERE `id` IN (' . implode(',', $schedule_ids) . ') AND `subject_id` IN (' . implode(',', $subject_ids) . ') ORDER BY `clock_start` ASC';
-
+$schedule_ids    = $db->getcol($query_filter);
+$query           = 'SELECT `id`,`subject_id`,`day`,`clock_start`,`clock_end` FROM `school_schedule` WHERE `id` IN (' . implode(',', $schedule_ids) . ') AND `subject_id` IN (' . implode(',', $subject_ids) . ') ORDER BY `clock_start` ASC';
 $schedules       = $db->getAll($query);
 $schedule_count  = array();
 $schedule_report = array();
@@ -65,7 +52,6 @@ foreach ($schedules as $schedule) {
                    WHERE  '. implode(' AND', $filters) . ' AND `schedule_id` =  '. $schedule['id'] . ' 
                    ORDER BY `date_day` ASC';
   $report_data  = $db->getrow($query_report);
-  
   $subject_data = $db->getrow('SELECT `sts`.`id`,
                                       `sc`.`id` AS `course_id`,
                                       `sc`.`name` AS `course_name`,
@@ -85,12 +71,11 @@ foreach ($schedules as $schedule) {
   );
   $student_number = $db->getcol('SELECT `number` FROM `school_student_class` WHERE `class_id` = ' . $class_data['id']);
   $schedule_count = $db->getcol('SELECT `id` FROM `school_schedule` WHERE `subject_id` IN (' . implode(',', $subject_ids) . ') AND `day` = ' . $schedule['day'] . ' ORDER BY `clock_start` ASC'); 
-
-  $days     = api_days($schedule['day']);
-  $date     = $report_data['date'];
-  $date_day = intval($report_data['date_day']);
-  $months   = $report_data['date_month'];
-  $weeks    = $report_data['date_week'];
+  $days           = api_days($schedule['day']);
+  $date           = $report_data['date'];
+  $date_day       = intval($report_data['date_day']);
+  $months         = $report_data['date_month'];
+  $weeks          = $report_data['date_week'];
 
   $item = array(
     'report_id'      => $report_data['id'],
@@ -103,17 +88,14 @@ foreach ($schedules as $schedule) {
     'student_attend' => intval($report_data['total_present']),
     'status'         => intval($report_data['status']),
   );
-
-  $key_report    = $months;
-  $key_report   .= '|'.(!empty($month) ? (!empty($week) && !empty($month) ? $weeks : '') : $weeks);
+  $key_report     = $months;
+  $key_report    .= '|'.(!empty($month) ? (!empty($week) && !empty($month) ? $weeks : '') : $weeks);
   $key_date_merge = $days . '|' . $date . '|'. $date_day;
-
-  $schedule_report[$key_report][$key_date_merge][]   = $item;
+  
+  $schedule_report[$key_report][$key_date_merge][] = $item;
 }
-
 if (!$schedules) {
-  $filter_info = '';
-    
+  $filter_info = ''; 
   if (!empty($month) && !empty($week) && !empty($day) && !empty($course_id) && !empty($class_id)) {
     $filter_info = 'bulan ' . date('F', $month) . ' minggu ' . $week . ' hari ' . $day .' kelas ' . $class_id.' mapel ' . $course_id;
   } elseif (!empty($day)) {
@@ -123,23 +105,17 @@ if (!$schedules) {
   } elseif (!empty($month)) {
     $filter_info = 'bulan ' . $month;
   }
-
   return api_no('Belum ada laporan untuk ' . $filter_info . ' pada filter yang diberikan.');
 }
-
 $result       = array();
 $result_day   = array();
-
 foreach ($schedule_report as $key_report => $schedule_days) {
   [$key_months, $key_weeks] = explode('|', $key_report);
-
   $result = (!empty($week) && empty($month) ? ['week' => $key_weeks] :
             (empty($week) && empty($month) && empty($day) ? ['week' => $key_weeks] :
             (!empty($week) && !empty($month) ? ['week' => $key_weeks] :
             (!empty($month) ? ['month' => $key_months] : ['week' => $key_weeks]))));
-
   $result['schedule_days'] = [];
-
   foreach ($schedule_days as $key_date_merge => $schedule_data) {
     [$key_day, $key_date, $key_date_day] = explode('|', $key_date_merge);
     $result_day = array(
