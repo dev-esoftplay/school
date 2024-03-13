@@ -29,8 +29,11 @@ if (isset($_POST['submit'])) {
 		          $label = $class_parse[2];
 
 		          $class_teacher = $db->getrow("SELECT `id`  FROM `school_class` WHERE `teacher_id`='$teacher_id'");
-							$class_id      = $db->getrow("SELECT `id`  FROM `school_class` WHERE `grade` = $grade AND `label` = '$label' AND `major` = '$major'");
+							$class_id      = $db->getrow("SELECT `id`  FROM `school_class` WHERE `grade` = $grade AND `label` = '$label' AND `major` = '$major' AND `teacher_id` = $teacher_id");
 
+							if ($class_id) {
+								$msg = msg('Data Class sudah ada di database');
+							}
 							if (!$class_id && !$class_teacher) {
 								$class_id = $db->Insert('school_class', array(
 									'teacher_id' => $teacher_id,
@@ -39,9 +42,10 @@ if (isset($_POST['submit'])) {
 									'major'      => $major,
 								));
 								$msg = msg('Data berhasil ditambah','success');
-							} else {
-								$msg = msg('Data sudah ada di database');
 							}
+							// else {
+							// 	$msg = msg('Data sudah ada di database');
+							// }
 		        }
 					}
 				}

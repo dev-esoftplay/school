@@ -52,6 +52,9 @@ if (isset($_POST['submit'])) {
 
 				if (isset($teacher_id) && isset($course_id) && isset($class_id)) {
 	        $is_exists = $db->getrow("SELECT `id` FROM `school_teacher_subject` WHERE `teacher_id` = '$teacher_id' AND `course_id` = '$course_id' AND `class_id` = '$class_id'");
+	        if ($is_exists) {
+	          $msg = msg('Data sudah ada di database');
+	        }
 	        if (!$is_exists) {
 	          $subject_id = $db->Insert('school_teacher_subject', array(
 	            'teacher_id' => $teacher_id,
@@ -59,9 +62,10 @@ if (isset($_POST['submit'])) {
 	            'class_id'   => $class_id,
 	          ));
 	          $msg = msg('Data Subject berhasil ditambahkan', 'success');
-	        } else {
-	          $msg = msg('Data sudah ada di database');
-	        }
+	        } 
+	        // else {
+	          // $msg = msg('Data sudah ada di database');
+	        // }
 		    }
 			}
 	  }

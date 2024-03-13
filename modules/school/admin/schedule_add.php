@@ -74,7 +74,7 @@ if (isset($_POST['submit'])) {
 					if (isset($teacher_id) && isset($course_id) && isset($class_id)) {
             $subject_id = $db->getone("SELECT `id` FROM `school_teacher_subject` WHERE `teacher_id` = '$teacher_id' AND `course_id` = '$course_id' AND `class_id` = '$class_id'");
 		        if (!$subject_id) {
-		          $msg[] = msg('Data Subject Belum Ada');
+		          $msg = msg('Data Subject Belum Ada');
 		        }
 			    }
 

@@ -125,7 +125,7 @@
   <form method="POST" role="form" enctype="multipart/form-data" onsubmit="return validateForm()">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Add Teacher with Excel</h3>
+        <h3 class="panel-title">Add Student with Excel</h3>
       </div>
       <div class="panel-body">
         <?php 

@@ -40,30 +40,30 @@
         <h1 class="panel-title">Tambah Guru with Excel</h1>
       </div>
       <div class="panel-body">
-        <p>Hiraukan Kolom A</p>
-        <p>Jika Field dibawah ini tidak diisi, maka Nama Guru akan mengambil kolom B, NIP kolom C, NoHp kolom D, Posisi kolom E </p>
+        <!-- <p>Hiraukan Kolom A</p> -->
+        <!-- <p>Jika Field dibawah ini tidak diisi, maka Nama Guru akan mengambil kolom B, NIP kolom C, NoHp kolom D, Posisi kolom E </p> -->
         <div class="form-group">
-          <label for="">Field Nama Guru</label>
-          <input type="text" name="name" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['name'] ?>">
+          <!-- <label for="">Field Nama Guru</label> -->
+          <input type="hidden" name="name" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['name'] ?>">
         </div>
         <div class="form-group">
-          <label for="">Field NIP</label>
-          <input type="text" name="nip" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['nip'] ?>">
+          <!-- <label for="">Field NIP</label> -->
+          <input type="hidden" name="nip" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['nip'] ?>">
         </div>
         <div class="form-group">
-          <label for="">Field Phone</label>
-          <input type="text" name="phone" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['phone'] ?>">
+          <!-- <label for="">Field Phone</label> -->
+          <input type="hidden" name="phone" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['phone'] ?>">
         </div>
         <div class="form-group">
-          <label for="">Field Posisi</label>
-          <input type="text" name="position" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['position'] ?>">
+          <!-- <label for="">Field Posisi</label> -->
+          <input type="hidden" name="position" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['position'] ?>">
         </div>
         <div class="form-group">
-          <label for="">Field Tanggal Lahir</label>
-          <input type="text" name="birthday" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['birthday'] ?>">
+          <!-- <label for="">Field Tanggal Lahir</label> -->
+          <input type="hidden" name="birthday" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['birthday'] ?>">
         </div>
-        <div class="form-group">
-          <label for="fileInput">Upload Excel</label>
+         <div class="help-block">
+          Upload File Excel
         </div>
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#preview-excel">Pilih FIle</button>
 
