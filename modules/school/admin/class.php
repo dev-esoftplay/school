@@ -45,6 +45,11 @@ if ($show_list)
 	$form = _lib('pea', 'school_class');
 	$form->initSearch();
 
+	?>
+	<a href="<?php echo site_url('school/class_add')?>">
+	  <button type="button" class="btn btn-info" style="margin: 0px 0px 20px 10px ">Tambahkan Kelas</button>
+	</a>
+	<?php
 	$form->search->addInput('grade', 'select');
 	$form->search->input->grade->setTitle('Judul Field');
 	$form->search->input->grade->addOption(['10', '11', '12']);
@@ -68,25 +73,24 @@ if ($show_list)
 	$form->roll->input->id->setFieldName('id AS edit');
 	$form->roll->input->id->setLinks($Bbc->mod['circuit'].'.class_edit');
 
-	$form->roll->addInput( 'class_name', 'sqllinks' );
+	$form->roll->addInput( 'class_name', 'sqlplaintext' );
 	$form->roll->input->class_name->setFieldName( 'CONCAT_WS(" ",grade,label,major) AS class_name' );
-	// $form->roll->input->class_name->setLinks($Bbc->mod['circuit'].'.class_edit');
-	$form->roll->input->class_name->setDisplayColumn(false);
+	$form->roll->input->class_name->setDisplayColumn(true);
 
 	$form->roll->addInput('grade', 'sqlplaintext');
 	$form->roll->input->grade->setTitle('Grade');
-	$form->roll->input->grade->setDisplayColumn(true);
+	$form->roll->input->grade->setDisplayColumn(false);
 
 	$form->roll->addInput('major', 'sqlplaintext');
 	$form->roll->input->major->setTitle('major');
-	$form->roll->input->major->setDisplayColumn(true);
+	$form->roll->input->major->setDisplayColumn(false);
 
 	$form->roll->addInput('label', 'sqlplaintext');
 	$form->roll->input->label->setTitle('label');
-	$form->roll->input->label->setDisplayColumn(true);
+	$form->roll->input->label->setDisplayColumn(false);
 
 	$form->roll->addInput('teacher_id', 'selecttable');
-	$form->roll->input->teacher_id->setTitle('teacher');
+	$form->roll->input->teacher_id->setTitle('Guard Teacher');
 	$form->roll->input->teacher_id->setFieldName( 'teacher_id' );
 	$form->roll->input->teacher_id->setReferenceTable('school_teacher');
 	$form->roll->input->teacher_id->setReferenceField('name','id');
@@ -94,9 +98,10 @@ if ($show_list)
 	$form->roll->input->teacher_id->setDisplayColumn(true);
 	$form->roll->input->teacher_id->textTip='';
 
-	$form->roll->addInput('number', 'sqlplaintext');
-	$form->roll->input->number->setTitle('number');
-	$form->roll->input->number->setFieldName('id as class_id_student');
+	$form->roll->addInput('number', 'sqllinks');
+	$form->roll->input->number->setTitle('total student');
+	$form->roll->input->number->setFieldName('id as total_student');
+	$form->roll->input->number->setLinks($Bbc->mod['circuit'].'.class_student');
 	$form->roll->input->number->setDisplayFunction(function ($value) use($db)
 	{
 		// $course_id = $db->getone("SELECT course_id from school_teacher_subject WHERE id=$value");
@@ -107,4 +112,4 @@ if ($show_list)
 	$form->roll->addReport('excel');
 	echo $form->roll->getForm();
 }
-include 'class_add.php';
+// include 'class_add.php';

@@ -3,6 +3,12 @@
 $form = _lib('pea', 'school_attendance_report');
 $form->initSearch();
 
+$form->search->addInput('teacher_id','selecttable');
+$form->search->input->teacher_id->setTitle('Search by teacher');
+$form->search->input->teacher_id->addOption('Select teacher', '');
+$form->search->input->teacher_id->setReferenceTable('school_teacher');
+$form->search->input->teacher_id->setReferenceField('name', 'id');
+
 $form->search->addInput('course_id','selecttable');
 $form->search->input->course_id->setTitle('Search by course');
 $form->search->input->course_id->addOption('Select course', '');
@@ -30,23 +36,32 @@ $form->roll->addInput('id', 'sqlplaintext');
 $form->roll->input->id->setTitle('id');
 $form->roll->input->id->setDisplayColumn(true);
 
-$form->roll->addInput('course', 'selecttable');
-$form->roll->input->course->setTitle('course');
-$form->roll->input->course->setFieldName( 'course_id' );
-$form->roll->input->course->setReferenceTable('school_course');
-$form->roll->input->course->setReferenceField('name','id');
-$form->roll->input->course->setPlaintext(true);
-$form->roll->input->course->setDisplayColumn(true);
-$form->roll->input->course->textTip='';
+$form->roll->addInput('teacher_id', 'selecttable');
+$form->roll->input->teacher_id->setTitle('teacher');
+$form->roll->input->teacher_id->setFieldName( 'teacher_id' );
+$form->roll->input->teacher_id->setReferenceTable('school_teacher');
+$form->roll->input->teacher_id->setReferenceField('name','id');
+$form->roll->input->teacher_id->setPlaintext(true);
+$form->roll->input->teacher_id->setDisplayColumn(true);
+$form->roll->input->teacher_id->textTip='';
 
-$form->roll->addInput('class', 'selecttable');
-$form->roll->input->class->setTitle('class');
-$form->roll->input->class->setFieldName( 'class_id' );
-$form->roll->input->class->setReferenceTable('school_class');
-$form->roll->input->class->setReferenceField('CONCAT_WS(" ",grade,major,label)','id');
-$form->roll->input->class->setPlaintext(true);
-$form->roll->input->class->setDisplayColumn(true);
-$form->roll->input->class->textTip='';
+$form->roll->addInput('course_id', 'selecttable');
+$form->roll->input->course_id->setTitle('course');
+$form->roll->input->course_id->setFieldName( 'course_id' );
+$form->roll->input->course_id->setReferenceTable('school_course');
+$form->roll->input->course_id->setReferenceField('name','id');
+$form->roll->input->course_id->setPlaintext(true);
+$form->roll->input->course_id->setDisplayColumn(true);
+$form->roll->input->course_id->textTip='';
+
+$form->roll->addInput('class_id', 'selecttable');
+$form->roll->input->class_id->setTitle('class');
+$form->roll->input->class_id->setFieldName( 'class_id' );
+$form->roll->input->class_id->setReferenceTable('school_class');
+$form->roll->input->class_id->setReferenceField('CONCAT_WS(" ",grade,major,label)','id');
+$form->roll->input->class_id->setPlaintext(true);
+$form->roll->input->class_id->setDisplayColumn(true);
+$form->roll->input->class_id->textTip='';
 
 $form->roll->addInput('status', 'sqlplaintext');
 $form->roll->input->status->setTitle('Status');

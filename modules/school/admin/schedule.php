@@ -48,6 +48,12 @@ if ($show_list)
 	$form = _lib('pea', 'school_schedule');
 	$form->initSearch();
 
+	?>
+	<a href="<?php echo site_url('school/schedule_add')?>">
+	  <button type="button" class="btn btn-info" style="margin: 0px 0px 20px 10px ">Tambahkan Jadwal</button>
+	</a>
+	<?php
+
 	$days = school_schedule_day();
 
 	$form->search->addInput('keyword','keyword');
@@ -59,7 +65,7 @@ if ($show_list)
 
 	$form->initRoll($add_sql.' ORDER BY day ASC', 'id' );
 
-	$form->roll->setSaveTool(true);
+	$form->roll->setSaveTool(false);
 
 	$form->roll->addInput('id', 'sqlplaintext');
 	$form->roll->input->id->setDisplayColumn(true);
@@ -119,4 +125,4 @@ if ($show_list)
 	echo $form->roll->getForm();
 }
 
-include 'schedule_add.php';
+// include 'schedule_add.php';

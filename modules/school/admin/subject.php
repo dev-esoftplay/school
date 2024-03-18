@@ -47,6 +47,12 @@ if ($show_list)
 	$form = _lib('pea', 'school_teacher_subject');
 	$form->initSearch();
 
+	?>
+	<a href="<?php echo site_url('school/subject_add')?>">
+	  <button type="button" class="btn btn-info" style="margin: 0px 0px 20px 10px ">Tambahkan Subject</button>
+	</a>
+	<?php
+	
 	$form->search->addInput('keyword','keyword');
 	$form->search->input->keyword->addSearchField('keyword,day,clock_start,clock_end');
 
@@ -97,4 +103,3 @@ if ($show_list)
 	echo $form->roll->getForm();
 }
 
-include 'subject_add.php';

@@ -1,88 +1,89 @@
-<?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');
+<?php  if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
 if (isset($_POST['submit'])) {
-	$msg = '';
-	if (!empty($_FILES['file'])) {
-		$output = _lib('excel')->read($_FILES['file']['tmp_name'])->sheet(1)->fetch();
+	$msg = [];
+	if (!empty($_FILES['file']) && ($_POST['submit'] == 'submit_excel')) {
+	  $output = _lib('excel')->read($_FILES['file']['tmp_name'])->sheet(1)->fetch();
 		unset($output[1]);
 
-		foreach ($output as $key => $value) {
-			if (isset($value['B']) &&  isset($value['C'])) {
+	  foreach ($output as $key => $value) {
+			if ( isset($value['B']) &&  isset($value['C']) &&  isset($value['D'])) {
 
-				$teacher_id = $db->getOne("SELECT `id` FROM `school_teacher` WHERE `name` = '" . $value['C'] . "'");
-				if (!$teacher_id) {
-	        $msg = msg('guru yang kamu masukan belum ada pada data guru, tambahakan data di task guru terlebih dahulu');
+		    $course_id = $db->getOne("SELECT `id` FROM `school_course` WHERE `name` = '" . $value['B'] . "' ");
+		    $teacher_id = $db->getOne("SELECT `id` FROM `school_teacher` WHERE `name` = '" . $value['C'] . "'");
+
+		    if ($value['D']) {
+				  $class_parse = explode(" ", $value['D']);
+		      if (count($class_parse) !== 3) {
+		        $msg[] = msg('Invalid class name format ex. 10 RPL 1' , 'warning');
+		      }
+
+	        $grade = $class_parse[0];
+	        if (!is_numeric($grade)) {
+	          $msg[] = msg('Grade must be an integer');
+	        } else {
+	          $major = $class_parse[1];
+	          $label = $class_parse[2];
+
+	          $class_id = $db->getOne("SELECT `id` FROM `school_class` WHERE `grade` = $grade AND `label` = '$label' AND `major` = '$major'");
+	        }
+				}
+
+				$msg_field = [];
+	      if (!$teacher_id) {
+	        $msg_field[] = 'teacher';
+	      }
+	      if (!$class_id) {
+	        $msg_field[] = 'class';
+	      }
+	      if (!empty($msg_field)) {
+	      	$fields = implode(', ',$msg_field);
+	      	$msg = msg($fields .'. yang kamu masukan belum ada pada data manapun, tambahakan data di task '. $fields); 	
 	      }
 
-				if (isset($teacher_id)) {
-			    if ($value['B']) {
-					  $class_parse = explode(" ", $value['B']);
-			      if (count($class_parse) !== 3) {
-			        $msg[] = msg('Invalid class name format ex. 10 RPL 1 ex. 10 RPL 1' , 'warning');
-			      }
+		    if (!$course_id) {
+	        $course_id = $db->Insert('school_course', array(
+            'name' => $value['B']
+	        ));
+	        $msg =  msg('Nama course berhasil ditambahkan', 'success');
+		    } else {
+					$course_id  = $db->getOne("SELECT `id` FROM `school_course` WHERE `name` = '" . $value['B'] . "'");
+		    }
 
-		        $grade = $class_parse[0];
-		        if (!is_numeric($grade)) {
-		          $msg[] = msg('Grade must be an integer');
-		        } else {
-		          $major = $class_parse[1];
-		          $label = $class_parse[2];
-
-		          $class_teacher = $db->getrow("SELECT `id`  FROM `school_class` WHERE `teacher_id`='$teacher_id'");
-							$class_id      = $db->getrow("SELECT `id`  FROM `school_class` WHERE `grade` = $grade AND `label` = '$label' AND `major` = '$major' AND `teacher_id` = $teacher_id");
-
-							if ($class_id) {
-								$msg = msg('Data Class sudah ada di database');
-							}
-							if (!$class_id && !$class_teacher) {
-								$class_id = $db->Insert('school_class', array(
-									'teacher_id' => $teacher_id,
-									'grade'      => $grade,
-									'label'      => $label,
-									'major'      => $major,
-								));
-								$msg = msg('Data berhasil ditambah','success');
-							}
-							// else {
-							// 	$msg = msg('Data sudah ada di database');
-							// }
-		        }
-					}
-				}
+				if (isset($teacher_id) && isset($course_id) && isset($class_id)) {
+	        $is_exists = $db->getrow("SELECT `id` FROM `school_teacher_subject` WHERE `teacher_id` = '$teacher_id' AND `course_id` = '$course_id' AND `class_id` = '$class_id'");
+	        if ($is_exists) {
+	          $msg = msg('Data sudah ada di database');
+	        }
+	        if (!$is_exists) {
+	          $subject_id = $db->Insert('school_teacher_subject', array(
+	            'teacher_id' => $teacher_id,
+	            'course_id'  => $course_id,
+	            'class_id'   => $class_id,
+	          ));
+	          $msg = msg('Data Subject berhasil ditambahkan', 'success');
+	        } 
+	        // else {
+	          // $msg = msg('Data sudah ada di database');
+	        // }
+		    }
 			}
-		}
+	  }
 	}
 }
 
 echo '<div class="col-md-6">';
-	$form = _lib('pea', 'school_class');
-
-	$form->initEdit(!empty($_GET['id']) ? 'WHERE id=' . $_GET['id'] : '');
+	$form->initEdit(!empty($_GET['id']) ? 'WHERE id='.$_GET['id'] : '');
 	$form->edit->setSaveTool(true);
 
 	$form->edit->addInput('header', 'header');
-	$form->edit->input->header->setTitle('Add Class');
+	$form->edit->input->header->setTitle('Add Course');
 
-	$form->edit->addInput('grade', 'text');
-	$form->edit->input->grade->setFieldName('grade');
-	$form->edit->input->grade->setRequire();
-
-	$form->edit->addInput('major', 'text');
-	$form->edit->input->major->setFieldName('major');
-	$form->edit->input->major->setRequire();
-
-	$form->edit->addInput('label', 'text');
-	$form->edit->input->label->setFieldName('label');
-	$form->edit->input->label->setRequire();
-
-	$form->edit->addInput('teacher', 'selecttable');
-	$form->edit->input->teacher->setFieldName('teacher_id');
-	$form->edit->input->teacher->setTitle('Add teacher');
-	$form->edit->input->teacher->addOption('Select Teacher', '');
-	$form->edit->input->teacher->setReferenceTable('school_teacher');
-	$form->edit->input->teacher->setReferenceField('name', 'id');
-	$form->edit->input->teacher->setRequire();
-
+	$form->edit->addInput('course', 'text');
+	$form->edit->input->course->setTitle('Mata Pelajaran');
+	$form->edit->input->course->setFieldName( 'name' );
+	$form->edit->input->course->setRequire();
+	
 	echo $form->edit->getForm();
 echo '</div>';
 
@@ -91,7 +92,7 @@ echo '</div>';
 	<form method="POST" role="form" enctype="multipart/form-data" onsubmit="return validate_excel()">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title">Add Class with Excel</h3>
+				<h3 class="panel-title">Add Course with Excel</h3>
 			</div>
 			<div class="panel-body">
 				<?php if (!empty($msg) && ($_POST['submit'] == 'submit_excel')) echo $msg; ?>
@@ -116,8 +117,8 @@ echo '</div>';
 									<button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
 									<button type="submit" class="btn btn-primary" name="submit" value="submit_excel">Submit</button>
 								</div>
-
 							</div>
+
 						</div>
 					</div>
 				</div>
@@ -147,13 +148,13 @@ echo '</div>';
 </div>
 
 <script>
-	function validate_excel() {
-		var fileInput = document.querySelector('input[type="file"]');
-		if (fileInput.files.length === 0) {
-			alert("Masukkan file terlebih dahulu");
-			return false;
-		}
-	}
+  function validate_excel() {
+    var fileInput = document.querySelector('input[type="file"]');
+    if (fileInput.files.length === 0) {
+      alert("Masukkan file terlebih dahulu");
+      return false;
+    }
+  }
 </script>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>

@@ -73,6 +73,8 @@ if (isset($_POST['submit'])) {
 }
 
 echo '<div class="col-md-6">';
+	$form = _lib('pea', 'school_teacher_subject');
+
 	$form->initEdit(!empty($_GET['id']) ? 'WHERE id='.$_GET['id'] : '');
 	$form->edit->setSaveTool(true);
 

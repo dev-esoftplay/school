@@ -33,6 +33,7 @@ foreach ($schedules as $key => $schedule) {
   );
   $student_number = $db->getcol('SELECT `number` FROM `school_student_class` WHERE `class_id` =' . $class_data['id']);
   $student_attend = $db->getcol('SELECT `id` FROM `school_attendance` WHERE `schedule_id` = ' . $schedule['id'] . ' AND DATE(`created`) = CURDATE() AND `presence` = 1');
+  $schedule_count = $db->getcol('SELECT `id` FROM `school_schedule` WHERE `subject_id` IN (' . implode(',', $subject_ids) . ') AND `day` = ' . $schedule['day'] . ' ORDER BY `clock_start` ASC'); 
   $present        = count($student_attend) == count($student_number);
   $days           = api_days($schedule['day']);
   $time_current   = date('H:i:s');
@@ -52,7 +53,26 @@ foreach ($schedules as $key => $schedule) {
       $status = 1; // completed
     }
   }
-  $schedule_subject[$days][] = array(
+  $status_text =[];
+  switch ($status) {
+    case 1:
+      $status_text = 'Jadwal Nihil';
+      break;
+    case 2:
+      $status_text = 'Jadwal Selesai';
+      break;
+    case 3:
+      $status_text = 'Jadwal Terlewat';
+      break;
+    case 4:
+      $status_text = 'Jadwal Berlangsung';
+      break;
+    case 5:
+      $status_text = 'Jadwal Belum Dimulai';
+      break;
+  }
+  $status_info = $status .'|'. $status_text;
+  $schedule_subject[$days][$status_info][] = array(
     'schedule_id'    => $schedule['id'],
     'course'         => $course_data,
     'class'          => $class_data,
@@ -66,27 +86,58 @@ foreach ($schedules as $key => $schedule) {
 if (!$schedules) {
   return api_no("data tidak data"); 
 }
-usort($schedule_subject[$days], function($a, $b) {
-  if ($a['status'] == 4 || $b['status'] == 4) {
-    return $a['status'] == 4 ? -1 : 1;
-  } elseif ($a['status'] == 5 || $b['status'] == 5) {
-    return $a['status'] == 5 ? -1 : 1;
-  } else {
-    return strcmp($a['clock_start'], $b['clock_start']);
-  }
-});
+// usort($schedule_subject[$days][$status_info], function($a, $b) {
+//   $statusOrder = [4, 5, 3, 2, 1];
+//   if ($a['status'] == $b['status']) {
+//     return strcmp($a['clock_start'], $b['clock_start']);
+//   }
+//   $aIndex = array_search($a['status'], $statusOrder);
+//   $bIndex = array_search($b['status'], $statusOrder);
+//   return $aIndex - $bIndex;
+// });
 foreach ($schedule_subject as $day => $schedule_data) {
   $result = array(
     'day'            => $day,
-    'total_schedule' => count($schedule_data),
-    'schedule'       => $schedule_data,
+    'total_schedule' => count($schedule_count),
+    'schedule'       => array(),
   );
-  $last_schedule = end($schedule_data);
-  if ($last_schedule) {
-    $clock          = $last_schedule['clock_start'] . '-'. $last_schedule['clock_end'];
+
+  foreach ($schedule_data as $status_info => $value) {
+    [$status, $status_text] = explode('|',$status_info);
+    $result_status = array(
+      'status'      => (int)$status,
+      'status_text' => $status_text,
+      'data'        => $value
+    );
+    $result['schedule'][] = $result_status;
+  }
+    // $result['total_schedule'] = count($value);
+
+  usort($result['schedule'], function($a, $b) {
+    $statusOrder = [4, 5, 3, 2, 1];
+
+    if ($a['status'] == $b['status']) {
+        return strcmp($a['clock_start'], $b['clock_start']);
+    }
+
+    $aIndex = array_search($a['status'], $statusOrder);
+    $bIndex = array_search($b['status'], $statusOrder);
+
+    return $aIndex - $bIndex;
+  });
+
+
+  $late_schedule = [];
+  foreach ($schedule_data as $schedule) {
+    if ($schedule['status'] === 3) {
+      $late_schedule = $schedule;
+    }
+  }
+  if ($late_schedule) {
+    $clock          = $late_schedule['clock_start'] . '-'. $late_schedule['clock_end'];
     $message        = 'anda lupa absen, di jam ' . $clock;
     $existing_notif = $db->getone('SELECT `id` FROM `bbc_user_push_notif` WHERE `user_id` = ' . $user_id . ' AND `message` = \''.$message .'\' AND DATE(created) = CURDATE()');
-    if ($last_schedule['status'] == 3) {
+    if ($late_schedule['status'] == 3) {
       if (!isset($_SESSION['notif_sent']) && !$existing_notif) {
         _func('alert');
         alert_push(
