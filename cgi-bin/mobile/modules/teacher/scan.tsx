@@ -9,6 +9,7 @@ import useSafeState from 'esoftplay/state';
 import { Camera } from 'expo-camera';
 import React, { useEffect, useRef } from 'react';
 import { Pressable, Text, View } from 'react-native';
+import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
 
 export interface TeacherScanArgs {}
 export interface TeacherScanProps {}
@@ -16,12 +17,12 @@ export interface TeacherScanProps {}
 export default function m(): any {
  let isScanned = useRef<boolean>(false);
   const [hasPermission, setHasPermission] = useSafeState();
-  let [, setResult] = useSafeState<any>(null);
+  let [result, setResult] = useSafeState<any>(null);
   const [ApiResponse, setResApi] = useSafeState<any>();
   useEffect(() => {
     new LibCurl('teacher_schedule', null,
     (result) => {
-      // console.log('Jadwal Result:', result);
+       console.log('Jadwal Result:', result);
       // console.log("msg", msg)
       setResApi(result)
      
@@ -43,54 +44,30 @@ export default function m(): any {
   if (hasPermission === null) {
     return <View> <Text>hasPermission is null</Text></View>;
   }
-  let schedule_id = ApiResponse?.schedule[0]?.schedule_id;
-  let class_id = ApiResponse?.schedule[0]?.class.id;
-  let course_id = ApiResponse?.schedule[0]?.course.id;
+  let schedule_id = ApiResponse?.schedule[0]?.data[0].schedule_id;
+  let class_id = ApiResponse?.schedule[0]?.data[0].class.id;
+  let course_id = ApiResponse?.schedule[0]?.data[0].course.id;
   function onBarCodeScanned({ data }: any): void {
     setResult(data);
-    // console.log( ApiResponse?.schedule[0]?.schedule_id,)
+    // console.log( ApiResponse?.schedule[0]?.data[0].schedule_id,)
     
     if (data == 'http://api.test.school.esoftplay.com/student_class?class_id='+class_id) {
       // console.log('http://api.test.school.esoftplay.com/student_class?class_id='+class_id);
-      // console.log('data :', data);
+       console.log('data :', data);
       // console.log('data is string');
-      LibNavigation.navigate('teacher/scanattandence' ,{ data: data , schedule_id: schedule_id, class_id: class_id, course_id: course_id});
+      LibNavigation.navigate('teacher/scanattandence' ,{ url: data , schedule_id: schedule_id, class_id: class_id, course_id: course_id});
     }{
-    
-      // console.log('data is not string');
+     
     }
-    // switch (data) {
-    //   case 'kelas 8A':
-    //     LibNavigation.navigate('teacher/attandence', { data: data });
-    //     break;
-    //   case 'kelas 8B':
-    //     LibNavigation.navigate('teacher/attandence', { data: data });
-    //     break;
-    //   case 'kelas 8C':
-    //     LibNavigation.navigate('teacher/attandence', { data: data });
-    //     break;
-    //   case 'kelas 8D':
-    //     LibNavigation.navigate('teacher/attandence', { data: data });
-    //     break;
-    //   case 'kelas 8E':
-    //     LibNavigation.navigate('teacher/attandence', { data: data });
-    //     break;
-    //   default:
-    //     break;
-    // }
-    // if (data === 'kelas 8A') {
-    //   LibNavigation.navigate('teacher/attandence', { data: data });
-    // }
-    // else if (data === 'kelas 8B') {
     
-    // }
   }
 
 
   // Fungsi untuk memulai pemindaian ulang
   const startScanningAgain = () => {
     isScanned.current = false; // Reset status pemindaian
-    
+    console.log('startScanningAgain');
+    isScanned.current= true;
     setResult(null); // Reset hasil pemindaian
   };
 
@@ -108,7 +85,7 @@ export default function m(): any {
             
               <View style={{ flex: 1, backgroundColor: 'transparent', justifyContent: 'center', alignItems: 'center', borderRadius: 15 }}>
                 {/* {result} {cekscan} */}
-                <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold', marginBottom: 20 }}>Scan QR Code </Text>
+                <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold', marginBottom: 20 }}>Scan QR Code  </Text>
                 <View style={{ width: LibStyle.width * 0.8, height: LibStyle.width * 0.8, borderWidth: 1, borderColor: '#ffffff', borderRadius: 15 }} />
               </View>
               {/* Tombol "Scan Ulang" */}

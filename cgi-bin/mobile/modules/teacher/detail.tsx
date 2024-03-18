@@ -15,6 +15,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import SchoolColors from '../utils/schoolcolor';
 import { LibPicture } from 'esoftplay/cache/lib/picture/import';
+import moment from 'esoftplay/moment';
 
 export interface TeacherDetailArgs {
 
@@ -178,19 +179,20 @@ function m(props: TeacherDetailProps): any {
                             style={{ flex: 1 }}
                             onChangeText={(text) => setUsername(text)}
                         />
-                        <MaterialIcons name='edit' size={20} color={school.primary} style={{ alignContent: 'flex-end' }} />
+                       
 
                     </View>
 
 
                     <Text style={{ color: '#000000', fontSize: 15, fontWeight: 'bold', marginBottom: 10, marginTop: 15, alignContent: 'flex-start', textAlign: 'left' }}>NIP Pengajar</Text>
-                    <View style={{ width: '100%', height: 60, justifyContent: 'center', padding: 5, paddingHorizontal: 10, borderRadius: 8, elevation: 3, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 1, height: 1 }, shadowOpacity: 0.3, shadowRadius: 2 }}>
-                        <Text style={{ alignContent: 'flex-start', textAlign: 'left', color: '#898989' }}>{resApi?.nip ?? 'name'}</Text>
+                    
+                    <View style={{ width: '100%', height: 60, justifyContent: 'center', padding: 5, paddingHorizontal: 10, borderRadius: 8, backgroundColor: '#cecece8c', }}>
+                        <Text style={{ alignContent: 'flex-start', textAlign: 'left', }}>{resApi?.nip ?? 'nip'}</Text>
                     </View>
 
                     <Text style={{ color: '#000000', fontSize: 15, fontWeight: 'bold', marginBottom: 10, marginTop: 15, alignContent: 'flex-start', textAlign: 'left' }}>Tanggal Lahir</Text>
-                    <View style={{ width: '100%', height: 60, justifyContent: 'center', padding: 5, paddingHorizontal: 10, borderRadius: 8, elevation: 3, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 1, height: 1 }, shadowOpacity: 0.3, shadowRadius: 2 }}>
-                        <Text style={{ alignContent: 'flex-start', textAlign: 'left', color: '#898989' }}>{resApi?.birthday}</Text>
+                    <View style={{ width: '100%', height: 60, justifyContent: 'center', padding: 5, paddingHorizontal: 10, borderRadius: 8,  backgroundColor: '#cecece8c',  }}>
+                        <Text style={{ alignContent: 'flex-start', textAlign: 'left', color: '#000000' }}>{moment(resApi?.birthday ).format('dddd, DD MMMM YYYY')}</Text>
                     </View>
 
                     <Text style={{ color: '#000000', fontSize: 15, fontWeight: 'bold', marginBottom: 10, marginTop: 15, alignContent: 'flex-start', textAlign: 'left' }}>Nomor Telepon</Text>
@@ -203,11 +205,11 @@ function m(props: TeacherDetailProps): any {
                             style={{ flex: 1 }}
                             onChangeText={(text) => setPhone(text)}
                         />
-                        <MaterialIcons name='edit' size={20} color={school.primary} style={{ alignContent: 'flex-end' }} />
+                       
 
                     </View>
 
-                    <Pressable onPress={() => updateData()} style={{ width: '100%', height: 60, justifyContent: 'center', padding: 5, paddingHorizontal: 10, borderRadius: 8, elevation: 3, backgroundColor: '#107ac0', shadowColor: '#000', shadowOffset: { width: 1, height: 1 }, shadowOpacity: 0.3, shadowRadius: 2, marginTop: 15 }}>
+                    <Pressable onPress={() =>  LibDialog.confirm(' ','Apakah anda yakin untuk mengubah data?','ya',()=>updateData(),'tidak',()=>{})} style={{ width: '100%', height: 60, justifyContent: 'center', padding: 5, paddingHorizontal: 10, borderRadius: 8, elevation: 3, backgroundColor: '#107ac0', shadowColor: '#000', shadowOffset: { width: 1, height: 1 }, shadowOpacity: 0.3, shadowRadius: 2, marginTop: 15 }}>
                         <Text style={{ alignContent: 'flex-start', textAlign: 'center', color: '#ffffff' }}>Update Data</Text>
                     </Pressable>
                 </View>

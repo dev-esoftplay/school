@@ -60,7 +60,7 @@ export default function m(props: TeacherMyClassProps): any {
       // Mendapatkan nilai antara 0 (Minggu) hingga 6 (Sabtu)
 
      
-      const [selectedDay, setSelectedDay] = useSafeState(allDays[today.getDay()]);
+      const [selectedDay, setSelectedDay] = useSafeState(allDays[today.getDay()-1]);
 
       const renderScheduleItem = ({ item }: { item: any }) => (
         console.log('item', item),
@@ -71,7 +71,7 @@ export default function m(props: TeacherMyClassProps): any {
             keyExtractor={(scheduleItem: any) => scheduleItem.schedule_id}
             renderItem={({ item: schedule }: { item: any }) => (
               console.log('schedule', schedule),
-              <View key={schedule.schedule_id} style={{ flexDirection: 'row', backgroundColor: '#e7e7e7', borderRadius: 10, marginBottom: 10, height: 100, ...shadowS(6) }}>
+              <View key={schedule.schedule_id} style={{ flexDirection: 'row', backgroundColor: '#e7e7e7', borderRadius: 10, marginBottom: 10, height: 100}}>
                 {/* You can customize this part according to your schedule data */}
                 <View style={{ marginRight: 10, width: 20, backgroundColor: school.primary, borderBottomLeftRadius: 10, borderTopLeftRadius: 10 }} >
 
@@ -173,7 +173,7 @@ export default function m(props: TeacherMyClassProps): any {
 
 
           <View style={{ flexDirection: 'row', backgroundColor: 'white', alignItems: 'center', justifyContent: 'space-between', marginTop: 20 }}>
-            <Text style={{ fontSize: 30, fontWeight: 'bold', color: 'black' }}>{resApi2?.class_name ?? 'class_name'}</Text>
+            <Text style={{ fontSize: 30, fontWeight: 'bold', color: 'black' }}> Kelasku {resApi2?.class_name }</Text>
             {/* <Pressable onPress={() => schaduleData()} style={{ alignSelf: 'center', borderRadius: 10, backgroundColor: '#dfdfdf', opacity: 0.8, padding: 5 }}>
               <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#ff0000' }}>SoeHarto</Text>
             </Pressable> */}

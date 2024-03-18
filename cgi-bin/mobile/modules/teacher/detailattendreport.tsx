@@ -75,9 +75,9 @@ export default function m(props: DetailAttendReportProps): any {
                 </View>
 
                 <View style={{ height: 30, }} />
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                  <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item.clock_start}</Text>
-                  <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item.clock_end}</Text>
+                <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+                  <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item.clock_start}-{item.clock_end}</Text>
+             
                 </View>
               </View>
 

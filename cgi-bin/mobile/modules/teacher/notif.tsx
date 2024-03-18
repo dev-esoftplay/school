@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import React from 'react';
 import { Text, View } from 'react-native';
 import SchoolColors from '../utils/schoolcolor';
+import moment from 'esoftplay/moment';
 
 
 export interface TeacherNotifArgs {
@@ -23,6 +24,11 @@ function m(props: TeacherNotifProps): any {
 
 
 
+
+  const formattedDate = moment('2024-03-13 08:52:12').format('dddd, DD MMMM YYYY HH:mm:');
+  
+  console.log(formattedDate); // Output: Rabu, 13 Maret 2024 08:52:12
+  
 
   useEffect(() => {
 
@@ -61,13 +67,13 @@ function m(props: TeacherNotifProps): any {
                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                <Text style={{ fontSize: 16, fontWeight: 'bold', marginBottom: 10 }}>{item?.title ?? 'tittle'}</Text>
              
-               <LibIcon.Ionicons name="notifications" size={20} color={school.primary} />
+               
                 </View>
 
                 <Text style={{ fontSize: 14, fontWeight: '600' }}>{item?.message}</Text>
               </View>
 
-              <Text style={{ fontSize: 12, color: 'gray' }}>{item?.updated}</Text>
+              <Text style={{ fontSize: 12, color: 'gray' }}>{moment(item?.updated).format('dddd, DD MMMM YYYY HH:mm')}</Text>
 
             </View>
           )
