@@ -186,52 +186,87 @@ echo '</div>';
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 
 <script>
-	document.getElementById('fileInput').addEventListener('change', function(e) {
-		var file = e.target.files[0];
+  var expectedHeaders = ['No', 'Course', 'Teacher', 'Class'];
+  document.getElementById('fileInput').addEventListener('change', function(e) {
+    var file = e.target.files[0];
 
-		if (file) {
-			var reader = new FileReader();
+    if (file) {
+      var reader = new FileReader();
 
-			reader.onload = function(e) {
-				var data = new Uint8Array(e.target.result);
-				var workbook = XLSX.read(data, {
-					type: 'array'
-				});
+      reader.onload = function(e) {
+        var data = new Uint8Array(e.target.result);
+        var workbook = XLSX.read(data, {
+          type: 'array'
+        });
 
-				// Ambil data dari sheet pertama
-				var sheetName = workbook.SheetNames[0];
-				var sheet = workbook.Sheets[sheetName];
+        // Ambil data dari sheet pertama
+        var sheetName = workbook.SheetNames[0];
+        var sheet = workbook.Sheets[sheetName];
+        var headers = getHeaders(sheet);
 
-				// Convert data sheet ke array of objects
-				var jsonData = XLSX.utils.sheet_to_json(sheet);
+        var isHeaderValid = checkHeaderValidity(headers);
 
-				// Tampilin preview dalam bentuk tabel di div dengan id 'preview'
-				var html = '<div class="table-responsive"><table class="table table-bordered"><thead><tr>';
+        console.log(headers);
 
-				// Ambil nama kolom
-				var columns = Object.keys(jsonData[0]);
-				columns.forEach(function(column) {
-					html += '<th>' + column + '</th>';
-				});
+        if (isHeaderValid) {
 
-				html += '</tr></thead><tbody>';
+          // Convert data sheet ke array of objects
+          var jsonData = XLSX.utils.sheet_to_json(sheet);
+          console.log(jsonData);
 
-				// Isi data ke dalam tabel
-				jsonData.forEach(function(row) {
-					html += '<tr>';
-					columns.forEach(function(column) {
-						html += '<td>' + row[column] + '</td>';
-					});
-					html += '</tr>';
-				});
+          // Tampilin preview dalam bentuk tabel di div dengan id 'preview'
+          var html = '<div class="table-responsive"><table class="table table-bordered"><thead><tr>';
 
-				html += '</tbody></table>';
+          // Ambil nama kolom
+          var columns = Object.keys(jsonData[0]);
+          columns.forEach(function(column) {
+            html += '<th>' + column + '</th>';
+          });
 
-				// Tampilin tabel di div dengan id 'preview' dengan tambahan border
-				document.getElementById('preview').innerHTML = html;
-			};
+          html += '</tr></thead><tbody>';
 
-			reader.readAsArrayBuffer(file);
-		}
-	});
+          // Isi data ke dalam tabel
+          jsonData.forEach(function(row) {
+            html += '<tr>';
+            columns.forEach(function(column) {
+              html += '<td>' + row[column] + '</td>';
+            });
+            html += '</tr>';
+          });
+
+          html += '</tbody></table>';
+          // Tampilin tabel di div dengan id 'preview' dengan tambahan border
+          document.getElementById('preview').innerHTML = html;
+        } else {
+          document.getElementById('preview').innerHTML = '<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" title="ok sign"></span> Maaf, format excel yang anda upload tidak sesuai, Silahkan donwload template yang sudah di sediakan.</div>';
+        }
+      };
+
+      reader.readAsArrayBuffer(file);
+
+      function getHeaders(sheet) {
+        var headers = [];
+        var range = XLSX.utils.decode_range(sheet['!ref']);
+        var C;
+
+        for (C = range.s.c; C <= range.e.c; ++C) {
+          var cell = sheet[XLSX.utils.encode_cell({
+            r: range.s.r,
+            c: C
+          })];
+          var header = cell.v;
+          headers.push(header.toLowerCase()); // Mengonversi header ke huruf kecil
+        }
+
+        return headers;
+      }
+
+      function checkHeaderValidity(headers) {
+        return expectedHeaders.every(function(header) {
+          return headers.includes(header.toLowerCase());
+        });
+      }
+
+    }
+  });
 </script>
