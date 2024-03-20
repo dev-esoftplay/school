@@ -292,8 +292,10 @@ $days         = school_schedule_day();
 								<h4 class="modal-title">Preview Excel</h4>
 							</div>
 							<div class="modal-body">
-								<label for="fileInput">Pilih File</label>
-								<input id="fileInput" name="file" type="file">
+								<div class="mb-3">
+									<label for="formFile" class="form-label">Pilih file</label>
+									<input type="file" class="form-control" id="fileInput" name="file">
+								</div>
 								<div id="preview">
 								</div>
 								<div class="modal-footer">

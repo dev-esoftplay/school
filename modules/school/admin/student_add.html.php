@@ -121,55 +121,57 @@
     </div>
   </form>
   <!-- import data with Excel -->
- <div class="col-md-4">
-  <form method="POST" role="form" enctype="multipart/form-data" onsubmit="return validateForm()">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Add Student with Excel</h3>
-      </div>
-      <div class="panel-body">
-        <?php 
+  <div class="col-md-4">
+    <form method="POST" role="form" enctype="multipart/form-data" onsubmit="return validateForm()">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Add Student with Excel</h3>
+        </div>
+        <div class="panel-body">
+          <?php
           foreach ($fields as $key => $fieldName) {
             $label = ucwords(str_replace('_', ' ', $fieldName));
             echo '<div class="form-group">';
             // echo '<label for="">' . 'Field ' . $label . '</label>';
-            echo '<input type="hidden" name="' . $fieldName . '" class="form-control input-file" id="" placeholder="Input field" value="'. $key .'">';
+            echo '<input type="hidden" name="' . $fieldName . '" class="form-control input-file" id="" placeholder="Input field" value="' . $key . '">';
             echo '</div>';
           }
-         ?>
-        <div class="help-block">
-          Upload File Excel
-        </div>
-        <div class="modal" id="preview-excel" style="background-color: white;">
-          <div class="modal-dialog" style="max-width: 1000px; width: 100%;">
-            <div class="modal-content">
+          ?>
+          <div class="help-block">
+            Upload File Excel
+          </div>
+          <div class="modal" id="preview-excel" style="background-color: white;">
+            <div class="modal-dialog" style="max-width: 1000px; width: 100%;">
+              <div class="modal-content">
 
-              <div class="modal-header">
-                <h4 class="modal-title">Preview Excel</h4>
-              </div>
-
-              <div class="modal-body">
-                <label for="fileInput">Pilih File</label>
-                <input id="fileInput" name="file" type="file">
-                <div id="preview">
+                <div class="modal-header">
+                  <h4 class="modal-title">Preview Excel</h4>
                 </div>
 
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                  <button type="submit" class="btn btn-primary" name="import_excel" value="submit">Submit</button>
-                </div>
+                <div class="modal-body">
+                  <div class="mb-3">
+                    <label for="formFile" class="form-label">Pilih file</label>
+                    <input type="file" class="form-control" id="fileInput" name="file">
+                  </div>
+                  <div id="preview">
+                  </div>
 
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    <button type="submit" class="btn btn-primary" name="import_excel" value="submit">Submit</button>
+                  </div>
+
+                </div>
               </div>
             </div>
           </div>
         </div>
+        <div class="panel-footer">
+          <button type="button" class="btn btn-default" data-toggle="modal" data-target="#preview-excel">Pilih FIle</button>
+        </div>
       </div>
-      <div class="panel-footer">
-        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#preview-excel">Pilih FIle</button>
-      </div>
-    </div>
-  </form>
-</div>
+    </form>
+  </div>
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -178,12 +180,10 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
   <script>
-    $(document).ready(function()
-    {
+    $(document).ready(function() {
       $(".error-span").show();
       $(".success-span").show();
-      $("input[name='MyRadio']").on('change', function() 
-      {
+      $("input[name='MyRadio']").on('change', function() {
         let value = $("input[name='MyRadio']:checked").val();
 
         // Clear the required attribute for all fields
@@ -223,8 +223,8 @@
         $(this).val(uppercaseValue);
       });
 
-      setTimeout(function () {
-          $("#error-span").hide();
+      setTimeout(function() {
+        $("#error-span").hide();
       }, 10000);
     });
 

@@ -62,7 +62,7 @@
           <!-- <label for="">Field Tanggal Lahir</label> -->
           <input type="hidden" name="birthday" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['birthday'] ?>">
         </div>
-         <div class="help-block">
+        <div class="help-block">
           Upload File Excel
         </div>
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#preview-excel">Pilih FIle</button>
@@ -76,8 +76,10 @@
               </div>
 
               <div class="modal-body">
-                <label for="fileInput">Pilih File</label>
-                <input id="fileInput" name="file" type="file">
+                <div class="mb-3">
+                  <label for="formFile" class="form-label">Pilih file</label>
+                  <input type="file" class="form-control" id="fileInput" name="file">
+                </div>
                 <div id="preview">
                 </div>
 
@@ -118,6 +120,7 @@
 
         // Convert data sheet ke array of objects
         var jsonData = XLSX.utils.sheet_to_json(sheet);
+        console.log(jsonData)
 
         // Tampilin preview dalam bentuk tabel di div dengan id 'preview'
         var html = '<div class="table-responsive"><table class="table table-bordered"><thead><tr>';
