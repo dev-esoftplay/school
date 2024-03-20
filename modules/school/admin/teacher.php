@@ -25,12 +25,12 @@ if (!empty($_POST['template']))
 	{
 		$r = array(
 			array(
-				'No'       => '',
-				'Name'     => '',
-				'NIP'      => '',
-				'Phone'    => '',
-				'Position' => '',
-				'Birthday' => '',
+				'No'       	   => '',
+				'Nama'     	   => '',
+				'NIP'      	   => '',
+				'No HP' 	   => '',
+				'Posisi'   	   => '',
+				'Taggal lahir' => '',
 			)
 		);
 		if (!empty($r))
