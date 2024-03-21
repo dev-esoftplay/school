@@ -1,4 +1,5 @@
 // withHooks
+import { memo } from 'react';
 
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibLazy } from 'esoftplay/cache/lib/lazy/import';
@@ -10,11 +11,12 @@ import { Camera } from 'expo-camera';
 import React, { useEffect, useRef } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
+import esp from 'esoftplay/esp';
 
 export interface TeacherScanArgs {}
 export interface TeacherScanProps {}
 
-export default function m(): any {
+function m(): any {
  let isScanned = useRef<boolean>(false);
   const [hasPermission, setHasPermission] = useSafeState();
   let [result, setResult] = useSafeState<any>(null);
@@ -56,8 +58,9 @@ export default function m(): any {
        console.log('data :', data);
       // console.log('data is string');
       LibNavigation.navigate('teacher/scanattandence' ,{ url: data , schedule_id: schedule_id, class_id: class_id, course_id: course_id});
-    }{
-     
+    }else{
+      esp.log(esp.logColor.red, 'QR Code tidak valid',result);
+     LibDialog.warning('QR Code tidak valid',"Anda tidak mengajar kelas ini pada jam ini");
     }
     
   }
@@ -105,3 +108,5 @@ export default function m(): any {
     </View>
   );
 }
+
+export default memo(m);

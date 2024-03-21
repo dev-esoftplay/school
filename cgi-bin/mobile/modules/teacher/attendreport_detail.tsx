@@ -1,4 +1,5 @@
 // withHooks
+import { memo, useEffect } from 'react';
 
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import { LibList } from 'esoftplay/cache/lib/list/import';
@@ -6,6 +7,8 @@ import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
+import { LibCurl } from 'esoftplay/cache/lib/curl/import';
+import useSafeState from 'esoftplay/state';
 
 
 export interface AttendReport_detailArgs {
@@ -14,10 +17,26 @@ export interface AttendReport_detailArgs {
 export interface AttendReport_detailProps {
 
 }
-export default function m(props: AttendReport_detailProps): any {
-    const data_schadule: [] = LibNavigation.getArgsAll(props).data;
+function m(props: AttendReport_detailProps): any {
+  
     const dates: string = LibNavigation.getArgsAll(props).date;
+    const endpoints: string = LibNavigation.getArgsAll(props).endpoints;
     const unfinished_schadule = LibNavigation.getArgsAll(props).unfinishedSchadule;
+    const [resApi, setResApi] = useSafeState<any>([])
+    useEffect(() => {
+        console.log('Attendance Report')
+        // http://api.test.school.esoftplay.com/teacher_schedule_report?month=2&week=3
+        console.log(endpoints)
+        new LibCurl(endpoints , null, (result) => {
+          console.log('result', result)
+          setResApi(result)
+        }, (err) => {
+          setResApi(resApi.schedule_days = [])
+          console.log('err', err)
+        })
+      }, [])
+   
+   
     function shadows(value: number) {
         return {
             elevation: 3, // For Android
@@ -32,7 +51,7 @@ export default function m(props: AttendReport_detailProps): any {
         <View style={{ flex: 1, marginTop: LibStyle.STATUSBAR_HEIGHT }}>
 
 
-            <LibList data={data_schadule} // Use the converted array
+            <LibList data={resApi} // Use the converted array
                 keyExtractor={(item, index) => index.toString()}
                 style={{paddingHorizontal:10, }}
                 ListHeaderComponent={() => {
@@ -76,7 +95,7 @@ export default function m(props: AttendReport_detailProps): any {
                                     </View>
                                 </View>
                                 <View style={{ height: 40,  borderRadius: 8, justifyContent: 'flex-start', alignItems: 'center', flexDirection:'row' }}>
-                                   <View style={{ padding:5, borderRadius: 8, backgroundColor:'gray', justifyContent: 'center', alignItems: 'center', }}>
+                                   <View style={{ padding:5, justifyContent: 'center', alignItems: 'center', }}>
                                     <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'white' }}>{item?.course?.name}</Text>
                                     </View>
                                 </View>
@@ -96,3 +115,4 @@ export default function m(props: AttendReport_detailProps): any {
         </View>
     )
 }
+export default memo(m);

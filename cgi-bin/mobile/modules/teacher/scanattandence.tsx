@@ -1,4 +1,5 @@
 // withHooks
+import { memo } from 'react';
 
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
@@ -19,14 +20,14 @@ export interface ScanAttendenceProps {
 }
 
 
-export default function m(props: ScanAttendenceProps): any {
+function m(props: ScanAttendenceProps): any {
     //data from previous screen
     // LibNavigation.navigate('teacher/scanattandence' ,{ data: data , schedule_id: schedule_id, class_id: class_id, course_id: course_id});
     const url: any = LibNavigation.getArgsAll(props).url;
     const schedule_id: any = LibNavigation.getArgsAll(props).schedule_id;
     const class_id: any = LibNavigation.getArgsAll(props).class_id;
     const course_id: any = LibNavigation.getArgsAll(props).course_id;
-    
+
     useEffect(() => {
         console.log("url", url + "&schedule_id=" + schedule_id + "&date=" + date)
         new LibCurl(url + "&schedule_id=" + schedule_id + "&date=" + date, null,
@@ -59,9 +60,9 @@ export default function m(props: ScanAttendenceProps): any {
         }
         console.log("data yang di post", post)
         LibProgress.show('Mengirim data')
-        new LibCurl('student_attendance', post, (result,msg) => {
+        new LibCurl('student_attendance', post, (result, msg) => {
             LibProgress.hide()
-             console.log(msg)
+            console.log(msg)
             LibNavigation.replace('teacher/index')
         }, (err) => {
             LibProgress.hide(),
@@ -92,6 +93,27 @@ export default function m(props: ScanAttendenceProps): any {
     // Utils
     let inputnotess = useRef<LibInput_rectangle2>(null)
     let [mappedData, setMappedData] = useSafeState<any>({});
+    const [actvebutton, setactvebutton] = useSafeState<number>(1);
+
+    function getStatusString(status: number): string {
+        switch (status) {
+          case 1:
+            return 'hadir';
+          case 2:
+            return 'hadir';
+          case 3:
+            return 'sakit';
+          case 4:
+            return 'ijin';
+          case 5:
+            return 'alfa';
+          default:
+            return '';
+        }
+      }
+    const handlePress = (weeknum: number) => {
+        setactvebutton(weeknum === actvebutton ? 0 : weeknum);
+    };
 
     //popup interface
     interface CustomPopupProps {
@@ -107,7 +129,7 @@ export default function m(props: ScanAttendenceProps): any {
         nama: string;
     }
 
-    
+
     //function change status student attandence
     /*  1=hadir,
         2-sakit,
@@ -289,53 +311,61 @@ export default function m(props: ScanAttendenceProps): any {
                             <Text style={{ fontSize: 20 }}>{time}</Text>
                         </View>
 
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 10 }}>
-                            {/* Berangkat */}
-                            <Pressable onPress={() => { setstudentListAttandence(filterPresentStudents) }}>
-                                <View style={{ height: 70, width: 70, alignItems: 'center', backgroundColor: 'green', justifyContent: 'center', borderRadius: 10, padding: 10 }}>
-                                    <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>{numberStudentsPresent ?? '0'}</Text>
-                                    {/* <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>{StudentAttandence?.permission?.total_present ?? '0'}</Text> */}
-                                    <Text style={{ fontSize: 10, fontWeight: 'bold', color: 'white' }} allowFontScaling={true}>Berangkat</Text>
-                                </View>
-                            </Pressable>
-                            {/* Sakit */}
-                            <Pressable onPress={() => { setstudentListAttandence(filterSickStudents) }}>
-                                <View style={{ height: 70, width: 70, alignItems: 'center', backgroundColor: 'orange', justifyContent: 'center', borderRadius: 10, padding: 10 }}>
-                                    {/* <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>{StudentAttandence?.permission?.total_s ?? '0'}</Text> */}
-                                    <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>{numberStudentsSick ?? '0'}</Text>
-                                    <Text style={{ fontSize: 10, fontWeight: 'bold', color: 'white' }} allowFontScaling={true}>Sakit</Text>
-                                </View>
-                            </Pressable>
-                            {/* Izin */}
-                            <Pressable onPress={() => { setstudentListAttandence(filterAbsentStudents) }}>
-                                <View style={{ height: 70, width: 70, alignItems: 'center', backgroundColor: '#0083fd', justifyContent: 'center', borderRadius: 10, padding: 10 }}>
-                                    {/* <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>{StudentAttandence?.permission?.total_i ?? '0'}</Text> */}
-                                    <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>{numberStudentsAbsent ?? '0'}</Text>
-                                    <Text style={{ fontSize: 10, fontWeight: 'bold', color: 'white' }} allowFontScaling={true}>Ijin</Text>
-                                </View>
-                            </Pressable>
-                            {/* Alfa */}
-                            <Pressable onPress={() => { setstudentListAttandence(filterAlphaStudents) }}>
-                                <View style={{ height: 70, width: 70, alignItems: 'center', backgroundColor: '#FF4343', justifyContent: 'center', borderRadius: 10, padding: 10 }}>
-                                    {/* <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>{StudentAttandence?.permission?.total_a ?? '0'}</Text> */}
-                                    <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>{numberStudentsAlpha ?? '0'}</Text>
-                                    <Text style={{ fontSize: 10, fontWeight: 'bold', color: 'white' }} allowFontScaling={true}>Alfa</Text>
-                                </View>
-                            </Pressable>
+                        <View style={{ flexDirection: 'row', marginTop: 10, height: 80, justifyContent: 'center', flex: 1, alignItems: 'center' }}>
                             {/* All student */}
-                            <Pressable onPress={() => { setstudentListAttandence(StudentAttandence?.student_list ?? []) }}>
-                                <View style={{ height: 70, width: 70, alignItems: 'center', backgroundColor: '#348121', justifyContent: 'center', borderRadius: 10, padding: 10 }}>
+                            <View style={{ height: 70, flex: 1, alignItems: 'center', backgroundColor: 1 == actvebutton ? '#348121' : 'white', justifyContent: 'center', borderRadius: 10, marginHorizontal: 1, borderWidth: 2, borderColor: 1 == actvebutton ? 'white' : "#348121" }}>
+                                <Pressable onPress={() => { setstudentListAttandence(StudentAttandence?.student_list ?? []), handlePress(1) }} style={{ alignItems: 'center', padding: 5, }}>
                                     {/* <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>{StudentAttandence?.permission?.total_a ?? '0'}</Text> */}
-                                    <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>{StudentAttandence?.student_count ?? '0'}</Text>
-                                    <Text style={{ fontSize: 10, fontWeight: 'bold', color: 'white' }} allowFontScaling={true}>Semua Siswa</Text>
-                                </View>
-                            </Pressable>
-
+                                    <Text style={{ fontSize: 16, fontWeight: 'bold', color: 1 == actvebutton ? 'white' : '#348121' }}>{StudentAttandence?.student_count ?? '0'}</Text>
+                                    <Text style={{ fontSize: 10, fontWeight: 'bold', color: 1 == actvebutton ? 'white' : '#348121' }} allowFontScaling={true}>Semua Siswa</Text>
+                                </Pressable>
+                            </View>
+                            {/* Berangkat */}
+                            <View style={{ height: 70, flex: 1, alignItems: 'center', backgroundColor: 2 == actvebutton ? 'green' : 'white', justifyContent: 'center', borderRadius: 10, marginHorizontal: 1, borderWidth: 2, borderColor: 2 == actvebutton ? 'white' : "green" }}>
+                                <Pressable onPress={() => { setstudentListAttandence(filterPresentStudents), handlePress(2) }} style={{ alignItems: 'center', padding: 5 }}>
+                                    <Text style={{ fontSize: 16, fontWeight: 'bold', color: 2 == actvebutton ? 'white' : 'green' }}>{numberStudentsPresent ?? '0'}</Text>
+                                    {/* <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>{StudentAttandence?.permission?.total_present ?? '0'}</Text> */}
+                                    <Text style={{ fontSize: 10, fontWeight: 'bold', color: 2 == actvebutton ? 'white' : 'green' }} allowFontScaling={true}>Berangkat</Text>
+                                </Pressable>
+                            </View>
+                            {/* Sakit */}
+                            <View style={{ height: 70, flex: 1, alignItems: 'center', backgroundColor: 3 == actvebutton ? 'orange' : 'white', justifyContent: 'center', borderRadius: 10, marginHorizontal: 1, borderWidth: 2, borderColor: 3 == actvebutton ? 'white' : "orange" }}>
+                                <Pressable onPress={() => { setstudentListAttandence(filterSickStudents), handlePress(3) }} style={{ alignItems: 'center', padding: 5 }}>
+                                    {/* <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>{StudentAttandence?.permission?.total_s ?? '0'}</Text> */}
+                                    <Text style={{ fontSize: 16, fontWeight: 'bold', color: 3 == actvebutton ? 'white' : 'orange' }}>{numberStudentsSick ?? '0'}</Text>
+                                    <Text style={{ fontSize: 10, fontWeight: 'bold', color: 3 == actvebutton ? 'white' : 'orange' }} allowFontScaling={true}>Sakit</Text>
+                                </Pressable>
+                            </View>
+                            {/* Izin */}
+                            <View style={{ height: 70, flex: 1, alignItems: 'center', backgroundColor: 4 == actvebutton ? '#0083fd' : 'white', justifyContent: 'center', borderRadius: 10, marginHorizontal: 1, borderWidth: 2, borderColor: 4 == actvebutton ? 'white' : "#0083fd" }}>
+                                <Pressable onPress={() => { setstudentListAttandence(filterAbsentStudents), handlePress(4) }} style={{ alignItems: 'center', padding: 5 }}>
+                                    {/* <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>{StudentAttandence?.permission?.total_i ?? '0'}</Text> */}
+                                    <Text style={{ fontSize: 16, fontWeight: 'bold', color: 4 == actvebutton ? 'white' : '#0083fd' }}>{numberStudentsAbsent ?? '0'}</Text>
+                                    <Text style={{ fontSize: 10, fontWeight: 'bold', color: 4 == actvebutton ? 'white' : '#0083fd' }} allowFontScaling={true}>Ijin</Text>
+                                </Pressable>
+                            </View>
+                            {/* Alfa */}
+                            <View style={{ height: 70, flex: 1, alignItems: 'center', backgroundColor: 5 == actvebutton ? '#FF4343' : 'white', justifyContent: 'center', borderRadius: 10, marginHorizontal: 1, borderWidth: 2, borderColor: 5 == actvebutton ? 'white' : "#FF4343" }}>
+                                <Pressable onPress={() => { setstudentListAttandence(filterAlphaStudents), handlePress(5) }} style={{ alignItems: 'center', padding: 5 }}>
+                                    {/* <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>{StudentAttandence?.permission?.total_a ?? '0'}</Text> */}
+                                    <Text style={{ fontSize: 16, fontWeight: 'bold', color: 5 == actvebutton ? 'white' : '#FF4343' }}>{numberStudentsAlpha ?? '0'}</Text>
+                                    <Text style={{ fontSize: 10, fontWeight: 'bold', color: 5 == actvebutton ? 'white' : '#FF4343' }} allowFontScaling={true}>Alfa</Text>
+                                </Pressable>
+                            </View>
                         </View>
                         {/* seperator */}
                         <View style={{ height: 5, width: 'auto', backgroundColor: 'gray', marginHorizontal: 10, justifyContent: 'center', borderRadius: 5, marginTop: 12 }} />
                     </View>
                 }
+
+                ListEmptyComponent={() => {
+                    return (
+                      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',marginTop:20 }}>
+                        <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Tidak ada data murid yang {getStatusString(actvebutton)}</Text>
+                      </View>
+                    )
+                  }
+                  }
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={
                     ({ item, index }) => {
@@ -423,7 +453,7 @@ export default function m(props: ScanAttendenceProps): any {
                         LibDialog.confirm(' ', 'Apakah anda yakin untuk mengirim data absen?', 'ya', () => attenpost(), 'tidak', () => { })
 
 
-                }} style={{ backgroundColor: '#0083FD', borderRadius: 10, padding: 10, width: '80%', alignItems: 'center', height: 50, }}>
+                }} style={{ backgroundColor: '#0083FD', borderRadius: 10, padding: 10, width: '80%', alignItems: 'center', height: 50,justifyContent:'center' }}>
                     <Text style={{ color: 'white', fontSize: 14, alignSelf: 'center' }}>Kirim</Text>
                 </Pressable>
             </View>
@@ -431,3 +461,4 @@ export default function m(props: ScanAttendenceProps): any {
         </View>
     )
 }
+export default memo(m);

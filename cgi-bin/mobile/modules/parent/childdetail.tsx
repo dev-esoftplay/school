@@ -1,4 +1,5 @@
 // withHooks
+import { memo } from 'react';
 import { useEffect, useRef, useState } from 'react';
 
 import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
@@ -27,7 +28,7 @@ export interface ChildDetailProps {
 
 }
 
-export default function m(props: ChildDetailProps): any {
+function m(props: ChildDetailProps): any {
   const allMonths = [
     {
       "name": "January",
@@ -791,3 +792,5 @@ export default function m(props: ChildDetailProps): any {
 </View> */}
 
 
+
+export default memo(m);

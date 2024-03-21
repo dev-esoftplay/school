@@ -1,4 +1,5 @@
 // withHooks
+import { memo } from 'react';
 
 import { useEffect, useRef, useState } from 'react';
 
@@ -21,7 +22,7 @@ export interface TeacherDetailStudentArgs {
 export interface TeacherDetailStudentProps {
 
 }
-export default function m(props: TeacherDetailStudentProps): any {
+function m(props: TeacherDetailStudentProps): any {
   function shadowS(value: any) {
     if (Platform.OS === "ios") {
       if (value === 0) return {};
@@ -108,6 +109,7 @@ export default function m(props: TeacherDetailStudentProps): any {
       "days": 31
     }
   ];
+  const strBulan = ['januari', 'februari', 'maret', 'april', 'mei', 'juni', 'juli', 'agustus', 'september', 'oktober', 'november', 'desember']
   const idclass: string = LibNavigation.getArgsAll(props).class_id;
   const idstudent: string = LibNavigation.getArgsAll(props).student_id;
   const dataParent: any = LibNavigation.getArgsAll(props).parent;
@@ -158,7 +160,7 @@ export default function m(props: TeacherDetailStudentProps): any {
   const [weekTwo, setWeekTwo] = useSafeState(0)
   const [weekThree, setWeekThree] = useSafeState(0)
   const [weekFour, setWeekFour] = useSafeState(0)
-  const [finalWeek, setFinalWeek] = useSafeState(0)
+  const [finalWeek, setFinalWeek] = useSafeState()
 
   ///
 
@@ -227,7 +229,7 @@ export default function m(props: TeacherDetailStudentProps): any {
     // console.log('weeknum', weeknum)
     // console.log('activeWeek', activeWeek)
 
-    setSelectWeek(weeknum), setFinalWeek(weekke)
+    setSelectWeek(weeknum), setFinalWeek(weeknum)
 
 
   };
@@ -429,11 +431,11 @@ export default function m(props: TeacherDetailStudentProps): any {
         }
         } style={{
           height: 50, backgroundColor: 'white', borderRadius: 10, justifyContent: 'center', alignSelf: 'center', marginVertical: 10, ...shadowS(7), width: '98%',
-          paddingHorizontal: 20, marginHorizontal: 15,
+           marginHorizontal: 15,
         }}>
           <View style={{ flexDirection: 'row', paddingHorizontal: 20 }}>
 
-            <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black', textAlign: 'center', }}>Filter</Text>
+            <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black', }}>{strBulan[SelectMonth-1].toUpperCase()} {activeWeek!=null || undefined?'MINGGU KE '+activeWeek:''}</Text>
             <LibIcon.Feather name="filter" size={20} color="black" style={{ position: 'absolute', right: 20 }} />
           </View>
         </Pressable>
@@ -445,28 +447,6 @@ export default function m(props: TeacherDetailStudentProps): any {
 
           renderItem={
             ({ item }) => {
-
-              const getDay = (date: string) => {
-                switch (date) {
-                  case "0":
-                    return "Minggu"
-                  case "1":
-                    return "Senin"
-                  case "2":
-                    return "Selasa"
-                  case "3":
-                    return "Rabu"
-                  case "4":
-                    return "Kamis"
-                  case "5":
-                    return "Jumat"
-                  case "6":
-                    return "Sabtu"
-                  default:
-                    return "Minggu"
-                }
-              }
-
               return (
                 <Pressable onPress={() => LibNavigation.navigate('teacher/detailattendreport', {
                   data: item,
@@ -554,3 +534,5 @@ export default function m(props: TeacherDetailStudentProps): any {
   )
 }
 
+
+export default memo(m);

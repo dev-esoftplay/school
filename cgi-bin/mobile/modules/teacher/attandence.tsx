@@ -1,4 +1,5 @@
 // withHooks
+import { memo } from 'react';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
@@ -9,7 +10,7 @@ import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import esp from 'esoftplay/esp';
 import moment from 'esoftplay/moment';
 import useSafeState from 'esoftplay/state';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { FlatList, Modal, Pressable, Text, TouchableOpacity, View } from 'react-native';
 
 
@@ -24,15 +25,21 @@ export interface TeacherAttendenceProps {
 }
 
 
-export default function m(props: TeacherAttendenceProps): any {
+function m(props: TeacherAttendenceProps): any {
   //get data from navigation
-  const data: string = LibNavigation.getArgsAll(props).data;
-  const idclass: string = LibNavigation.getArgsAll(props).idclass;
+  const schaduleId: string = LibNavigation.getArgsAll(props).schedule_id;
+  const idclass: string = LibNavigation.getArgsAll(props).class_id;
   const course_id = LibNavigation.getArgsAll(props).courseId;
   const status = LibNavigation.getArgsAll(props).status;
+  const url = LibNavigation.getArgsAll(props).url;
+  const teacher_id = LibNavigation.getArgsAll(props).teacher_id;
 
   useEffect(() => {
-    new LibCurl("student_class?class_id=" + idclass + "&schedule_id=" + data + "&date=" + date, null,
+    console.log('teacher_id :', teacher_id)
+    console.log('url :', url)
+    const defaultUrl = 'student_class?class_id=' + idclass + '&schedule_id=' + schaduleId + '&date=' + date
+    let urls= url != undefined ? url : defaultUrl
+    new LibCurl(urls, null,
       (result) => {
         console.log('Jadwal Result:', result);
         setStudentAttandenceApi(result)
@@ -51,12 +58,14 @@ export default function m(props: TeacherAttendenceProps): any {
     let dataabsen = JSON.stringify(mappedData.student_list)
     const post = {
       data: String(dataabsen),
-      schedule_id: '[' + data.toString() + ']',
+      schedule_id: schaduleId,
       class_id: idclass,
       course_id: course_id,
       clock_start: StudentAttandence?.clock_start,
       clock_end: StudentAttandence?.clock_end,
+      teacher_id: teacher_id,
     }
+    console.log('post', post)
     LibProgress.show('Mengirim data')
     new LibCurl('student_attendance', post, (result) => {
       LibProgress.hide()
@@ -75,9 +84,9 @@ export default function m(props: TeacherAttendenceProps): any {
   let [studentName, setstudentName] = useSafeState('')
 
   //popup visible status
-  const [popupVisible, setPopupVisible] = useState(false);
-  const [ijinVisible, setIjinVisible] = useState(false)
-  const [sickVisible, setSickVisible] = useState(false)
+  const [popupVisible, setPopupVisible] = useSafeState(false);
+  const [ijinVisible, setIjinVisible] = useSafeState(false)
+  const [sickVisible, setSickVisible] = useSafeState(false)
 
   //time
   const date = moment().format('YYYY-MM-DD')
@@ -88,7 +97,28 @@ export default function m(props: TeacherAttendenceProps): any {
   // Utils
   let inputnotess = useRef<LibInput_rectangle2>(null)
   let [mappedData, setMappedData] = useSafeState<any>({});
-
+  const [actvebutton, setactvebutton] = useSafeState<number>(1);
+  
+  function getStatusString(status: number): string {
+    switch (status) {
+      case 1:
+        return 'hadir';
+      case 2:
+        return 'hadir';
+      case 3:
+        return 'sakit';
+      case 4:
+        return 'ijin';
+      case 5:
+        return 'alfa';
+      default:
+        return '';
+    }
+  }
+  const handlePress = (weeknum: number) => {
+    setactvebutton(weeknum === actvebutton ? 0 : weeknum);
+  };
+  
   //popup interface
   interface CustomPopupProps {
     visible: boolean;
@@ -102,6 +132,7 @@ export default function m(props: TeacherAttendenceProps): any {
     student_id: number;
     nama: string;
   }
+  
 
   //function change status student attandence
 
@@ -111,22 +142,22 @@ export default function m(props: TeacherAttendenceProps): any {
       4-tidak hadir */
 
   function PresentStatus(index: number) {
-    const filerdS_id=mappedData?.student_list?.filter((student: { student_id: number; }) => student.student_id === index)
+    const filerdS_id = mappedData?.student_list?.filter((student: { student_id: number; }) => student.student_id === index)
     filerdS_id[0].status = 1;
     filerdS_id[0].notes = '';
     setMappedData({ ...mappedData });
   }
   function alphaStatus(indeks: number) {
     console.log(indeks)
-    const filerdS_id=mappedData?.student_list?.filter((student: { student_id: number; }) => student.student_id === indeks)
+    const filerdS_id = mappedData?.student_list?.filter((student: { student_id: number; }) => student.student_id === indeks)
     console.log(filerdS_id[0])
     filerdS_id[0].status = 4
     filerdS_id[0].notes = '',
-    console.log("sesuadah :",filerdS_id[0])
-      setMappedData(mappedData)
+      console.log("sesuadah :", filerdS_id[0])
+    setMappedData(mappedData)
   }
   function absenceStatus(indeks: number) {
-    const filerdS_id=mappedData?.student_list?.filter((student: { student_id: number; }) => student.student_id === indeks)
+    const filerdS_id = mappedData?.student_list?.filter((student: { student_id: number; }) => student.student_id === indeks)
     filerdS_id[0].status = 3
     filerdS_id[0].notes = ''
     setMappedData(mappedData)
@@ -149,7 +180,7 @@ export default function m(props: TeacherAttendenceProps): any {
   // popup function
   function AbsentDialog({ visible, onClose, nama, student_id }: absentDialogProps) {
     let absentNotes = (indeks: number) => {
-    const filerdS_id=mappedData?.student_list?.filter((student: { student_id: number; }) => student.student_id === indeks)
+      const filerdS_id = mappedData?.student_list?.filter((student: { student_id: number; }) => student.student_id === indeks)
 
       filerdS_id[0].notes = inputnotess?.current?.getText()
       setMappedData(mappedData)
@@ -191,7 +222,7 @@ export default function m(props: TeacherAttendenceProps): any {
 
     let idSiswa: number = student_id ?? 1
     let sickStatus = (indeks: number) => {
-    const filerdS_id=mappedData?.student_list?.filter((student: { student_id: number; }) => student.student_id === indeks)
+      const filerdS_id = mappedData?.student_list?.filter((student: { student_id: number; }) => student.student_id === indeks)
       filerdS_id[0].status = 2
       filerdS_id[0].notes = ''
       filerdS_id[0].notes = inputnotess?.current?.getText()
@@ -288,52 +319,61 @@ export default function m(props: TeacherAttendenceProps): any {
               <Text style={{ fontSize: 20 }}>{time}</Text>
             </View>
 
-            <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 10 }}>
-              {/* Berangkat */}
-              <Pressable onPress={() => { setstudentListAttandence(filterPresentStudents)}}>
-                <View style={{ height: 70, width: 70, alignItems: 'center', backgroundColor: 'green', justifyContent: 'center', borderRadius: 10, padding: 10 }}>
-                  <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>{numberStudentsPresent ?? '0'}</Text>
-                  {/* <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>{StudentAttandence?.permission?.total_present ?? '0'}</Text> */}
-                  <Text style={{ fontSize: 10, fontWeight: 'bold', color: 'white' }} allowFontScaling={true}>Berangkat</Text>
-                </View>
-              </Pressable>
-              {/* Sakit */}
-              <Pressable onPress={() => { setstudentListAttandence(filterSickStudents),console.log(JSON.stringify(filterSickStudents)) }}>
-                <View style={{ height: 70, width: 70, alignItems: 'center', backgroundColor: 'orange', justifyContent: 'center', borderRadius: 10, padding: 10 }}>
-                  {/* <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>{StudentAttandence?.permission?.total_s ?? '0'}</Text> */}
-                  <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>{numberStudentsSick ?? '0'}</Text>
-                  <Text style={{ fontSize: 10, fontWeight: 'bold', color: 'white' }} allowFontScaling={true}>Sakit</Text>
-                </View>
-              </Pressable>
-              {/* Izin */}
-              <Pressable onPress={() => { setstudentListAttandence(filterAbsentStudents) }}>
-                <View style={{ height: 70, width: 70, alignItems: 'center', backgroundColor: '#0083fd', justifyContent: 'center', borderRadius: 10, padding: 10 }}>
-                  {/* <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>{StudentAttandence?.permission?.total_i ?? '0'}</Text> */}
-                  <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>{numberStudentsAbsent ?? '0'}</Text>
-                  <Text style={{ fontSize: 10, fontWeight: 'bold', color: 'white' }} allowFontScaling={true}>Ijin</Text>
-                </View>
-              </Pressable>
-              {/* Alfa */}
-              <Pressable onPress={() => { setstudentListAttandence(filterAlphaStudents),console.log(JSON.stringify(filterAlphaStudents)) }}>
-                <View style={{ height: 70, width: 70, alignItems: 'center', backgroundColor: '#FF4343', justifyContent: 'center', borderRadius: 10, padding: 10 }}>
-                  {/* <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>{StudentAttandence?.permission?.total_a ?? '0'}</Text> */}
-                  <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>{numberStudentsAlpha ?? '0'}</Text>
-                  <Text style={{ fontSize: 10, fontWeight: 'bold', color: 'white' }} allowFontScaling={true}>Alfa</Text>
-                </View>
-              </Pressable>
+            <View style={{ flexDirection: 'row', marginTop: 10, height: 80, justifyContent: 'center', flex: 1,alignItems:'center' }}>
               {/* All student */}
-              <Pressable onPress={() => { setstudentListAttandence(StudentAttandence?.student_list ?? []) }}>
-                <View style={{ height: 70, width: 70, alignItems: 'center', backgroundColor: '#348121', justifyContent: 'center', borderRadius: 10, padding: 10 }}>
+              <View style={{ height: 70, flex: 1, alignItems: 'center', backgroundColor:  1== actvebutton? '#348121':'white', justifyContent: 'center', borderRadius: 10,marginHorizontal:1, borderWidth:2,borderColor: 1== actvebutton? 'white':"#348121"}}>
+                <Pressable onPress={() => { setstudentListAttandence(StudentAttandence?.student_list ?? []),handlePress(1)}}style={{alignItems: 'center',padding:5, }}>
                   {/* <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>{StudentAttandence?.permission?.total_a ?? '0'}</Text> */}
-                  <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>{StudentAttandence?.student_count ?? '0'}</Text>
-                  <Text style={{ fontSize: 10, fontWeight: 'bold', color: 'white' }} allowFontScaling={true}>Semua Siswa</Text>
-                </View>
-              </Pressable>
+                  <Text style={{ fontSize: 16, fontWeight: 'bold', color:  1== actvebutton? 'white':'#348121' }}>{StudentAttandence?.student_count ?? '0'}</Text>
+                  <Text style={{ fontSize: 10, fontWeight: 'bold', color:  1== actvebutton?'white':'#348121' }} allowFontScaling={true}>Semua Siswa</Text>
+                </Pressable>
+              </View>
+              {/* Berangkat */}
+              <View style={{ height: 70, flex: 1, alignItems: 'center', backgroundColor:  2== actvebutton?  'green':'white', justifyContent: 'center', borderRadius: 10,marginHorizontal:1, borderWidth:2,borderColor: 2== actvebutton? 'white':"green"}}>
+                <Pressable onPress={() => { setstudentListAttandence(filterPresentStudents),handlePress(2) }}style={{alignItems: 'center',padding:5}}>
+                  <Text style={{ fontSize: 16, fontWeight: 'bold', color:  2== actvebutton? 'white':'green' }}>{numberStudentsPresent ?? '0'}</Text>
+                  {/* <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>{StudentAttandence?.permission?.total_present ?? '0'}</Text> */}
+                  <Text style={{ fontSize: 10, fontWeight: 'bold', color:  2== actvebutton? 'white':'green' }} allowFontScaling={true}>Berangkat</Text>
+                </Pressable>
+              </View>
+              {/* Sakit */}
+              <View style={{ height: 70, flex: 1, alignItems: 'center', backgroundColor:  3== actvebutton? 'orange':'white', justifyContent: 'center', borderRadius: 10,marginHorizontal:1,borderWidth:2,borderColor: 3== actvebutton? 'white':"orange"}}>
+                <Pressable onPress={() => { setstudentListAttandence(filterSickStudents),handlePress(3) }} style={{alignItems: 'center',padding:5}}>
+                  {/* <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>{StudentAttandence?.permission?.total_s ?? '0'}</Text> */}
+                  <Text style={{ fontSize: 16, fontWeight: 'bold', color: 3== actvebutton? 'white':'orange' }}>{numberStudentsSick ?? '0'}</Text>
+                  <Text style={{ fontSize: 10, fontWeight: 'bold', color: 3== actvebutton? 'white':'orange' }} allowFontScaling={true}>Sakit</Text>
+                </Pressable>
+              </View>
+              {/* Izin */}
+              <View style={{ height: 70, flex: 1, alignItems: 'center', backgroundColor: 4== actvebutton?'#0083fd':'white', justifyContent: 'center', borderRadius: 10,marginHorizontal:1, borderWidth:2,borderColor: 4== actvebutton? 'white':"#0083fd" }}>
+                <Pressable onPress={() => { setstudentListAttandence(filterAbsentStudents),handlePress(4) }} style={{alignItems: 'center',padding:5}}>
+                  {/* <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>{StudentAttandence?.permission?.total_i ?? '0'}</Text> */}
+                  <Text style={{ fontSize: 16, fontWeight: 'bold', color:4== actvebutton? 'white':'#0083fd' }}>{numberStudentsAbsent ?? '0'}</Text>
+                  <Text style={{ fontSize: 10, fontWeight: 'bold', color:4== actvebutton? 'white':'#0083fd' }} allowFontScaling={true}>Ijin</Text>
+                </Pressable>
+              </View>
+              {/* Alfa */}
+              <View style={{ height: 70, flex: 1, alignItems: 'center', backgroundColor:  5== actvebutton?'#FF4343':'white', justifyContent: 'center', borderRadius: 10,marginHorizontal:1 , borderWidth:2,borderColor: 5== actvebutton? 'white':"#FF4343"}}>
+                <Pressable onPress={() => { setstudentListAttandence(filterAlphaStudents),handlePress(5) }}style={{alignItems: 'center',padding:5}}>
+                  {/* <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>{StudentAttandence?.permission?.total_a ?? '0'}</Text> */}
+                  <Text style={{ fontSize: 16, fontWeight: 'bold', color: 5== actvebutton? 'white':'#FF4343' }}>{numberStudentsAlpha ?? '0'}</Text>
+                  <Text style={{ fontSize: 10, fontWeight: 'bold', color: 5== actvebutton? 'white':'#FF4343' }} allowFontScaling={true}>Alfa</Text>
+                </Pressable>
+              </View>
+              
 
             </View>
             {/* seperator */}
             <View style={{ height: 5, width: 'auto', backgroundColor: 'gray', marginHorizontal: 10, justifyContent: 'center', borderRadius: 5, marginTop: 12 }} />
           </View>
+        }
+        ListEmptyComponent={() => {
+          return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',marginTop:20 }}>
+              <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Tidak ada data murid yang {getStatusString(actvebutton)}</Text>
+            </View>
+          )
+        }
         }
         keyExtractor={(item, index) => index.toString()}
         renderItem={
@@ -421,11 +461,13 @@ export default function m(props: TeacherAttendenceProps): any {
         <Pressable onPress={() => {
           console.log(mappedData),
             LibDialog.confirm(' ', 'Apakah anda yakin untuk mengirim data absen?', 'ya', () => attenpost(), 'tidak', () => { })
-        }} style={{ backgroundColor: '#0083FD', borderRadius: 10, padding: 10, width: '80%', alignItems: 'center', height: 50, }}>
-        <Text style={{ color: 'white', fontSize: 14, alignSelf: 'center' }}>{status!=1 ? 'kirim':'update absen'}</Text>
+        }} style={{ backgroundColor: '#0083FD', borderRadius: 10, padding: 10, width: '80%', alignItems: 'center', height: 50,justifyContent:'center' }}>
+          <Text style={{ color: 'white', fontSize: 14, alignSelf: 'center' }}>{status != 1 ? 'kirim' : 'update absen'}</Text>
         </Pressable>
       </View>
 
     </View>
   )
 }
+
+export default memo(m);
