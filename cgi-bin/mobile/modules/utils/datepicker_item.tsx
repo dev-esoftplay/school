@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
 
@@ -13,7 +12,7 @@ export interface UtilsDatepicker_itemProps {
   onPress: () => void
   disabled?: boolean,
 }
-function m(props: UtilsDatepicker_itemProps): any {
+export default function m(props: UtilsDatepicker_itemProps): any {
   return (
     <Pressable
       disabled={props.disabled}
@@ -35,4 +34,3 @@ function m(props: UtilsDatepicker_itemProps): any {
     </Pressable>
   )
 }
-export default memo(m);

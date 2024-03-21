@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
@@ -25,7 +24,7 @@ export interface TeacherAttendenceProps {
 }
 
 
-function m(props: TeacherAttendenceProps): any {
+export default function m(props: TeacherAttendenceProps): any {
   //get data from navigation
   const schaduleId: string = LibNavigation.getArgsAll(props).schedule_id;
   const idclass: string = LibNavigation.getArgsAll(props).class_id;
@@ -469,5 +468,3 @@ function m(props: TeacherAttendenceProps): any {
     </View>
   )
 }
-
-export default memo(m);

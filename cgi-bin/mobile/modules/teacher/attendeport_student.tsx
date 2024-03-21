@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
@@ -15,7 +14,7 @@ export interface AttendReportStudentArgs {
 export interface AttendReportStudentProps {
 
 }
-function m(props: AttendReportStudentProps): any {
+export default function m(props: AttendReportStudentProps): any {
   // get data from previous screen
   //<Pressable onPress={() => LibNavigation.navigate('teacher/attendeport_student', { idclas: item?.class?.id, date: dates ,schedule_id:item.schedule_id})}> 
   const schadule_id: string = LibNavigation.getArgsAll(props).schedule_id;
@@ -250,4 +249,3 @@ function m(props: AttendReportStudentProps): any {
     </View>
   )
 }
-export default memo(m);

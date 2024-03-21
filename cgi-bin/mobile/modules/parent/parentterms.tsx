@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 
 import React from 'react';
@@ -12,7 +11,7 @@ export interface ParentTermsArgs {
 export interface ParentTermsProps {
     
 }
-function m(props: ParentTermsProps): any {
+export default function m(props: ParentTermsProps): any {
     return (
         <View style={{flex:1}}>
             <Pressable onPress={()=>LibNavigation.back}>
@@ -24,4 +23,3 @@ function m(props: ParentTermsProps): any {
         </View>
     )
 }
-export default memo(m);

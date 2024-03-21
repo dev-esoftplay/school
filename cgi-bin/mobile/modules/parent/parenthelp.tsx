@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 
 import React from 'react';
 import { Platform, View, TouchableOpacity, Text } from 'react-native';
@@ -14,7 +13,7 @@ export interface ParentHelpArgs {
 export interface ParentHelpProps {
 
 }
-function m(props: ParentHelpProps): any {
+export default function m(props: ParentHelpProps): any {
     function elevation(value: any) {
         if (Platform.OS === "ios") {
             if (value === 0) return {};
@@ -83,4 +82,3 @@ function m(props: ParentHelpProps): any {
         </View>
     )
 }
-export default memo(m);

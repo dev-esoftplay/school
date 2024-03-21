@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
@@ -12,7 +11,7 @@ export interface TeacherAccountArgs {
 export interface TeacherAccountProps {
   
 }
-function m(props: TeacherAccountProps): any {
+export default function m(props: TeacherAccountProps): any {
   return (
     
     <View style={{ flex: 1, backgroundColor: 'white' ,}}>
@@ -23,4 +22,3 @@ function m(props: TeacherAccountProps): any {
     
   )
 }
-export default memo(m);

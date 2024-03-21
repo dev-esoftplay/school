@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
 
 
@@ -33,7 +32,7 @@ export interface ParentInfoProps {
 // let slideup = useRef<LibSlidingup>(null)
 
 
-function m(props: ParentInfoProps): any {
+export default function m(props: ParentInfoProps): any {
     function elevation(value: any) {
         if (Platform.OS === "ios") {
             if (value === 0) return {};
@@ -218,4 +217,3 @@ function m(props: ParentInfoProps): any {
 
     )
 }
-export default memo(m);

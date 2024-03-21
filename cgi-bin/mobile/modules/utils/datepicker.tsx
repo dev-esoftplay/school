@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 
 import { LibScroll } from 'esoftplay/cache/lib/scroll/import';
 import { UtilsDatepicker_item } from 'esoftplay/cache/utils/datepicker_item/import';
@@ -18,7 +17,7 @@ export interface UtilsDatepickerProps {
   maxDate?: string,
   onDateChange?: (date: string) => void,
 }
-function m(props: UtilsDatepickerProps): any {
+export default function m(props: UtilsDatepickerProps): any {
   const scrollHorizontal = useRef<LibScroll>(null)
   const [date, setDate, getDate] = useSafeState(moment().toDate())
   const [selectedDate, setSelectedDate] = useSafeState(moment().toDate())
@@ -74,4 +73,3 @@ function m(props: UtilsDatepickerProps): any {
     </View>
   )
 }
-export default memo(m);

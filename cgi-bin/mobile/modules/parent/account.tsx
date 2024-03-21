@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 import { useEffect, useState } from 'react';
 import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
 // import { LibIcon } from 'esoftplay/cache/lib/icon/import';
@@ -23,7 +22,7 @@ export interface ParentAccountArgs {
 export interface ParentAccountProps {
 
 }
-function m(props: ParentAccountProps): any {
+export default function m(props: ParentAccountProps): any {
 
 
   const [Parent, setParent] = useState<any>([])
@@ -133,5 +132,3 @@ const timeout = useTimeout()
 
 
 
-
-export default memo(m);

@@ -1,5 +1,4 @@
 // withHooks
-import { memo } from 'react';
 
 import { useEffect, useRef, useState } from 'react';
 
@@ -22,7 +21,7 @@ export interface TeacherDetailStudentArgs {
 export interface TeacherDetailStudentProps {
 
 }
-function m(props: TeacherDetailStudentProps): any {
+export default function m(props: TeacherDetailStudentProps): any {
   function shadowS(value: any) {
     if (Platform.OS === "ios") {
       if (value === 0) return {};
@@ -534,5 +533,3 @@ function m(props: TeacherDetailStudentProps): any {
   )
 }
 
-
-export default memo(m);
