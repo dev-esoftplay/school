@@ -4,10 +4,18 @@ $data         = json_decode($_POST['data'], true);
 $class_id     = addslashes($_POST['class_id']);
 $course_id    = addslashes($_POST['course_id']);
 $schedule_ids = json_decode($_POST['schedule_id'], true); // Assuming schedule_id is a JSON array
+$teachers_id  = addslashes($_POST['teacher_id']);
 $clock_start  = $_POST['clock_start'];
 $clock_end    = $_POST['clock_end'];
 $current_time = date('H:i:s');
-
+$course_name  = $db->getone('SELECT `school_course`.`name`
+                             FROM `school_teacher_subject` 
+                             INNER JOIN `school_schedule`  ON `school_teacher_subject`.`id` = `school_schedule`.`subject_id` 
+                             INNER JOIN `school_course`  ON `school_course`.`id` = `school_teacher_subject`.`course_id` 
+                             WHERE school_schedule.id = ' . $schedule_id);
+   
+$class_name   = $db->getrow('SELECT CONCAT_WS(" ", `grade`, `major`, `label`) as `name` FROM `school_class` WHERE `id` = ' . $class_id);
+  
 if ($data == null || $schedule_ids == null) 
 {
   return api_no(['message' => 'Invalid JSON data or schedule IDs']);
@@ -89,8 +97,8 @@ foreach ($schedule_ids as $schedule_id)
         {
           alert_push(
             $id . '-' . 6,
-            lang('Absensi hari ini'),
-            'anak anda ' . $status,
+            lang('Absensi pelajaran ' . $course_name . 'hari ini'),
+            $entry['name']. ' ' .$status,
             'parent/notif',
             []
           );
@@ -100,23 +108,6 @@ foreach ($schedule_ids as $schedule_id)
           $db->update('bbc_user_push_notif', ['message' => 'anak anda ' . $status], 'user_id = ' . $id . ' AND DATE(created) = CURDATE()');
         }
       }
-    }
-
-    $homeroom_user_id       = $db->getone('SELECT teacher_id FROM school_class WHERE id = ' . $class_id);
-    $user_id                = $db->getone('SELECT user_id FROM school_teacher WHERE id = ' . $homeroom_user_id);
-    $notification_message   = 'murid anda ' . $entry['name'] . ' ' . $status;
-    $existing_notification  = $db->getone('SELECT `id` FROM `bbc_user_push_notif` WHERE `user_id` = ' . $user_id . ' AND DATE(created) = CURDATE() AND `message` = \'' . $notification_message . '\'');
-    
-    if ($status != 'berangkat' && !$existing_notification) 
-    {
-      _func('alert');
-      alert_push(
-        $user_id . '-' . 5,
-        lang('Absensi'),
-        'murid anda ' . $entry['name'] . ' ' . $status,
-        'teacher/notif',
-        []
-      );
     }
   }
 
@@ -146,10 +137,12 @@ foreach ($schedule_ids as $schedule_id)
     }
   }
 
+  
   $query                    = 'SELECT `id` FROM school_attendance_report WHERE class_id = \'' . $class_id . '\' AND schedule_id = \'' . $schedule_id . '\' AND course_id = \'' . $course_id . '\' AND DATE(created) = CURDATE()';
   $result                   = $db->execute($query);
   $attendance_report_exist  = $result->fetch_assoc();
-
+  $exsist_data              = $attendance_report_exist ? 'Update ' : '';
+  
   if ($attendance_report_exist) 
   {
     $report = array(
@@ -159,8 +152,11 @@ foreach ($schedule_ids as $schedule_id)
       'total_a'       => $totals['total_a'],
     );
     $db->update('school_attendance_report', $report, 'schedule_id = \'' . $schedule_id . '\' AND class_id = \'' . $class_id . '\' AND DATE(created) = CURDATE()');
+    $insert_date = $db->getone('SELECT `create_at` FROM school_attendance_report WHERE schedule_id = \'' . $schedule_id . '\' AND class_id = \'' . $class_id . '\' LIMIT 1');
+  
   } else if (!$attendance_report_exist) 
   {
+    $insert_date = date('Y-m-d'); 
     if ($current_time > $end_time) 
     {
       $status = 3; // late
@@ -173,6 +169,7 @@ foreach ($schedule_ids as $schedule_id)
     }
 
     $attendance_report = [
+      'teacher_id'    => $teachers_id,
       'schedule_id'   => $schedule_id,
       'class_id'      => $class_id,
       'course_id'     => $course_id,
@@ -188,5 +185,15 @@ foreach ($schedule_ids as $schedule_id)
     ];
     $db->insert('school_attendance_report', $attendance_report);
   }
+
+  _func('alert');
+  alert_push(
+    $user_id . '-' . 5,
+    lang($exsist_data . 'Presensi '. $class_name['name'] .' ' . $course_name),
+    'Berangkat ' .$totals['total_present'] . ', Sakit ' . $totals['total_s'] . ', Ijin ' . $totals['total_i'] . ', Alfa ' . $totals['total_a'],
+    'teacher/attendeport_student',
+    ['url' => 'http://api.test.school.esoftplay.com/student_class?schedule_id='. $schedule_id .'&class_id='. $class_id .'&date='. $insert_date ]
+  );
+
 }
 return api_ok(['message' => 'Data added or updated successfully']);
