@@ -1,7 +1,10 @@
-<?php if (!defined('_VALID_BBC')) exit('No direct script access allowed'); ?>
+<?php if (!defined('_VALID_BBC'))
+  exit ('No direct script access allowed'); ?>
 
 <body>
-  <h2 class="text-center"><?php echo lang('Form Siswa'); ?></h2>
+  <h2 class="text-center">
+    <?php echo lang('Form Siswa'); ?>
+  </h2>
   <form method="post" enctype="multipart/form-data" class="col-md-7 form-import-excel">
     <!-- ========================================== -->
     <!-- START STUDENT -->
@@ -45,7 +48,8 @@
 
     <div class="form-group ayah">
       <label for="tanggal_lahir_ayah">Tanggal Lahir Ayah :</label>
-      <input type="date" class="form-control" name="tanggal_lahir_ayah" <?php echo $input_post['tanggal_lahir_ayah'] ?> required>
+      <input type="date" class="form-control" name="tanggal_lahir_ayah" <?php echo $input_post['tanggal_lahir_ayah'] ?>
+        required>
     </div>
 
     <div class="form-group ayah">
@@ -55,7 +59,8 @@
 
     <div class="form-group ayah">
       <label for="nomer_telepon_ayah">Nomor Telepon Ayah :</label>
-      <input type="text" class="form-control" name="nomer_telepon_ayah" <?php echo $input_post['nomer_telepon_ayah'] ?> required>
+      <input type="text" class="form-control" name="nomer_telepon_ayah" <?php echo $input_post['nomer_telepon_ayah'] ?>
+        required>
     </div>
 
     <!-- ========================================== -->
@@ -69,7 +74,8 @@
 
     <div class="form-group ibu">
       <label for="tanggal_lahir_ibu">Tanggal Lahir Ibu :</label>
-      <input type="date" class="form-control" name="tanggal_lahir_ibu" <?php echo $input_post['tanggal_lahir_ibu'] ?> required>
+      <input type="date" class="form-control" name="tanggal_lahir_ibu" <?php echo $input_post['tanggal_lahir_ibu'] ?>
+        required>
     </div>
 
     <div class="form-group ibu">
@@ -79,7 +85,8 @@
 
     <div class="form-group ibu">
       <label for="nomer_telepon_ibu">Nomor Telepon Ibu :</label>
-      <input type="text" class="form-control" name="nomer_telepon_ibu" <?php echo $input_post['nomer_telepon_ibu'] ?> required>
+      <input type="text" class="form-control" name="nomer_telepon_ibu" <?php echo $input_post['nomer_telepon_ibu'] ?>
+        required>
     </div>
 
     <!-- ========================================== -->
@@ -93,7 +100,8 @@
 
     <div class="form-group wali">
       <label for="tanggal_lahir_wali">Tanggal Lahir wali :</label>
-      <input type="date" class="form-control" name="tanggal_lahir_wali" <?php echo $input_post['tanggal_lahir_wali'] ?> required>
+      <input type="date" class="form-control" name="tanggal_lahir_wali" <?php echo $input_post['tanggal_lahir_wali'] ?>
+        required>
     </div>
 
     <div class="form-group wali">
@@ -103,12 +111,14 @@
 
     <div class="form-group wali">
       <label for="nomer_kk_wali">Nomor KK wali :</label>
-      <input type="number" class="form-control" name="nomer_kk_wali" <?php echo $input_post['nomer_kk_wali'] ?> required>
+      <input type="number" class="form-control" name="nomer_kk_wali" <?php echo $input_post['nomer_kk_wali'] ?>
+        required>
     </div>
 
     <div class="form-group wali">
       <label for="nomer_telepon_wali">Nomor Telepon wali :</label>
-      <input type="text" class="form-control" name="nomer_telepon_wali" <?php echo $input_post['nomer_telepon_wali'] ?> required>
+      <input type="text" class="form-control" name="nomer_telepon_wali" <?php echo $input_post['nomer_telepon_wali'] ?>
+        required>
     </div>
 
     <div class="form-group wali">
@@ -121,55 +131,75 @@
     </div>
   </form>
   <!-- import data with Excel -->
- <div class="col-md-4">
-  <form method="POST" role="form" enctype="multipart/form-data" onsubmit="return validateForm()">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Add Teacher with Excel</h3>
-      </div>
-      <div class="panel-body">
-        <?php 
+  <div class="col-md-4">
+    <form method="POST" role="form" enctype="multipart/form-data" onsubmit="return validateForm()">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Add Teacher with Excel</h3>
+        </div>
+        <div class="panel-body">
+          <?php
           foreach ($fields as $key => $fieldName) {
             $label = ucwords(str_replace('_', ' ', $fieldName));
             echo '<div class="form-group">';
             // echo '<label for="">' . 'Field ' . $label . '</label>';
-            echo '<input type="hidden" name="' . $fieldName . '" class="form-control input-file" id="" placeholder="Input field" value="'. $key .'">';
+            echo '<input type="hidden" name="' . $fieldName . '" class="form-control input-file" id="" placeholder="Input field" value="' . $key . '">';
             echo '</div>';
           }
-         ?>
-        <div class="help-block">
-          Upload File Excel
-        </div>
-        <div class="modal" id="preview-excel" style="background-color: white;">
-          <div class="modal-dialog" style="max-width: 1000px; width: 100%;">
-            <div class="modal-content">
+          ?>
+          <div class="help-block">
+            Upload File Excel
+          </div>
+          <div class="modal" id="preview-excel" style="background-color: white;">
+            <div class="modal-dialog" style="max-width: 1000px; width: 100%;">
+              <div class="modal-content">
 
-              <div class="modal-header">
-                <h4 class="modal-title">Preview Excel</h4>
-              </div>
-
-              <div class="modal-body">
-                <label for="fileInput">Pilih File</label>
-                <input id="fileInput" name="file" type="file">
-                <div id="preview">
+                <div class="modal-header">
+                  <h4 class="modal-title">Preview Excel</h4>
                 </div>
 
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                  <button type="submit" class="btn btn-primary" name="import_excel" value="submit">Submit</button>
-                </div>
+                <div class="modal-body">
+                  <label for="fileInput">Pilih File</label>
+                  <input id="fileInput" name="file" type="file">
+                  <div id="preview">
+                  </div>
 
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    <button type="submit" class="btn btn-primary" name="import_excel" value="submit">Submit</button>
+                  </div>
+
+                </div>
               </div>
             </div>
           </div>
         </div>
+        <div class="panel-footer">
+          <button type="button" class="btn btn-default" data-toggle="modal" data-target="#preview-excel">Pilih
+            FIle</button>
+        </div>
       </div>
-      <div class="panel-footer">
-        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#preview-excel">Pilih FIle</button>
-      </div>
+    </form>
+    <div class="">
+      <form action="" method="POST" class="form" role="form">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Template Excel</h3>
+          </div>
+          <div class="panel-body">
+            <div class="help-block">
+              Unduh Template Excel
+            </div>
+          </div>
+          <div class="panel-footer">
+            <button type="submit" name="template" value="download" class="btn btn-default">
+              <?php echo icon('fa-file-excel-o') ?> Download Template
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
-  </form>
-</div>
+  </div>
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -178,12 +208,10 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
   <script>
-    $(document).ready(function()
-    {
+    $(document).ready(function () {
       $(".error-span").show();
       $(".success-span").show();
-      $("input[name='MyRadio']").on('change', function() 
-      {
+      $("input[name='MyRadio']").on('change', function () {
         let value = $("input[name='MyRadio']:checked").val();
 
         // Clear the required attribute for all fields
@@ -217,24 +245,24 @@
         $(".ayah, .ibu").hide();
       }
 
-      $('input.input-file').on('input', function() {
+      $('input.input-file').on('input', function () {
         var inputValue = $(this).val();
         var uppercaseValue = inputValue.toUpperCase();
         $(this).val(uppercaseValue);
       });
 
       setTimeout(function () {
-          $("#error-span").hide();
+        $("#error-span").hide();
       }, 10000);
     });
 
-    document.getElementById('fileInput').addEventListener('change', function(e) {
+    document.getElementById('fileInput').addEventListener('change', function (e) {
       var file = e.target.files[0];
 
       if (file) {
         var reader = new FileReader();
 
-        reader.onload = function(e) {
+        reader.onload = function (e) {
           var data = new Uint8Array(e.target.result);
           var workbook = XLSX.read(data, {
             type: 'array'
@@ -252,16 +280,16 @@
 
           // Ambil nama kolom
           var columns = Object.keys(jsonData[0]);
-          columns.forEach(function(column) {
+          columns.forEach(function (column) {
             html += '<th>' + column + '</th>';
           });
 
           html += '</tr></thead><tbody>';
 
           // Isi data ke dalam tabel
-          jsonData.forEach(function(row) {
+          jsonData.forEach(function (row) {
             html += '<tr>';
-            columns.forEach(function(column) {
+            columns.forEach(function (column) {
               html += '<td>' + row[column] + '</td>';
             });
             html += '</tr>';

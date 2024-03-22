@@ -467,13 +467,47 @@ if (!empty($_FILES['file']) && $_SERVER["REQUEST_METHOD"] == "POST" && isset($_P
           ));
         }
       }
-      $msg = msg('Data berhasil ditambah','success');
+      $msg = msg('Data berhasil ditambah', 'success');
     }else{
-      $msg = msg('Data sudah ada di database');
+      $msg = msg('Data sudah ada di database', 'danger');
     }
   }
   echo $msg;
   // echo '<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok-s ign" title="ok sign"></span> Sukses Tambah data.</div>';
+}
+if (!empty($_POST['template'])) {
+  if ($_POST['template'] == 'download') {
+    $r = array(
+      array(
+        'No' => '',
+        'Nama Siswa' => '',
+        'Tanggal Lahir Siswa' => '',
+        'Nis' => '',
+        'Nomer KK' => '',
+        'Alamat' => '',
+        'Nama Ayah' => '',
+        'Tanggal Lahir Ayah' => '',
+        'Nik Ayah' => '',
+        'Nomer Telepon Ayah' => '',
+        'Nama Ibu' => '',
+        'Tanggal Lahir Ibu' => '',
+        'Nik Ibu' => '',
+        'Nomer Telepon Ibu' => '',
+        'Nama Wali' => '',
+        'Tanggal Lahir Wali' => '',
+        'Nik Wali' => '',
+        'Nomer KK Wali' => '',
+        'Nomer Telepon Wali' => '',
+        'Alamat Wali' => '',
+      )
+    );
+    if (!empty($r)) {
+      _func('download');
+      download_excel('Template ' . date('Y-m-d') . ' ' . rand(0, 999), $r);
+    } else {
+      echo msg('Maaf, tidak ada file yg bisa di download', 'danger');
+    }
+  }
 }
 link_css(__DIR__ . '/css/student_add.css'); //untuk memanggil file css
 include tpl('student_add.html.php'); //untuk mengincludekan file html
