@@ -110,3 +110,44 @@ $form->roll->addReport('excel');
 
 $form->roll->action();
 echo $form->roll->getForm();
+
+if (!empty($_POST['semester']))
+{
+	if ($_POST['semester'] == 'download')
+	{                
+		$q_attend = 'SELECT `id` as `no`, 
+					`teacher_id` as `teacher_name`,
+					`course_id` as `course_name`,
+					`class_id` as `class_name`,
+					`total_present`, `total_s`, `total_i`, `total_a` 
+					FROM `school_attendance_report`
+					WHERE 1
+					ORDER BY `id` ASC';
+		$attend = $db->getAll($q_attend);
+		$q_class = 'SELECT `id` as `no`, 
+					CONCAT_WS(" ",grade,label,major) AS `class_name`, `teacher_id`, COUNT(id) as total_student 
+					FROM `school_class`
+					WHERE 1
+					ORDER BY `id` ASC';
+		$class = $db->getAll($q_class);
+
+		if (!empty($attend))
+		{
+			foreach ($attend as $k => &$val) {
+				$val['no']    = $k+1;
+				$val['guru']  = (!empty($val['teacher_name'])) ? $db->getone('SELECT `name` FROM `school_teacher` WHERE `id`=' . $val['teacher_name']) : '';
+				$val['mapel'] = (!empty($val['course_name'])) ?$db->getOne('SELECT `name` FROM `school_course` WHERE `id`=' . $val['course_name']) : '';
+				$val['kelas'] = (!empty($val['class_name'])) ?$db->getone('SELECT CONCAT_WS(" ", `grade`, `major`, `label`) FROM `school_class` WHERE `id`=' . $val['class_name']) : '';
+				$val['hadir'] = $val['total_present'];
+				$val['sakit'] = $val['total_s'];
+				$val['ijin']  = $val['total_i'];
+				$val['alpha'] = $val['total_a'];
+        unset($val['teacher_name'],$val['course_name'],$val['class_name'],$val['total_present'], $val['total_s'], $val['total_i'], $val['total_a']);
+			}
+			_func('download');
+			$data = array($attend,$class);
+			download_excel('semester '.date('Y-m-d').' '.rand(0, 999), $data);
+		}else{
+			echo msg('Maaf, tidak ada file yg bisa di download', 'danger');
+		}
+}

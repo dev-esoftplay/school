@@ -69,25 +69,23 @@ if ($show_list)
   $form->roll->input->id->setTitle('id');
   $form->roll->input->id->setDisplayColumn(true);
 
-  $form->roll->addInput('class_id', 'sqlplaintext');
+  $form->roll->addInput('class_id', 'selecttable');
   $form->roll->input->class_id->setTitle('class');
-  $form->roll->input->class_id->setFieldname('class_id AS class');
-  $form->roll->input->class_id->setDisplayFunction(function ($value) use($db)
-  {
-    $class_id = $db->getone("SELECT class_id from school_student_class WHERE id=$value");
-    $name     = $db->getone("SELECT CONCAT_WS(' ',`grade`, `major`, `label`) from school_class WHERE id=$class_id");
-    return $name;
-  });
+  $form->roll->input->class_id->setFieldName( 'class_id' );
+  $form->roll->input->class_id->setReferenceTable('school_class');
+  $form->roll->input->class_id->setReferenceField('CONCAT_WS(" ",`grade`, `major`, `label`)','id');
+  $form->roll->input->class_id->setPlaintext(true);
+  $form->roll->input->class_id->setDisplayColumn(true);
+  $form->roll->input->class_id->textTip='';
 
-  $form->roll->addInput('student_id', 'sqlplaintext');
-  $form->roll->input->student_id->setTitle('student');
-  $form->roll->input->student_id->setFieldname('student_id AS student');
-  $form->roll->input->student_id->setDisplayFunction(function ($value) use($db)
-  {
-    $student_id = $db->getone("SELECT student_id from school_student_class WHERE id=$value");
-    $name       = $db->getone("SELECT name from school_student WHERE id=$student_id");
-    return $name;
-  });
+  $form->roll->addInput('student_id', 'selecttable');
+  $form->roll->input->student_id->setTitle('class');
+  $form->roll->input->student_id->setFieldName( 'student_id' );
+  $form->roll->input->student_id->setReferenceTable('school_student');
+  $form->roll->input->student_id->setReferenceField('name','id');
+  $form->roll->input->student_id->setPlaintext(true);
+  $form->roll->input->student_id->setDisplayColumn(true);
+  $form->roll->input->student_id->textTip='';
 
   $form->roll->addInput('number', 'sqlplaintext');
   $form->roll->input->number->setTitle('number');

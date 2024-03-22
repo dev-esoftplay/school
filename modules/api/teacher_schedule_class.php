@@ -14,7 +14,6 @@ if (!$teacher_id) {
 
 $current_date = date('Y-m-d');
 $date         = isset($_GET['date']) ? $_GET['date'] : $current_date;
-// $day          = isset($_GET['day']) ? $_GET['day'] : 1;
 
 if (strtotime($date) < strtotime($current_date)) {
   return api_no(lang('ga bisa lihat laporan jadwal disini, kamu harus ke teacher_schedule_report'));

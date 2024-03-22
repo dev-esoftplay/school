@@ -73,37 +73,16 @@ if (isset($_POST['submit'])) {
 }
 
 echo '<div class="col-md-6">';
-$form = _lib('pea', 'school_teacher_subject');
-
 $form->initEdit(!empty($_GET['id']) ? 'WHERE id=' . $_GET['id'] : '');
 $form->edit->setSaveTool(true);
 
 $form->edit->addInput('header', 'header');
-$form->edit->input->header->setTitle('Add Subject');
+$form->edit->input->header->setTitle('Add Course');
 
-$form->edit->addInput('course', 'selecttable');
-$form->edit->input->course->setTitle('course');
-$form->edit->input->course->setFieldName('course_id');
-$form->edit->input->course->addOption('Select Course', '');
-$form->edit->input->course->setReferenceTable('school_course');
-$form->edit->input->course->setReferenceField('name', 'id');
+$form->edit->addInput('course', 'text');
+$form->edit->input->course->setTitle('Mata Pelajaran');
+$form->edit->input->course->setFieldName('name');
 $form->edit->input->course->setRequire();
-
-$form->edit->addInput('teacher', 'selecttable');
-$form->edit->input->teacher->setTitle('teacher');
-$form->edit->input->teacher->setFieldName('teacher_id');
-$form->edit->input->teacher->addOption('Select Teacher', '');
-$form->edit->input->teacher->setReferenceTable('school_teacher');
-$form->edit->input->teacher->setReferenceField('name', 'id');
-$form->edit->input->teacher->setRequire();
-
-$form->edit->addInput('class', 'selecttable');
-$form->edit->input->class->setTitle('class');
-$form->edit->input->class->setFieldName('class_id');
-$form->edit->input->class->addOption('Select Class', '');
-$form->edit->input->class->setReferenceTable('school_class');
-$form->edit->input->class->setReferenceField('CONCAT_WS(" ",grade,label,major)', 'id');
-$form->edit->input->class->setRequire();
 
 echo $form->edit->getForm();
 echo '</div>';
@@ -113,7 +92,7 @@ echo '</div>';
 	<form method="POST" role="form" enctype="multipart/form-data" onsubmit="return validate_excel()">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title">Add Subject with Excel</h3>
+				<h3 class="panel-title">Add Course with Excel</h3>
 			</div>
 			<div class="panel-body">
 				<?php if (!empty($msg) && ($_POST['submit'] == 'submit_excel')) echo $msg; ?>
@@ -153,7 +132,7 @@ echo '</div>';
 	</form>
 </div>
 <div class="col-md-6">
-  <form action="<?php echo site_url('school/subject') ?>" method="POST" class="form" role="form">
+  <form action="<?php echo site_url('school/course') ?>" method="POST" class="form" role="form">
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">Template Excel</h3>
@@ -186,87 +165,52 @@ echo '</div>';
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 
 <script>
-  var expectedHeaders = ['No', 'Course', 'Teacher', 'Class'];
-  document.getElementById('fileInput').addEventListener('change', function(e) {
-    var file = e.target.files[0];
+	document.getElementById('fileInput').addEventListener('change', function(e) {
+		var file = e.target.files[0];
 
-    if (file) {
-      var reader = new FileReader();
+		if (file) {
+			var reader = new FileReader();
 
-      reader.onload = function(e) {
-        var data = new Uint8Array(e.target.result);
-        var workbook = XLSX.read(data, {
-          type: 'array'
-        });
+			reader.onload = function(e) {
+				var data = new Uint8Array(e.target.result);
+				var workbook = XLSX.read(data, {
+					type: 'array'
+				});
 
-        // Ambil data dari sheet pertama
-        var sheetName = workbook.SheetNames[0];
-        var sheet = workbook.Sheets[sheetName];
-        var headers = getHeaders(sheet);
+				// Ambil data dari sheet pertama
+				var sheetName = workbook.SheetNames[0];
+				var sheet = workbook.Sheets[sheetName];
 
-        var isHeaderValid = checkHeaderValidity(headers);
+				// Convert data sheet ke array of objects
+				var jsonData = XLSX.utils.sheet_to_json(sheet);
 
-        console.log(headers);
+				// Tampilin preview dalam bentuk tabel di div dengan id 'preview'
+				var html = '<div class="table-responsive"><table class="table table-bordered"><thead><tr>';
 
-        if (isHeaderValid) {
+				// Ambil nama kolom
+				var columns = Object.keys(jsonData[0]);
+				columns.forEach(function(column) {
+					html += '<th>' + column + '</th>';
+				});
 
-          // Convert data sheet ke array of objects
-          var jsonData = XLSX.utils.sheet_to_json(sheet);
-          console.log(jsonData);
+				html += '</tr></thead><tbody>';
 
-          // Tampilin preview dalam bentuk tabel di div dengan id 'preview'
-          var html = '<div class="table-responsive"><table class="table table-bordered"><thead><tr>';
+				// Isi data ke dalam tabel
+				jsonData.forEach(function(row) {
+					html += '<tr>';
+					columns.forEach(function(column) {
+						html += '<td>' + row[column] + '</td>';
+					});
+					html += '</tr>';
+				});
 
-          // Ambil nama kolom
-          var columns = Object.keys(jsonData[0]);
-          columns.forEach(function(column) {
-            html += '<th>' + column + '</th>';
-          });
+				html += '</tbody></table>';
 
-          html += '</tr></thead><tbody>';
+				// Tampilin tabel di div dengan id 'preview' dengan tambahan border
+				document.getElementById('preview').innerHTML = html;
+			};
 
-          // Isi data ke dalam tabel
-          jsonData.forEach(function(row) {
-            html += '<tr>';
-            columns.forEach(function(column) {
-              html += '<td>' + row[column] + '</td>';
-            });
-            html += '</tr>';
-          });
-
-          html += '</tbody></table>';
-          // Tampilin tabel di div dengan id 'preview' dengan tambahan border
-          document.getElementById('preview').innerHTML = html;
-        } else {
-          document.getElementById('preview').innerHTML = '<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" title="ok sign"></span> Maaf, format excel yang anda upload tidak sesuai, Silahkan donwload template yang sudah di sediakan.</div>';
-        }
-      };
-
-      reader.readAsArrayBuffer(file);
-
-      function getHeaders(sheet) {
-        var headers = [];
-        var range = XLSX.utils.decode_range(sheet['!ref']);
-        var C;
-
-        for (C = range.s.c; C <= range.e.c; ++C) {
-          var cell = sheet[XLSX.utils.encode_cell({
-            r: range.s.r,
-            c: C
-          })];
-          var header = cell.v;
-          headers.push(header.toLowerCase()); // Mengonversi header ke huruf kecil
-        }
-
-        return headers;
-      }
-
-      function checkHeaderValidity(headers) {
-        return expectedHeaders.every(function(header) {
-          return headers.includes(header.toLowerCase());
-        });
-      }
-
-    }
-  });
+			reader.readAsArrayBuffer(file);
+		}
+	});
 </script>

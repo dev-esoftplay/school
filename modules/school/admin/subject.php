@@ -1,24 +1,6 @@
 <?php  if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
 $show_list = true;
-if (!empty($_GET['id']) && !empty($_GET['act']))
-{
-	$id = intval($_GET['id']);
-	switch ($_GET['act'])
-	{
-		case 'approve':
-			include 'approval_withdraw-'.$_GET['act'].'.php';
-			break;
-	}
-	if (!empty($_GET['is_ajax']))
-	{
-		die();
-	}else{
-		$sys->nav_add('Event '.ucwords($_GET['act']));
-		$show_list = false;
-	}
-}
-
 if (!empty($_POST['template']))
 {
 	if ($_POST['template'] == 'download')
@@ -34,7 +16,7 @@ if (!empty($_POST['template']))
 		if (!empty($r))
 		{
 			_func('download');
-			download_excel('Template '.date('Y-m-d').' '.rand(0, 999), $r);
+			download_excel('Template '.$Bbc->mod['task'].' '.date('Y-m-d').' '.rand(0, 999), $r);
 		}else{
 			echo msg('Maaf, tidak ada file yg bisa di download', 'danger');
 		}
@@ -47,6 +29,12 @@ if ($show_list)
 	$form = _lib('pea', 'school_teacher_subject');
 	$form->initSearch();
 
+	?>
+	<a href="<?php echo site_url('school/subject_add')?>">
+	  <button type="button" class="btn btn-info" style="margin: 0px 0px 20px 10px ">Tambahkan Subject</button>
+	</a>
+	<?php
+	
 	$form->search->addInput('keyword','keyword');
 	$form->search->input->keyword->addSearchField('keyword,day,clock_start,clock_end');
 
@@ -97,4 +85,3 @@ if ($show_list)
 	echo $form->roll->getForm();
 }
 
-include 'subject_add.php';

@@ -1,24 +1,5 @@
 <?php  if (!defined('_VALID_BBC')) exit('No direct script access allowed');
-
-$show_list = true;
-if (!empty($_GET['id']) && !empty($_GET['act']))
-{
-	$id = intval($_GET['id']);
-	switch ($_GET['act'])
-	{
-		case 'approve':
-			include 'approval_withdraw-'.$_GET['act'].'.php';
-			break;
-	}
-	if (!empty($_GET['is_ajax']))
-	{
-		die();
-	}else{
-		$sys->nav_add('Event '.ucwords($_GET['act']));
-		$show_list = false;
-	}
-}
-
+// $show_list = true;
 if (!empty($_POST['template']))
 {
 	if ($_POST['template'] == 'download')
@@ -36,17 +17,23 @@ if (!empty($_POST['template']))
 		if (!empty($r))
 		{
 			_func('download');
-			download_excel('Template '.date('Y-m-d').' '.rand(0, 999), $r);
+			download_excel('Template '.$Bbc->mod['task'].' '.date('Y-m-d').' '.rand(0, 999), $r);
 		}else{
 			echo msg('Maaf, tidak ada file yg bisa di download', 'danger');
 		}
 	}
 }
 
-if ($show_list)
-{
+// if ($show_list)
+// {
 	$form = _lib('pea', 'school_schedule');
 	$form->initSearch();
+
+	?>
+	<a href="<?php echo site_url('school/schedule_add')?>">
+	  <button type="button" class="btn btn-info" style="margin: 0px 0px 20px 10px ">Tambahkan Jadwal</button>
+	</a>
+	<?php
 
 	$days = school_schedule_day();
 
@@ -59,7 +46,7 @@ if ($show_list)
 
 	$form->initRoll($add_sql.' ORDER BY day ASC', 'id' );
 
-	$form->roll->setSaveTool(true);
+	$form->roll->setSaveTool(false);
 
 	$form->roll->addInput('id', 'sqlplaintext');
 	$form->roll->input->id->setDisplayColumn(true);
@@ -117,6 +104,6 @@ if ($show_list)
 	$form->roll->addReport('excel');
 	$form->roll->action();
 	echo $form->roll->getForm();
-}
+// }
 
-include 'schedule_add.php';
+// include 'schedule_add.php';

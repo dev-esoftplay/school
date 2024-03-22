@@ -40,30 +40,30 @@
         <h1 class="panel-title">Tambah Guru with Excel</h1>
       </div>
       <div class="panel-body">
-        <p>Hiraukan Kolom A</p>
-        <p>Jika Field dibawah ini tidak diisi, maka Nama Guru akan mengambil kolom B, NIP kolom C, NoHp kolom D, Posisi kolom E </p>
+        <!-- <p>Hiraukan Kolom A</p> -->
+        <!-- <p>Jika Field dibawah ini tidak diisi, maka Nama Guru akan mengambil kolom B, NIP kolom C, NoHp kolom D, Posisi kolom E </p> -->
         <div class="form-group">
-          <label for="">Field Nama Guru</label>
-          <input type="text" name="name" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['name'] ?>">
+          <!-- <label for="">Field Nama Guru</label> -->
+          <input type="hidden" name="name" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['name'] ?>">
         </div>
         <div class="form-group">
-          <label for="">Field NIP</label>
-          <input type="text" name="nip" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['nip'] ?>">
+          <!-- <label for="">Field NIP</label> -->
+          <input type="hidden" name="nip" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['nip'] ?>">
         </div>
         <div class="form-group">
-          <label for="">Field Phone</label>
-          <input type="text" name="phone" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['phone'] ?>">
+          <!-- <label for="">Field Phone</label> -->
+          <input type="hidden" name="phone" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['phone'] ?>">
         </div>
         <div class="form-group">
-          <label for="">Field Posisi</label>
-          <input type="text" name="position" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['position'] ?>">
+          <!-- <label for="">Field Posisi</label> -->
+          <input type="hidden" name="position" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['position'] ?>">
         </div>
         <div class="form-group">
-          <label for="">Field Tanggal Lahir</label>
-          <input type="text" name="birthday" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['birthday'] ?>">
+          <!-- <label for="">Field Tanggal Lahir</label> -->
+          <input type="hidden" name="birthday" class="form-control" id="" placeholder="Input field" value="<?php echo $data_excel['birthday'] ?>">
         </div>
-        <div class="form-group">
-          <label for="fileInput">Upload Excel</label>
+        <div class="help-block">
+          Upload File Excel
         </div>
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#preview-excel">Pilih FIle</button>
 
@@ -76,8 +76,10 @@
               </div>
 
               <div class="modal-body">
-                <label for="fileInput">Pilih File</label>
-                <input id="fileInput" name="file" type="file">
+                <div class="mb-3">
+                  <label for="formFile" class="form-label">Pilih file</label>
+                  <input type="file" class="form-control" id="fileInput" name="file">
+                </div>
                 <div id="preview">
                 </div>
 
@@ -92,6 +94,23 @@
       </div>
   </form>
 </div>
+<div class="">
+  <form action="<?php echo site_url('school/teacher') ?>" method="POST" class="form" role="form">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Template Excel</h3>
+      </div>
+      <div class="panel-body">
+        <div class="help-block">
+          Unduh Template Excel
+        </div>
+      </div>
+      <div class="panel-footer">
+        <button type="submit" name="template" value="download" class="btn btn-default"><?php echo icon('fa-file-excel-o') ?> Download Template</button>
+      </div>
+    </div>
+  </form>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -100,6 +119,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 
 <script>
+  var expectedHeaders = ['No', 'Nama', 'NIP', 'No HP', 'Posisi', 'Tanggal Lahir'];
   document.getElementById('fileInput').addEventListener('change', function(e) {
     var file = e.target.files[0];
 
@@ -115,37 +135,71 @@
         // Ambil data dari sheet pertama
         var sheetName = workbook.SheetNames[0];
         var sheet = workbook.Sheets[sheetName];
+        var headers = getHeaders(sheet);
 
-        // Convert data sheet ke array of objects
-        var jsonData = XLSX.utils.sheet_to_json(sheet);
+        var isHeaderValid = checkHeaderValidity(headers);
 
-        // Tampilin preview dalam bentuk tabel di div dengan id 'preview'
-        var html = '<div class="table-responsive"><table class="table table-bordered"><thead><tr>';
+        console.log(headers);
 
-        // Ambil nama kolom
-        var columns = Object.keys(jsonData[0]);
-        columns.forEach(function(column) {
-          html += '<th>' + column + '</th>';
-        });
+        if (isHeaderValid) {
 
-        html += '</tr></thead><tbody>';
+          // Convert data sheet ke array of objects
+          var jsonData = XLSX.utils.sheet_to_json(sheet);
+          console.log(jsonData);
 
-        // Isi data ke dalam tabel
-        jsonData.forEach(function(row) {
-          html += '<tr>';
+          // Tampilin preview dalam bentuk tabel di div dengan id 'preview'
+          var html = '<div class="table-responsive"><table class="table table-bordered"><thead><tr>';
+
+          // Ambil nama kolom
+          var columns = Object.keys(jsonData[0]);
           columns.forEach(function(column) {
-            html += '<td>' + row[column] + '</td>';
+            html += '<th>' + column + '</th>';
           });
-          html += '</tr>';
-        });
 
-        html += '</tbody></table>';
+          html += '</tr></thead><tbody>';
 
-        // Tampilin tabel di div dengan id 'preview' dengan tambahan border
-        document.getElementById('preview').innerHTML = html;
+          // Isi data ke dalam tabel
+          jsonData.forEach(function(row) {
+            html += '<tr>';
+            columns.forEach(function(column) {
+              html += '<td>' + row[column] + '</td>';
+            });
+            html += '</tr>';
+          });
+
+          html += '</tbody></table>';
+          // Tampilin tabel di div dengan id 'preview' dengan tambahan border
+          document.getElementById('preview').innerHTML = html;
+        } else {
+          document.getElementById('preview').innerHTML = '<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" title="ok sign"></span> Maaf, format excel yang anda upload tidak sesuai, Silahkan donwload template yang sudah di sediakan.</div>';
+        }
       };
 
       reader.readAsArrayBuffer(file);
+
+      function getHeaders(sheet) {
+        var headers = [];
+        var range = XLSX.utils.decode_range(sheet['!ref']);
+        var C;
+
+        for (C = range.s.c; C <= range.e.c; ++C) {
+          var cell = sheet[XLSX.utils.encode_cell({
+            r: range.s.r,
+            c: C
+          })];
+          var header = cell.v;
+          headers.push(header.toLowerCase()); // Mengonversi header ke huruf kecil
+        }
+
+        return headers;
+      }
+
+      function checkHeaderValidity(headers) {
+        return expectedHeaders.every(function(header) {
+          return headers.includes(header.toLowerCase());
+        });
+      }
+
     }
   });
 </script>

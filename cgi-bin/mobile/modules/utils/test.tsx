@@ -1,11 +1,16 @@
 // withHooks
 
 import { useState, useEffect } from 'react';
-import { Text, View, FlatList } from 'react-native';
+import { Text, View, FlatList, Pressable } from 'react-native';
 
 import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import SchoolColors from './schoolcolor';
+import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
+import { LibUtils } from 'esoftplay/cache/lib/utils/import';
+import esp from 'esoftplay/esp';
+import { LibList } from 'esoftplay/cache/lib/list/import';
+import moment from 'esoftplay/moment';
 
 export interface TestArgs {
 
@@ -18,64 +23,103 @@ export interface TestProps {
 
 export default function m(props: TestProps): any {
 
-  const[teacherSchadule, setTeacherSchadule] = useState<any>([])
-  const[allDays, setAllDays] = useState<any>([])
+  const [teacherSchadule, setTeacherSchadule] = useState<any>([])
+
   useEffect(() => {
-    new LibCurl('teacher_schedule_class', 'get', (result, msg) => { 
+    new LibCurl('teacher_schedule', 'get', (result, msg) => {
       console.log('Jadwal Result:', result);
-      setTeacherSchadule(result.schedules)
-      setAllDays(result.days)
-    }, (error) => { 
+      setTeacherSchadule(result.schedule)
+
+    }, (error) => {
       console.log('error:', error);
     })
   }, [])
   const school = new SchoolColors();
-  const renderScheduleItem = ({ item }: { item: any }) => (
-    console.log('item', item),
-    <View style={{ marginBottom: 20, width: '100%', padding: 5 }}>
-      {/* <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000000' }}>{item.day}</Text> */}
-      <FlatList
-        data={item.schedule}
-        keyExtractor={(scheduleItem: any) => scheduleItem.schedule_id}
-        renderItem={({ item: schedule }: { item: any }) => (
-          console.log('schedule', schedule),
-          <View key={schedule.schedule_id} style={{ flexDirection: 'row', backgroundColor: '#e7e7e7', borderRadius: 10, marginBottom: 10, height: 100,  }}>
-            {/* You can customize this part according to your schedule data */}
-            <View style={{ marginRight: 10, width: 20, backgroundColor: school.primary, borderBottomLeftRadius: 10, borderTopLeftRadius: 10 }} >
 
-            </View>
-            <View style={{ justifyContent: 'center', padding: 10 }}>
-              <Text style={{ fontSize: 16, color: '#555' }}>{schedule.course.name}</Text>
-              <View style={{ flex: 1 }} />
-              <Text style={{ fontSize: 16, color: '#555' }}>{schedule.clock_start} - {schedule.clock_end}</Text>
 
-            </View>
-          </View>
-        )}
-      />
-    </View>
-  );
 
-  console.log('allDays :',allDays);
-  var schadulefilter = teacherSchadule.filter((item: { day: string; }) => item.day === 'senin')
-  console.log('schadulefilter :',schadulefilter);
+
+  const refresh = () => {
+
+
+
+    LibUtils.debounce(() => {
+
+
+
+      new LibCurl('teacher_schedule', null,
+        (result, msg) => {
+          console.log('Jadwal Result:', result);
+          console.log("msg", msg)
+          setTeacherSchadule(result.schedule)
+
+        },
+        (error) => {
+          console.log("error", error)
+        })
+
+
+    }, 100)
+
+
+  }
   return (
     <View style={{ flex: 1, backgroundColor: 'white', padding: 10, marginTop: LibStyle.STATUSBAR_HEIGHT }}>
       <Text>Test</Text>
-      {allDays.map((item: any, index: number) => {
-         return (
-          <Text key={index}>{item}</Text>
-        );
-      })}
-          <FlatList
-            data={schadulefilter}
-            scrollEnabled={true}
-            keyExtractor={(_item, index) => index.toString()}
-            contentContainerStyle={{ width: '100%' }}
-            renderItem={renderScheduleItem}
-          />
-       
+
+      <LibList
+        data={teacherSchadule}
+        ListHeaderComponent={() => {
+          return (
+            <View style={{ justifyContent: 'center', padding: 10, backgroundColor: school.bluelight, margin: 5, borderRadius: 10 }}>
+              <Text style={{ color: 'white' }}>Mata Pelajaran s</Text>
+              <Text style={{ color: 'white' }}>Kelas</Text>
+
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', flex: 1, height: 50, backgroundColor: 'pink' }}>
+                <View style={{ flex: 1, backgroundColor: school.primary, padding: 10, margin: 5, borderRadius: 10, }} >
+                  <Pressable onPress={() => { LibDialog.info('test', '') }}>
+                    <Text style={{ color: 'white' }}>Jadwal Hari Ini</Text>
+                  </Pressable>
+                </View>
+                <View style={{ flex: 1, backgroundColor: school.bluelight, padding: 10, margin: 5, borderRadius: 10, }} >
+                  <Pressable onPress={() => { LibDialog.info('test', '') }}>
+                    <Text style={{ color: 'white' }}>Jadwal Hari Ini</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </View>
+          )
+        }}
+        ListEmptyComponent={() => {
+          return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+              <Text>Belum ada jadwal</Text>
+            </View>
+          )
+
+        }}
+        onRefresh={refresh}
+        renderItem={(item: any) => {
+          console.log('item:', item);
+          return (
+            <View style={{ justifyContent: 'center' }}>
+              <Text>{item.status_text}</Text>
+              {item.data.map((data: any) => {
+                return (
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10, backgroundColor: school.primary, margin: 5, borderRadius: 10 }}>
+                    <Text>{data.course.name}</Text>
+                    <Text>{data.class.name}</Text>
+                  </View>
+                )
+              })}
+
+            </View>
+          )
+        }
+        } />
+
 
     </View>
   );
 }
+

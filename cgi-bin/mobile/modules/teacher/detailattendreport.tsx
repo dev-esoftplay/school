@@ -19,6 +19,7 @@ export interface DetailAttendReportProps {
 export default function m(props: DetailAttendReportProps): any {
   const data: any = LibNavigation.getArgsAll(props).data;
   const idstudent: string = LibNavigation.getArgsAll(props).idstudent;
+  
   const [resApi, setResApi] = useSafeState<any>([])
   function shadows(value: number) {
     return {
@@ -51,7 +52,7 @@ export default function m(props: DetailAttendReportProps): any {
 
           <View style={{ marginBottom: 20, flexDirection: 'row' }}>
             {/* schadule */}
-            <Pressable onPress={() => LibNavigation.back()} style={{ flexDirection: 'row', marginTop: LibStyle.STATUSBAR_HEIGHT + 15 }}>
+            <Pressable onPress={() => LibNavigation.back()} style={{ flexDirection: 'row', marginTop: LibStyle.STATUSBAR_HEIGHT}}>
               <LibIcon.EntypoIcons name="chevron-left" size={30} color="black" />
               <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'black', }}>Laporan Absensi</Text>
             </Pressable>
@@ -75,9 +76,9 @@ export default function m(props: DetailAttendReportProps): any {
                 </View>
 
                 <View style={{ height: 30, }} />
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                  <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item.clock_start}</Text>
-                  <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item.clock_end}</Text>
+                <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+                  <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item.clock_start}-{item.clock_end}</Text>
+             
                 </View>
               </View>
 

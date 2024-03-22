@@ -9,6 +9,7 @@ import { FlatList, Platform, Pressable, ScrollView, Text, View } from 'react-nat
 import Svg, { Circle } from 'react-native-svg';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 import SchoolColors from '../utils/schoolcolor';
+import moment from 'esoftplay/moment';
 
 
 export interface TeacherAttenreportArgs {
@@ -37,30 +38,21 @@ export default function m(): any {
 
   // Gunakan fungsi getWeekNumberInMonth untuk mendapatkan minggu keberapa dalam bulan ini
   const weekNumberInMonth = getWeekNumberInMonth();
-
-  const [weekOne, setWeekOne] = useSafeState(0)
-  const [weekTwo, setWeekTwo] = useSafeState(0)
-  const [weekThree, setWeekThree] = useSafeState(0)
-  const [weekFour, setWeekFour] = useSafeState(0)
-
-
- 
- 
   const Bulan = [
     {
-      "name": "January",
+      "name": "Januari",
       "abbreviation": "Jan",
       "number": 1,
       "days": 31
     },
     {
-      "name": "February",
+      "name": "Februari",
       "abbreviation": "Feb",
       "number": 2,
       "days": 28
     },
     {
-      "name": "March",
+      "name": "Maret",
       "abbreviation": "Mar",
       "number": 3,
       "days": 31
@@ -72,25 +64,25 @@ export default function m(): any {
       "days": 30
     },
     {
-      "name": "May",
+      "name": "Mei",
       "abbreviation": "May",
       "number": 5,
       "days": 31
     },
     {
-      "name": "June",
+      "name": "Juni",
       "abbreviation": "Jun",
       "number": 6,
       "days": 30
     },
     {
-      "name": "July",
+      "name": "Juli",
       "abbreviation": "Jul",
       "number": 7,
       "days": 31
     },
     {
-      "name": "August",
+      "name": "Agustus",
       "abbreviation": "Aug",
       "number": 8,
       "days": 31
@@ -102,7 +94,7 @@ export default function m(): any {
       "days": 30
     },
     {
-      "name": "October",
+      "name": "Oktober",
       "abbreviation": "Oct",
       "number": 10,
       "days": 31
@@ -114,21 +106,24 @@ export default function m(): any {
       "days": 30
     },
     {
-      "name": "December",
+      "name": "Desember",
       "abbreviation": "Dec",
       "number": 12,
       "days": 31
     }
-  ]
+  ];
+
 
   let slideup = useRef<LibSlidingup>(null)
-  const [resApi, setResApi] = React.useState<any>([])
+  const [resApi, setResApi] = useSafeState<any>([])
   const allMonth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-  const [CurentMonth, setCurentMonth] = useSafeState(allMonth[today.getMonth()])
+  const strBulan = ['januari', 'februari', 'maret', 'april', 'mei', 'juni', 'juli', 'agustus', 'september', 'oktober', 'november', 'desember']
+ 
+  const [endpoints, setEndpoints] = useSafeState<any>('')
   const [SelectMonth, setSelectMonth] = useSafeState(allMonth[today.getMonth()])
 
   const [SelectWeek, setSelectWeek] = useSafeState(weekNumberInMonth)
-
+  const [strSelectWeek, setStrSelectWeek] = useSafeState('')
 
 
   const [activeWeek, setActiveWeek] = useState<number | null>(null);
@@ -165,13 +160,13 @@ export default function m(): any {
   useEffect(() => {
     console.log('Attendance Report')
     // console.log('http://api.test.school.esoftplay.com/teacher_schedule_report?day=&week=&month&class_id&course_id')
-    console.log('teacher_schedule_report?&month=' + CurentMonth)
-    new LibCurl('teacher_schedule_report?&month='+CurentMonth, null, (result) => {
+    console.log('teacher_schedule_report?&month=' + SelectMonth)
+    new LibCurl('teacher_schedule_report?&month=' + SelectMonth, null, (result) => {
       console.log('result', result)
       setResApi(result)
     }, (err) => {
-        setResApi(resApi.schedule_days=[])
-       console.log('err', err)
+      setResApi(resApi.schedule_days = [])
+      console.log('err', err)
     })
   }, [])
 
@@ -181,22 +176,23 @@ export default function m(): any {
     if (activeWeek && month && week) {
       console.log('filter bulan ', month, ' dan minggu', week)
       // console.log('teacher_schedule_report?&week=' + week)
-      new LibCurl('teacher_schedule_report?&week=' + week, null, (result) => {
+      new LibCurl('teacher_schedule_report?&month=' + month+'&week=' + week, null, (result) => {
         console.log('result', JSON.stringify(result))
         setResApi(result)
       }, (err) => {
-        setResApi(resApi.schedule_days=[])
+        setResApi(resApi.schedule_days = [])
         console.log("error", err)
       })
     } else {
       console.log('filter bulan', month)
-       console.log('teacher_schedule_report?&month=' + month)
+        , setStrSelectWeek('')
+      console.log('teacher_schedule_report?&month=' + month)
       new LibCurl('teacher_schedule_report?&month=' + month, null, (result) => {
         console.log('result', JSON.stringify(result))
         setResApi(result)
       }, (err) => {
-        setResApi(resApi.schedule_days=[])
-         console.log("error", err)
+        setResApi(resApi.schedule_days = [])
+        console.log("error", err)
       })
     }
   }
@@ -206,6 +202,15 @@ export default function m(): any {
   const STROKE_COLOR = '#11b81f'
   const R = 30
   const Circle_length = 2 * Math.PI * R
+
+  let Endpoints=(month: number, week: number,day:any)=>{
+    setEndpoints('teacher_schedule_report?month=' + month+'&day=' + day)
+    // if (activeWeek && month && week) {
+    //   setEndpoints('teacher_schedule_report?month=' + month+'&week=' + week + '&day=' + day)
+    // } else {
+    // }
+     
+  }
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white', }}>
@@ -217,7 +222,7 @@ export default function m(): any {
 
           <View style={{ marginBottom: 20, }}>
             {/* schadule */}
-            <Text style={{ fontSize: 24, fontWeight: 'bold', color: 'black', marginTop: 20 }}>Laporan Absensi</Text>
+            <Text style={{ fontSize: 24, fontWeight: 'bold', color: 'black', marginTop: 20 }}>Laporan Presensi</Text>
             <Pressable
 
               onPress={() => {
@@ -226,7 +231,7 @@ export default function m(): any {
               }}
               style={{ width: LibStyle.width - 45, height: 60, backgroundColor: 'white', borderRadius: 10, justifyContent: 'center', alignSelf: 'center', marginTop: 30, ...elevation(7), paddingHorizontal: 20, marginHorizontal: 5 }}>
               <View style={{ flexDirection: 'row', paddingHorizontal: 20 }}>
-                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black', textAlign: 'center', }}>Filter</Text>
+                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black', textAlign: 'center', }}>{strBulan[SelectMonth - 1].toUpperCase()} {strSelectWeek} </Text>
                 <LibIcon.Feather name="filter" size={20} color="black" style={{ position: 'absolute', right: 20 }} />
               </View>
             </Pressable>
@@ -240,30 +245,21 @@ export default function m(): any {
             // console.log('item', item)
             // console.log('schadule finish /schadule total',   item.schedule_finished,'/',item.schedule_total )
             return (
-           
-              <Pressable onPress={()=>LibNavigation.navigate('teacher/attendreport_detail',{data:item?.schedule,date:item?.date})} style={{ backgroundColor: '#008000bd', padding: 10, width: LibStyle.width - 40, paddingHorizontal: 20, borderRadius: 15, opacity: 0.8, ...shadows(3), marginVertical: 10, flexDirection: 'row', height: 120, justifyContent: 'space-between' }}>
+             
+              
+              <Pressable onPress={() => { 
+                Endpoints(SelectMonth, SelectWeek, item?.date_day),console.log('endpoints', endpoints),
+                LibNavigation.navigate('teacher/attendreport_detail', { endpoints: endpoints, date: item?.date, unfinishedSchadule: (item.schedule_total - item.schedule_finished)} )
+              }}
+                style={{ backgroundColor: '#008000bd', padding: 10, width: LibStyle.width - 40, paddingHorizontal: 10, borderRadius: 15, opacity: 0.8, ...shadows(3), marginVertical: 5, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', paddingVertical: 10 }}>
 
-                <View style={{ justifyContent: 'space-between' }}>
-                  <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item?.day}</Text>
-                  <View style={{ height: 30, }} />
-                  <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item?.date}</Text>
-                </View>
-
-                <View style={{ width: 100, height: 100, justifyContent: 'center', alignItems: 'center', }}>
-                  {/* <PieChart
-                    style={{ alignSelf: 'center' }}
-                    widthAndHeight={widthAndHeight}
-                    series={[70,5,20]}
-                    sliceColor={sliceColor}
-                    coverRadius={0.45}
-                    coverFill={'none'}
-                  /> */}
-
-                  <Svg width={100} height={100} style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{moment(item?.date).format('dddd, DD MMMM YYYY')}</Text>
+                  <View style={{flex:1}}/>
+                  <Svg width={80} height={80} style={{ justifyContent: 'center', alignItems: 'center' }}>
                     {/* Lingkaran luar untuk indikator persentase  */}
                     <Circle
-                      cx={100 / 2}
-                      cy={100 / 2}
+                      cx={80 / 2}
+                      cy={80 / 2}
                       r={R}
                       fillOpacity={0.8}
                       stroke={BACKGROUND_STROKE_COLOR}
@@ -273,8 +269,8 @@ export default function m(): any {
                     />
                     {/* Lingkaran dalam untuk menunjukkan persentase */}
                     <Circle
-                      cx={100 / 2}
-                      cy={100 / 2}
+                      cx={80 / 2}
+                      cy={80 / 2}
                       r={R}
                       // strokeOpacity={0.8}
                       stroke={STROKE_COLOR}
@@ -283,17 +279,15 @@ export default function m(): any {
                       fill={'none'}
                       // fillOpacity={0.8}
                       strokeDasharray={`${Circle_length}`}
-                 
-                      strokeDashoffset={Circle_length * (1 - item.schedule_finished/item.schedule_total)}
+
+                      strokeDashoffset={Circle_length * (1 - item.schedule_finished / item.schedule_total)}
                       strokeLinecap="round"
                     />
+                    <View style={{ position: 'absolute', top: 30, left: 30, justifyContent: 'center', alignItems: 'center' }}>
+                      <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'white' }}>{item.schedule_finished}/{item.schedule_total}</Text>
+                    </View>
                   </Svg>
-
-                  <Text style={{ position: 'absolute', color: 'white' }}>
-            
-                    {` ${item.schedule_finished}/${item.schedule_total}`}
-                  </Text>
-                </View>
+              
               </Pressable>
             )
           }
@@ -316,8 +310,8 @@ export default function m(): any {
               ({ item, index }) => {
                 return (
                   <Pressable onPress={() => { setSelectMonth(allMonth[index]) }}>
-                     <View style={{ flexDirection: 'row', justifyContent: 'center', marginRight: 10, height: 40, borderRadius: 12, borderWidth: 2, width: 'auto', paddingHorizontal: 10, alignItems: 'center', backgroundColor: item['number'] == SelectMonth ? school.primary : 'white',borderColor: item['number'] == SelectMonth ? school.primary : 'gray' }}>
-                      <Text style={{ fontSize: 15, fontWeight: 'bold', color:  item['number'] == SelectMonth ?  'white':school.primary , alignSelf: 'center' }}>{item['name']}</Text>
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', marginRight: 10, height: 40, borderRadius: 12, borderWidth: 2, width: 'auto', paddingHorizontal: 10, alignItems: 'center', backgroundColor: item['number'] == SelectMonth ? school.primary : 'white', borderColor: item['number'] == SelectMonth ? school.primary : 'gray' }}>
+                      <Text style={{ fontSize: 15, fontWeight: 'bold', color: item['number'] == SelectMonth ? 'white' : school.primary, alignSelf: 'center' }}>{item['name']}</Text>
                       <View style={{ height: 30 }} />
                     </View>
                   </Pressable>
@@ -326,21 +320,21 @@ export default function m(): any {
           />
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
             <View style={{ width: '100%', height: 45, flexDirection: 'row', justifyContent: 'center', paddingHorizontal: 20 }}>
-              <Pressable onPress={() => { console.log('minggu 1:', weekOne,), handlePress(1, ) }} style={{ width: '25%', height: 40, backgroundColor: 1 == activeWeek ?school.primary : 'white', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5,borderColor: 1 == activeWeek ?  'white':school.primary  ,borderWidth:2   }}>
-                <Text style={{ fontSize: 15, fontWeight: 'bold',color: 1 == activeWeek ?'white':school.primary, textAlign: 'center', }}>Minggu 1</Text>
+              <Pressable onPress={() => { handlePress(1,), setStrSelectWeek('MINGGU KE ' + 1) }} style={{ width: '25%', height: 40, backgroundColor: 1 == activeWeek ? school.primary : 'white', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5, borderColor: 1 == activeWeek ? 'white' : school.primary, borderWidth: 2 }}>
+                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 1 == activeWeek ? 'white' : school.primary, textAlign: 'center', }}>Minggu 1</Text>
               </Pressable>
-              <Pressable onPress={() => { console.log('minggu 2:', weekTwo,), handlePress(2, ) }} style={{ width: '25%', height: 40, backgroundColor: 2 == activeWeek ?school.primary : 'white', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5,borderColor: 2 == activeWeek ?  'white':school.primary  ,borderWidth:2   }}>
-                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 2 == activeWeek ?'white':school.primary, textAlign: 'center', }}>Minggu 2</Text>
+              <Pressable onPress={() => { handlePress(2,), setStrSelectWeek('MINGGU KE ' + 2) }} style={{ width: '25%', height: 40, backgroundColor: 2 == activeWeek ? school.primary : 'white', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5, borderColor: 2 == activeWeek ? 'white' : school.primary, borderWidth: 2 }}>
+                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 2 == activeWeek ? 'white' : school.primary, textAlign: 'center', }}>Minggu 2</Text>
               </Pressable>
-              <Pressable onPress={() => { console.log('minggu 3:', weekThree,), handlePress(3, ) }} style={{ width: '25%', height: 40, backgroundColor: 3 == activeWeek ?school.primary : 'white', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5,borderColor: 3 == activeWeek ?  'white':school.primary  ,borderWidth:2   }}>
-                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 3 == activeWeek ?'white':school.primary, textAlign: 'center', }}>Minggu 3</Text>
+              <Pressable onPress={() => { handlePress(3,), setStrSelectWeek('MINGGU KE ' + 3) }} style={{ width: '25%', height: 40, backgroundColor: 3 == activeWeek ? school.primary : 'white', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5, borderColor: 3 == activeWeek ? 'white' : school.primary, borderWidth: 2 }}>
+                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 3 == activeWeek ? 'white' : school.primary, textAlign: 'center', }}>Minggu 3</Text>
               </Pressable>
-              <Pressable onPress={() => { console.log('minggu 4:', weekFour,), handlePress(4, ) }} style={{ width: '25%', height: 40, backgroundColor: 4 == activeWeek ?school.primary : 'white', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5,borderColor: 4 == activeWeek ?  'white':school.primary  ,borderWidth:2   }}>
-                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 4 == activeWeek ?'white':school.primary, textAlign: 'center', }}>Minggu 4</Text>
+              <Pressable onPress={() => { handlePress(4,), setStrSelectWeek('MINGGU KE ' + 4) }} style={{ width: '25%', height: 40, backgroundColor: 4 == activeWeek ? school.primary : 'white', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5, borderColor: 4 == activeWeek ? 'white' : school.primary, borderWidth: 2 }}>
+                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 4 == activeWeek ? 'white' : school.primary, textAlign: 'center', }}>Minggu 4</Text>
               </Pressable>
             </View>
           </ScrollView >
-         
+
           < Pressable onPress={() => {
             const weekInMonth = SelectWeek; // Minggu kedua dalam bulan
             // console.log('select week', SelectWeek)
@@ -348,8 +342,8 @@ export default function m(): any {
 
             filterApi(SelectMonth, weekInMonth)
             slideup.current?.hide()
-            console.log('resApi', resApi?.schedule_days??[])
-             console.log('select month', SelectMonth)
+            console.log('resApi', resApi?.schedule_days ?? [])
+            console.log('select month', SelectMonth)
 
           }
           } style={{ width: "100%", height: 60, backgroundColor: school.primary, borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginTop: 20, }}>

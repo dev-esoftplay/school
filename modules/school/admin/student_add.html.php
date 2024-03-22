@@ -135,7 +135,7 @@
     <form method="POST" role="form" enctype="multipart/form-data" onsubmit="return validateForm()">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h3 class="panel-title">Add Teacher with Excel</h3>
+          <h3 class="panel-title">Add Student with Excel</h3>
         </div>
         <div class="panel-body">
           <?php
@@ -144,8 +144,16 @@
             echo '<div class="form-group">';
             // echo '<label for="">' . 'Field ' . $label . '</label>';
             echo '<input type="hidden" name="' . $fieldName . '" class="form-control input-file" id="" placeholder="Input field" value="' . $key . '">';
+            echo '<input type="hidden" name="' . $fieldName . '" class="form-control input-file" id="" placeholder="Input field" value="' . $key . '">';
             echo '</div>';
           }
+          ?>
+          <div class="help-block">
+            Upload File Excel
+          </div>
+          <div class="modal" id="preview-excel" style="background-color: white;">
+            <div class="modal-dialog" style="max-width: 1000px; width: 100%;">
+              <div class="modal-content">
           ?>
           <div class="help-block">
             Upload File Excel
@@ -157,6 +165,9 @@
                 <div class="modal-header">
                   <h4 class="modal-title">Preview Excel</h4>
                 </div>
+                <div class="modal-header">
+                  <h4 class="modal-title">Preview Excel</h4>
+                </div>
 
                 <div class="modal-body">
                   <label for="fileInput">Pilih File</label>
@@ -164,6 +175,10 @@
                   <div id="preview">
                   </div>
 
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    <button type="submit" class="btn btn-primary" name="import_excel" value="submit">Submit</button>
+                  </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                     <button type="submit" class="btn btn-primary" name="import_excel" value="submit">Submit</button>
@@ -256,7 +271,30 @@
       }, 10000);
     });
 
-    document.getElementById('fileInput').addEventListener('change', function (e) {
+    var expectedHeaders = [
+      'No',
+      'Nama Siswa',
+      'Tanggal Lahir Siswa',
+      'Nis',
+      'Nomer KK',
+      'Alamat', 
+      'Nama Ayah',
+      'Tanggal Lahir Ayah',
+      'Nik Ayah', 
+      'Nomer Telepon Ayah',
+      'Nama Ibu', 
+      'Tanggal Lahir Ibu',
+      'Nik Ibu',
+      'Nomer Telepon Ibu',
+      'Nama Wali',
+      'Tanggal Lahir Wali',
+      'Nik Wali',
+      'Nomer KK Wali',
+      'Nomer Telepon Wali',
+      'Alamat Wali'
+    ];
+    
+    document.getElementById('fileInput').addEventListener('change', function(e) {
       var file = e.target.files[0];
 
       if (file) {
@@ -271,20 +309,28 @@
           // Ambil data dari sheet pertama
           var sheetName = workbook.SheetNames[0];
           var sheet = workbook.Sheets[sheetName];
+          var headers = getHeaders(sheet);
 
-          // Convert data sheet ke array of objects
-          var jsonData = XLSX.utils.sheet_to_json(sheet);
+          var isHeaderValid = checkHeaderValidity(headers);
 
-          // Tampilin preview dalam bentuk tabel di div dengan id 'preview'
-          var html = '<div class="table-responsive"><table class="table table-bordered"><thead><tr>';
+          console.log(headers);
 
-          // Ambil nama kolom
-          var columns = Object.keys(jsonData[0]);
-          columns.forEach(function (column) {
-            html += '<th>' + column + '</th>';
-          });
+          if (isHeaderValid) {
 
-          html += '</tr></thead><tbody>';
+            // Convert data sheet ke array of objects
+            var jsonData = XLSX.utils.sheet_to_json(sheet);
+            console.log(jsonData);
+
+            // Tampilin preview dalam bentuk tabel di div dengan id 'preview'
+            var html = '<div class="table-responsive"><table class="table table-bordered"><thead><tr>';
+
+            // Ambil nama kolom
+            var columns = Object.keys(jsonData[0]);
+            columns.forEach(function(column) {
+              html += '<th>' + column + '</th>';
+            });
+
+            html += '</tr></thead><tbody>';
 
           // Isi data ke dalam tabel
           jsonData.forEach(function (row) {
@@ -295,13 +341,39 @@
             html += '</tr>';
           });
 
-          html += '</tbody></table>';
-
-          // Tampilin tabel di div dengan id 'preview' dengan tambahan border
-          document.getElementById('preview').innerHTML = html;
+            html += '</tbody></table>';
+            // Tampilin tabel di div dengan id 'preview' dengan tambahan border
+            document.getElementById('preview').innerHTML = html;
+          } else {
+            document.getElementById('preview').innerHTML = '<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" title="ok sign"></span> Maaf, format excel yang anda upload tidak sesuai, Silahkan donwload template yang sudah di sediakan.</div>';
+          }
         };
 
         reader.readAsArrayBuffer(file);
+
+        function getHeaders(sheet) {
+          var headers = [];
+          var range = XLSX.utils.decode_range(sheet['!ref']);
+          var C;
+
+          for (C = range.s.c; C <= range.e.c; ++C) {
+            var cell = sheet[XLSX.utils.encode_cell({
+              r: range.s.r,
+              c: C
+            })];
+            var header = cell.v;
+            headers.push(header.toLowerCase()); // Mengonversi header ke huruf kecil
+          }
+
+          return headers;
+        }
+
+        function checkHeaderValidity(headers) {
+          return expectedHeaders.every(function(header) {
+            return headers.includes(header.toLowerCase());
+          });
+        }
+
       }
     });
   </script>
