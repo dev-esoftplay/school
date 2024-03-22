@@ -118,4 +118,8 @@ switch ($Bbc->mod['task']) {
 	case 'class_student':
 		include 'class_student.php';
 		break;
+
+	case 'semester':
+		include 'semester.php';
+		break;
 }

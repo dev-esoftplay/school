@@ -99,21 +99,3 @@ if ($show_list)
 	echo $form->roll->getForm();
 }
 
-?> 
-<div class="col-md-4 col-sm-4 col-xs-4">
-  <form action="" method="POST" class="form" role="form">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Template Excel</h3>
-      </div>
-      <div class="panel-body">
-        <div class="help-block">
-          Unduh Template Excel
-        </div>
-      </div>
-      <div class="panel-footer">
-        <button type="submit" name="template" value="download" class="btn btn-default"><?php echo icon('fa-file-excel-o') ?> Download Template</button>
-      </div>
-    </div>
-  </form>
-</div>

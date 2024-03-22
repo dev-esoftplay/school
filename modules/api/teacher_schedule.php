@@ -1,5 +1,4 @@
 <?php if (!defined('_VALID_BBC')) exit('No direct script access allowed');
-session_start();
 if (!$teacher_id) {
   return api_no(lang('Anda tidak memiliki akses ke halaman ini.'));
 }
@@ -35,7 +34,7 @@ foreach ($schedules as $key => $schedule) {
   $student_attend = $db->getcol('SELECT `id` FROM `school_attendance` WHERE `schedule_id` = ' . $schedule['id'] . ' AND DATE(`created`) = CURDATE() AND `presence` = 1');
   $schedule_count = $db->getcol('SELECT `id` FROM `school_schedule` WHERE `subject_id` IN (' . implode(',', $subject_ids) . ') AND `day` = ' . $schedule['day'] . ' ORDER BY `clock_start` ASC'); 
   $present        = count($student_attend) == count($student_number);
-  $days           = api_days($schedule['day']);
+  $days           = ucfirst(api_days($schedule['day']));
   $time_current   = date('H:i:s');
   $time_start     = $schedule['clock_start'];
   $time_end       = $schedule['clock_end'];
@@ -56,7 +55,7 @@ foreach ($schedules as $key => $schedule) {
   $status_text =[];
   switch ($status) {
     case 1:
-      $status_text = 'Jadwal Nihil';
+      $status_text = 'Jadwal Selesai';
       break;
     case 2:
       $status_text = 'Jadwal Selesai';
@@ -71,7 +70,10 @@ foreach ($schedules as $key => $schedule) {
       $status_text = 'Jadwal Belum Dimulai';
       break;
   }
-  $status_info = $status .'|'. $status_text;
+  // pr($status, __FILE__.':'.__LINE__);die();
+  $status_merge = ($status == 1 || $status == 2) ? '1-2' : $status; // Menggabungkan status 1 dan 2
+
+  $status_info = $status_merge .'|'. $status_text;
   $schedule_subject[$days][$status_info][] = array(
     'schedule_id'    => $schedule['id'],
     'course'         => $course_data,
@@ -79,7 +81,7 @@ foreach ($schedules as $key => $schedule) {
     'clock_start'    => $schedule['clock_start'],
     'clock_end'      => $schedule['clock_end'],
     'student_number' => count($student_number),
-    'student_attend' => count($student_attend),
+    'student_attend' => /*(count($student_attend) >= count($student_number)) ? count($student_number) :*/ count($student_attend) ,
     'status'         => $status
   );
 }
@@ -114,39 +116,42 @@ foreach ($schedule_subject as $day => $schedule_data) {
     // $result['total_schedule'] = count($value);
 
   usort($result['schedule'], function($a, $b) {
-    $statusOrder = [4, 5, 3, 2, 1];
-
+    $status_order = [4, 5, 3, 2, 1];
     if ($a['status'] == $b['status']) {
-        return strcmp($a['clock_start'], $b['clock_start']);
+      return strcmp($a['clock_start'], $b['clock_start']);
     }
-
-    $aIndex = array_search($a['status'], $statusOrder);
-    $bIndex = array_search($b['status'], $statusOrder);
-
-    return $aIndex - $bIndex;
+    $a_index = array_search($a['status'], $status_order);
+    $b_index = array_search($b['status'], $status_order);
+    return $a_index - $b_index;
   });
-
-
   $late_schedule = [];
   foreach ($schedule_data as $schedule) {
-    if ($schedule['status'] === 3) {
-      $late_schedule = $schedule;
+    foreach ($schedule as $key => $value) {
+      if ($value['status'] === 3) {
+        $late_schedule = $value;
+      }
     }
   }
   if ($late_schedule) {
-    $clock          = $late_schedule['clock_start'] . '-'. $late_schedule['clock_end'];
-    $message        = 'anda lupa absen, di jam ' . $clock;
-    $existing_notif = $db->getone('SELECT `id` FROM `bbc_user_push_notif` WHERE `user_id` = ' . $user_id . ' AND `message` = \''.$message .'\' AND DATE(created) = CURDATE()');
+    $schedule_id                 = $late_schedule['schedule_id'];
+    $class_id                    = $late_schedule['class']['id'];
+    $clock                       = $late_schedule['clock_start'] . '-'. $late_schedule['clock_end'];
+    $message                     = 'anda lupa absen, di jam ' . $clock;
+    $existing_notif              = $db->getone('SELECT `id` FROM `bbc_user_push_notif` WHERE `user_id` = ' . $user_id . ' AND `message` = \''.$message .'\' AND DATE(created) = CURDATE()');
     if ($late_schedule['status'] == 3) {
-      if (!isset($_SESSION['notif_sent']) && !$existing_notif) {
+      if (!$existing_notif) {
         _func('alert');
         alert_push(
           $user_id . '-' . 5,
-          lang('absen hari ini'),
+          lang('Presensi Hari ini'),
           $message,
-          'teacher/notif',
+          'teacher/attandence',
+          [
+            'url' => 'http://api.test.school.esoftplay.com/student_class?schedule_id='.$schedule_id.'&class_id='.$class_id.'&date='.date('Y-m-d'),
+           'teacher_id' => intval($teacher_id),
+           'class_id'   => intval($class_id),
+          ]
         );
-        $_SESSION['notif_sent'] = true;
       }
     }
   }

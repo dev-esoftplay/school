@@ -199,10 +199,10 @@ $days         = school_schedule_day();
 					</div>
 				</div>
 				<div class="form-group">
-					<input type="text" name="clock_start" class="form-control" id="lesson_clock_start" placeholder="Input " value="" required>
+					<input type="hidden" name="clock_start" class="form-control" id="lesson_clock_start" placeholder="Input " value="" required readonly>
 				</div>
 				<div class="form-group">
-					<input type="text" name="clock_end" class="form-control" id="lesson_clock_end" placeholder="Input " value="" required>
+					<input type="hidden" name="clock_end" class="form-control" id="lesson_clock_end" placeholder="Input " value="" required readonly>
 				</div>
 				<!-- <div class="form-group">
 					<label for="">Course</label>
@@ -314,7 +314,7 @@ $days         = school_schedule_day();
 	</form>
 </div>
 <div class="col-md-6">
-	<form action="" method="POST" class="form" role="form">
+	<form action="<?php echo site_url('school/schedule') ?>" method="POST" class="form" role="form">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Template Excel</h3>
