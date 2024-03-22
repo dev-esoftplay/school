@@ -1,5 +1,4 @@
-<?php if (!defined('_VALID_BBC'))
-  exit ('No direct script access allowed'); ?>
+<?php if (!defined('_VALID_BBC')) exit ('No direct script access allowed'); ?>
 
 <body>
   <h2 class="text-center">
@@ -135,7 +134,7 @@
     <form method="POST" role="form" enctype="multipart/form-data" onsubmit="return validateForm()">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h3 class="panel-title">Add Student with Excel</h3>
+          <h3 class="panel-title">Add Teacher with Excel</h3>
         </div>
         <div class="panel-body">
           <?php
@@ -143,7 +142,6 @@
             $label = ucwords(str_replace('_', ' ', $fieldName));
             echo '<div class="form-group">';
             // echo '<label for="">' . 'Field ' . $label . '</label>';
-            echo '<input type="hidden" name="' . $fieldName . '" class="form-control input-file" id="" placeholder="Input field" value="' . $key . '">';
             echo '<input type="hidden" name="' . $fieldName . '" class="form-control input-file" id="" placeholder="Input field" value="' . $key . '">';
             echo '</div>';
           }
@@ -154,31 +152,19 @@
           <div class="modal" id="preview-excel" style="background-color: white;">
             <div class="modal-dialog" style="max-width: 1000px; width: 100%;">
               <div class="modal-content">
-          ?>
-          <div class="help-block">
-            Upload File Excel
-          </div>
-          <div class="modal" id="preview-excel" style="background-color: white;">
-            <div class="modal-dialog" style="max-width: 1000px; width: 100%;">
-              <div class="modal-content">
 
-                <div class="modal-header">
-                  <h4 class="modal-title">Preview Excel</h4>
-                </div>
                 <div class="modal-header">
                   <h4 class="modal-title">Preview Excel</h4>
                 </div>
 
                 <div class="modal-body">
-                  <label for="fileInput">Pilih File</label>
-                  <input id="fileInput" name="file" type="file">
+                  <div class="mb-3">
+                    <label for="fileInput" class="form-label">Pilih File</label>
+                    <input id="fileInput" name="file" type="file" class="form-control">
+                  </div>
                   <div id="preview">
                   </div>
 
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                    <button type="submit" class="btn btn-primary" name="import_excel" value="submit">Submit</button>
-                  </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                     <button type="submit" class="btn btn-primary" name="import_excel" value="submit">Submit</button>
