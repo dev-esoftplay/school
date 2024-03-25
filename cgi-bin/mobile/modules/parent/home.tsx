@@ -84,12 +84,13 @@ function ParentsHome({ }: ParentsHomeProps): JSX.Element {
   };
 
   const [ParentStudent, setParentStudent] = useState<any>([])
+  const [childList, setChildList] = useState<any>()
 
-  const hitApi = () => { }
 
   function loadParentStudent() {
     new LibCurl('parent_student', null, (result, msg) => {
       setParentStudent(result)
+      setChildList(result.student_data.length)
     }, (err) => {
       console.log("error", err)
     }, 1)
@@ -157,25 +158,18 @@ function ParentsHome({ }: ParentsHomeProps): JSX.Element {
       <View style={{ flex: 1, backgroundColor: '#4B7AD6', justifyContent: 'flex-start', padding: 20, paddingTop: 40, borderBottomRightRadius: 12, borderBottomLeftRadius: 12 }}>
 
         <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#FFFFFF' }}>Selamat Datang</Text>
-
-        <Pressable onPress={() => { LibNavigation.navigate('parent/account') }}>
-
-
-          <View style={{ backgroundColor: '#FFFFFF', width: LibStyle.width * 1 - 40, height: LibStyle.height * 0.2 - 50, justifyContent: 'flex-start', alignItems: 'center', marginVertical: 20, padding: 15, flexDirection: 'row', borderRadius: 10 }}>
-            <Image source={{ uri: ParentStudent.image ?? 'https://images.unsplash.com/photo-1507823782123-27db7f9fd196?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }} style={{ width: 105, height: 105, borderRadius: 135 / 2, borderWidth: 3, borderColor: '#FFFFFF' }} />
-            <View style={{ marginLeft: 15, alignItems: 'flex-start', justifyContent: 'center' }}>
-              <Text style={{ fontSize: 18, color: '#000000', textAlign: 'center', fontWeight: '600' }}>{ParentStudent.name}</Text>
-              <Text style={{ fontSize: 18, color: '#000000', textAlign: 'center', fontWeight: '600' }}>+{ParentStudent.phone}</Text>
-            </View>
+        <View style={{ backgroundColor: '#FFFFFF', width: LibStyle.width * 1 - 40, height: LibStyle.height * 0.2 - 50, justifyContent: 'flex-start', alignItems: 'center', marginVertical: 20, padding: 15, flexDirection: 'row', borderRadius: 10 }}>
+          <Image source={{ uri: ParentStudent.image ?? 'https://images.unsplash.com/photo-1507823782123-27db7f9fd196?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }} style={{ width: 105, height: 105, borderRadius: 135 / 2, borderWidth: 3, borderColor: '#FFFFFF' }} />
+          <View style={{ marginLeft: 15, alignItems: 'flex-start', justifyContent: 'center' }}>
+            <Text style={{ fontSize: 18, color: '#000000', textAlign: 'center', fontWeight: '600' }}>{ParentStudent.name}</Text>
+            <Text style={{ fontSize: 18, color: '#000000', textAlign: 'center', fontWeight: '600' }}>+{ParentStudent.phone}</Text>
           </View>
+        </View>
 
-        </Pressable>
       </View>
 
+      <Text style={{ fontSize: 20, fontWeight: '600', marginTop: 15, marginLeft: 15 }}>Pantau aktivitas anak anda </Text>
 
-      <View>
-        <Text style={{ fontSize: 20, fontWeight: '600', marginTop: 15, marginLeft: 15 }}>Pantau aktivitas anak anda</Text>
-      </View>
 
       {/* Kartu Aktivitas Anak */}
       <View style={{ flex: 3, backgroundColor: '#FFFFFF', justifyContent: 'center', paddingTop: 10, alignItems: 'flex-start' }}>
@@ -184,7 +178,7 @@ function ParentsHome({ }: ParentsHomeProps): JSX.Element {
         <FlatList
           ref={ref}
           onMomentumScrollEnd={updateCurrentSlideIndex}
-          contentContainerStyle={{ height: height * 0.6, alignItems: 'center', backgroundColor: '#ffffff' }}
+          contentContainerStyle={{ alignItems: 'center', backgroundColor: '#ffffff' }}
           showsHorizontalScrollIndicator={false}
           horizontal
           data={ParentStudent.student_data}
@@ -195,12 +189,11 @@ function ParentsHome({ }: ParentsHomeProps): JSX.Element {
             console.log(item.class_name)
 
             return (
-              <View style={{ alignItems: 'center', width: width - 75, paddingBottom: 20, borderRadius: 12, backgroundColor: '#ffffff', marginLeft: 15, marginRight: 15, justifyContent: 'center', height: height * 0.9, padding: 7 }}>
+              <View style={{ alignItems: 'center', width: width - 75, paddingBottom: 20, borderRadius: 12, backgroundColor: '#ffffff', marginLeft: 15, marginRight: 15, justifyContent: 'center', padding: 7 }}>
 
-                <Pressable onPress={() => LibNavigation.navigate('parent/childdetail')}>
+                <Pressable onPress={() => { console.log('childata :', JSON.stringify(item)), LibNavigation.navigate('parent/childdetail', { childDetail: item }) }}>
+
                   <View style={{ height: height * 0.54, backgroundColor: '#4B7AD6', width: LibStyle.width * 0.8, borderRadius: 12, marginTop: 10, ...shadows(3), paddingTop: 79 }}>
-
-
                     <View style={{ padding: 1, alignItems: 'center', backgroundColor: '#FFFFFF', borderBottomLeftRadius: 12, borderBottomRightRadius: 12, height: height * 0.44 }}>
                       <Image
                         source={ParentStudent.image}
@@ -252,8 +245,25 @@ function ParentsHome({ }: ParentsHomeProps): JSX.Element {
           }}
           onScroll={(e) => updateCurrentSlideIndex(e)}
 
-        />
+        />  
+         <View style={{ flexDirection: "row", alignContent: 'center', justifyContent: 'center', width: LibStyle.width }}>
+         {
+            Array.from({ length: childList }, (_, index) => (
+              <View
+                  key={index}
+                  style={{
+                    height: 15,
+                    width: 20,
+                    backgroundColor: currentSlideIndex === index ? '#3F8DFD' : '#757171',
+                    marginHorizontal: 3,
+                    borderRadius: 12,
+                  }}
+                />))
 
+          }
+        </View>
+          {/* Kartu Logout */}
+     
         {/* <View style={{ flexDirection: "row", alignContent: 'center', justifyContent: 'center', width: LibStyle.width }}>
           <View style={{ flexDirection: "row", width: LibStyle.width / 4 }}>
             {ParentStudent.student_data.map((_: any, index: React.Key | null | undefined) => (
@@ -278,6 +288,7 @@ function ParentsHome({ }: ParentsHomeProps): JSX.Element {
         </View> */}
 
       </View>
+
     </View>
   );
 }

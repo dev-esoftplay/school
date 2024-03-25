@@ -2,11 +2,9 @@
 import { memo } from 'react';
 import { useEffect, useRef, useState } from 'react';
 
-import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
-import { LibIcon } from 'esoftplay/cache/lib/icon/import';
-import { MaterialIcons, FontAwesome5, FontAwesome } from '@expo/vector-icons';
+import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import React from 'react';
-import { FlatList, Image, Linking, Platform, Pressable, Text, TouchableOpacity, View, } from 'react-native';
+import { FlatList, Linking, Platform, Pressable, Text, TouchableOpacity, View, } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Svg, { Circle } from 'react-native-svg';
 import { LibSlidingup } from 'esoftplay/cache/lib/slidingup/import';
@@ -16,7 +14,6 @@ import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 import { LibList } from 'esoftplay/cache/lib/list/import';
-import esp from 'esoftplay/esp';
 import useSafeState from 'esoftplay/state';
 import { LibProgress } from 'esoftplay/cache/lib/progress/import';
 import moment from 'esoftplay/moment';
@@ -30,6 +27,9 @@ export interface ChildDetailProps {
 }
 
 function m(props: ChildDetailProps): any {
+
+  let childData = LibNavigation.getArgsAll(props).childDetail
+
   const allMonths = [
     {
       "name": "Januari",
@@ -130,19 +130,14 @@ function m(props: ChildDetailProps): any {
 
 
 
-  const [weekOne, setWeekOne] = useSafeState(0)
-  const [weekTwo, setWeekTwo] = useSafeState(0)
-  const [weekThree, setWeekThree] = useSafeState(0)
-  const [weekFour, setWeekFour] = useSafeState(0)
-  const [finalWeek, setFinalWeek] = useSafeState(0)
 
   const today = new Date();
 
   const [selectedMonth, setSelectedMonth] = useState(allMonths[today.getMonth()]);
   const [selectedWeek, setSelectedWeek] = useState(allWeeks[today.getMonth()]);
   const [SelectMonth, setSelectMonth] = useSafeState(_allMonth[today.getMonth()])
-  const [selectedDay, setSelectedDay] = useSafeState(allDays[today.getDay()-1]);
-
+  const [selectedDay, setSelectedDay] = useSafeState(allDays[today.getDay() - 1]);
+  const [finalWeek, setFinalWeek] = useSafeState(0)
   function elevation(value: any) {
     if (Platform.OS === "ios") {
       if (value === 0) return {};
@@ -218,56 +213,7 @@ function m(props: ChildDetailProps): any {
 
   };
 
-  const weeksNumber = getWeekNumber();
 
-  const WeekOneInThisMonth = (weekNumber: number) => {
-    switch (weekNumber) {
-      case 1:
-        return setWeekOne(weeksNumber)
-      case 2:
-        return setWeekOne(weeksNumber - 1)
-      case 3:
-        return setWeekOne(weeksNumber - 2)
-      case 4:
-        return setWeekOne(weeksNumber - 3)
-    }
-  }
-  const WeekTwoInThisMonth = (weekNumber: number) => {
-    switch (weekNumber) {
-      case 1:
-        return setWeekTwo(weeksNumber + 1), console.log(weeksNumber + 1)
-      case 2:
-        return setWeekTwo(weeksNumber)
-      case 3:
-        return setWeekTwo(weeksNumber - 1)
-      case 4:
-        return setWeekTwo(weeksNumber - 2)
-    }
-  }
-  const WeekThreeInThisMonth = (weekNumber: number) => {
-    switch (weekNumber) {
-      case 1:
-        return setWeekThree(weeksNumber + 2)
-      case 2:
-        return setWeekThree(weeksNumber + 1)
-      case 3:
-        return setWeekThree(weeksNumber)
-      case 4:
-        return setWeekThree(weeksNumber - 1)
-    }
-  }
-  const WeekFourInThisMonth = (weekNumber: number) => {
-    switch (weekNumber) {
-      case 1:
-        return setWeekFour(weeksNumber + 3)
-      case 2:
-        return setWeekFour(weeksNumber + 2)
-      case 3:
-        return setWeekFour(weeksNumber + 1)
-      case 4:
-        return setWeekFour(weeksNumber)
-    }
-  }
 
   const getDay = (date: string) => {
     switch (date) {
@@ -289,62 +235,21 @@ function m(props: ChildDetailProps): any {
         return "Minggu"
     }
   }
-  // const [weekOne, setWeekOne] = useSafeState(0)
-  // const [weekTwo, setWeekTwo] = useSafeState(0)
-  // const [weekThree, setWeekThree] = useSafeState(0)
-  // const [weekFour, setWeekFour] = useSafeState(0)
-  // const [finalWeek, setFinalWeek] = useSafeState(0)
-
-
-  // const getWeeksInMonth = (year: number, month: number): number[] => {
-  //   const weeks: number[] = [];
-  //   const firstDayOfMonth = new Date(year, month, 1);
-  //   const lastDayOfMonth = new Date(year, month + 1, 0);
-  //   const daysInMonth = lastDayOfMonth.getDate();
-  //   const firstDayOfWeek = firstDayOfMonth.getDay();
-  //   const daysBeforeFirstSunday = (7 - firstDayOfWeek) % 7;
-  //   const daysFromFirstSunday = daysInMonth - daysBeforeFirstSunday;
-  //   const weeksCount = Math.ceil(daysFromFirstSunday / 7);
-
-  //   for (let i = 0; i < weeksCount; i++) {
-  //     weeks.push(i + 1);
-  //   }
-
-  //   return weeks;
-  // };
-
-  // function getWeekInYear(year: number, month: number, weekInMonth: number): number {
-  //   const firstDayOfMonth = new Date(year, month, 1);
-  //   const firstWeekDay = firstDayOfMonth.getDay();
-  //   const daysToAdd = (7 * (weekInMonth)) - firstWeekDay;
-  //   const targetWeekDate = new Date(firstDayOfMonth.getTime() + daysToAdd * 86400000);
-  //   const weekOfYear = Math.ceil((targetWeekDate.getTime() - new Date(year, 0, 1).getTime()) / 604800000);
-  //   return weekOfYear + 1;
-  // }
 
   let slideup = useRef<LibSlidingup>(null)
 
-  // const allMonth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-  // const [CurrentMonth, setCurrentMonth] = useSafeState(allMonth[today.getMonth()])
-  // const [SelectMonth, setSelectMonth] = useSafeState(allMonth[today.getMonth()])
-  // const [SelectWeek, setSelectWeek] = useSafeState(weekNumberInMonth)
   const [activeWeek, setActiveWeek] = useState<number | null>(null);
 
-  // const handlePress = (weeknum: number, weekke: number) => {
-  //   setActiveWeek(weeknum === activeWeek ? null : weeknum);
-  //   setSelectWeek(weeknum), setFinalWeek(weekke)
-  // };
 
   const allTabs = ['Riwayat Absensi', 'Jadwal Anak'];
   const [selectTab, setSelectTab] = useSafeState(allTabs[0])
 
-  const [ParentStudent, setParentStudent] = useSafeState<any>([])
+
   const [StudentDetailAttendance, setStudentDetailAttendance] = useSafeState<any>([])
   const [TeacherScheduleClass, setTeacherScheduleClass] = useSafeState<any>([])
 
   const id: number = 1
 
-  const hitApi = () => { }
 
   let schedule = "schedule"
   // let filterSchedule = TeacherScheduleClass?.filter((item: any) => item.schedule == schedule)
@@ -352,7 +257,7 @@ function m(props: ChildDetailProps): any {
   const filterApi = (month: number, week: number) => {
     // console.log('ini bulan ', month)
 
-    new LibCurl('student_detail_attendance?class_id=' + id + '&student_id=' + id + '&month=' + month + '&week=' + week, null, (result, msg) => {
+    new LibCurl('student_detail_attendance?class_id=' + id + '&student_id=' + id + '&month=' + month + '&week=' + week, null, (result) => {
       // esp.log(result);
       setStudentDetailAttendance(result)
     }, (err: any) => {
@@ -360,17 +265,8 @@ function m(props: ChildDetailProps): any {
     }, 1)
   }
 
-  function loadParentStudent() {
-    new LibCurl('parent_student', get, (result, msg) => {
-      // console.log("result parent detail", JSON.stringify(result))
-      setParentStudent(result)
-    }, (err: any) => {
-      console.log("error", err)
-    }, 1)
-  }
-
   function loadStudentDetailAttendance() {
-    new LibCurl('student_detail_attendance?class_id=' + id + '&student_id=' + id, null, (result, msg) => {
+    new LibCurl('student_detail_attendance?class_id=' + id + '&student_id=' + id, null, (result) => {
       // esp.log(result);
       setStudentDetailAttendance(result)
     }, (err: any) => {
@@ -379,7 +275,7 @@ function m(props: ChildDetailProps): any {
   }
 
   function loadTeacherScheduleClass() {
-    new LibCurl('teacher_schedule_class?class_id=' + id, null, (result, msg) => {
+    new LibCurl('teacher_schedule_class?class_id=' + id, null, (result) => {
       setTeacherScheduleClass(result)
     }, (err: any) => {
       console.log("error", err)
@@ -389,125 +285,66 @@ function m(props: ChildDetailProps): any {
 
 
   useEffect(() => {
-    loadParentStudent();
-    loadStudentDetailAttendance();
-    loadTeacherScheduleClass();
-    new LibCurl('student_detail_attendance?class_id=' + idclass + '&student_id=' + idstudent, null, (result, msg) => {
+    console.log(1)
+    new LibCurl('student_detail_attendance?class_id=' + id + '&student_id=' + id + '&month=' + selectedMonth, null, (result) => {
       setStudentDetailAttendance(result)
-    }, (err) => {
+      console.log('student detail', result)
+    }, () => {
       // setEror(JSON.stringify(err))
       LibProgress.hide()
       setStudentDetailAttendance(null)
     })
+
+    console.log('child data', JSON.stringify(childData))
+    loadStudentDetailAttendance();
+    loadTeacherScheduleClass();
   }, []);
 
-  //   const filterApi = (month: number, week: number) => {
-  //     // console.log('ini bulan ', month)
-
-  //     if (activeWeek && month && week) {
-  //       console.log('filter bulan', month, 'dan minggu', week)
-  //       new LibCurl('teacher_schedule_report?&week=' + week, get, (result, msg) => {
-  //         console.log('result', JSON.stringify(result))
-  //         setTeacherScheduleClass(result)
-  //       }, (err) => {
-  //         setTeacherScheduleClass(TeacherScheduleClass.schedule_days = [])
-  //         console.log('error', err)
-  //       })
-  //     } else {
-  //       console.log('filter bulan', month)
-  //       console.log('teacher_schedule_report?&month=' + month)
-  //       new LibCurl('teacher_schedule_report?&month=' + month, get, (result, msg) => {
-  //         console.log('result', JSON.stringify(result))
-  //         setTeacherScheduleClass(result)
-  //       }, (err) => {
-  //         setTeacherScheduleClass(TeacherScheduleClass.schedule_days=[])
-  //         console.log('error', err)
-  //       })
-  //     }
-  //   }
-  // }
 
   const Tabs = () => {
     if (selectTab == allTabs[0]) {
       return (
-        <View style={{ padding: 20, alignItems: 'flex-start', alignContent: 'center' }}>
+        <View style={{ paddingHorizontal: 20, alignItems: 'flex-start', alignContent: 'center', justifyContent: "center" }}>
 
-          <View style={{ flexDirection: 'row' }}>
-            <View style={{ height: 80, width: 85, alignItems: 'center', backgroundColor: '#0DBD5E', justifyContent: 'center', borderRadius: 10, marginRight: 10 }}>
+          <View style={{ flexDirection: 'row', flex: 1,height: 80 }}>
+            <View style={{ height: 80, flex: 1, alignItems: 'center', backgroundColor: '#0DBD5E', justifyContent: 'center', borderRadius: 10, marginHorizontal: 5 }}>
               <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#FFFFFF' }}>{StudentDetailAttendance?.attendance_data?.hadir}</Text>
               <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#FFFFFF' }}>Hadir</Text>
             </View>
 
-            <View style={{ height: 80, width: 85, alignItems: 'center', backgroundColor: '#F6C956', justifyContent: 'center', borderRadius: 10, marginRight: 10 }}>
+            <View style={{ height: 80, flex: 1, alignItems: 'center', backgroundColor: '#F6C956', justifyContent: 'center', borderRadius: 10, marginHorizontal: 5 }}>
               <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#FFFFFF' }}>{StudentDetailAttendance?.attendance_data?.sakit}</Text>
               <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#FFFFFF' }}>Sakit</Text>
             </View>
 
-            <View style={{ height: 80, width: 85, alignItems: 'center', backgroundColor: '#0083FD', justifyContent: 'center', borderRadius: 10, marginRight: 10 }}>
+            <View style={{ height: 80, flex: 1, alignItems: 'center', backgroundColor: '#0083FD', justifyContent: 'center', borderRadius: 10, marginHorizontal: 5 }}>
               <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#FFFFFF' }}>{StudentDetailAttendance?.attendance_data?.ijin}</Text>
               <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#FFFFFF' }}>Izin</Text>
             </View>
 
-            <View style={{ height: 80, width: 85, alignItems: 'center', backgroundColor: '#FF4343', justifyContent: 'center', borderRadius: 10, marginRight: 10 }}>
+            <View style={{ height: 80, flex: 1, alignItems: 'center', backgroundColor: '#FF4343', justifyContent: 'center', borderRadius: 10, marginHorizontal: 5 }}>
               <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#FFFFFF' }}>{StudentDetailAttendance?.attendance_data?.tidak_hadir}</Text>
               <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#FFFFFF' }}>Alfa</Text>
             </View>
           </View>
+          <Pressable onPress={() => {
+            slideup.current?.show();
+          }} style={{ backgroundColor: '#FFFFFF', borderRadius: 10, alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', ...elevation(5), height: 60, padding: 10, flex: 1,marginTop:20 }}>
+            <Text style={{ fontSize: 15, fontWeight: '500', color: '#000000', textAlign: 'center', padding: 5 }}> {selectedMonth.name}, Minggu ke {activeWeek}</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center' ,flex:1}}/>
+            <Feather name='filter' size={20} color='#000000' />
+          </Pressable>
 
-          <FlatList
-            data={StudentDetailAttendance?.schedule_days}
-            style={{ height: 'auto' }}
-            showsVerticalScrollIndicator={false}
-            ListHeaderComponent={
-
-              <Pressable onPress={() => {
-                slideup.current?.show();
-              }} style={{ marginTop: 20, backgroundColor: '#FFFFFF', borderRadius: 10, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', ...elevation(10), width: LibStyle.width * 0.9, height: LibStyle.height * 0.1 - 30 }}>
-                <Feather name='filter' size={20} color='#000000' />
-                <Text style={{ fontSize: 15, fontWeight: '500', color: '#000000', textAlign: 'center', padding: 5 }}> {selectedMonth.name}, Minggu ke {activeWeek}</Text>
-              </Pressable>
-            }
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={
-              ({ item, index }) => {
-
-                const widthAndHeight = 80
-                const series = [70, 10, 20,]
-                const sliceColor = ['#009B00', '#FFB300', '#FF3C00']
-
-                return (
-                  <View></View>
-
-                )
-              }
-            }
-          />
 
 
           <Text style={{ fontSize: 20, fontWeight: 'bold', marginTop: 10 }}>Riwayat Absensi</Text>
 
-          {/* <View style={{ width: 100, backgroundColor: 'pink' }}>
-            <Text>test riwayat riwayat</Text>
-            <LibList
-              data={TeacherScheduleClass}
-              style={{ backgroundColor: 'green', padding: 1 }}
-              renderItem={(items, i) => {
-                console.log('resultRiwayat Absensi', items)
-                return (
-                  <View style={{ width: 100 }}>
-                    <Text style={{ marginLeft: 10, marginTop: 5, fontSize: 22, color: '#000000' }}>{items.day.toUpperCase()}</Text>
-                    <Text style={{ marginLeft: 10, marginTop: 35, fontSize: 15, color: '#000000' }}>01-02-2024</Text>
-                  </View>
-                )
-              }} />
-          </View> */}
-
 
           {
-            StudentDetailAttendance?.schedule_day?.map?.((items: any, i: number) => {
+            StudentDetailAttendance?.schedule_day?.map?.((items: any) => {
               return (
                 // <Pressable onPress={() => LibNavigation.navigate('teacher/detailattendreport')}>
-                <View style={{ marginBottom: 10, marginTop: 10, backgroundColor: '#0DBD5E', borderRadius: 10, alignItems: 'flex-end', ...elevation(4), width: 370, padding: 2 }}>
+                <View style={{ marginVertical: 10, backgroundColor: '#0DBD5E', borderRadius: 10, ...elevation(4), padding: 2, justifyContent: 'center' }}>
                   <View style={{ flexDirection: 'row', width: LibStyle.width * 0.9 - 10, height: LibStyle.height * 0.1 + 18, backgroundColor: '#FFFFFF', borderRadius: 10, justifyContent: 'space-between' }}>
 
                     <View>
@@ -562,26 +399,6 @@ function m(props: ChildDetailProps): any {
       return (
         <View>
           <Text style={{ fontSize: 20, fontWeight: 'bold', marginTop: 5, marginHorizontal: 20 }}>Jadwal anak</Text>
-
-          {/* <FlatList data={allDays}
-
-            keyExtractor={(item, index) => index.toString()}
-            horizontal
-            contentContainerStyle={{ marginTop: 10, height: 60 }}
-            showsHorizontalScrollIndicator={false}
-            renderItem={
-              ({ item, index }) => {
-                return (
-                  <Pressable onPress={() => { setSelectedDay(allDays) }}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'center', marginRight: 10, height: 40, borderRadius: 12, borderWidth: 2, width: 'auto', paddingHorizontal: 10, alignItems: 'center', backgroundColor: item?.name == selectedMonth?.name ? '#4B7AD6' : '#FFFFFF', borderColor: item?.name == selectedMonth?.name ? '#4B7AD6' : '#4B7AD6' }}>
-                      <Text style={{ fontSize: 15, fontWeight: 'bold', color: day ? '#FFFFFF' : '#4B7AD6', alignSelf: 'center' }}>{allDays}</Text>
-                      <View style={{ height: 30 }} />
-                    </View>
-                  </Pressable>
-                )
-              }}
-          /> */}
-
           <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10, marginBottom: 20, marginHorizontal: 20 }}>
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
               {allDays.map(day => (
@@ -601,12 +418,9 @@ function m(props: ChildDetailProps): any {
             </ScrollView>
           </View>
 
-          {/* <Text > d {JSON.stringify(TeacherScheduleClass)}</Text> */}
-
-
           <LibList
             data={TeacherScheduleClass?.schedules?.filter((item: any) => item.day == selectedDay)}
-            renderItem={(items, i) => {
+            renderItem={(items) => {
               console.log(items)
               return (
                 <View>
@@ -615,7 +429,7 @@ function m(props: ChildDetailProps): any {
                     keyExtractor={(scheduleItem: any) => scheduleItem.schedule_id}
                     renderItem={(item: any) => (
                       console.log('schedule', schedule),
-                      <View key={item.schedule_id} style={{ marginBottom: 10, backgroundColor: '#4B7AD6', borderRadius: 10, alignItems: 'flex-end', ...elevation(4), width: 370, padding: 2, alignSelf: 'center' }}>
+                      <View key={item.schedule_id} style={{ marginBottom: 10, backgroundColor: '#4B7AD6', borderRadius: 10, alignItems: 'flex-end', ...elevation(4),flex:1, paddingLeft:4,padding:1, alignSelf: 'center' }}>
                         <View style={{ flex: 1, justifyContent: 'space-between', flexDirection: 'row', overflow: 'hidden', width: LibStyle.width * 0.9 - 10, height: LibStyle.height * 0.1 + 18, backgroundColor: '#FFFFFF', borderRadius: 10 }}>
                           <View style={{ flexDirection: 'row' }}>
                             <View style={{ justifyContent: 'center', alignItems: 'flex-start' }}>
@@ -657,15 +471,15 @@ function m(props: ChildDetailProps): any {
             {/* <Image source={require('../../assets/anies.png')} style={{ width: 95, height: 95, justifyContent: 'center' }} /> */}
 
             <View style={{ marginLeft: 15, justifyContent: 'center', alignItems: 'flex-start' }}>
-              <Text style={{ fontSize: 19, color: '#000000', textAlign: 'center', fontWeight: '600' }}>Nama: {ParentStudent?.student_data?.[0]?.student_name}</Text>
-              <Text style={{ fontSize: 19, color: '#000000', textAlign: 'center', fontWeight: '600' }}>Kelas: {ParentStudent?.student_data?.[0]?.class_name}</Text>
-              <Text style={{ fontSize: 19, color: '#000000', textAlign: 'center', fontWeight: '600' }}>NIS: {ParentStudent?.student_data?.[0]?.nis}</Text>
+              <Text style={{ fontSize: 19, color: '#000000', textAlign: 'center', fontWeight: '600' }}>Nama: {childData?.student_name}</Text>
+              <Text style={{ fontSize: 19, color: '#000000', textAlign: 'center', fontWeight: '600' }}>Kelas: {childData?.class_name}</Text>
+              <Text style={{ fontSize: 19, color: '#000000', textAlign: 'center', fontWeight: '600' }}>NIS: {childData?.nis}</Text>
 
             </View>
 
           </View>
 
-          <View style={{ marginVertical: 4, justifyContent: 'space-evenly', alignContent: 'center',  }}>
+          <View style={{ marginVertical: 4, justifyContent: 'space-evenly', alignContent: 'center', }}>
             <Pressable onPress={() => Linking.openURL('https://wa.me/+6281295822119')} style={{ flexDirection: 'row', width: LibStyle.width * 0.9, padding: 10, justifyContent: 'center', backgroundColor: '#0DBD5E', borderRadius: 12 }}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <FontAwesome name="whatsapp" size={40} color="white" style={{ marginHorizontal: 10 }} />
@@ -719,7 +533,7 @@ function m(props: ChildDetailProps): any {
             }
             showsHorizontalScrollIndicator={false}
             renderItem={
-              ({ item, index }) => {
+              ({ item }) => {
                 return (
                   <Pressable onPress={() => { setSelectedMonth(item) }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'center', marginRight: 10, height: 40, borderRadius: 12, borderWidth: 2, width: 'auto', paddingHorizontal: 10, alignItems: 'center', backgroundColor: item?.name == selectedMonth?.name ? '#4B7AD6' : '#FFFFFF', borderColor: item?.name == selectedMonth?.name ? '#4B7AD6' : '#4B7AD6' }}>
@@ -731,26 +545,6 @@ function m(props: ChildDetailProps): any {
               }}
           />
 
-
-          {/* <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10, marginBottom: 20 }}>
-            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-              {allMonths.map(month => (
-                <TouchableOpacity
-                  onPress={() => setSelectedMonth(month)}
-                  style={{
-                    padding: 10,
-                    backgroundColor: selectedMonth?.number == month?.number ? '#4B7AD6' : '#AAAAAA',
-                    borderRadius: 5,
-                    marginRight: 10,
-                  }}>
-
-                  <Text style={{ color: selectedMonth === month ? '#FFFFFF' : '#FFFFFF' }}>{month.name}</Text>
-
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
-          </View> */}
-
           <View>
             <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#000000', marginTop: 5 }}>Pilih Minggu</Text>
           </View>
@@ -758,16 +552,16 @@ function m(props: ChildDetailProps): any {
           <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10, marginBottom: 20 }}>
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
               <View style={{ width: '100%', height: 45, flexDirection: 'row', justifyContent: 'center', paddingHorizontal: 20 }}>
-                <Pressable onPress={() => { console.log('minggu 1:', weekOne,), handlePress(1, weekOne) }} style={{ width: '25%', height: 40, backgroundColor: 1 == activeWeek ? '#4B7AD6' : 'white', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5, borderColor: 1 == activeWeek ? '#FFFFFF' : '#4B7AD6', borderWidth: 2 }}>
+                <Pressable onPress={() => { handlePress(1, 0) }} style={{ width: '25%', height: 40, backgroundColor: 1 == activeWeek ? '#4B7AD6' : 'white', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5, borderColor: 1 == activeWeek ? '#FFFFFF' : '#4B7AD6', borderWidth: 2 }}>
                   <Text style={{ fontSize: 15, fontWeight: 'bold', color: 1 == activeWeek ? '#FFFFFF' : '#4B7AD6', textAlign: 'center', }}>Minggu 1</Text>
                 </Pressable>
-                <Pressable onPress={() => { console.log('minggu 2:', weekTwo,), handlePress(2, weekTwo) }} style={{ width: '25%', height: 40, backgroundColor: 2 == activeWeek ? '#4B7AD6' : 'white', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5, borderColor: 2 == activeWeek ? '#FFFFFF' : '#4B7AD6', borderWidth: 2 }}>
+                <Pressable onPress={() => { handlePress(2, 0) }} style={{ width: '25%', height: 40, backgroundColor: 2 == activeWeek ? '#4B7AD6' : 'white', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5, borderColor: 2 == activeWeek ? '#FFFFFF' : '#4B7AD6', borderWidth: 2 }}>
                   <Text style={{ fontSize: 15, fontWeight: 'bold', color: 2 == activeWeek ? '#FFFFFF' : '#4B7AD6', textAlign: 'center', }}>Minggu 2</Text>
                 </Pressable>
-                <Pressable onPress={() => { console.log('minggu 3:', weekThree,), handlePress(3, weekThree) }} style={{ width: '25%', height: 40, backgroundColor: 3 == activeWeek ? '#4B7AD6' : 'white', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5, borderColor: 3 == activeWeek ? '#FFFFFF' : '#4B7AD6', borderWidth: 2 }}>
+                <Pressable onPress={() => { handlePress(3, 0) }} style={{ width: '25%', height: 40, backgroundColor: 3 == activeWeek ? '#4B7AD6' : 'white', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5, borderColor: 3 == activeWeek ? '#FFFFFF' : '#4B7AD6', borderWidth: 2 }}>
                   <Text style={{ fontSize: 15, fontWeight: 'bold', color: 3 == activeWeek ? '#FFFFFF' : '#4B7AD6', textAlign: 'center', }}>Minggu 3</Text>
                 </Pressable>
-                <Pressable onPress={() => { console.log('minggu 4:', weekFour,), handlePress(4, weekFour) }} style={{ width: '25%', height: 40, backgroundColor: 4 == activeWeek ? '#4B7AD6' : 'white', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5, borderColor: 4 == activeWeek ? '#FFFFFF' : '#4B7AD6', borderWidth: 2 }}>
+                <Pressable onPress={() => { handlePress(4, 0) }} style={{ width: '25%', height: 40, backgroundColor: 4 == activeWeek ? '#4B7AD6' : 'white', borderRadius: 10, justifyContent: 'center', alignContent: 'center', marginHorizontal: 5, borderColor: 4 == activeWeek ? '#FFFFFF' : '#4B7AD6', borderWidth: 2 }}>
                   <Text style={{ fontSize: 15, fontWeight: 'bold', color: 4 == activeWeek ? '#FFFFFF' : '#4B7AD6', textAlign: 'center', }}>Minggu 4</Text>
                 </Pressable>
               </View >
