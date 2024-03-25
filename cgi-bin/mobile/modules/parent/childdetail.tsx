@@ -464,7 +464,7 @@ function m(props: ChildDetailProps): any {
                 slideup.current?.show();
               }} style={{ marginTop: 20, backgroundColor: '#FFFFFF', borderRadius: 10, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', ...elevation(10), width: LibStyle.width * 0.9, height: LibStyle.height * 0.1 - 30 }}>
                 <Feather name='filter' size={20} color='#000000' />
-                <Text style={{ fontSize: 15, fontWeight: '500', color: '#000000', textAlign: 'center', padding: 5 }}> {selectedMonth.name}, Minggu ke {activeWeek}</Text>
+                <Text style={{ fontSize: 15, fontWeight: '500', color: '#000000', textAlign: 'center', padding: 5 }}> {selectedMonth.name}, Minggu ke: {activeWeek}</Text>
               </Pressable>
             }
             keyExtractor={(item, index) => index.toString()}
