@@ -1,4 +1,5 @@
 // withHooks
+import { memo } from 'react';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import { LibSlidingup } from 'esoftplay/cache/lib/slidingup/import';
@@ -17,7 +18,7 @@ export interface TeacherAttenreportArgs {
 export interface TeacherAttenreportProps {
 
 }
-export default function m(): any {
+function m(): any {
 
   // Gunakan fungsi getWeekNumber untuk mendapatkan minggu keberapa dalam tahun ini
   const today = new Date();
@@ -364,3 +365,4 @@ export default function m(): any {
 
   )
 }
+export default memo(m);

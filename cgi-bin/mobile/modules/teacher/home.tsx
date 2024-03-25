@@ -1,4 +1,5 @@
 // withHooks
+import { memo } from 'react';
 import { useEffect } from 'react';
 
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
@@ -33,7 +34,7 @@ Notifications.setNotificationHandler({
   }),
 });
 
-export default function m(): any {
+function m(): any {
 
 
   //mengambil data dari userClass
@@ -338,3 +339,5 @@ export default function m(): any {
 }
 
 
+
+export default memo(m);

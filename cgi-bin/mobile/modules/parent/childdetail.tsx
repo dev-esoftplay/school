@@ -1,9 +1,10 @@
 // withHooks
+import { memo } from 'react';
 import { useEffect, useRef, useState } from 'react';
 
 import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
-import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
+import { MaterialIcons, FontAwesome5, FontAwesome } from '@expo/vector-icons';
 import React from 'react';
 import { FlatList, Image, Linking, Platform, Pressable, Text, TouchableOpacity, View, } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -18,6 +19,7 @@ import { LibList } from 'esoftplay/cache/lib/list/import';
 import esp from 'esoftplay/esp';
 import useSafeState from 'esoftplay/state';
 import { LibProgress } from 'esoftplay/cache/lib/progress/import';
+import moment from 'esoftplay/moment';
 
 
 export interface ChildDetailArgs {
@@ -27,22 +29,22 @@ export interface ChildDetailProps {
 
 }
 
-export default function m(props: ChildDetailProps): any {
+function m(props: ChildDetailProps): any {
   const allMonths = [
     {
-      "name": "January",
+      "name": "Januari",
       "abbreviation": "Jan",
       "number": 1,
       "days": 31
     },
     {
-      "name": "February",
+      "name": "Februari",
       "abbreviation": "Feb",
       "number": 2,
       "days": 28
     },
     {
-      "name": "March",
+      "name": "Maret",
       "abbreviation": "Mar",
       "number": 3,
       "days": 31
@@ -54,25 +56,25 @@ export default function m(props: ChildDetailProps): any {
       "days": 30
     },
     {
-      "name": "May",
+      "name": "Mei",
       "abbreviation": "May",
       "number": 5,
       "days": 31
     },
     {
-      "name": "June",
+      "name": "Juni",
       "abbreviation": "Jun",
       "number": 6,
       "days": 30
     },
     {
-      "name": "July",
+      "name": "Juli",
       "abbreviation": "Jul",
       "number": 7,
       "days": 31
     },
     {
-      "name": "August",
+      "name": "Agustus",
       "abbreviation": "Aug",
       "number": 8,
       "days": 31
@@ -84,7 +86,7 @@ export default function m(props: ChildDetailProps): any {
       "days": 30
     },
     {
-      "name": "October",
+      "name": "Oktober",
       "abbreviation": "Oct",
       "number": 10,
       "days": 31
@@ -96,7 +98,7 @@ export default function m(props: ChildDetailProps): any {
       "days": 30
     },
     {
-      "name": "December",
+      "name": "Desember",
       "abbreviation": "Dec",
       "number": 12,
       "days": 31
@@ -139,7 +141,7 @@ export default function m(props: ChildDetailProps): any {
   const [selectedMonth, setSelectedMonth] = useState(allMonths[today.getMonth()]);
   const [selectedWeek, setSelectedWeek] = useState(allWeeks[today.getMonth()]);
   const [SelectMonth, setSelectMonth] = useSafeState(_allMonth[today.getMonth()])
-  const [selectedDay, setSelectedDay] = useSafeState(allDays[today.getDay()]);
+  const [selectedDay, setSelectedDay] = useSafeState(allDays[today.getDay()-1]);
 
   function elevation(value: any) {
     if (Platform.OS === "ios") {
@@ -428,9 +430,9 @@ export default function m(props: ChildDetailProps): any {
   const Tabs = () => {
     if (selectTab == allTabs[0]) {
       return (
-        <View style={{ padding: 20, alignItems: 'flex-start' }}>
+        <View style={{ padding: 20, alignItems: 'flex-start', alignContent: 'center' }}>
 
-          <View style={{ flexDirection: 'row', marginTop: -10 }}>
+          <View style={{ flexDirection: 'row' }}>
             <View style={{ height: 80, width: 85, alignItems: 'center', backgroundColor: '#0DBD5E', justifyContent: 'center', borderRadius: 10, marginRight: 10 }}>
               <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#FFFFFF' }}>{StudentDetailAttendance?.attendance_data?.hadir}</Text>
               <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#FFFFFF' }}>Hadir</Text>
@@ -460,9 +462,9 @@ export default function m(props: ChildDetailProps): any {
 
               <Pressable onPress={() => {
                 slideup.current?.show();
-              }} style={{ marginTop: 20, backgroundColor: '#FFFFFF', borderRadius: 10, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', ...elevation(6), width: 370, height: 55 }}>
-                <FontAwesome5 name='sliders-h' size={20} color='#000000' />
-                <Text style={{ fontSize: 15, fontWeight: '500', color: '#000000', marginLeft: 10 }}>Filter</Text>
+              }} style={{ marginTop: 20, backgroundColor: '#FFFFFF', borderRadius: 10, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', ...elevation(10), width: LibStyle.width * 0.9, height: LibStyle.height * 0.1 - 30 }}>
+                <Feather name='filter' size={20} color='#000000' />
+                <Text style={{ fontSize: 15, fontWeight: '500', color: '#000000', textAlign: 'center', padding: 5 }}> {selectedMonth.name}, Minggu ke {activeWeek}</Text>
               </Pressable>
             }
             keyExtractor={(item, index) => index.toString()}
@@ -505,48 +507,48 @@ export default function m(props: ChildDetailProps): any {
             StudentDetailAttendance?.schedule_day?.map?.((items: any, i: number) => {
               return (
                 // <Pressable onPress={() => LibNavigation.navigate('teacher/detailattendreport')}>
-                  <View style={{ marginBottom: 10, marginTop: 10, backgroundColor: '#0DBD5E', borderRadius: 10, alignItems: 'flex-end', ...elevation(4), width: 370, padding: 2 }}>
-                    <View style={{ flexDirection: 'row', width: 360, height: 100, backgroundColor: '#FFFFFF', borderRadius: 10, justifyContent: 'space-between' }}>
+                <View style={{ marginBottom: 10, marginTop: 10, backgroundColor: '#0DBD5E', borderRadius: 10, alignItems: 'flex-end', ...elevation(4), width: 370, padding: 2 }}>
+                  <View style={{ flexDirection: 'row', width: LibStyle.width * 0.9 - 10, height: LibStyle.height * 0.1 + 18, backgroundColor: '#FFFFFF', borderRadius: 10, justifyContent: 'space-between' }}>
 
-                      <View>
-                        <Text style={{ marginLeft: 10, marginTop: 5, fontSize: 22, color: '#000000' }}>{getDay(items?.day)}</Text>
-                        <Text style={{ marginLeft: 10, marginTop: 35, fontSize: 15, color: '#000000' }}>{items.created_date}</Text>
-                      </View>
+                    <View>
+                      <Text style={{ marginLeft: 10, marginTop: 5, fontSize: 22, color: '#000000' }}>{getDay(items?.day)}</Text>
+                      <Text style={{ marginLeft: 10, marginTop: 35, fontSize: 15, color: '#000000' }}>{moment(items.created_date).format('DD MMMM YYYY')}</Text>
+                    </View>
 
-                      <View style={{ height: 100, width: 100, justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ height: 100, width: 100, justifyContent: 'center', alignItems: 'center' }}>
 
-                        <Svg width={100} height={100} style={{ justifyContent: 'center', alignItems: 'center' }}>
+                      <Svg width={100} height={100} style={{ justifyContent: 'center', alignItems: 'center' }}>
 
-                          <Circle
-                            cx={100 / 2}
-                            cy={100 / 2}
-                            r={R}
-                            fillOpacity={0.8}
-                            stroke={'#96FDC6'}
-                            strokeWidth={20}
-                            fill={'none'}
-                          />
+                        <Circle
+                          cx={100 / 2}
+                          cy={100 / 2}
+                          r={R}
+                          fillOpacity={0.8}
+                          stroke={'#96FDC6'}
+                          strokeWidth={20}
+                          fill={'none'}
+                        />
 
-                          <Circle
-                            cx={100 / 2}
-                            cy={100 / 2}
-                            r={R}
-                            fillOpacity={0.8}
-                            stroke={'#0DBD5E'}
-                            strokeWidth={12}
+                        <Circle
+                          cx={100 / 2}
+                          cy={100 / 2}
+                          r={R}
+                          fillOpacity={0.8}
+                          stroke={'#0DBD5E'}
+                          strokeWidth={12}
 
-                            fill={'none'}
-                            // fillOpacity={0.8}
-                            strokeDasharray={`${Circle_length}`}
-                            strokeDashoffset={Circle_length / 65}
-                            strokeLinecap='round'
-                          />
-                        </Svg>
+                          fill={'none'}
+                          // fillOpacity={0.8}
+                          strokeDasharray={`${Circle_length}`}
+                          strokeDashoffset={Circle_length / 65}
+                          strokeLinecap='round'
+                        />
+                      </Svg>
 
-                        <Text style={{ position: 'absolute', color: '#000000' }}>8/8</Text>
-                      </View>
+                      <Text style={{ position: 'absolute', color: '#000000' }}>8/8</Text>
                     </View>
                   </View>
+                </View>
                 // </Pressable>
 
 
@@ -561,20 +563,40 @@ export default function m(props: ChildDetailProps): any {
         <View>
           <Text style={{ fontSize: 20, fontWeight: 'bold', marginTop: 5, marginHorizontal: 20 }}>Jadwal anak</Text>
 
+          {/* <FlatList data={allDays}
+
+            keyExtractor={(item, index) => index.toString()}
+            horizontal
+            contentContainerStyle={{ marginTop: 10, height: 60 }}
+            showsHorizontalScrollIndicator={false}
+            renderItem={
+              ({ item, index }) => {
+                return (
+                  <Pressable onPress={() => { setSelectedDay(allDays) }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', marginRight: 10, height: 40, borderRadius: 12, borderWidth: 2, width: 'auto', paddingHorizontal: 10, alignItems: 'center', backgroundColor: item?.name == selectedMonth?.name ? '#4B7AD6' : '#FFFFFF', borderColor: item?.name == selectedMonth?.name ? '#4B7AD6' : '#4B7AD6' }}>
+                      <Text style={{ fontSize: 15, fontWeight: 'bold', color: day ? '#FFFFFF' : '#4B7AD6', alignSelf: 'center' }}>{allDays}</Text>
+                      <View style={{ height: 30 }} />
+                    </View>
+                  </Pressable>
+                )
+              }}
+          /> */}
+
           <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10, marginBottom: 20, marginHorizontal: 20 }}>
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
               {allDays.map(day => (
-                <TouchableOpacity
+                <Pressable
                   key={day}
                   onPress={() => setSelectedDay(day)}
                   style={{
-                    padding: 10,
-                    backgroundColor: selectedDay === day ? '#4B7AD6' : '#AAAAAA',
-                    borderRadius: 5,
-                    marginRight: 10,
+                    flexDirection: 'row', justifyContent: 'center', marginRight: 10, height: 40, borderRadius: 12, borderWidth: 2, width: 'auto', paddingHorizontal: 10, alignItems: 'center', backgroundColor: selectedDay === day ? '#4B7AD6' : '#FFFFFF', borderColor: day ? '#4B7AD6' : '#4B7Ad6'
+                    // padding: 10,
+                    // backgroundColor: selectedDay === day ? '#4B7AD6' : '#AAAAAA',
+                    // borderRadius: 5,
+                    // marginRight: 10,
                   }}>
-                  <Text style={{ color: selectedDay === day ? '#FFFFFF' : '#FFFFFF' }}>{day}</Text>
-                </TouchableOpacity>
+                  <Text style={{ fontWeight: 'bold', color: selectedDay === day ? '#FFFFFF' : '#4B7AD6', alignSelf: 'center' }}>{day}</Text>
+                </Pressable>
               ))}
             </ScrollView>
           </View>
@@ -594,7 +616,7 @@ export default function m(props: ChildDetailProps): any {
                     renderItem={(item: any) => (
                       console.log('schedule', schedule),
                       <View key={item.schedule_id} style={{ marginBottom: 10, backgroundColor: '#4B7AD6', borderRadius: 10, alignItems: 'flex-end', ...elevation(4), width: 370, padding: 2, alignSelf: 'center' }}>
-                        <View style={{ flex: 1, justifyContent: 'space-between', flexDirection: 'row', overflow: 'hidden', width: 360, height: 100, backgroundColor: '#FFFFFF', borderRadius: 10 }}>
+                        <View style={{ flex: 1, justifyContent: 'space-between', flexDirection: 'row', overflow: 'hidden', width: LibStyle.width * 0.9 - 10, height: LibStyle.height * 0.1 + 18, backgroundColor: '#FFFFFF', borderRadius: 10 }}>
                           <View style={{ flexDirection: 'row' }}>
                             <View style={{ justifyContent: 'center', alignItems: 'flex-start' }}>
                               <Text style={{ fontSize: 60, color: '#4B7AD6', marginLeft: -18 }}>00</Text>
@@ -635,18 +657,21 @@ export default function m(props: ChildDetailProps): any {
             {/* <Image source={require('../../assets/anies.png')} style={{ width: 95, height: 95, justifyContent: 'center' }} /> */}
 
             <View style={{ marginLeft: 15, justifyContent: 'center', alignItems: 'flex-start' }}>
-              <Text style={{ fontSize: 19, color: '#000000', textAlign: 'center', fontWeight: '600' }}>{ParentStudent?.student_data?.[0]?.student_name}</Text>
-              <Text style={{ fontSize: 19, color: '#000000', textAlign: 'center', fontWeight: '600' }}>{ParentStudent?.student_data?.[0]?.class_name}</Text>
-              <Text style={{ fontSize: 19, color: '#000000', textAlign: 'center', fontWeight: '600' }}>{ParentStudent?.student_data?.[0]?.nis}</Text>
+              <Text style={{ fontSize: 19, color: '#000000', textAlign: 'center', fontWeight: '600' }}>Nama: {ParentStudent?.student_data?.[0]?.student_name}</Text>
+              <Text style={{ fontSize: 19, color: '#000000', textAlign: 'center', fontWeight: '600' }}>Kelas: {ParentStudent?.student_data?.[0]?.class_name}</Text>
+              <Text style={{ fontSize: 19, color: '#000000', textAlign: 'center', fontWeight: '600' }}>NIS: {ParentStudent?.student_data?.[0]?.nis}</Text>
 
             </View>
 
           </View>
 
-          <View style={{ flexDirection: 'row', marginVertical: 2, justifyContent: 'space-evenly' }}>
-            <Pressable onPress={() => Linking.openURL('https://wa.me/+6281295822119')} style={{ flexDirection: 'row', alignItems: 'center', padding: 10, backgroundColor: '#0DBD5E', borderRadius: 12, height: 60 }}>
-              <LibIcon.FontAwesome name="phone" size={30} color="white" style={{ marginLeft: 110 }} />
-              <Text style={{ fontSize: 16, color: '#FFFFFF', marginRight: 110 }}>Panggil Guru</Text>
+          <View style={{ marginVertical: 4, justifyContent: 'space-evenly', alignContent: 'center',  }}>
+            <Pressable onPress={() => Linking.openURL('https://wa.me/+6281295822119')} style={{ flexDirection: 'row', width: LibStyle.width * 0.9, padding: 10, justifyContent: 'center', backgroundColor: '#0DBD5E', borderRadius: 12 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <FontAwesome name="whatsapp" size={40} color="white" style={{ marginHorizontal: 10 }} />
+                <Text style={{ fontSize: 16, color: '#FFFFFF' }}>WA Guru</Text>
+              </View>
+
             </Pressable>
 
             {/* <Pressable onPress={() => LibDialog.info("Info", "Masuk Coy")} style={{ flexDirection: 'row', alignItems: 'center', padding: 20, backgroundColor: '#3F8DFD', borderRadius: 12, height: 70 }}>
@@ -698,7 +723,7 @@ export default function m(props: ChildDetailProps): any {
                 return (
                   <Pressable onPress={() => { setSelectedMonth(item) }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'center', marginRight: 10, height: 40, borderRadius: 12, borderWidth: 2, width: 'auto', paddingHorizontal: 10, alignItems: 'center', backgroundColor: item?.name == selectedMonth?.name ? '#4B7AD6' : '#FFFFFF', borderColor: item?.name == selectedMonth?.name ? '#4B7AD6' : '#4B7AD6' }}>
-                      <Text style={{ fontSize: 15, fontWeight: 'bold', color: item?.name == selectedMonth?.name ? 'white' : '#4B7AD6', alignSelf: 'center' }}>{item['name']}</Text>
+                      <Text style={{ fontSize: 15, fontWeight: 'bold', color: item?.name == selectedMonth?.name ? '#FFFFFF' : '#4B7AD6', alignSelf: 'center' }}>{item['name']}</Text>
                       <View style={{ height: 30 }} />
                     </View>
                   </Pressable>
@@ -791,3 +816,5 @@ export default function m(props: ChildDetailProps): any {
 </View> */}
 
 
+
+export default memo(m);

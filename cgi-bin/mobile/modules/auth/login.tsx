@@ -1,4 +1,5 @@
 // withHooks
+import { memo } from 'react';
 import { LibCrypt } from 'esoftplay/cache/lib/crypt/import';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
@@ -65,7 +66,7 @@ export interface ResApi {
 
 // export const curlState = useGlobalState<any>(undefined)
 
-export default function m(props: LoginIndexsProps): any {
+function m(props: LoginIndexsProps): any {
 
   const school = new SchoolColors();
   // const cState = curlState.useSelector(s => s)
@@ -280,3 +281,5 @@ export default function m(props: LoginIndexsProps): any {
     </View>
   );
 }
+
+export default memo(m);

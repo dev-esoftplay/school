@@ -1,4 +1,5 @@
 // withHooks
+import { memo } from 'react';
 import { useEffect, useState } from 'react';
 import { LibDialog } from 'esoftplay/cache/lib/dialog/import';
 // import { LibIcon } from 'esoftplay/cache/lib/icon/import';
@@ -15,6 +16,8 @@ import { UserClass } from 'esoftplay/cache/user/class/import';
 import esp from 'esoftplay/esp';
 // import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import { useTimeout } from 'esoftplay/timeout';
+import { LibStyle } from 'esoftplay/cache/lib/style/import';
+import { hide } from 'esoftplay/modules/lib/toast';
 
 export interface ParentAccountArgs {
 
@@ -22,7 +25,7 @@ export interface ParentAccountArgs {
 export interface ParentAccountProps {
 
 }
-export default function m(props: ParentAccountProps): any {
+function m(props: ParentAccountProps): any {
 
 
   const [Parent, setParent] = useState<any>([])
@@ -42,48 +45,48 @@ export default function m(props: ParentAccountProps): any {
   }, []);
 
   const data = UserClass.state().useSelector(s => s)
-  async function apilogout(){
+  async function apilogout() {
     console.log('menjalankan apilogout....');
     esp.mod("lib/notification").requestPermission((token) => {
-        console.log('token :..==', token);
-        // const data = UserClass.state().useSelector(s => s)
+      console.log('token :..==', token);
+      // const data = UserClass.state().useSelector(s => s)
 
-        const post = { token: token }
-
-
-        new LibCurl('logout', null, (result, msg) => {
-            console.log('check post', post);
-            console.log('check apikey', data.apikey);
-            console.log('check uri', data.uri);
-            console.log('result', result);
-            console.log('msg', msg);
+      const post = { token: token }
 
 
-        }, (error) => {
-            console.log('check post', post);
-            console.log('check apikey', data.apikey);
-            console.log('check uri', data.uri);
-            console.log("api logout error :", error);
-            console.log('apilogout');
+      new LibCurl('logout', null, (result, msg) => {
+        console.log('check post', post);
+        console.log('check apikey', data.apikey);
+        console.log('check uri', data.uri);
+        console.log('result', result);
+        console.log('msg', msg);
 
-        }, 1)
+
+      }, (error) => {
+        console.log('check post', post);
+        console.log('check apikey', data.apikey);
+        console.log('check uri', data.uri);
+        console.log("api logout error :", error);
+        console.log('apilogout');
+
+      }, 1)
     }
     )
-}
-const timeout = useTimeout()
+  }
+  const timeout = useTimeout()
   const logout = () => {
     console.log('menjalankan logout....');
     apilogout()
     timeout(() => {
-        UserClass.pushToken()
-        // pushToken()
-        LibNotification.drop()
-        Auth.reset()
-        UserClass.delete()
-        navigation.reset('auth/login')
+      UserClass.pushToken()
+      // pushToken()
+      LibNotification.drop()
+      Auth.reset()
+      UserClass.delete()
+      navigation.reset('auth/login')
     }, 1000)
   }
-   
+
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
@@ -91,7 +94,7 @@ const timeout = useTimeout()
       <View style={{ flex: 1, backgroundColor: '#4B7AD6', borderBottomLeftRadius: 20, borderBottomRightRadius: 20, padding: 20, paddingTop: 40 }}>
         <Text style={{ fontSize: 20, color: 'white', textAlign: 'center', fontWeight: 'bold' }}>Profil</Text>
 
-        <View style={{ backgroundColor: '#FFFFFF', height: 120, justifyContent: 'flex-start', alignItems: 'center', marginVertical: 20, padding: 15, flexDirection: 'row', borderRadius: 10 }}>
+        <View style={{ backgroundColor: '#FFFFFF', height: LibStyle.height * 0.2 - 50, width: LibStyle.width * 1 - 40, justifyContent: 'flex-start', alignItems: 'center', marginVertical: 20, padding: 15, flexDirection: 'row', borderRadius: 10 }}>
           <Image source={{ uri: Parent.image ?? 'https://images.unsplash.com/photo-1507823782123-27db7f9fd196?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }} style={{ width: 105, height: 105, borderRadius: 135 / 2, borderWidth: 3, justifyContent: 'center' }} />
           <View style={{ marginLeft: 15, justifyContent: 'center', alignItems: 'flex-start' }}>
             <Text style={{ fontSize: 18, color: '#000000', textAlign: 'center', fontWeight: '600' }}>{Parent.name}</Text>
@@ -111,7 +114,7 @@ const timeout = useTimeout()
           <MaterialIcons name="notifications" size={28} color="#FFFFFF" style={{ marginRight: 15 }} />
         </Pressable> */}
 
-        <Pressable onPress={() => LibNavigation.navigate('parent/parenthelp')} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#4B7AD6', borderRadius: 12, marginTop: 30, height: 55 }}>
+        {/* <Pressable onPress={() => LibNavigation.navigate('parent/parenthelp')} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#4B7AD6', borderRadius: 12, marginTop: 30, height: 55 }}>
           <Text style={{ fontSize: 17, color: '#FFFFFF', marginLeft: 15 }}>Bantuan</Text>
           <MaterialIcons name="help" size={28} color="#FFFFFF" style={{ marginRight: 15 }} />
         </Pressable>
@@ -119,9 +122,9 @@ const timeout = useTimeout()
         <Pressable onPress={() => LibNavigation.navigate('parent/parentterms')} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#4B7AD6', borderRadius: 12, marginTop: 30, height: 55 }}>
           <Text style={{ fontSize: 17, color: '#FFFFFF', marginLeft: 15 }}>Syarat dan Ketentuan</Text>
           <Ionicons name="newspaper" size={28} color="#FFFFFF" style={{ marginRight: 15 }} />
-        </Pressable>
+        </Pressable> */}
 
-        <Pressable onPress={() => logout()} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#4B7AD6', borderRadius: 12, marginTop: 30, height: 55 }}>
+        <Pressable onPress={() => LibDialog.confirm('Peringatan', 'Apakah Anda Ingin Keluar?', 'Ya', () => { logout() }, 'Tidak', () => hide())} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#4B7AD6', borderRadius: 12, marginTop: 30, height: 55 }}>
           <Text style={{ fontSize: 17, color: '#FFFFFF', marginLeft: 15 }}>Keluar</Text>
           <MaterialIcons name="logout" size={28} color="#FFFFFF" style={{ marginRight: 15 }} />
         </Pressable>
@@ -131,4 +134,4 @@ const timeout = useTimeout()
 }
 
 
-
+export default memo(m);

@@ -1,4 +1,5 @@
 // withHooks
+import { memo } from 'react';
 
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import { LibList } from 'esoftplay/cache/lib/list/import';
@@ -8,6 +9,7 @@ import esp from 'esoftplay/esp';
 import React, { useEffect } from 'react';
 import { FlatList, Text, View } from 'react-native';
 import SchoolColors from '../utils/schoolcolor';
+import moment from 'esoftplay/moment';
 
 
 export interface ParentNotifArgs {
@@ -16,7 +18,7 @@ export interface ParentNotifArgs {
 export interface ParentNotifProps {
   
 }
-export default function m(props: ParentNotifProps): any {
+function m(props: ParentNotifProps): any {
   let notifs = UserNotification.state().useSelector(s => s.data);
   useEffect(() => {
 
@@ -83,14 +85,12 @@ export default function m(props: ParentNotifProps): any {
               <View style={{ marginBottom: 10, justifyContent: 'space-between', flex: 1 }}>
                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                <Text style={{ fontSize: 16, fontWeight: 'bold', marginBottom: 10 }}>{item?.title ?? 'tittle'}</Text>
-             
-               <LibIcon.Ionicons name="notifications" size={25} color='#4B7AD6' />
                 </View>
 
                 <Text style={{ fontSize: 14, fontWeight: '600' }}>{item?.message}</Text>
               </View>
 
-              <Text style={{ fontSize: 12, color: 'gray' }}>{item?.updated}</Text>
+              <Text style={{ fontSize: 12, color: 'gray' }}>{moment(item?.updated).format('dddd, DD MMMM YYYY HH:mm')}</Text>
 
             </View>
           )
@@ -100,3 +100,5 @@ export default function m(props: ParentNotifProps): any {
     </View>
   )
 }
+
+export default memo(m);

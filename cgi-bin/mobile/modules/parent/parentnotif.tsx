@@ -1,4 +1,5 @@
 // withHooks
+import { memo } from 'react';
 
 import { MaterialIcons } from '@expo/vector-icons';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
@@ -13,7 +14,7 @@ export interface ParentNotifArgs {
 export interface ParentNotifProps {
 
 }
-export default function m(props: ParentNotifProps): any {
+function m(props: ParentNotifProps): any {
     function elevation(value: any) {
         if (Platform.OS === "ios") {
             if (value === 0) return {};
@@ -49,3 +50,4 @@ export default function m(props: ParentNotifProps): any {
         </View>
     );
 }
+export default memo(m);
