@@ -1,4 +1,5 @@
 // withHooks
+import { memo } from 'react';
 import { useEffect } from 'react';
 
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
@@ -17,14 +18,14 @@ export interface AttendReport_detailArgs {
 export interface AttendReport_detailProps {
 
 }
-export default function m(props: AttendReport_detailProps): any {
+function m(props: AttendReport_detailProps): any {
   
     const dates: string = LibNavigation.getArgsAll(props).date;
     const endpoints: string = LibNavigation.getArgsAll(props).endpoints;
     const unfinished_schadule = LibNavigation.getArgsAll(props).unfinishedSchadule;
     const [resApi, setResApi] = useSafeState<any>([])
     useEffect(() => {
-        console.log('Attendance Report')
+        console.log('Attendance Report',endpoints)
         // http://api.test.school.esoftplay.com/teacher_schedule_report?month=2&week=3
         console.log(endpoints)
         new LibCurl(endpoints , null, (result) => {
@@ -115,3 +116,4 @@ export default function m(props: AttendReport_detailProps): any {
         </View>
     )
 }
+export default memo(m);

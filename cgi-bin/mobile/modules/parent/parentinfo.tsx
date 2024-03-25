@@ -1,4 +1,5 @@
 // withHooks
+import { memo } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
 
 
@@ -17,6 +18,7 @@ import { LibProgress } from 'esoftplay/cache/lib/progress/import';
 import { LibImage } from 'esoftplay/cache/lib/image/import';
 import { LibSlidingup } from 'esoftplay/cache/lib/slidingup/import';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
+import { LibStyle } from 'esoftplay/cache/lib/style/import';
 // import { LibSlidingup } from 'esoftplay/cache/lib/slidingup/import';
 // import navigation from 'esoftplay/modules/lib/navigation';
 // import { Auth } from '../auth/login';
@@ -32,7 +34,7 @@ export interface ParentInfoProps {
 // let slideup = useRef<LibSlidingup>(null)
 
 
-export default function m(props: ParentInfoProps): any {
+function m(props: ParentInfoProps): any {
     function elevation(value: any) {
         if (Platform.OS === "ios") {
             if (value === 0) return {};
@@ -99,7 +101,7 @@ export default function m(props: ParentInfoProps): any {
     }, [])
 
     return (
-        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 70, ...elevation(6) }}>
+        <View style={{ justifyContent: 'center', alignItems: 'center', height: LibStyle.height * 1 + 10, ...elevation(6) }}>
 
             <View style={{ justifyContent: 'flex-start', alignItems: 'flex-start', marginTop: 5 }}>
                 <TouchableOpacity onPress={() => LibNavigation.back()} style={{ position: 'absolute', marginTop: -40, marginLeft: -185 }}>
@@ -135,45 +137,51 @@ export default function m(props: ParentInfoProps): any {
                 </TextInput>
             </View> */}
 
-            <Text style={{ color: '#000000', fontSize: 15, fontWeight: 'bold', marginBottom: 10, marginRight: 320, alignContent: 'flex-start', textAlign: 'left' }}>Nama</Text>
-            <View style={{
-                width: '90%', height: 60, paddingHorizontal: 10, borderRadius: 8, elevation: 3, backgroundColor: '#fff', shadowColor: '#000', justifyContent: 'space-between', alignItems: 'center',
-                shadowOffset: { width: 1, height: 1 }, shadowOpacity: 0.3, shadowRadius: 2, flexDirection: 'row'
-            }}>
-                <TextInput placeholder={Parent.name ?? 'Nama'}
-                    style={{ flex: 1, color: '#898989' }}
-                    onChangeText={(text) => setUsername(text)}>
-                </TextInput>
-                <MaterialIcons name='edit' size={20} color='#4B7AD6' style={{ alignContent: 'flex-end' }} />
+            <View style={{ justifyContent: 'flex-start' }}>
+
+                <Text style={{ color: '#000000', fontSize: 15, fontWeight: 'bold', marginBottom: 10, alignContent: 'flex-start', textAlign: 'left' }}>Nama</Text>
+                
+                <View style={{ width: LibStyle.width * 0.9, height: LibStyle.height * 0.1 - 21, paddingHorizontal: 10, borderRadius: 8, elevation: 3, backgroundColor: '#FFFFFF', shadowColor: '#000000', justifyContent: 'space-between', alignItems: 'center', shadowOffset: { width: 1, height: 1 }, shadowOpacity: 0.3, shadowRadius: 2, flexDirection: 'row' }}>
+                    <TextInput placeholder={Parent.name ?? 'Nama'}
+                        style={{ flex: 1, color: '#898989' }}
+                        onChangeText={(text) => setUsername(text)}>
+                    </TextInput>
+                    <MaterialIcons name='edit' size={20} color='#4B7AD6' style={{ alignContent: 'flex-end' }} />
+                </View>
+
+                <Text style={{ color: '#000000', fontSize: 15, fontWeight: 'bold', marginBottom: 10, marginTop: 15, alignContent: 'flex-start', textAlign: 'left' }}>Nomor Telp</Text>
+                
+                <View style={{ width: LibStyle.width * 0.9, height: LibStyle.height * 0.1 - 21, paddingHorizontal: 10, borderRadius: 8, elevation: 3, backgroundColor: '#FFFFFF', shadowColor: '#000000', justifyContent: 'space-between', alignItems: 'center', shadowOffset: { width: 1, height: 1 }, shadowOpacity: 0.3, shadowRadius: 2, flexDirection: 'row' }}>
+                    <TextInput placeholder={'+' + Parent.phone ?? '+62'}
+                        style={{ flex: 1, color: '#898989' }}
+                        onChangeText={(text) => setPhone(text)}
+                    />
+                    <MaterialIcons name='edit' size={20} color='#4B7AD6' style={{ alignContent: 'flex-end' }} />
+                </View>
+
+                <Text style={{ color: '#000000', fontSize: 15, fontWeight: 'bold', marginBottom: 10, marginTop: 15, alignContent: 'flex-start', textAlign: 'left' }}>Tanggal Lahir</Text>
+                
+                <View style={{ width: LibStyle.width * 0.9, height: LibStyle.height * 0.1 - 21, paddingHorizontal: 10, borderRadius: 8, elevation: 3, backgroundColor: '#FFFFFF', shadowColor: '#000000', justifyContent: 'space-between', alignItems: 'center', shadowOffset: { width: 1, height: 1 }, shadowOpacity: 0.3, shadowRadius: 2, flexDirection: 'row' }}>
+                    <Text style={{ flex: 1, color: '#898989' }}>{Parent.birthday}</Text>
+                    {/* <MaterialIcons name="edit" size={20} color="#4B7AD6" /> */}
+                </View>
+
+                <Text style={{ color: '#000000', fontSize: 15, fontWeight: 'bold', marginBottom: 10, marginTop: 15, marginRight: 320, alignContent: 'center', textAlign: 'left' }}>Alamat</Text>
+                
+                <View style={{ width: LibStyle.width * 0.9, height: LibStyle.height * 0.1 - 21, paddingHorizontal: 10, borderRadius: 8, elevation: 3, backgroundColor: '#FFFFFF', shadowColor: '#000000', justifyContent: 'space-between', alignItems: 'center', shadowOffset: { width: 1, height: 1 }, shadowOpacity: 0.3, shadowRadius: 2, flexDirection: 'row' }}>
+                    <TextInput placeholder={Parent.address}
+                        style={{ flex: 1, color: '#898989' }}
+                        onChangeText={(text) => setAddress(text)}
+                    />
+                    <MaterialIcons name='edit' size={20} color='#4B7AD6' style={{ alignContent: 'flex-end' }} />
+                </View>
+
+                <Pressable onPress={() => updateData()} style={{ padding: 13, alignItems: 'center', alignContent: 'center', backgroundColor: '#4B7AD6', borderRadius: 12, height: LibStyle.height * 0.1 - 30, width: LibStyle.width * 0.9, marginTop: 30 }}>
+                    <Text style={{ justifyContent: 'center', fontSize: 17, fontWeight: 'bold', color: '#FFFFFF' }}>Simpan</Text>
+                </Pressable>
             </View>
 
-            <Text style={{ color: '#000000', fontSize: 15, fontWeight: 'bold', marginBottom: 10, marginTop: 15, marginRight: 280, alignContent: 'flex-start', textAlign: 'left' }}>Nomor Telp</Text>
-            <View style={{ width: '90%', height: 60, justifyContent: 'space-between', padding: 18, paddingHorizontal: 10, borderRadius: 8, flexDirection: 'row', elevation: 3, backgroundColor: '#FFFFFF', shadowColor: '#000000', shadowOffset: { width: 1, height: 1 }, shadowOpacity: 0.3, shadowRadius: 2 }}>
-                <TextInput placeholder={'+' + Parent.phone ?? '+62'}
-                    style={{ flex: 1 }}
-                    onChangeText={(text) => setPhone(text)}
-                />
-                <MaterialIcons name='edit' size={20} color='#4B7AD6' style={{ alignContent: 'flex-end' }} />
-            </View>
 
-            <Text style={{ color: '#000000', fontSize: 15, fontWeight: 'bold', marginBottom: 10, marginTop: 15, marginRight: 270, alignContent: 'flex-start', textAlign: 'left' }}>Tanggal Lahir</Text>
-            <View style={{ width: '90%', height: 60, justifyContent: 'space-between', padding: 18, paddingHorizontal: 10, borderRadius: 8, flexDirection: 'row', elevation: 3, backgroundColor: '#FFFFFF', shadowColor: '#000000', shadowOffset: { width: 1, height: 1 }, shadowOpacity: 0.3, shadowRadius: 2 }}>
-                <Text style={{ alignContent: 'center', textAlign: 'left', color: '#898989' }}>{Parent.birthday}</Text>
-                {/* <MaterialIcons name="edit" size={20} color="#4B7AD6" /> */}
-            </View>
-
-            <Text style={{ color: '#000000', fontSize: 15, fontWeight: 'bold', marginBottom: 10, marginTop: 15, marginRight: 320, alignContent: 'center', textAlign: 'left' }}>Alamat</Text>
-            <View style={{ width: '90%', height: 60, justifyContent: 'space-between', padding: 18, paddingHorizontal: 10, borderRadius: 8, flexDirection: 'row', elevation: 3, backgroundColor: '#FFFFFF', shadowColor: '#000000', shadowOffset: { width: 1, height: 1 }, shadowOpacity: 0.3, shadowRadius: 2 }}>
-                <TextInput placeholder={Parent.address}
-                    style={{ flex: 1 }}
-                    onChangeText={(text) => setAddress(text)}
-                />
-                <MaterialIcons name='edit' size={20} color='#4B7AD6' style={{ alignContent: 'flex-end' }} />
-            </View>
-
-            <Pressable onPress={() => updateData()} style={{ padding: 13, alignItems: 'center', alignContent: 'center', backgroundColor: '#4B7AD6', borderRadius: 12, height: 55, marginTop: 30, width: 370 }}>
-                <Text style={{ justifyContent: 'center', fontSize: 17, color: '#FFFFFF' }}>Simpan</Text>
-            </Pressable>
 
             <LibSlidingup ref={slideup} >
                 <View style={{ backgroundColor: 'white', borderTopRightRadius: 20, borderTopLeftRadius: 20, paddingBottom: 5, paddingHorizontal: 19, }}>
@@ -217,3 +225,4 @@ export default function m(props: ParentInfoProps): any {
 
     )
 }
+export default memo(m);

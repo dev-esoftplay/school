@@ -1,203 +1,53 @@
-{
-    "class_name": "10 RPL 2",
-    "clock_end": "16:00",
-    "clock_start": "14:00",
-    "permission": {
-        "total_a": "2",
-        "total_i": "2",
-        "total_present": "22",
-        "total_s": "1"
+[
+    {
+        "class": {
+            "id": "1",
+            "name": "10 RPL 2"
+        },
+        "clock_end": "08:00",
+        "clock_start": "07:00",
+        "course": {
+            "id": "1",
+            "name": "Bahasa Indonesia"
+        },
+        "report_id": "297",
+        "schedule_id": "33",
+        "status": 3,
+        "student_attend": 26,
+        "student_number": 27
     },
-    "student_count": 27,
-    "student_list": [
-        {
-            "name": "Sofia Pratama",
-            "notes": "",
-            "number": "1",
-            "status": 2,
-            "student_id": 1
+    {
+        "class": {
+            "id": "1",
+            "name": "10 RPL 2"
         },
-        {
-            "name": "Farhan Pratama",
-            "notes": "",
-            "number": "3",
-            "status": 4,
-            "student_id": 3
+        "clock_end": "09:00",
+        "clock_start": "08:00",
+        "course": {
+            "id": "1",
+            "name": "Bahasa Indonesia"
         },
-        {
-            "name": "Alya Cahaya",
-            "notes": "",
-            "number": "4",
-            "status": 4,
-            "student_id": 4
+        "report_id": "298",
+        "schedule_id": "21",
+        "status": 3,
+        "student_attend": 27,
+        "student_number": 27
+    },
+    {
+        "class": {
+            "id": "1",
+            "name": "10 RPL 2"
         },
-        {
-            "name": "Farhan Cahaya",
-            "notes": "",
-            "number": "5",
-            "status": 3,
-            "student_id": 5
+        "clock_end": "09:15",
+        "clock_start": "09:00",
+        "course": {
+            "id": "1",
+            "name": "Bahasa Indonesia"
         },
-        {
-            "name": "Rafa Maharani",
-            "notes": "",
-            "number": "8",
-            "status": 3,
-            "student_id": 8
-        },
-        {
-            "name": "Alya Wardhana",
-            "notes": "",
-            "number": "9",
-            "status": 1,
-            "student_id": 9
-        },
-        {
-            "name": "Rizky Wardhana",
-            "notes": "",
-            "number": "10",
-            "status": 1,
-            "student_id": 10
-        },
-        {
-            "name": "Sofia Wardhana",
-            "notes": "",
-            "number": "11",
-            "status": 1,
-            "student_id": 11
-        },
-        {
-            "name": "Sofia Putra",
-            "notes": "",
-            "number": "12",
-            "status": 1,
-            "student_id": 12
-        },
-        {
-            "name": "Farhan Cahaya",
-            "notes": "",
-            "number": "13",
-            "status": 1,
-            "student_id": 13
-        },
-        {
-            "name": "Sofia Putra",
-            "notes": "",
-            "number": "14",
-            "status": 1,
-            "student_id": 14
-        },
-        {
-            "name": "Farhan Wardhana",
-            "notes": "",
-            "number": "15",
-            "status": 1,
-            "student_id": 15
-        },
-        {
-            "name": "Rafa Pratama",
-            "notes": "",
-            "number": "17",
-            "status": 1,
-            "student_id": 17
-        },
-        {
-            "name": "Alya Pratama",
-            "notes": "",
-            "number": "18",
-            "status": 1,
-            "student_id": 18
-        },
-        {
-            "name": "Alya Pratama",
-            "notes": "",
-            "number": "19",
-            "status": 1,
-            "student_id": 19
-        },
-        {
-            "name": "Rafa Cahaya",
-            "notes": "",
-            "number": "20",
-            "status": 1,
-            "student_id": 20
-        },
-        {
-            "name": "Sofia Maharani",
-            "notes": "",
-            "number": "21",
-            "status": 1,
-            "student_id": 21
-        },
-        {
-            "name": "Rafa Pratama",
-            "notes": "",
-            "number": "22",
-            "status": 1,
-            "student_id": 22
-        },
-        {
-            "name": "Rafa Wardhana",
-            "notes": "",
-            "number": "23",
-            "status": 1,
-            "student_id": 23
-        },
-        {
-            "name": "Rizky Maharani",
-            "notes": "",
-            "number": "24",
-            "status": 1,
-            "student_id": 24
-        },
-        {
-            "name": "Rafa Wardhana",
-            "notes": "",
-            "number": "25",
-            "status": 1,
-            "student_id": 25
-        },
-        {
-            "name": "Rafa Putra",
-            "notes": "",
-            "number": "26",
-            "status": 1,
-            "student_id": 26
-        },
-        {
-            "name": "Sofia Wardhana",
-            "notes": "",
-            "number": "27",
-            "status": 1,
-            "student_id": 27
-        },
-        {
-            "name": "Farhan Pratama",
-            "notes": "",
-            "number": "28",
-            "status": 1,
-            "student_id": 28
-        },
-        {
-            "name": "Sofia Putra",
-            "notes": "",
-            "number": "29",
-            "status": 1,
-            "student_id": 29
-        },
-        {
-            "name": "Sofia Putra",
-            "notes": "",
-            "number": "30",
-            "status": 1,
-            "student_id": 30
-        },
-        {
-            "name": "hananta afgan",
-            "notes": "",
-            "number": "31",
-            "status": 1,
-            "student_id": 121
-        }
-    ]
-}
+        "report_id": "299",
+        "schedule_id": "24",
+        "status": 3,
+        "student_attend": 24,
+        "student_number": 27
+    }
+]

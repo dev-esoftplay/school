@@ -1,4 +1,5 @@
 // withHooks
+import { memo } from 'react';
 
 import { useState, useEffect } from 'react';
 import { Text, View, FlatList, Pressable } from 'react-native';
@@ -21,7 +22,7 @@ export interface TestProps {
 
 
 
-export default function m(props: TestProps): any {
+function m(props: TestProps): any {
 
   const [teacherSchadule, setTeacherSchadule] = useState<any>([])
 
@@ -123,3 +124,5 @@ export default function m(props: TestProps): any {
   );
 }
 
+
+export default memo(m);

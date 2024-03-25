@@ -1,4 +1,5 @@
 // withHooks
+import { memo } from 'react';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import { LibSlidingup } from 'esoftplay/cache/lib/slidingup/import';
@@ -18,7 +19,7 @@ export interface TeacherAttenreportArgs {
 export interface TeacherAttenreportProps {
 
 }
-export default function m(): any {
+function m(): any {
 
   // Gunakan fungsi getWeekNumber untuk mendapatkan minggu keberapa dalam tahun ini
   const today = new Date();
@@ -203,14 +204,7 @@ export default function m(): any {
   const R = 30
   const Circle_length = 2 * Math.PI * R
 
-  let Endpoints=(month: number, week: number,day:any)=>{
-    setEndpoints('teacher_schedule_report?month=' + month+'&day=' + day)
-    // if (activeWeek && month && week) {
-    //   setEndpoints('teacher_schedule_report?month=' + month+'&week=' + week + '&day=' + day)
-    // } else {
-    // }
-     
-  }
+  
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white', }}>
@@ -248,8 +242,7 @@ export default function m(): any {
              
               
               <Pressable onPress={() => { 
-                Endpoints(SelectMonth, SelectWeek, item?.date_day),console.log('endpoints', endpoints),
-                LibNavigation.navigate('teacher/attendreport_detail', { endpoints: endpoints, date: item?.date, unfinishedSchadule: (item.schedule_total - item.schedule_finished)} )
+                LibNavigation.navigate('teacher/attendreport_detail', { endpoints: 'teacher_schedule_report?month=' + SelectMonth+'&day=' + item?.date_day, date: item?.date, unfinishedSchadule: (item.schedule_total - item.schedule_finished)} )
               }}
                 style={{ backgroundColor: '#008000bd', padding: 10, width: LibStyle.width - 40, paddingHorizontal: 10, borderRadius: 15, opacity: 0.8, ...shadows(3), marginVertical: 5, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', paddingVertical: 10 }}>
 
@@ -358,3 +351,4 @@ export default function m(): any {
 
   )
 }
+export default memo(m);

@@ -104,7 +104,7 @@ function m(props: TeacherDetailProps): any {
                 </Pressable>
 
                 <View style={{ width: '80%', borderRadius: 10, padding: 20, justifyContent: 'center', alignItems: 'center', position: 'absolute', top: LibStyle.height / 4, marginHorizontal: '10%' }}>
-                    <LibPicture source={image ? { uri: image } : esp.assets('anies.png')} style={{ width:LibStyle.width*80/100, height:LibStyle.width*80/100,borderRadius:(LibStyle.width*80/100)/2 }} />
+                    <LibPicture source={image ? { uri: image } : esp.assets('anies.png')} style={{ width: LibStyle.width * 80 / 100, height: LibStyle.width * 80 / 100, borderRadius: (LibStyle.width * 80 / 100) / 2 }} />
                 </View>
 
             </Modal>
@@ -121,7 +121,7 @@ function m(props: TeacherDetailProps): any {
                 </View>
 
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
-                   
+
                     <View style={{}}>
                         <Pressable onPress={() => setProfileVisible(true)}>
                             <Image source={image ? { uri: image } : esp.assets('anies.png')} style={{ width: 135, height: 135, borderRadius: 135 / 2, borderWidth: 3, borderColor: school.primary }} />
@@ -141,16 +141,16 @@ function m(props: TeacherDetailProps): any {
                         </Pressable>
 
                     </View>
-            
+
                     <Text style={{ color: '#000000', fontWeight: 'bold', fontSize: 20, textAlign: 'center', padding: 10 }}>{resApi?.name ?? 'name'}</Text>
                 </View>
 
 
                 <View style={{ marginHorizontal: 10, paddingHorizontal: 5, marginBottom: 50 }}>
-                   
 
-                        <Text style={{ color: '#000000', fontSize: 15, fontWeight: 'bold', marginTop: 30, alignContent: 'flex-start', textAlign: 'left' }}>Posisi</Text>
-                    
+
+                    <Text style={{ color: '#000000', fontSize: 15, fontWeight: 'bold', marginTop: 30, alignContent: 'flex-start', textAlign: 'left' }}>Posisi</Text>
+
 
                     <View style={{ height: 'auto', padding: 5, }}>
                         <FlatList
@@ -179,20 +179,20 @@ function m(props: TeacherDetailProps): any {
                             style={{ flex: 1 }}
                             onChangeText={(text) => setUsername(text)}
                         />
-                       
+
 
                     </View>
 
 
                     <Text style={{ color: '#000000', fontSize: 15, fontWeight: 'bold', marginBottom: 10, marginTop: 15, alignContent: 'flex-start', textAlign: 'left' }}>NIP Pengajar</Text>
-                    
+
                     <View style={{ width: '100%', height: 60, justifyContent: 'center', padding: 5, paddingHorizontal: 10, borderRadius: 8, backgroundColor: '#cecece8c', }}>
                         <Text style={{ alignContent: 'flex-start', textAlign: 'left', }}>{resApi?.nip ?? 'nip'}</Text>
                     </View>
 
                     <Text style={{ color: '#000000', fontSize: 15, fontWeight: 'bold', marginBottom: 10, marginTop: 15, alignContent: 'flex-start', textAlign: 'left' }}>Tanggal Lahir</Text>
-                    <View style={{ width: '100%', height: 60, justifyContent: 'center', padding: 5, paddingHorizontal: 10, borderRadius: 8,  backgroundColor: '#cecece8c',  }}>
-                        <Text style={{ alignContent: 'flex-start', textAlign: 'left', color: '#000000' }}>{moment(resApi?.birthday ).format('dddd, DD MMMM YYYY')}</Text>
+                    <View style={{ width: '100%', height: 60, justifyContent: 'center', padding: 5, paddingHorizontal: 10, borderRadius: 8, backgroundColor: '#cecece8c', }}>
+                        <Text style={{ alignContent: 'flex-start', textAlign: 'left', color: '#000000' }}>{moment(resApi?.birthday).format('dddd, DD MMMM YYYY')}</Text>
                     </View>
 
                     <Text style={{ color: '#000000', fontSize: 15, fontWeight: 'bold', marginBottom: 10, marginTop: 15, alignContent: 'flex-start', textAlign: 'left' }}>Nomor Telepon</Text>
@@ -205,51 +205,51 @@ function m(props: TeacherDetailProps): any {
                             style={{ flex: 1 }}
                             onChangeText={(text) => setPhone(text)}
                         />
-                       
+
 
                     </View>
 
-                    <Pressable onPress={() =>  LibDialog.confirm(' ','Apakah anda yakin untuk mengubah data?','ya',()=>updateData(),'tidak',()=>{})} style={{ width: '100%', height: 60, justifyContent: 'center', padding: 5, paddingHorizontal: 10, borderRadius: 8, elevation: 3, backgroundColor: '#107ac0', shadowColor: '#000', shadowOffset: { width: 1, height: 1 }, shadowOpacity: 0.3, shadowRadius: 2, marginTop: 15 }}>
+                    <Pressable onPress={() => LibDialog.confirm(' ', 'Apakah anda yakin untuk mengubah data?', 'ya', () => updateData(), 'tidak', () => { })} style={{ width: '100%', height: 60, justifyContent: 'center', padding: 5, paddingHorizontal: 10, borderRadius: 8, elevation: 3, backgroundColor: '#107ac0', shadowColor: '#000', shadowOffset: { width: 1, height: 1 }, shadowOpacity: 0.3, shadowRadius: 2, marginTop: 15 }}>
                         <Text style={{ alignContent: 'flex-start', textAlign: 'center', color: '#ffffff' }}>Update Data</Text>
                     </Pressable>
                 </View>
             </ScrollView>
             <ProfilePopup visible={prfilevisible} onClose={() => setProfileVisible(false)} />
             <LibSlidingup ref={slideup} >
-                <View style={{ backgroundColor: 'white', borderTopRightRadius: 20, borderTopLeftRadius: 20, paddingBottom: 35, paddingHorizontal: 19, }}>
-                    <Text allowFontScaling={false} style={{ marginTop: 26, marginBottom: 23, fontFamily: "Arial", fontSize: 16, fontWeight: "bold", fontStyle: "normal", lineHeight: 22, letterSpacing: 0, textAlign: "center", color: "#34495e" }}></Text>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginBottom: 27 }}>
+               <View style={{ padding: 10,backgroundColor: '#ffffff',borderTopRightRadius: 20, borderTopLeftRadius: 20,paddingHorizontal: 20,paddingVertical:20  }}>
+               <Text style={{ color: '#000000', fontSize: 20, fontWeight: 'bold' }}> Ganti Foto Profil</Text>
+                <View style={{  paddingBottom: 25,  justifyContent: 'space-evenly', flexDirection: 'row', paddingVertical: 20 }}>
+                    <Pressable
+                        style={{ justifyContent: 'center', alignItems: 'center' }}
+                        onPress={() =>
+                            LibImage.fromCamera({ crop: { ratio: "1:1", forceCrop: true } }).then((url) => {
+                                slideup.current!.hide()
+                                setImage(url)
+                            })} >
+                        <View style={{ width: 60, height: 60, backgroundColor: '#ffffff', borderRadius: 50, justifyContent: 'center', alignItems: 'center', borderColor: school.primary, borderWidth: 2, marginBottom: 10 }}>
+                            <LibIcon.MaterialIcons name="camera-alt" size={30} color="#136B93" />
+                        </View>
+                        <Text style={{ color: '#000000', fontSize: 20, fontWeight: 'bold' }}>Kamera</Text>
+                    </Pressable>
 
-                        <Pressable
-                            style={{ justifyContent: 'center', alignItems: 'center' }}
-                            onPress={() =>
-                                LibImage.fromCamera({ crop: { ratio: "1:1", forceCrop: true } }).then((url) => {
-                                    slideup.current!.hide()
-                                    setImage(url)
-                                })} >
-                            <View style={{ width: 60, height: 60, backgroundColor: '#ffffff', borderRadius: 50, justifyContent: 'center', alignItems: 'center', borderColor: school.primary, borderWidth: 2, marginBottom: 10 }}>
-                                <LibIcon.FontAwesome name="camera" size={30} color="#136B93" />
-                            </View>
-                            <Text style={{ color: '#000000', fontSize: 20, fontWeight: 'bold' }}>Camera</Text>
-                        </Pressable>
+                    <Pressable
+                        style={{ justifyContent: 'center', alignItems: 'center' }}
+                        onPress={() =>
+                            LibImage.fromGallery({ crop: { ratio: "1:1", forceCrop: true } }).then((url) => {
+                                esp.log(url)
+                                console.log("url", url)
+                                slideup.current!.hide()
+                                setImage(String(url))
+                            })
+                        } >
+                        <View style={{ width: 60, height: 60, backgroundColor: '#ffffff', borderRadius: 50, justifyContent: 'center', alignItems: 'center', borderColor: school.primary, borderWidth: 2, marginBottom: 10 }}>
+                            <LibIcon.MaterialIcons name="image" size={30} color="#136B93" />
+                        </View>
+                        <Text style={{ color: '#000000', fontSize: 20, fontWeight: 'bold' }}>Galeri</Text>
 
-                        <Pressable
-                            style={{ justifyContent: 'center', alignItems: 'center' }}
-                            onPress={() =>
-                                LibImage.fromGallery({ crop: { ratio: "1:1", forceCrop: true } }).then((url) => {
-                                    esp.log(url)
-                                    console.log("url", url)
-                                    slideup.current!.hide()
-                                    setImage(String(url))
-                                })
-                            } >
-                            <View style={{ width: 60, height: 60, backgroundColor: '#ffffff', borderRadius: 50, justifyContent: 'center', alignItems: 'center', borderColor: school.primary, borderWidth: 2, marginBottom: 10 }}>
-                                <LibIcon.FontAwesome name="image" size={30} color="#136B93" />
-                            </View>
-                            <Text style={{ color: '#000000', fontSize: 20, fontWeight: 'bold' }}>Gallery</Text>
+                    </Pressable>
 
-                        </Pressable>
-                    </View>
+                </View>
                 </View>
             </LibSlidingup>
         </View>
