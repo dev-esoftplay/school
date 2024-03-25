@@ -1,4 +1,5 @@
 // withHooks
+import { memo } from 'react';
 
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
@@ -19,7 +20,7 @@ export interface ScanAttendenceProps {
 }
 
 
-export default function m(props: ScanAttendenceProps): any {
+function m(props: ScanAttendenceProps): any {
     //data from previous screen
     // LibNavigation.navigate('teacher/scanattandence' ,{ data: data , schedule_id: schedule_id, class_id: class_id, course_id: course_id});
     const url: any = LibNavigation.getArgsAll(props).url;
@@ -460,3 +461,4 @@ export default function m(props: ScanAttendenceProps): any {
         </View>
     )
 }
+export default memo(m);

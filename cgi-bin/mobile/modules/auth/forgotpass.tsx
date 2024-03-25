@@ -1,4 +1,5 @@
 // withHooks
+import { memo } from 'react';
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 
 import React from 'react';
@@ -16,7 +17,7 @@ export interface AuthForgotpassArgs {
 export interface AuthForgotpassProps {
 
 }
-export default function m(props: AuthForgotpassProps): any {
+function m(props: AuthForgotpassProps): any {
   const schoolColors = new SchoolColors();
   return (
     <View style={{ flex: 1, backgroundColor: "white", alignContent: 'center' }}>
@@ -47,3 +48,4 @@ export default function m(props: AuthForgotpassProps): any {
     </View>
   )
 }
+export default memo(m);

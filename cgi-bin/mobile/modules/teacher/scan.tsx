@@ -1,4 +1,5 @@
 // withHooks
+import { memo } from 'react';
 
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibLazy } from 'esoftplay/cache/lib/lazy/import';
@@ -15,7 +16,7 @@ import esp from 'esoftplay/esp';
 export interface TeacherScanArgs {}
 export interface TeacherScanProps {}
 
-export default function m(): any {
+function m(): any {
  let isScanned = useRef<boolean>(false);
   const [hasPermission, setHasPermission] = useSafeState();
   let [result, setResult] = useSafeState<any>(null);
@@ -107,3 +108,5 @@ export default function m(): any {
     </View>
   );
 }
+
+export default memo(m);

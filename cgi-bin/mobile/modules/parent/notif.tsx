@@ -1,4 +1,5 @@
 // withHooks
+import { memo } from 'react';
 
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';
 import { LibList } from 'esoftplay/cache/lib/list/import';
@@ -16,7 +17,7 @@ export interface ParentNotifArgs {
 export interface ParentNotifProps {
   
 }
-export default function m(props: ParentNotifProps): any {
+function m(props: ParentNotifProps): any {
   let notifs = UserNotification.state().useSelector(s => s.data);
   useEffect(() => {
 
@@ -100,3 +101,5 @@ export default function m(props: ParentNotifProps): any {
     </View>
   )
 }
+
+export default memo(m);

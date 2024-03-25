@@ -1,4 +1,5 @@
 // withHooks
+import { memo } from 'react';
 import { LibCurl } from 'esoftplay/cache/lib/curl/import';
 import { LibNavigation } from 'esoftplay/cache/lib/navigation/import';
 import { LibPicture } from 'esoftplay/cache/lib/picture/import';
@@ -53,7 +54,7 @@ export function pushToken(): void {
   })
 }
 // Komponen ParentsHome
-export default function ParentsHome({ }: ParentsHomeProps): JSX.Element {
+function ParentsHome({ }: ParentsHomeProps): JSX.Element {
   const { width, height } = Dimensions.get('window');
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const ref = useRef<FlatList<any>>(null);
@@ -280,3 +281,5 @@ export default function ParentsHome({ }: ParentsHomeProps): JSX.Element {
     </View>
   );
 }
+
+export default memo(ParentsHome);
