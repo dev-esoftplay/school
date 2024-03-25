@@ -14,11 +14,12 @@ import moment from 'esoftplay/moment';
 import useSafeState from 'esoftplay/state';
 import React from 'react';
 import { Pressable, Text, TouchableOpacity, View } from 'react-native';
-import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import * as Notifications from 'expo-notifications';
 import SchoolColors from '../utils/schoolcolor';
+import { LibUtils } from 'esoftplay/cache/lib/utils/import';
+import { LibList } from 'esoftplay/cache/lib/list/import';
 
 export interface TeacherHomeArgs {
 
@@ -40,13 +41,15 @@ function m(): any {
   //mengambil data dari userClass
   const data = UserClass.state().get()
   const school = new SchoolColors()
-  const [ApiResponse, setResApi] = useSafeState<any>();
-  const [ApiResponse2, setResApi2] = useSafeState<any>();
+  const [TeacherSchadule, setTeacherSchadule] = useSafeState<any>();
+  const [TeacherSchadule2, setTeacherSchadule2] = useSafeState<any>();
+  let [TeacherSchaduleLIst, setTeacherSchaduleLIst] = useSafeState<any>([]);
   const [profil, setProfil] = useSafeState<any>();
+  const [teacher_id, setTeacher_id] = useSafeState<any>(0);
   const allTabs = ['Today Schadule', 'Tomorrow Schadule'];
-  const [selectTab, setSelectTab] = React.useState(allTabs[0])
+  const [selectTab, setSelectTab] = useSafeState(allTabs[0])
 
- 
+
 
   useEffect(() => {
     console.log('data user', data)
@@ -55,6 +58,7 @@ function m(): any {
     new LibCurl('teacher', null, (result, msg) => {
       esp.log({ result, msg });
       console.log("result profil", result)
+      setTeacher_id(result.teacher_id)
       setProfil(result)
     }, (err) => {
       esp.log({ err });
@@ -65,7 +69,8 @@ function m(): any {
       (result) => {
         // console.log('Jadwal Result:', result);
         // console.log("msg", msg)
-        setResApi(result)
+        setTeacherSchadule(result)
+        setTeacherSchaduleLIst(result?.schedule)
 
       },
       () => {
@@ -73,41 +78,64 @@ function m(): any {
       })
 
     let TommorowDate = moment().add(1, "days").format('YYYY-MM-DD');
-    // console.log("TommorowDate", TommorowDate)
-    // console.log("CurrentDate", CurrentDate)
-
     // get schadule tomorrow from api
+    console.log('TommorowDate', TommorowDate)
     new LibCurl('teacher_schedule?date=' + TommorowDate, null, (result) => {
-      console.log('Jadwal Result besok:', result);
-      console.log(result.schedule[0].class.name)
+
+      // console.log('Jadwal Result besok:', JSON.stringify(result));
+
       // console.log("msg", msg)
-      setResApi2(result)
+      setTeacherSchadule2(result)
     }, () => {
       // console.log("error", err)
     })
   }, [])
 
-  //  async function latenotif(status: number, clock_end: any) {
-      
 
-  //     const currentTime = moment().format('HH:mm');
-  //     const second_end = convertClockEndTimeToSeconds(clock_end);
-  //     const second_current = convertClockEndTimeToSeconds(currentTime);
-  //     console.log("second_end", second_end)
-  //     console.log("second_current", second_current)
-  //   if (status == 3 ) {
-  //     console.log("masuk waktu", clock_end>=currentTime)
-  //         console.log('clock_end :'+clock_end + ' currentTime :'+currentTime)
-  //           return  await Notifications.scheduleNotificationAsync({
-  //             content: {
-  //                 title: "Waktu yang diinput telah lewat",
-  //                 body: `Waktu ${clock_end} telah lewat.`,
-  //                 data: { data: 'goes here' },
-  //             },
-  //             trigger: null, // Notifikasi akan muncul langsung
-  //         });
-  //       }
-  //  }
+  const refresh = () => {
+
+
+
+
+    LibUtils.debounce(() => {
+
+      new LibCurl('teacher', null, (result, msg) => {
+        esp.log({ result, msg });
+        console.log("teacher id", result.teacher_id)
+        console.log("result profil", result)
+        setProfil(result)
+      }, (err) => {
+        esp.log({ err });
+        LibDialog.warning('get data gagal', err?.message)
+      })
+
+      new LibCurl('teacher_schedule', null,
+        (result) => {
+          // console.log('Jadwal Result:', result);
+          // console.log("msg", msg)
+          setTeacherSchadule(result)
+          setTeacherSchaduleLIst(result?.schedule)
+          setSelectTab(allTabs[0])
+        },
+        () => {
+          // console.log("error", err)
+        })
+      let TommorowDate = moment().add(1, "days").format('YYYY-MM-DD');
+      // get schadule tomorrow from api
+      new LibCurl('teacher_schedule?date=' + TommorowDate, null, (result) => {
+        console.log('Jadwal Result besok:', result);
+        // console.log("msg", msg)
+        setTeacherSchadule2(result)
+      }, () => {
+        // console.log("error", err)
+      })
+
+
+    }, 100)
+
+
+  }
+
   const studentStatus_color = (status: number) => {
     switch (status) {
       case 1:
@@ -121,7 +149,8 @@ function m(): any {
       case 5:
         return "gray"
       default:
-        return "gray"}
+        return "gray"
+    }
   }
   const statusColor = (status: number) => {
     // 1 completed
@@ -146,11 +175,8 @@ function m(): any {
     }
   }
 
- 
+  function Elevation(value: number) {
 
-  
-  function Bayangan(value: number) {
-   
     return {
       elevation: 3, // For Android
       shadowColor: '#000', // For iOS
@@ -159,120 +185,13 @@ function m(): any {
       shadowRadius: 4,
     }
   }
-  const Tab = () => {
-    // console.log("TommorowDate", TommorowDate)
-    // console.log("CurrentDate", CurrentDate)
-    if (selectTab === allTabs[0]) {
-      //jadwal hari ini
-      if (ApiResponse?.schedule.length != null) {
-        
-        return (
-          <FlatList data={ApiResponse?.schedule}
-            style={{ height: 'auto', }}
-            contentContainerStyle={{ paddingBottom: 20 }}
-            showsVerticalScrollIndicator={false}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={
-              ({ item }) => {
-                // console.log("jmlh siswa", item?.student_attend ?? "0"+ "/" + item?.student_attend??'0' )
-                // latenotif(item.status, item.clock_end)
-                return (
-                   
-                    <Pressable onPress={() => item.status!=5 ?LibNavigation.navigate('teacher/attandence', { data: item.schedule_id, idclass: item.class.id, courseId: item.course.id }): LibDialog.failed('absen','Belum waktunya Absen')} style={{ ...Bayangan(5),borderRadius: 8,marginVertical:10,marginHorizontal:5}} >
-                      <View style={{ backgroundColor: statusColor(item.status), borderRadius: 10, flexDirection: 'row', elevation: 8, }}>
-
-                        <View style={{ backgroundColor: '#ffffff9f', padding: 10, marginLeft: 20, width: '85%', }}>
-
-                          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black' }}>{item?.class?.name ?? "kelas"} </Text>
-                            <View style={{ height: 30, width: 'auto', borderRadius: 8, backgroundColor: studentStatus_color(item?.status), justifyContent: 'center', alignItems: 'center', paddingHorizontal: 10 }}>
-
-                              <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item.student_attend} / {item.student_number}</Text>
-                            </View>
-                          </View>
-
-                          <View style={{ height: 30, }} />
-                          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black' }}>{item.clock_start ?? ""}</Text>
-                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black' }}>{item.clock_end ?? ""}</Text>
-                          </View>
-                        </View>
-
-                        <LibIcon.AntDesign name="right" size={25} color="white" style={{ alignSelf: 'center', marginLeft: 5 }} />
-
-                      </View>
-                    </Pressable>
-             
-                )
-              }
-            } />
-        )
-
-      } else {
-        return (
-          <View style={{ flex: 1, }}>
-            {Array.from({ length: 7 }, (_, index) => (
-              <View key={index} style={{ height: 100, borderRadius: 12, marginHorizontal: 10, marginVertical: 10 }}>
-
-                <LibSkeleton duration={1000} colors={['gray', '#a59797', '#dbd1d1']} reverse={true}>
-                  <View key={index} style={{ height: 100, backgroundColor: 'white', padding: 10, ...Bayangan(7), borderRadius: 12 }} />
-                </LibSkeleton>
-              </View>
-            ))}
-          </View>
-        )
-      }
-    } else {
-      return (
-        <View>
-          {/* <Text>Tanggal Hari ini {CurrentDate}</Text>
-          <Text>Cek Tanggal Besok {TommorowDate}</Text> */}
-
-          <FlatList data={ApiResponse2?.schedule ?? []}
-            style={{ height: 'auto', }}
-            showsVerticalScrollIndicator={false}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={
-              ({ item }) => {
-                console.log("item", item)
-                //<Text>{item['subject_id']['class_id'].major}</Text>
-                return (
-                  <Pressable onPress={() => console.log("test")} style={{ backgroundColor: "gray", borderRadius: 10, marginTop: 10, flexDirection: 'row', }}>
-
-                    <View style={{ backgroundColor: 'white', padding: 10, marginLeft: 30, width: '80%', opacity: 0.7 }}>
-
-                      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black' }}>{item.class.name ?? "kelas"}</Text>
-                        <View style={{ height: 30, width: 'auto', borderRadius: 8, backgroundColor: "gray", justifyContent: 'center', alignItems: 'center', paddingHorizontal: 10 }}>
-
-                          <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>{item.student_number + "/" + item.student_attend ?? "jumlah siswa"}</Text>
-                        </View>
-                      </View>
-
-                      <View style={{ height: 30, }} />
-                      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black' }}>{item.clock_start ?? ""}</Text>
-                        <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black' }}>{item.clock_end ?? ""}</Text>
-                      </View>
-                    </View>
-
-                    <LibIcon.AntDesign name="right" size={25} color="white" style={{ alignSelf: 'center', marginLeft: 10 }} />
-
-                  </Pressable>
-                )
-              }
-            } />
-        </View>
-      )
-    }
-  }
 
   const Profilpic = () => {
     if (profil) {
       return (
-        <View style={{ flexDirection: 'row', backgroundColor: 'white', alignItems: 'center', marginTop: 10,justifyContent:'space-between'}}>
+        <View style={{ flexDirection: 'row', backgroundColor: 'white', alignItems: 'center', marginTop: 10, justifyContent: 'space-between', paddingHorizontal: 5 }}>
 
-          <View style={{ }}>
+          <View style={{}}>
 
             {/* {apikey} */}
             <Text style={{ fontSize: 28, fontWeight: 'bold', color: 'black' }}>Selamat datang</Text>
@@ -280,28 +199,28 @@ function m(): any {
           </View>
           <LibPicture
             source={{ uri: profil?.image }}
-            style={{ width: 100, height: 100, borderRadius: 50,borderColor: school.primary,borderWidth:2  }}
+            style={{ width: 100, height: 100, borderRadius: 50, borderColor: school.primary, borderWidth: 2 }}
           />
         </View>)
 
 
     } else {
       return (
-        <View style={{ flexDirection: 'row', marginTop: 10, height: 'auto',justifyContent:'space-between' }}>
+        <View style={{ flexDirection: 'row', marginTop: 10, height: 'auto', justifyContent: 'space-between' }}>
 
-          
+
 
           <View style={{ height: 'auto', borderRadius: 12, marginHorizontal: 10, marginVertical: 10 }}>
 
             <LibSkeleton duration={1000} colors={['gray', '#a59797', '#494040']} backgroundStyle={Colors}>
-              <View style={{ height: 30, backgroundColor: 'white', padding: 10, ...Bayangan(7), borderRadius: 12, width: 50 }} />
+              <View style={{ height: 30, backgroundColor: 'white', padding: 10, ...Elevation(7), borderRadius: 12, width: 50 }} />
             </LibSkeleton>
             <LibSkeleton duration={1000} colors={['gray', '#a59797', '#494040']} >
-              <View style={{ height: 30, backgroundColor: 'white', padding: 10, ...Bayangan(7), borderRadius: 12, width: 80 }} />
+              <View style={{ height: 30, backgroundColor: 'white', padding: 10, ...Elevation(7), borderRadius: 12, width: 80 }} />
             </LibSkeleton>
           </View>
-          
-          <View style={{ width: 100, height: 100, borderRadius: 50, backgroundColor: 'gray', justifyContent: 'center', alignItems: 'center' }}/>
+
+          <View style={{ width: 100, height: 100, borderRadius: 50, backgroundColor: 'gray', justifyContent: 'center', alignItems: 'center' }} />
 
         </View>
       )
@@ -311,27 +230,91 @@ function m(): any {
 
   }
   return (
-    <View style={{ flex: 1, backgroundColor: 'white', padding: 10, marginTop: LibStyle.STATUSBAR_HEIGHT }}>
+    <View style={{ flex: 1, backgroundColor: '#ffffffff', padding: 10, marginTop: LibStyle.STATUSBAR_HEIGHT }}>
+      <LibList
+        data={(TeacherSchaduleLIst || [])}
+        onRefresh={refresh}
+        ListHeaderComponent={() => {
+          return (
+            <View style={{ justifyContent: 'center', margin: 5, }}>
+              <Profilpic />
+              <View style={{
+                flexDirection: 'row', marginTop: 25, justifyContent: 'space-between', flex: 1, paddingHorizontal: 5, marginBottom: 1
+              }}>
+                <TouchableOpacity
+                  style={{
+                    paddingVertical: 10, backgroundColor: selectTab === allTabs[0] ? school.primary : '#FFFFFF',
+                    justifyContent: 'center', alignItems: 'center', ...LibStyle.elevation(3), flex: 1, borderBottomLeftRadius: 10, borderTopLeftRadius: 10,
+                  }} onPress={() => { setSelectTab(allTabs[0]), setTeacherSchaduleLIst(TeacherSchadule.schedule) }} key={0}>
+                  {/* nanti curl ke Today Schadule*/}
 
-      <ScrollView showsVerticalScrollIndicator={false}>
+                  <Text style={{ fontSize: 18, fontWeight: 'bold', color: selectTab == allTabs[0] ? 'white' : school.primary, textAlign: 'center' }}>Jadwal hari {TeacherSchadule?.day ?? 'hari'} </Text>
 
-        {/* welcome card */}
-        <Profilpic />
-        {/* schadule Tab */}
+                </TouchableOpacity>
+                <TouchableOpacity style={{
+                  paddingVertical: 10, backgroundColor: selectTab === allTabs[1] ? school.primary : '#FFFFFF',
+                  justifyContent: 'center', alignItems: 'center', ...LibStyle.elevation(3), flex: 1, borderBottomRightRadius: 10, borderTopRightRadius: 10,
+                }} onPress={() => { setSelectTab(allTabs[1]), setTeacherSchaduleLIst(TeacherSchadule2.schedule) }} key={1}>
+                  {/* nanti curl ke Tommorow*/}
+                  <Text style={{ fontSize: 18, fontWeight: 'bold', color: selectTab == allTabs[1] ? 'white' : school.primary, textAlign: 'center', }}>Jadwal Besok</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          )
+        }}
+        ListEmptyComponent={() => {
 
-        <View style={{ flexDirection: 'row', backgroundColor: '#ffffff', alignItems: 'center', marginTop: 25, justifyContent: 'space-between' }}>
-          <TouchableOpacity style={{ alignSelf: 'center', }} onPress={() => setSelectTab(allTabs[0])} key={0}>
-            {/* nanti curl ke Today Schadule*/}
-            <Text style={{ fontSize: 18, fontWeight: 'bold', color: selectTab == allTabs[0] ? 'green':'black', textAlign: 'center' }}>Jadwal hari {ApiResponse?.day ?? 'hari'} </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={{ alignSelf: 'center', }} onPress={() => setSelectTab(allTabs[1])} key={1}>
-            {/* nanti curl ke Tommorow*/}
-            <Text style={{ fontSize: 18, fontWeight: 'bold', color: selectTab == allTabs[1] ? 'green' : 'black', textAlign: 'center', }}>Besok</Text>
-          </TouchableOpacity>
-        </View>
+          return (
+            <View style={{ flex: 1, }}>
+              {Array.from({ length: 7 }, (_, index) => (
+                <View key={index} style={{ height: 120, marginHorizontal: 10, marginVertical: 5, paddingVertical: 10 }}>
+                  <View style={{ height: 25, backgroundColor: '#a59797', padding: 10, ...LibStyle.elevation(2), borderRadius: 5, marginBottom: 10, width: 80 }} />
+                  <LibSkeleton duration={1000} colors={['gray', '#a59797', '#dbd1d1']} reverse={true}>
+                    <View style={{ height: 60, backgroundColor: 'white', padding: 5, ...LibStyle.elevation(2), borderRadius: 5 }} />
+                  </LibSkeleton>
+                </View>
+              ))}
+            </View>
+          )
+        }}
+        renderItem={(item: any) => {
+          return (
+            <View style={{ justifyContent: 'center', alignItems: 'flex-start', margin: 5, }}>
+              <Text style={{ marginLeft: 5, fontSize: 15 }}>{item.status_text}</Text>
+              {item.data.map((item: any) => {
+                return (
+                  <Pressable onPress={() => item?.status != 5 ? LibNavigation.navigate('teacher/attandence', { schedule_id: item?.schedule_id, class_id: item.class.id, courseId: item?.course.id, status: item.status, teacher_id: teacher_id }) : LibDialog.failed('absen', 'Belum waktunya Absen')} style={{ borderRadius: 8, marginVertical: 5, paddingHorizontal: 5 }} >
 
-        <Tab />
-      </ScrollView>
+                    <View style={{ backgroundColor: statusColor(item?.status), borderRadius: 10, flexDirection: 'row', borderWidth: 2, borderColor: statusColor(item?.status), ...LibStyle.elevation(4), }}>
+
+                      <View style={{ backgroundColor: '#ffffffff', padding: 5, marginLeft: 20, width: '85%', }}>
+
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                          <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black' }}>{item?.class?.name ?? "kelas"} </Text>
+                          <View style={{ height: 30, width: 'auto', justifyContent: 'center', alignItems: 'center', paddingHorizontal: 10 }}>
+
+                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: studentStatus_color(item?.status) }}>{item?.student_attend} / {item?.student_number}</Text>
+                          </View>
+                        </View>
+
+                        <View style={{ height: 15, }} />
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                          <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#696969' }}>{item?.course?.name}</Text>
+                          <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black' }}>{item?.clock_start}-{item?.clock_end}</Text>
+                        </View>
+                      </View>
+
+                      <LibIcon.AntDesign name="right" size={25} color="white" style={{ alignSelf: 'center', marginLeft: 5 }} />
+
+                    </View>
+                  </Pressable>
+                )
+              })}
+            </View>
+          )
+        }} />
+
+
 
 
     </View>

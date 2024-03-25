@@ -123,7 +123,7 @@ if (!empty($_FILES['file']) && (!empty($_POST) || isset($_POST))) {
       'name'        => $value[$data['name']]
     ));
   }
-  echo '<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok-s ign" title="ok sign"></span> Sukses Tambah data.</div>';
+  echo '<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok-sign" title="ok sign"></span> Sukses Tambah data.</div>';
 }
 
 link_css(__DIR__ . '/css/teacher_add.css'); 

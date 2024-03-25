@@ -1,7 +1,9 @@
 <?php  if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 $class_id = $db->getCol('SELECT `id` FROM `school_teacher_subject` WHERE `class_id`='.$_GET['id']);
 
-$tabs = array('Edit Class' => '', 'Schedule' => '');
+$tabs = array('Edit Class' => '',
+ // 'Schedule' => ''
+);
 
 $form = _lib('pea', 'school_class');
 
@@ -90,9 +92,7 @@ if (!empty($class_id)) {
 	$form->roll->input->clock_end->setTitle('clock_end');
 	$form->roll->input->clock_end->setDisplayColumn(true);
 
-	$tabs['Schedule'] =  $form->roll->getForm();
+	// $tabs['Schedule'] =  $form->roll->getForm();
 }
-
-include 'class_student.php';
 
 echo tabs($tabs, 1, 'tabs_links');

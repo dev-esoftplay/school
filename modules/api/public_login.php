@@ -25,10 +25,18 @@ if (empty($data_output['ok'])) {
 $result          = (array)$data_output['result'];
 $installation_id = addslashes($_POST['installation_id'] ?? '');
 if (!empty($installation_id)) {
-  $device_data = $db->getRow('SELECT `id`, `key` FROM `member_device` WHERE `user_id` = ' . $result['id'] . ' AND `installation_id`="' . $installation_id . '" LIMIT 1');
+  $device_data = $db->getRow('SELECT `id`, `user_id`, `key` FROM `member_device` WHERE `installation_id`="' . $installation_id . '" LIMIT 1');
   if (!empty($device_data['id'])) {
     $key = $device_data['key'];
-    $db->Update('member_device', ['last_login' => date('Y-m-d H:i:s')], '`id`=' . $device_data['id']);
+    $sql = ['last_login' => date('Y-m-d H:i:s')];
+    if ($device_data['user_id'] != $result['id']) {
+      $key              = api_key_generate();
+      $members_id       = $db->getOne('SELECT `id` FROM `member` WHERE `user_id`=' . $result['id']);
+      $sql['user_id']   = $result['id'];
+      $sql['member_id'] = $members_id;
+      $sql['key']       = $key;
+    }
+    $db->Update('member_device', $sql, '`id`=' . $device_data['id']);
   } else {
     $key = api_key_generate();
     $db->Insert('member_device', [

@@ -28,11 +28,13 @@ $form->roll->input->id->setDisplayColumn(true);
 $form->roll->addInput('name', 'sqllinks');
 $form->roll->input->name->setTitle('nama');
 $form->roll->input->name->setLinks($Bbc->mod['circuit'].'.parent_edit');
+
 $form->roll->addInput('nik', 'text');
 $form->roll->input->nik->setTitle('nik');
 $form->roll->input->nik->setPlainText(true);
 $form->roll->input->nik->setDisplayColumn(true); 
 
+$form->roll->setDeleteTool(false);
 $form->roll->addReport('excel');
 $form->roll->action();
 echo  $form->roll->getForm();

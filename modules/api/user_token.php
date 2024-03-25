@@ -7,14 +7,16 @@ if (!empty($token))
 	if ($is_exist)
 	{
 		api_ok($is_exist);
-	}else{
+	}else
+  {
 		api_no(
 			array(
 				'message' => lang('Token tidak ditemukan.')
 			)
 		);
 	}
-}else{
+}else
+{
 	api_no(
 		array(
 			'message' => lang('Token tidak boleh kosong.')

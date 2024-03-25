@@ -7,7 +7,6 @@
   background-color: #007bff;
   border-color: #007bff;
   border-radius: 5px;
-  margin: 40px 0px;
   color: white;
 }
 
@@ -20,11 +19,11 @@
   text-transform: uppercase; 
 } */
 
-.button-file{
-  margin:20px;
+.button-file {
+  margin: 20px;
 }
 
-/* Gaya untuk span */ 
+/* Gaya untuk span */
 .hide-span {
   display: none; /* Menyembunyikan span secara default */
   /* background-color: #dc3545; Warna latar merah */
