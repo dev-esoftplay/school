@@ -48,34 +48,34 @@ if (isset($_POST['submit'])) {
 			foreach ($output as $key => $value) {
 				if (isset($value['B']) && isset($value['C']) && isset($value['D']) && isset($value['E']) && isset($value['F'])) {
 
-					$course_id  = $db->getOne("SELECT `id` FROM `school_course` WHERE `name` = '" . $value['B'] . "'");
-					$teacher_id = $db->getOne("SELECT `id` FROM `school_teacher` WHERE `name` = '" . $value['C'] . "'");
+					$course_id  = $db->getOne("SELECT `id` FROM `school_course` WHERE `name` = '" . $value['B'] . "'") ?? '';
+					$teacher_id = $db->getOne("SELECT `id` FROM `school_teacher` WHERE `name` = '" . $value['C'] . "'") ?? '';
 
 					if ($value['D']) {
 						$class_parse = explode(" ", $value['D']);
 						if (count($class_parse) !== 3) {
-							$msg[] = msg('Invalid class name format ex. 10 RPL 1');
+							$msg = msg('Invalid class name format ex. 10 RPL 1', 'error');
 						}
 
 						$grade = $class_parse[0];
 						if (!is_numeric($grade)) {
-							$msg[] = msg('Grade must be an integer');
-						} else {
+							$msg = msg('Grade must be an integer');
+						} elseif (!empty($class_parse[1]) && !empty($class_parse[2])) {
 							$major = $class_parse[1];
 							$label = $class_parse[2];
 
-							$class_id = $db->getOne("SELECT `id` FROM `school_class` WHERE `grade` = $grade AND `label` = '$label' AND `major` = '$major'");
+							$class_id = $db->getOne("SELECT `id` FROM `school_class` WHERE `grade` = $grade AND `label` = '$label' AND `major` = '$major'") ?? '';
 						}
 					}
 
 					$msg_field = [];
-					if (!$course_id) {
+					if (!empty($course_id)) {
 						$msg_field[] = 'course';
 					}
-					if (!$teacher_id) {
+					if (!empty($teacher_id)) {
 						$msg_field[] = 'teacher';
 					}
-					if (!$class_id) {
+					if (!empty($class_id)) {
 						$msg_field[] = 'class';
 					}
 					if (!empty($msg_field)) {
@@ -99,7 +99,9 @@ if (isset($_POST['submit'])) {
 						$clock_end   = $clock_merge[1];
 
 						$is_exists = $db->getrow("SELECT `id` FROM `school_schedule` WHERE `subject_id` = $subject_id AND `day` = $days_num AND `clock_start` = '$clock_start' AND `clock_end` = '$clock_end'");
-
+						if ($is_exists) {
+							$msg = msg('Data schedule sudah ada di database');
+						}
 						if (!$is_exists) {
 							$schedule_id = $db->Insert('school_schedule', array(
 								'subject_id'  => $subject_id,
@@ -108,8 +110,6 @@ if (isset($_POST['submit'])) {
 								'clock_end'   => $clock_end
 							));
 							$msg = msg('Insert Jadwal Success', 'success');
-						} else {
-							$msg = msg('Data schedule sudah ada di database');
 						}
 					}
 				}
