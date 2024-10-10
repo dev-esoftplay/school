@@ -4,6 +4,7 @@
 	},
 	"build": {
 		"development": {
+			"bun": "1.1.0",
 			"developmentClient": true,
 			"distribution": "internal",
 			"ios": {
@@ -12,11 +13,13 @@
 			"channel": "default"
 		},
 		"development_build": {
+			"bun": "1.1.0",
 			"developmentClient": true,
 			"distribution": "internal",
 			"channel": "default"
 		},
 		"preview": {
+			"bun": "1.1.0",
 			"distribution": "internal",
 			"ios": {
 				"simulator": true
@@ -24,6 +27,7 @@
 			"channel": "default"
 		},
 		"preview_build": {
+			"bun": "1.1.0",
 			"distribution": "internal",
 			"android": {
 				"buildType": "apk"
@@ -31,6 +35,7 @@
 			"channel": "default"
 		},
 		"production": {
+			"bun": "1.1.0",
 			"channel": "default"
 		}
 	},

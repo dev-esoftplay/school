@@ -5,11 +5,13 @@ config.json
 config.debug.json
 config.live.json
 node_modules/
+dist/
 code-signing/
 certificate.pem
 web-build/
 npm-debug.*
 package-lock.json
+assets/esoftplaymodules/
 bun.lockb
 yarn.lock
 yarn-error.log
