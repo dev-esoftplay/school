@@ -201,11 +201,11 @@ function m(props: TeacherDetailProps): any {
                         width: '100%', height: 60, paddingHorizontal: 10, borderRadius: 8, elevation: 3, backgroundColor: '#fff', shadowColor: '#000', justifyContent: 'space-between', alignItems: 'center',
                         shadowOffset: { width: 1, height: 1 }, shadowOpacity: 0.3, shadowRadius: 2, flexDirection: 'row'
                     }}>
-                        <TextInput placeholder={'+' + resApi?.phone ?? '+62'}
+                        <TextInput
+                            placeholder={'+' + (resApi?.phone || '+62')}
                             style={{ flex: 1 }}
                             onChangeText={(text) => setPhone(text)}
                         />
-
 
                     </View>
 
@@ -216,40 +216,40 @@ function m(props: TeacherDetailProps): any {
             </ScrollView>
             <ProfilePopup visible={prfilevisible} onClose={() => setProfileVisible(false)} />
             <LibSlidingup ref={slideup} >
-               <View style={{ padding: 10,backgroundColor: '#ffffff',borderTopRightRadius: 20, borderTopLeftRadius: 20,paddingHorizontal: 20,paddingVertical:20  }}>
-               <Text style={{ color: '#000000', fontSize: 20, fontWeight: 'bold' }}> Ganti Foto Profil</Text>
-                <View style={{  paddingBottom: 25,  justifyContent: 'space-evenly', flexDirection: 'row', paddingVertical: 20 }}>
-                    <Pressable
-                        style={{ justifyContent: 'center', alignItems: 'center' }}
-                        onPress={() =>
-                            LibImage.fromCamera({ crop: { ratio: "1:1", forceCrop: true } }).then((url) => {
-                                slideup.current!.hide()
-                                setImage(url)
-                            })} >
-                        <View style={{ width: 60, height: 60, backgroundColor: '#ffffff', borderRadius: 50, justifyContent: 'center', alignItems: 'center', borderColor: school.primary, borderWidth: 2, marginBottom: 10 }}>
-                            <LibIcon.MaterialIcons name="camera-alt" size={30} color="#136B93" />
-                        </View>
-                        <Text style={{ color: '#000000', fontSize: 20, fontWeight: 'bold' }}>Kamera</Text>
-                    </Pressable>
+                <View style={{ padding: 10, backgroundColor: '#ffffff', borderTopRightRadius: 20, borderTopLeftRadius: 20, paddingHorizontal: 20, paddingVertical: 20 }}>
+                    <Text style={{ color: '#000000', fontSize: 20, fontWeight: 'bold' }}> Ganti Foto Profil</Text>
+                    <View style={{ paddingBottom: 25, justifyContent: 'space-evenly', flexDirection: 'row', paddingVertical: 20 }}>
+                        <Pressable
+                            style={{ justifyContent: 'center', alignItems: 'center' }}
+                            onPress={() =>
+                                LibImage.fromCamera({ crop: { ratio: "1:1", forceCrop: true } }).then((url) => {
+                                    slideup.current!.hide()
+                                    setImage(url)
+                                })} >
+                            <View style={{ width: 60, height: 60, backgroundColor: '#ffffff', borderRadius: 50, justifyContent: 'center', alignItems: 'center', borderColor: school.primary, borderWidth: 2, marginBottom: 10 }}>
+                                <LibIcon.MaterialIcons name="camera-alt" size={30} color="#136B93" />
+                            </View>
+                            <Text style={{ color: '#000000', fontSize: 20, fontWeight: 'bold' }}>Kamera</Text>
+                        </Pressable>
 
-                    <Pressable
-                        style={{ justifyContent: 'center', alignItems: 'center' }}
-                        onPress={() =>
-                            LibImage.fromGallery({ crop: { ratio: "1:1", forceCrop: true } }).then((url) => {
-                                esp.log(url)
-                                console.log("url", url)
-                                slideup.current!.hide()
-                                setImage(String(url))
-                            })
-                        } >
-                        <View style={{ width: 60, height: 60, backgroundColor: '#ffffff', borderRadius: 50, justifyContent: 'center', alignItems: 'center', borderColor: school.primary, borderWidth: 2, marginBottom: 10 }}>
-                            <LibIcon.MaterialIcons name="image" size={30} color="#136B93" />
-                        </View>
-                        <Text style={{ color: '#000000', fontSize: 20, fontWeight: 'bold' }}>Galeri</Text>
+                        <Pressable
+                            style={{ justifyContent: 'center', alignItems: 'center' }}
+                            onPress={() =>
+                                LibImage.fromGallery({ crop: { ratio: "1:1", forceCrop: true } }).then((url) => {
+                                    esp.log(url)
+                                    console.log("url", url)
+                                    slideup.current!.hide()
+                                    setImage(String(url))
+                                })
+                            } >
+                            <View style={{ width: 60, height: 60, backgroundColor: '#ffffff', borderRadius: 50, justifyContent: 'center', alignItems: 'center', borderColor: school.primary, borderWidth: 2, marginBottom: 10 }}>
+                                <LibIcon.MaterialIcons name="image" size={30} color="#136B93" />
+                            </View>
+                            <Text style={{ color: '#000000', fontSize: 20, fontWeight: 'bold' }}>Galeri</Text>
 
-                    </Pressable>
+                        </Pressable>
 
-                </View>
+                    </View>
                 </View>
             </LibSlidingup>
         </View>
