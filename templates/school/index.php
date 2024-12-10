@@ -14,6 +14,7 @@
 				<div class="container">
 					<div class="row">
 						<?php echo $sys->block_show('intro'); ?>
+						<?php echo $sys->block_show('login'); ?>
 					</div>
 				</div>
 			</div>
