@@ -1,4 +1,4 @@
-// withHooks
+// withHooksr
 import { memo } from 'react';
 
 import { LibIcon } from 'esoftplay/cache/lib/icon/import';

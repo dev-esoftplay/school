@@ -290,10 +290,10 @@ function ParentsHome({}: ParentsHomeProps): JSX.Element {
               >
                 <Pressable
                   onPress={() => {
-                    console.log("childata :", JSON.stringify(item));
-                    LibNavigation.navigate("parent/childdetail", {
-                      childDetail: item,
-                    });
+                    console.log("childata :", JSON.stringify(item)),
+                      LibNavigation.navigate("parent/childdetail", {
+                        childDetail: item,
+                      });
                   }}
                 >
                   <View
@@ -317,21 +317,9 @@ function ParentsHome({}: ParentsHomeProps): JSX.Element {
                         height: height * 0.44,
                       }}
                     >
-                      <Image
-                        source={{
-                          uri: "https://images.unsplash.com/photo-1507823782123-27db7f9fd196?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                        }}
-                        style={{
-                          width: 105,
-                          height: 105,
-                          borderRadius: 135 / 2,
-                          borderWidth: 3,
-                          borderColor: "#FFFFFF",
-                          marginTop: 10,
-                        }}
-                      />
+                      <Image source={ParentStudent.image} />
 
-                      <View style={{ marginTop: 10 }}>
+                      <View style={{ alignItems: "center", marginTop: 10 }}>
                         <Text
                           style={{
                             fontSize: 18,
@@ -361,31 +349,36 @@ function ParentsHome({}: ParentsHomeProps): JSX.Element {
                         </Text>
                       </View>
 
-                      {/* Tombol Lihat Raport */}
+                      {/* grid  daftar kehadiran */}
                       <View
                         style={{
                           flexDirection: "row",
-                          justifyContent: "center",
+                          flexWrap: "wrap",
+                          justifyContent: "space-evenly",
                           marginTop: 35,
                         }}
                       >
-                        <Pressable
-                          onPress={() => {
-                            console.log("Lihat Raport:", JSON.stringify(item));
-                            LibNavigation.navigate("parent/childdetail", {
-                              childDetail: item,
-                            });
-                          }}
+                        <View
                           style={{
-                            height: 50,
-                            width: 290,
+                            height: LibStyle.height * 0.1 - 3,
+                            width: LibStyle.width * 0.3 + 20,
                             alignItems: "center",
-                            backgroundColor: "#4B7AD6",
+                            backgroundColor: "#0EBD5E",
                             justifyContent: "center",
                             borderRadius: 10,
-                            padding: 10,
+                            padding: 5,
+                            margin: "2.5%",
                           }}
                         >
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              fontWeight: "bold",
+                              color: "#FFFFFF",
+                            }}
+                          >
+                            {item.student_attendance.hadir}{" "}
+                          </Text>
                           <Text
                             style={{
                               fontSize: 18,
@@ -393,9 +386,105 @@ function ParentsHome({}: ParentsHomeProps): JSX.Element {
                               color: "#FFFFFF",
                             }}
                           >
-                            Lihat Raport
+                            Hadir
                           </Text>
-                        </Pressable>
+                        </View>
+
+                        <View
+                          style={{
+                            height: LibStyle.height * 0.1 - 3,
+                            width: LibStyle.width * 0.3 + 20,
+                            alignItems: "center",
+                            backgroundColor: "#F6C856",
+                            justifyContent: "center",
+                            borderRadius: 10,
+                            padding: 5,
+                            margin: "2.5%",
+                          }}
+                        >
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              fontWeight: "bold",
+                              color: "#FFFFFF",
+                            }}
+                          >
+                            {item.student_attendance.sakit}{" "}
+                          </Text>
+                          <Text
+                            style={{
+                              fontSize: 18,
+                              fontWeight: "bold",
+                              color: "#FFFFFF",
+                            }}
+                          >
+                            Sakit
+                          </Text>
+                        </View>
+
+                        <View
+                          style={{
+                            height: LibStyle.height * 0.1 - 3,
+                            width: LibStyle.width * 0.3 + 20,
+                            alignItems: "center",
+                            backgroundColor: "#0083FD",
+                            justifyContent: "center",
+                            borderRadius: 10,
+                            padding: 5,
+                            margin: "2.5%",
+                          }}
+                        >
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              fontWeight: "bold",
+                              color: "#FFFFFF",
+                            }}
+                          >
+                            {item.student_attendance.sakit}{" "}
+                          </Text>
+                          <Text
+                            style={{
+                              fontSize: 18,
+                              fontWeight: "bold",
+                              color: "#FFFFFF",
+                            }}
+                          >
+                            Izin
+                          </Text>
+                        </View>
+
+                        <View
+                          style={{
+                            height: LibStyle.height * 0.1 - 3,
+                            width: LibStyle.width * 0.3 + 20,
+                            alignItems: "center",
+                            backgroundColor: "#FF4342",
+                            justifyContent: "center",
+                            borderRadius: 10,
+                            padding: 5,
+                            margin: "2.5%",
+                          }}
+                        >
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              fontWeight: "bold",
+                              color: "#FFFFFF",
+                            }}
+                          >
+                            {item.student_attendance.sakit}{" "}
+                          </Text>
+                          <Text
+                            style={{
+                              fontSize: 18,
+                              fontWeight: "bold",
+                              color: "#FFFFFF",
+                            }}
+                          >
+                            Alfa
+                          </Text>
+                        </View>
                       </View>
                     </View>
                   </View>
@@ -413,7 +502,6 @@ function ParentsHome({}: ParentsHomeProps): JSX.Element {
           }}
           onScroll={(e) => updateCurrentSlideIndex(e)}
         />
-
         <View
           style={{
             flexDirection: "row",
