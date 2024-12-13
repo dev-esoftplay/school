@@ -2,21 +2,14 @@
 import { memo } from "react";
 import { LibCurl } from "esoftplay/cache/lib/curl/import";
 import { LibNavigation } from "esoftplay/cache/lib/navigation/import";
-import { LibPicture } from "esoftplay/cache/lib/picture/import";
+// import { LibPicture } from "esoftplay/cache/lib/picture/import";
 import esp from "esoftplay/esp";
 import { useRef, useState, useEffect } from "react";
 // import { LibStyle } from 'esoftplay/cache/lib/style/import';
 import React from "react";
 import navigation from "esoftplay/modules/lib/navigation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-  Dimensions,
-  FlatList,
-  Image,
-  Pressable,
-  Text,
-  View,
-} from "react-native";
+import {Dimensions,FlatList,Image,Pressable,Text,View,} from "react-native";
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 import { LibStyle } from "esoftplay/cache/lib/style/import";
 import { useTimeout } from "esoftplay/timeout";
@@ -191,12 +184,8 @@ function ParentsHome({}: ParentsHomeProps): JSX.Element {
             borderRadius: 10,
           }}
         >
-          <Image
-            source={{
-              uri:
-                ParentStudent.image ??
-                "https://images.unsplash.com/photo-1507823782123-27db7f9fd196?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            }}
+        <Image
+             source={ParentStudent.image ? { uri: ParentStudent.image } : require('/var/www/html/school/cgi-bin/mobile/assets/anies.png')}  
             style={{
               width: 105,
               height: 105,
@@ -290,9 +279,9 @@ function ParentsHome({}: ParentsHomeProps): JSX.Element {
               >
                 <Pressable
                   onPress={() => {
-                    console.log("childata :", JSON.stringify(item));
-                    LibNavigation.navigate("parent/childdetail", {
-                      childDetail: item,
+                    console.log("childDetailRaport:", JSON.stringify(item));
+                    LibNavigation.navigate("parent/childdetailraport", {
+                      childdetailraport: item,
                     });
                   }}
                 >
@@ -371,9 +360,9 @@ function ParentsHome({}: ParentsHomeProps): JSX.Element {
                       >
                         <Pressable
                           onPress={() => {
-                            console.log("Lihat Raport:", JSON.stringify(item));
-                            LibNavigation.navigate("parent/childdetail", {
-                              childDetail: item,
+                            console.log("childDetailRaport:", JSON.stringify(item));
+                            LibNavigation.navigate("parent/childdetailraport", {
+                              childdetailraport: item,
                             });
                           }}
                           style={{

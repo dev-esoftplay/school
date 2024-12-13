@@ -99,7 +99,7 @@ function m(props: ParentIndexProps): any {
       >
         {/* Render item-menu untuk setiap layar */}
         {renderMenuItem("home", "Beranda", 0, "home-outline", 0)}
-        {renderMenuItem("newspaper", "Raport", 1, "newspaper-outline", 1)}
+        {/* {renderMenuItem("newspaper", "Raport", 1, "newspaper-outline", 1)} */}
         {renderMenuItem("mail", "Notif", 3, "mail-outline", 3)}
         {renderMenuItem("person", "Akun", 4, "person-outline", 4)}
       </View>
