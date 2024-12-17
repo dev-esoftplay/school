@@ -9,7 +9,14 @@ import { useRef, useState, useEffect } from "react";
 import React from "react";
 import navigation from "esoftplay/modules/lib/navigation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {Dimensions,FlatList,Image,Pressable,Text,View,} from "react-native";
+import {
+  Dimensions,
+  FlatList,
+  Image,
+  Pressable,
+  Text,
+  View,
+} from "react-native";
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 import { LibStyle } from "esoftplay/cache/lib/style/import";
 import { useTimeout } from "esoftplay/timeout";
@@ -184,8 +191,12 @@ function ParentsHome({}: ParentsHomeProps): JSX.Element {
             borderRadius: 10,
           }}
         >
-        <Image
-             source={ParentStudent.image ? { uri: ParentStudent.image } : require('/var/www/html/school/cgi-bin/mobile/assets/anies.png')}  
+          <Image
+            source={
+              ParentStudent.image
+                ? { uri: ParentStudent.image }
+                : require("/var/www/html/school/cgi-bin/mobile/assets/anies.png")
+            }
             style={{
               width: 105,
               height: 105,
@@ -360,7 +371,10 @@ function ParentsHome({}: ParentsHomeProps): JSX.Element {
                       >
                         <Pressable
                           onPress={() => {
-                            console.log("childDetailRaport:", JSON.stringify(item));
+                            console.log(
+                              "childDetailRaport:",
+                              JSON.stringify(item)
+                            );
                             LibNavigation.navigate("parent/childdetailraport", {
                               childdetailraport: item,
                             });

@@ -1,17 +1,27 @@
-import React from 'react';
-import { View, Text, TouchableOpacity} from 'react-native';
+import React from "react";
+import { View, Text, TouchableOpacity } from "react-native";
 import { LibNavigation } from "esoftplay/cache/lib/navigation/import";
-import { LibStyle } from 'esoftplay/cache/lib/style/import';
+import { LibStyle } from "esoftplay/cache/lib/style/import";
 
 interface CustomCardProps {
   number: string;
   title: string;
   subtitle: string;
+  childDetailRaport: any; // Terima prop untuk data childDetailRaport
 }
 
-const CustomCard: React.FC<CustomCardProps> = ({ number, title, subtitle }) => {
+const CustomCard: React.FC<CustomCardProps> = ({
+  number,
+  title,
+  subtitle,
+  childDetailRaport,
+}) => {
   const handlePress = () => {
-    LibNavigation.navigate("parent/home");
+    // Pastikan data childDetailRaport diteruskan ke halaman raportdetail
+    LibNavigation.navigate("parent/raportdetail", {
+      childdetailraport: childDetailRaport,
+      kelas: title,
+    });
   };
 
   return (
@@ -20,13 +30,13 @@ const CustomCard: React.FC<CustomCardProps> = ({ number, title, subtitle }) => {
         style={{
           marginLeft: 15,
           marginTop: 10,
-          flexDirection: 'row',
-          alignItems: 'center',
+          flexDirection: "row",
+          alignItems: "center",
           borderWidth: 5,
-          borderColor: '#4285F4',
+          borderColor: "#4285F4",
           borderRadius: 8,
-          overflow: 'hidden',
-          backgroundColor: '#4B7AD6',
+          overflow: "hidden",
+          backgroundColor: "#4B7AD6",
           width: LibStyle.width - 30,
           height: LibStyle.height * 0.1,
         }}
@@ -34,20 +44,20 @@ const CustomCard: React.FC<CustomCardProps> = ({ number, title, subtitle }) => {
         <View
           style={{
             marginLeft: 15,
-            backgroundColor: '#FFFFFF',
+            backgroundColor: "#FFFFFF",
             width: 50,
-            height: '100%',
-            justifyContent: 'center',
-            alignItems: 'center',
+            height: "100%",
+            justifyContent: "center",
+            alignItems: "center",
             borderTopLeftRadius: 4,
             borderBottomLeftRadius: 4,
           }}
         >
           <Text
             style={{
-              color: '#4B7AD6',
+              color: "#4B7AD6",
               fontSize: 18,
-              fontWeight: 'bold',
+              fontWeight: "bold",
             }}
           >
             {number}
@@ -58,9 +68,9 @@ const CustomCard: React.FC<CustomCardProps> = ({ number, title, subtitle }) => {
             marginLeft: 2,
             flex: 1,
             padding: 10,
-            backgroundColor: '#FFFFFF',
-            justifyContent: 'center',
-            alignItems: 'flex-start',
+            backgroundColor: "#FFFFFF",
+            justifyContent: "center",
+            alignItems: "flex-start",
             borderTopRightRadius: 4,
             borderBottomRightRadius: 4,
             height: LibStyle.height * 0.1,
@@ -69,8 +79,8 @@ const CustomCard: React.FC<CustomCardProps> = ({ number, title, subtitle }) => {
           <Text
             style={{
               fontSize: 16,
-              fontWeight: 'bold',
-              color: '#4285F4',
+              fontWeight: "bold",
+              color: "#4285F4",
               marginBottom: 8,
             }}
           >
@@ -79,9 +89,9 @@ const CustomCard: React.FC<CustomCardProps> = ({ number, title, subtitle }) => {
           <Text
             style={{
               fontSize: 14,
-              color: '#4285F4',
+              color: "#4285F4",
               marginTop: 8,
-              fontWeight: 'bold',
+              fontWeight: "bold",
             }}
           >
             {subtitle}
