@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "expo": "^52.0.7",
+    "react-native-fast-image": "^8.6.3"
+  }
+}
