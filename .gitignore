@@ -7,3 +7,4 @@ images/license.txt
 /config.php
 sftp-config.json
 .vscode
+/nbproject/private/

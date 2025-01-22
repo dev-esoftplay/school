@@ -4,122 +4,130 @@
 switch ($Bbc->mod['task']) {
 	case 'main': // melihat daftar school
 	case 'school':
-		include 'school.php';
+		include 'modules/school/school.php';
 		break;
 
 	case 'student':
-		include 'student.php';
+		include 'modules/student/student.php';
 		break;
 
 	case 'student_edit':
-		include 'student_edit.php';
+		include 'modules/student/student_edit.php';
 		break;
 
 	case 'student_add':
-		include 'student_add.php';
+		include 'modules/student/student_add.php';
 		break;
 
 	case 'student_class':
-		include 'student_class.php';
+		include 'modules/student_class/student_class.php';
 		break;
 
 	case 'student_class_add':
-		include 'student_class_add.php';
+		include 'modules/student_class/student_class_add.php';
 		break;
 
 	case 'teacher':
-		include 'teacher.php';
+		include 'modules/teacher/teacher.php';
 		break;
 
 	case 'teacher_edit':
-		include 'teacher_edit.php';
+		include 'modules/teacher/teacher_edit.php';
 		break;
 
 	case 'teacher_add':
-		include 'teacher_add.php';
+		include 'modules/teacher/teacher_add.php';
 		break;
 
 	case 'class':
-		include 'class.php';
+		include 'modules/class/class.php';
 		break;
 
 	case 'class_add':
-		include 'class_add.php';
+		include 'modules/class/class_add.php';
 		break;
 
 	case 'class_edit':
-		include 'class_edit.php';
+		include 'modules/class/class_edit.php';
 		break;
 
 	case 'schedule':
-		include 'schedule.php';
+		include 'modules/schedule/schedule.php';
 		break;
 
 	case 'schedule_add':
-		include 'schedule_add.php';
+		include 'modules/schedule/schedule_add.php';
 		break;
 
 	case 'schedule_edit':
-		include 'schedule_edit.php';
+		include 'modules/schedule/schedule_edit.php';
 		break;
 
 	case 'subject':
-		include 'subject.php';
+		include 'modules/subject/subject.php';
 		break;
 
 	case 'subject_add':
-		include 'subject_add.php';
+		include 'modules/subject/subject_add.php';
 		break;
 
 	case 'subject_edit':
-		include 'subject_edit.php';
+		include 'modules/subject/subject_edit.php';
 		break;
 
 	case 'parent':
-		include 'parent.php';
+		include 'modules/parent/parent.php';
 		break;
 
 	case 'parent_edit':
-		include 'parent_edit.php';
+		include 'modules/parent/parent_edit.php';
 		break;
 
 	case 'attendance':
-		include 'attendance.php';
+		include 'modules/attendance/attendance.php';
 		break;
 
 	case 'attendance_edit':
-		include 'attendance_edit.php';
+		include 'modules/attendance/attendance_edit.php';
 		break;
 
 	case 'notification':
-		include 'notification.php';
+		include 'modules/notification/notification.php';
 		break;
 
 	case 'course':
-		include 'course.php';
+		include 'modules/course/course.php';
 		break;
 
 	case 'course_add':
-		include 'course_add.php';
+		include 'modules/course/course_add.php';
 		break;
 
 	case 'course_edit':
-		include 'course_edit.php';
+		include 'modules/course/course_edit.php';
 		break;
 
 	case 'clock':
-		include 'clock.php';
+		include 'modules/clock/clock.php';
 		break;
-		
+
 	case 'clock_add':
-		include 'clock_add.php';
+		include 'modules/clock/clock_add.php';
 		break;
-		
+
 	case 'class_student':
-		include 'class_student.php';
+		include 'modules/class_student/class_student.php';
 		break;
 
 	case 'semester':
-		include 'semester.php';
+		include 'modules/semester/semester.php';
+		break;
+
+	case 'score':
+		include 'modules/score/score.php';
+		break;
+
+	case 'profile':
+		include 'modules/profile/profile.php';
 		break;
 }

@@ -47,7 +47,7 @@ $img->setPath(_ROOT . 'images/uploads/temp/'.$date);
 $name = $img->upload($_FILES['image']);
 
 if (empty($name)) {
-	return api_no(lang('Terjadi kesalahan saat upload gambar. Mohon coba kembali beberapa saat lagi.'));
+	return api_no(lang('Terjadi kesalahan saat upload gambar. Mohon guru kembali beberapa saat lagi.'));
 }
 
 $image = _URL.'images/uploads/temp/'.$date.$name;
