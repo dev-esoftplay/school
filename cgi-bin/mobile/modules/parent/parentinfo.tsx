@@ -152,7 +152,7 @@ function m(props: ParentInfoProps): any {
                 <Text style={{ color: '#000000', fontSize: 15, fontWeight: 'bold', marginBottom: 10, marginTop: 15, alignContent: 'flex-start', textAlign: 'left' }}>Nomor Telp</Text>
                 
                 <View style={{ width: LibStyle.width * 0.9, height: LibStyle.height * 0.1 - 21, paddingHorizontal: 10, borderRadius: 8, elevation: 3, backgroundColor: '#FFFFFF', shadowColor: '#000000', justifyContent: 'space-between', alignItems: 'center', shadowOffset: { width: 1, height: 1 }, shadowOpacity: 0.3, shadowRadius: 2, flexDirection: 'row' }}>
-                    <TextInput placeholder={'+' + Parent.phone ?? '+62'}
+                    <TextInput placeholder={'+' + Parent.phone || '+62'}
                         style={{ flex: 1, color: '#898989' }}
                         onChangeText={(text) => setPhone(text)}
                     />
