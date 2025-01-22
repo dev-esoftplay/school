@@ -4,14 +4,6 @@ if (!defined('_VALID_BBC'))
 
 // Set the layout for the teacher dashboard
 $sys->set_layout('teacher.php');
-
-// Example dashboard data fetching
-$teacher_id = $_SESSION['user_id']; // Assuming teacher's ID is stored in the session
-
-// Fetch data from the database (replace 'your_table' and queries as needed)
-$assignments = $db->getAll("SELECT * FROM assignments WHERE teacher_id = {$teacher_id} ORDER BY due_date ASC");
-$students = $db->getAll("SELECT * FROM students WHERE class_id IN (SELECT class_id FROM classes WHERE teacher_id = {$teacher_id})");
-$classes = $db->getAll("SELECT * FROM classes WHERE teacher_id = {$teacher_id}");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,7 +18,6 @@ $classes = $db->getAll("SELECT * FROM classes WHERE teacher_id = {$teacher_id}")
         body {
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
             max-width: 375px; /* Simulate mobile screen width */
             margin: 0 auto;
             background-color: #f4f4f4;
@@ -45,12 +36,20 @@ $classes = $db->getAll("SELECT * FROM classes WHERE teacher_id = {$teacher_id}")
             padding-left: 0px; 
         }
 
+        /* Create a 2x2 grid for the dashboard sections */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px; /* Space between the grid items */
+        }
+
+        /* Dashboard Section (Card) Styles */
         .dashboard-section {
-            margin-bottom: 20px;
             background: white;
-            padding: 15px;
+            padding: 20px; /* Padding inside each card */
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px; /* Space between cards */
         }
 
         .dashboard-section h2 {
@@ -87,18 +86,18 @@ $classes = $db->getAll("SELECT * FROM classes WHERE teacher_id = {$teacher_id}")
         .hamburger {
             font-size: 20px;
             background: none;
-            border: none; /* Removed border */
+            border: none;
             cursor: pointer;
             position: fixed;
             top: 15px;
-            right: 20px; /* Place it on the right side */
+            right: 20px;
             z-index: 1000;
-            transition: transform 0.3s ease; /* Smooth transition for rotating */
+            transition: transform 0.3s ease;
         }
 
         /* When sidebar is open, rotate the hamburger icon */
         .hamburger.open {
-            transform: rotate(90deg); /* Simple rotation effect for hamburger */
+            transform: rotate(90deg);
         }
 
         /* Overlay */
@@ -108,9 +107,9 @@ $classes = $db->getAll("SELECT * FROM classes WHERE teacher_id = {$teacher_id}")
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5); /* Slightly darker background */
+            background: rgba(0, 0, 0, 0.5);
             z-index: 998;
-            display: none; /* Hidden by default */
+            display: none;
         }
 
         .overlay.active {
@@ -121,36 +120,36 @@ $classes = $db->getAll("SELECT * FROM classes WHERE teacher_id = {$teacher_id}")
         .sidebar {
             position: fixed;
             top: 0;
-            right: -250px; /* Hidden by default */
+            right: -250px;
             width: 250px;
             height: 100%;
             background: white;
             box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
             z-index: 999;
-            transition: right 0.3s ease; /* Smooth transition for sliding */
+            transition: right 0.3s ease;
             padding: 15px;
             display: flex;
             flex-direction: column;
         }
 
         .sidebar.active {
-            right: 0; /* Show the sidebar */
+            right: 0;
         }
 
         .sidebar .menu-title {
             font-size: 1.2em;
             margin-top: 5px;
-            margin-bottom: 10px; /* Add space between title and the list */
+            margin-bottom: 10px;
             color: #006400;
             font-weight: bold;
             text-align: left;
         }
 
         .sidebar .menu-list {
-            flex-grow: 1; /* Takes remaining space */
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start; /* Align items at the top */
+            justify-content: flex-start;
         }
 
         .sidebar .menu-list ul {
@@ -187,11 +186,6 @@ $classes = $db->getAll("SELECT * FROM classes WHERE teacher_id = {$teacher_id}")
             text-decoration: none; /* Ensure no underline */
         }
 
-        .sidebar .menu-list ul li a i {
-            margin-right: 10px; /* Adds space between the icon and text */
-            color: #333; /* Sets the icon color */
-        }
-
         /* Footer */
         .footer {
             margin-top: 20px;
@@ -200,11 +194,10 @@ $classes = $db->getAll("SELECT * FROM classes WHERE teacher_id = {$teacher_id}")
             text-align: center;
         }
 
-        /* Styles for the Logout link */
         .sidebar .logout-link a {
-            color: red; /* Default text color for logout link */
-            background-color: transparent; /* Transparent background */
-            padding: 12px 15px; /* Adjusted padding for the logout button */
+            color: red;
+            background-color: transparent;
+            padding: 12px 15px;
             border-radius: 5px;
             font-weight: bold;
             display: block;
@@ -212,17 +205,17 @@ $classes = $db->getAll("SELECT * FROM classes WHERE teacher_id = {$teacher_id}")
 
         .sidebar .logout-link a:hover {
             text-decoration: none;
-            background-color: red; /* Red background on hover */
-            color: white; /* White text color on hover */
+            background-color: red;
+            color: white;
         }
 
         .logout-link {
-            margin-top: auto; /* Push the logout link to the bottom */
+            margin-top: auto;
         }
     </style>
 </head>
 <body>
-    <!-- SideBar And Hamburger Button -->
+    <!-- Sidebar and Hamburger Button -->
     <div class="overlay" id="overlay"></div>
     <button class="hamburger" id="hamburger">☰</button>
     <div class="sidebar" id="sidebar">
@@ -252,52 +245,75 @@ $classes = $db->getAll("SELECT * FROM classes WHERE teacher_id = {$teacher_id}")
         </div>
     </div>
 
-    <!-- Page View -->
-
+    <!-- Page Content -->
     <div class="dashboard">
-        <!-- Breadcrumb Title -->
         <div class="breadcrumb">Teacher Dashboard</div>
 
-        <div class="dashboard-section">
-            <h2>Your Classes</h2>
-            <ul>
-                <?php if (!empty($classes)) { ?>
-                    <?php foreach ($classes as $class) { ?>
-                        <li><?php echo htmlspecialchars($class['name']); ?></li>
+        <!-- Create the Grid Layout -->
+        <div class="dashboard-grid">
+            <!-- First Dashboard Section -->
+            <div class="dashboard-section">
+                <h2>Loading...</h2>
+                <ul>
+                    <?php if (!empty($classes)) { ?>
+                        <?php foreach ($classes as $class) { ?>
+                            <li><?php echo htmlspecialchars($class['name']); ?></li>
+                        <?php } ?>
+                    <?php } else { ?>
+                        <p>Jumlah Siswa di Kelas yang Diampu</p>
                     <?php } ?>
-                <?php } else { ?>
-                    <p>No classes assigned yet.</p>
-                <?php } ?>
-            </ul>
+                </ul>
+            </div>
+
+            <!-- Second Dashboard Section -->
+            <div class="dashboard-section">
+                <h2>Loading...</h2>
+                <ul>
+                    <?php if (!empty($assignments)) { ?>
+                        <?php foreach ($assignments as $assignment) { ?>
+                            <li>
+                                <?php echo htmlspecialchars($assignment['title']); ?>
+                                (Due: <?php echo htmlspecialchars($assignment['due_date']); ?>)
+                            </li>
+                        <?php } ?>
+                    <?php } else { ?>
+                        <p>Pelajaran</p>
+                    <?php } ?>
+                </ul>
+            </div>
         </div>
 
-        <div class="dashboard-section">
-            <h2>Assignments</h2>
-            <ul>
-                <?php if (!empty($assignments)) { ?>
-                    <?php foreach ($assignments as $assignment) { ?>
-                        <li>
-                            <?php echo htmlspecialchars($assignment['title']); ?>
-                            (Due: <?php echo htmlspecialchars($assignment['due_date']); ?>)
-                        </li>
+        <div class="dashboard-grid">
+            <!-- Third Dashboard Section -->
+            <div class="dashboard-section">
+                <h2>Loading...</h2>
+                <ul>
+                    <?php if (!empty($students)) { ?>
+                        <?php foreach ($students as $student) { ?>
+                            <li><?php echo htmlspecialchars($student['name']); ?></li>
+                        <?php } ?>
+                    <?php } else { ?>
+                        <p>Jumlah Kelas yang Diampu</p>
                     <?php } ?>
-                <?php } else { ?>
-                    <p>No assignments available.</p>
-                <?php } ?>
-            </ul>
-        </div>
+                </ul>
+            </div>
 
-        <div class="dashboard-section">
-            <h2>Students</h2>
-            <ul>
-                <?php if (!empty($students)) { ?>
-                    <?php foreach ($students as $student) { ?>
-                        <li><?php echo htmlspecialchars($student['name']); ?></li>
+            <!-- Fourth Dashboard Section (Can be customized) -->
+            <div class="dashboard-section">
+                <h2>Loading...</h2>
+                <ul>
+                    <?php if (!empty($announcements)) { ?>
+                        <?php foreach ($announcements as $announcement) { ?>
+                            <li>
+                                <?php echo htmlspecialchars($announcement['title']); ?>
+                                (Posted on: <?php echo htmlspecialchars($announcement['date']); ?>)
+                            </li>
+                        <?php } ?>
+                    <?php } else { ?>
+                        <p>Anda Adalah Wali dari Kelas Ini</p>
                     <?php } ?>
-                <?php } else { ?>
-                    <p>No students enrolled yet.</p>
-                <?php } ?>
-            </ul>
+                </ul>
+            </div>
         </div>
     </div>
     
@@ -344,4 +360,3 @@ $classes = $db->getAll("SELECT * FROM classes WHERE teacher_id = {$teacher_id}")
     </script>
 </body>
 </html>
-
