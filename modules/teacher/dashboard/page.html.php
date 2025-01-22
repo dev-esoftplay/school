@@ -6,12 +6,12 @@ if (!defined('_VALID_BBC'))
 $sys->set_layout('teacher.php');
 
 // Example dashboard data fetching
-$teacher_id = $_SESSION['user_id']; // Assuming teacher's ID is stored in the session
+// $teacher_id = $_SESSION['user_id']; // Assuming teacher's ID is stored in the session
 
-// Fetch data from the database (replace 'your_table' and queries as needed)
-$assignments = $db->getAll("SELECT * FROM assignments WHERE teacher_id = {$teacher_id} ORDER BY due_date ASC");
-$students = $db->getAll("SELECT * FROM students WHERE class_id IN (SELECT class_id FROM classes WHERE teacher_id = {$teacher_id})");
-$classes = $db->getAll("SELECT * FROM classes WHERE teacher_id = {$teacher_id}");
+// // Fetch data from the database (replace 'your_table' and queries as needed)
+// $assignments = $db->getAll("SELECT * FROM assignments WHERE teacher_id = {$teacher_id} ORDER BY due_date ASC");
+// $students = $db->getAll("SELECT * FROM students WHERE class_id IN (SELECT class_id FROM classes WHERE teacher_id = {$teacher_id})");
+// $classes = $db->getAll("SELECT * FROM classes WHERE teacher_id = {$teacher_id}");
 ?>
 <!DOCTYPE html>
 <html lang="en">
