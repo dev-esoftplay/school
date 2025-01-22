@@ -28,7 +28,6 @@ if (!empty($user->id)) {
                 </div>
             </div>
         </div>
-
         <?php echo $sys->block_show('bottom'); ?>
         <div class="clearfix"></div>
         <div class="footer">
