@@ -132,7 +132,7 @@ $sys->set_layout('teacher.php');
 
         .sidebar .menu-list ul li a i {
             margin-right: 10px;
-        } 
+        }
 
         /* Footer */
     .footer {

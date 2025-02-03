@@ -25,6 +25,9 @@ switch ($Bbc->mod['task']) {
     case 'scoredetail':
          include 'scoredetail/controller.php';
         break;
+    case 'scorestudentdetail':
+        include 'scorestudentdetail/controller.php';
+        break;
     case 'logout':
         user_logout($user->id);
         redirect(_URL);
