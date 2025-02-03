@@ -4,6 +4,19 @@ if (!defined('_VALID_BBC'))
 
 // Set the layout for the teacher dashboard
 $sys->set_layout('teacher.php');
+
+$user_id = $user->id;
+$teacher_id = $db->getOne("SELECT id FROM school_teacher WHERE user_id = $user_id", array($user->id));
+$position = $db->getOne("SELECT position FROM school_teacher WHERE id = $teacher_id", array($teacher_id));
+$classes = $db->getAll("SELECT grade, label FROM school_class WHERE id = $teacher_id", array($teacher_id));
+
+// $class_ids = $db->getCol("SELECT class_id FROM school_student_class WHERE class_id = $user_id", array($user->id));
+
+// // Count how many times the $user_id appears in the class_ids
+// $student_count = $db->getOne("SELECT COUNT(*) FROM school_student_class WHERE class_id = ? AND student_id = ?", array($class_ids, $user_id));
+
+
+pr($data, $_SESSION, $user->id, $teacher_id, $position, $class_ids, $student_count);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -261,8 +274,8 @@ $sys->set_layout('teacher.php');
             <div class="dashboard-section">
                 <h2>Loading...</h2>
                 <ul>
-                    <?php if (!empty($classes)) { ?>
-                        <?php foreach ($classes as $class) { ?>
+                    <?php if (!empty($claswdadwawdses)) { ?>
+                        <?php foreach ($dwadw as $class) { ?>
                             <li><?php echo htmlspecialchars($class['name']); ?></li>
                         <?php } ?>
                     <?php } else { ?>
@@ -272,21 +285,18 @@ $sys->set_layout('teacher.php');
             </div>
 
             <!-- Second Dashboard Section -->
+            <!-- Second Dashboard Section -->
             <div class="dashboard-section">
-                <h2>Loading...</h2>
+                <h2>Position</h2>
                 <ul>
-                    <?php if (!empty($assignments)) { ?>
-                        <?php foreach ($assignments as $assignment) { ?>
-                            <li>
-                                <?php echo htmlspecialchars($assignment['title']); ?>
-                                (Due: <?php echo htmlspecialchars($assignment['due_date']); ?>)
-                            </li>
-                        <?php } ?>
+                    <?php if (!empty($position)) { ?>
+                        <p><?php echo htmlspecialchars($position); ?></p>
                     <?php } else { ?>
-                        <p>Pelajaran</p>
+                        <p>No position available</p>
                     <?php } ?>
                 </ul>
             </div>
+
         </div>
 
         <div class="dashboard-grid">
@@ -306,17 +316,18 @@ $sys->set_layout('teacher.php');
 
             <!-- Fourth Dashboard Section -->
             <div class="dashboard-section">
-                <h2>Loading...</h2>
+                <h2>Kelas Yang Diampu</h2>
                 <ul>
-                    <?php if (!empty($students)) { ?>
-                        <?php foreach ($students as $student) { ?>
-                            <li><?php echo htmlspecialchars($student['name']); ?></li>
+                    <?php if (!empty($classes)) { ?>
+                        <?php foreach ($classes as $class) { ?>
+                            <p>Kelas <?php echo htmlspecialchars($class['grade']); ?><?php echo htmlspecialchars($class['label']); ?></p>
                         <?php } ?>
                     <?php } else { ?>
-                        <p>Anda adalah Wali dari Kelas ini</p>
+                        <p>No classes available.</p>
                     <?php } ?>
                 </ul>
             </div>
+
         </div>
 
         <!-- Bar Chart Section (Below the Cards) -->
@@ -378,22 +389,39 @@ $sys->set_layout('teacher.php');
         </script>
 
     <script>
-        // Sidebar toggle functionality
-        const hamburger = document.getElementById('hamburger');
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('overlay');
+            const hamburger = document.getElementById('hamburger');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
 
-        hamburger.addEventListener('click', () => {
-            sidebar.classList.toggle('active');
-            overlay.classList.toggle('active');
-            hamburger.classList.toggle('open');
-        });
+            const activePage = window.location.pathname;
+            const navLinks = document.querySelectorAll('.menu-list ul li a');
 
-        overlay.addEventListener('click', () => {
-            sidebar.classList.remove('active');
-            overlay.classList.remove('active');
-            hamburger.classList.remove('open');
-        });
-    </script>
+            navLinks.forEach(link => {
+                if (link.href.includes(${activePage})) {
+                    link.classList.add('active');
+                }
+            });
+
+            hamburger.addEventListener('click', () => {
+                if (sidebar.classList.contains('active')) {
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
+                    hamburger.textContent = '☰';
+                    hamburger.classList.remove('open');
+                } else {
+                    sidebar.classList.add('active');
+                    overlay.classList.add('active');
+                    hamburger.textContent = '×';
+                    hamburger.classList.add('open');
+                }
+            });
+
+            overlay.addEventListener('click', () => {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+                hamburger.textContent = '☰';
+                hamburger.classList.remove('open');
+            });
+        </script>
 </body>
 </html>
