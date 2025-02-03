@@ -228,7 +228,7 @@ $sys->set_layout('teacher.php');
                 <td>2</td>
                 <td>Atiek Khusniyati</td>
                 <td>
-                    <a href="teacher/score/score_detail" class="btn btn-primary btn-sm">Lihat</a>
+                    <a href="teacher/scoredetail" class="btn btn-primary btn-sm">Lihat</a>
                 </td>
             </tr>
             <!-- Tambahkan data dinamis di sini -->

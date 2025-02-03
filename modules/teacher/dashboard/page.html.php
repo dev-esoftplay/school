@@ -212,6 +212,12 @@ $sys->set_layout('teacher.php');
         .logout-link {
             margin-top: auto;
         }
+
+        /* Bar Chart Section */
+        .chart-section {
+            margin-top: 20px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -249,7 +255,7 @@ $sys->set_layout('teacher.php');
     <div class="dashboard">
         <div class="breadcrumb">Teacher Dashboard</div>
 
-        <!-- Create the Grid Layout -->
+        <!-- Create the Grid Layout for the 4 Cards -->
         <div class="dashboard-grid">
             <!-- First Dashboard Section -->
             <div class="dashboard-section">
@@ -298,65 +304,96 @@ $sys->set_layout('teacher.php');
                 </ul>
             </div>
 
-            <!-- Fourth Dashboard Section (Can be customized) -->
+            <!-- Fourth Dashboard Section -->
             <div class="dashboard-section">
                 <h2>Loading...</h2>
                 <ul>
-                    <?php if (!empty($announcements)) { ?>
-                        <?php foreach ($announcements as $announcement) { ?>
-                            <li>
-                                <?php echo htmlspecialchars($announcement['title']); ?>
-                                (Posted on: <?php echo htmlspecialchars($announcement['date']); ?>)
-                            </li>
+                    <?php if (!empty($students)) { ?>
+                        <?php foreach ($students as $student) { ?>
+                            <li><?php echo htmlspecialchars($student['name']); ?></li>
                         <?php } ?>
                     <?php } else { ?>
-                        <p>Anda Adalah Wali dari Kelas Ini</p>
+                        <p>Anda adalah Wali dari Kelas ini</p>
                     <?php } ?>
                 </ul>
             </div>
         </div>
+
+        <!-- Bar Chart Section (Below the Cards) -->
+        <div class="chart-section">
+            <canvas id="performanceChart"></canvas>
+        </div>
     </div>
-    
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            // Data for the bar chart (Average grades for each class)
+            const data = {
+                labels: ['Class 1', 'Class 2', 'Class 3', 'Class 4'], // Example class names
+                datasets: [{
+                    label: 'Average Grades', // The name of the dataset
+                    data: [85, 75, 90, 80], // Example average grades for the classes
+                    backgroundColor: '#36A2EB', // Bar color
+                    borderColor: '#36A2EB', // Border color for the bars
+                    borderWidth: 1, // Width of the border
+                    barThickness: 20 // Narrow the bars by reducing the thickness
+                }]
+            };
+
+            // Configuration options for the bar chart
+            const config = {
+                type: 'bar', // Change the chart type to 'bar'
+                data: data,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    return tooltipItem.raw + '%'; // Format the tooltip to show percentage
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true, // Start the Y-axis from 0
+                            ticks: {
+                                stepSize: 10, // Set the step size for ticks (e.g., 10, 20, 30)
+                                callback: function(value) {
+                                    return value + '%'; // Show percentage on the Y-axis
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            // Create the bar chart using the canvas element
+            const ctx = document.getElementById('performanceChart').getContext('2d');
+            new Chart(ctx, config);
+        </script>
+
     <script>
+        // Sidebar toggle functionality
         const hamburger = document.getElementById('hamburger');
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('overlay');
 
-        // Sidebar highlights the active page
-        const activePage = window.location.pathname;
-        const navLinks = document.querySelectorAll('.menu-list ul li a');
-
-        navLinks.forEach(link => {
-            if (link.href.includes(`${activePage}`)) {
-                link.classList.add('active');
-            }
-        });
-
-        // Open or close the sidebar and apply transition to hamburger
         hamburger.addEventListener('click', () => {
-            if (sidebar.classList.contains('active')) {
-                // If sidebar is already open, close it
-                sidebar.classList.remove('active');
-                overlay.classList.remove('active');
-                hamburger.textContent = '☰'; // Change icon back to hamburger
-                hamburger.classList.remove('open'); // Remove rotation effect
-            } else {
-                // Otherwise, open the sidebar
-                sidebar.classList.add('active');
-                overlay.classList.add('active');
-                hamburger.textContent = '×'; // Change icon to 'X'
-                hamburger.classList.add('open'); // Apply rotation effect
-            }
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+            hamburger.classList.toggle('open');
         });
 
-        // Close sidebar when clicking outside
         overlay.addEventListener('click', () => {
             sidebar.classList.remove('active');
             overlay.classList.remove('active');
-            hamburger.textContent = '☰'; // Reset the icon to hamburger
-            hamburger.classList.remove('open'); // Remove rotation effect
+            hamburger.classList.remove('open');
         });
-
     </script>
 </body>
 </html>
