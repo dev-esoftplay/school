@@ -76,36 +76,6 @@ $nama_siswa = "Arkyn the Root-digger";
 </head>
 
 <body>
-    <!-- Sidebar & Hamburger Button -->
-    <div class="overlay" id="overlay"></div>
-    <button class="hamburger" id="hamburger">☰</button>
-
-    <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-        <div class="menu-title">SDIT ERAPORT</div>
-        <div class="menu-list">
-            <div class="menu-separator">
-                <div class="menu-1">
-                    <ul>
-                        <li><a href="teacher/dashboard" onclick="redirectAndClose(event, 'dashboard.php')"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                        <li><a href="teacher/class" onclick="redirectAndClose(event, 'class.php')"><i class="fas fa-chalkboard"></i> Kelas</a></li>
-                        <li><a href="teacher/announcement" onclick="redirectAndClose(event, 'announcement.php')"><i class="fas fa-bullhorn"></i> Pengumuman</a></li>
-                        <li><a href="teacher/score" onclick="redirectAndClose(event, 'score.php')"><i class="fas fa-pencil-alt"></i> Input Nilai</a></li>
-                        <li><a href="teacher/profile" onclick="redirectAndClose(event, 'profile.php')"><i class="fas fa-user"></i> Profil</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="logout-link">
-            <a href="teacher/logout" onclick="redirectAndClose(event, 'logout.php')"><i class="fas fa-sign-out-alt"></i> Keluar</a>
-        </div>
-
-        <div class="footer">
-            <?php echo config('site', 'footer'); ?>
-            <?php echo $sys->block_show('footer'); ?>
-        </div>
-    </div>
     <div class="container mt-4">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
