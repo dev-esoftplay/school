@@ -73,7 +73,7 @@ $sys->set_layout('teacher.php');
             <td class="text-center">1</td>
             <td>Arkyn the Root-digger</td>
             <td>92400</td>
-            <td><a href="#" class="btn btn-primary btn-sm">Edit</a></td>
+            <td><a href="teacher/scorestudentdetail"" class="btn btn-primary btn-sm">Edit</a></td>
           </tr>
           <tr>
             <td class="text-center">2</td>
