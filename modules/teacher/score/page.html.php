@@ -7,6 +7,7 @@ $sys->set_layout('teacher.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,149 +16,161 @@ $sys->set_layout('teacher.php');
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Styles -->
     <style>
-    /* General Styles */
-    .container {
-        padding: 15px;
-    }
+        /* General Styles */
+        .container {
+            padding: 15px;
+        }
 
-    .breadcrumb {
-        font-size: 16px;
-        color: #666;
-        margin-bottom: 10px;
-        padding-left: 0px; 
-        background: none;
-    }           
-    
-    .breadcrumb-item-dashboard {
-        color: #4B5320; /* Warna Hijau Army */
-        font-weight: bold;
-    }
+        .breadcrumb {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 10px;
+            padding-left: 0px;
+            background: none;
+            font-size: min(3vw, 2vh, 18px);
+        }
 
-    .breadcrumb-item-dashboard:hover {
-        color: #3E4C23; /* Warna hijau lebih gelap saat hover */
-    }
+        .breadcrumb-item-dashboard {
+            color: #4B5320;
+            /* Warna Hijau Army */
+            font-weight: bold;
+            font-size: min(3vw, 2vh, 18px);
+        }
 
-    /* Hamburger Button */
-    .hamburger {
-        font-size: 20px;
-        background: none;
-        border: none;
-        cursor: pointer;
-        position: fixed;
-        top: 15px;
-        right: 20px;
-        z-index: 1000;
-        transition: transform 0.3s ease;
-    }
+        .breadcrumb-item+.breadcrumb-item::before {
+            font-size: min(3vw, 2vh, 18px);
+            color: #4B5320;
+            font-weight: 600;
+        }
 
-    .hamburger.open {
-        transform: rotate(90deg);
-    }
+        .breadcrumb-item-dashboard:hover {
+            color: #3E4C23;
+            /* Warna hijau lebih gelap saat hover */
+            font-size: min(3vw, 2vh, 18px);
+        }
 
-    /* Sidebar Styles */
-    .overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 998;
-        display: none;
-    }
+        /* Hamburger Button */
+        .hamburger {
+            font-size: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: fixed;
+            top: 15px;
+            right: 20px;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
 
-    .overlay.active {
-        display: block;
-    }
+        .hamburger.open {
+            transform: rotate(90deg);
+        }
 
-    .sidebar {
-        position: fixed;
-        top: 0;
-        right: -250px;
-        width: 250px;
-        height: 100%;
-        background: white;
-        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
-        z-index: 999;
-        transition: right 0.3s ease;
-        padding: 15px;
-        display: flex;
-        flex-direction: column;
-    }
+        /* Sidebar Styles */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+            display: none;
+        }
 
-    .sidebar.active {
-        right: 0;
-    }
+        .overlay.active {
+            display: block;
+        }
 
-    .sidebar .menu-title {
-        font-size: 1.2em;
-        margin-top: 5px;
-        margin-bottom: 10px;
-        color: #006400;
-        font-weight: bold;
-    }
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -250px;
+            width: 250px;
+            height: 100%;
+            background: white;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            transition: right 0.3s ease;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
 
-    .sidebar .menu-list ul {
-        list-style: none;
-        padding: 0;
-    }
+        .sidebar.active {
+            right: 0;
+        }
 
-    .sidebar .menu-list ul li {
-        margin: 10px 0;
-        color: #333;
-    }
+        .sidebar .menu-title {
+            font-size: 1.2em;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            color: #006400;
+            font-weight: bold;
+        }
 
-    .sidebar .menu-list ul li a {
-        text-decoration: none;
-        color: black;
-        padding: 10px;
-        border-radius: 5px;
-        display: block;
-    }
+        .sidebar .menu-list ul {
+            list-style: none;
+            padding: 0;
+        }
 
-    .sidebar .menu-list ul li a:hover {
-        background-color: #d3f4d1;
-        color: #3E7B27;
-    }
+        .sidebar .menu-list ul li {
+            margin: 10px 0;
+            color: #333;
+        }
 
-    .sidebar .menu-list ul li a.active {
-        background-color: #d3f4d1;
-        color: #3E7B27;
-        font-weight: bold;
-    }
+        .sidebar .menu-list ul li a {
+            text-decoration: none;
+            color: black;
+            padding: 10px;
+            border-radius: 5px;
+            display: block;
+        }
 
-    .sidebar .menu-list ul li a i {
-        margin-right: 10px;
-    }
+        .sidebar .menu-list ul li a:hover {
+            background-color: #d3f4d1;
+            color: #3E7B27;
+        }
 
-    /* Footer */
-    .footer {
-        margin-top: 20px;
-        font-size: 14px;
-        color: #777;
-        text-align: center;
-    }
+        .sidebar .menu-list ul li a.active {
+            background-color: #d3f4d1;
+            color: #3E7B27;
+            font-weight: bold;
+        }
 
-    .sidebar .logout-link a {
-        color: red;
-        background-color: transparent;
-        padding: 12px 15px;
-        border-radius: 5px;
-        font-weight: bold;
-        display: block;
-    }
+        .sidebar .menu-list ul li a i {
+            margin-right: 10px;
+        }
 
-    .sidebar .logout-link a:hover {
-        text-decoration: none;
-        background-color: red;
-        color: white;
-    }
+        /* Footer */
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #777;
+            text-align: center;
+        }
 
-    .logout-link {
-        margin-top: auto;
-    }
+        .sidebar .logout-link a {
+            color: red;
+            background-color: transparent;
+            padding: 12px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            display: block;
+        }
+
+        .sidebar .logout-link a:hover {
+            text-decoration: none;
+            background-color: red;
+            color: white;
+        }
+
+        .logout-link {
+            margin-top: auto;
+        }
     </style>
 </head>
+
 <body>
     <!-- Sidebar & Hamburger Button -->
     <div class="overlay" id="overlay"></div>
@@ -191,50 +204,50 @@ $sys->set_layout('teacher.php');
     </div>
 
     <!-- Content Area -->
-<div class="container mt-4">
-    <!-- Breadcrumb for Title -->
-    <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="teacher/dashboard" class="breadcrumb-item-dashboard">Dashboard</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Input Nilai</li>
-    </ol>
-    </nav>
+    <div class="container mt-4">
+        <!-- Breadcrumb for Title -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="teacher/dashboard" class="breadcrumb-item-dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Input Nilai</li>
+            </ol>
+        </nav>
 
-    <h2 class="mb-4">Daftar kelas yang diampu</h2>
-    <table class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Kelas</th>
-                <th>Siswa</th>
-                <th>Wali Kelas</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Contoh data statis, bisa diganti dengan data dinamis -->
-            <tr>
-                <td>1</td>
-                <td>1A</td>
-                <td>2</td>
-                <td>Budi Wahyudi</td>
-                <td>
-                    <a href="#" class="btn btn-primary btn-sm">Lihat</a>     
-                </td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>2A</td>
-                <td>2</td>
-                <td>Atiek Khusniyati</td>
-                <td>
-                    <a href="teacher/scoredetail" class="btn btn-primary btn-sm">Lihat</a>
-                </td>
-            </tr>
-            <!-- Tambahkan data dinamis di sini -->
-        </tbody>
-    </table>
-</div>
+        <h2 class="mb-4">Daftar kelas yang diampu</h2>
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Kelas</th>
+                    <th>Siswa</th>
+                    <th>Wali Kelas</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Contoh data statis, bisa diganti dengan data dinamis -->
+                <tr>
+                    <td>1</td>
+                    <td>1A</td>
+                    <td>2</td>
+                    <td>Budi Wahyudi</td>
+                    <td>
+                        <a href="#" class="btn btn-primary btn-sm">Lihat</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2A</td>
+                    <td>2</td>
+                    <td>Atiek Khusniyati</td>
+                    <td>
+                        <a href="teacher/scoredetail" class="btn btn-primary btn-sm">Lihat</a>
+                    </td>
+                </tr>
+                <!-- Tambahkan data dinamis di sini -->
+            </tbody>
+        </table>
+    </div>
 
 
     <!-- Scripts -->
@@ -274,4 +287,5 @@ $sys->set_layout('teacher.php');
         });
     </script>
 </body>
+
 </html>
