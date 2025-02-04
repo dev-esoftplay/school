@@ -260,8 +260,8 @@ $sys->set_layout('teacher.php');
     <div class="row">
         <div class="col-12">
             <div class="custom-card">
-                <h2 class="card-title">10 pplg 2</h2>
-                <div class="profile-circle">B</div> 
+                <h2 class="card-title">11 pplg 1</h2>
+                <div class="profile-circle">C</div> 
             </div> 
         </div>
     </div>
@@ -269,9 +269,25 @@ $sys->set_layout('teacher.php');
     <div class="row">
         <div class="col-12">
             <div class="custom-card">
-                <h2 class="card-title">alahhh</h2>
-                <div class="profile-circle">C</div> 
-            </div>
+                <h2 class="card-title">11 pplg 2</h2>
+                <div class="profile-circle">D</div> 
+            </div> 
+        </div>
+    </div>    
+    <div class="row">
+        <div class="col-12">
+            <div class="custom-card">
+                <h2 class="card-title">12 pplg 1</h2>
+                <div class="profile-circle">E</div> 
+            </div> 
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="custom-card">
+                <h2 class="card-title">12 pplg 2</h2>
+                <div class="profile-circle">F</div> 
+            </div> 
         </div>
     </div>
 </div>
