@@ -277,7 +277,7 @@ $sys->set_layout('teacher.php');
     <div class="row">
         <div class="col-12">
             <div class="custom-card">
-                <h2 class="card-title">12 pplg 1</h2>
+                <h2 class="card-title">12 pplg a</h2>
                 <div class="profile-circle">E</div> 
             </div> 
         </div>
