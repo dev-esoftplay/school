@@ -49,7 +49,7 @@ $dataSiswa = [
             <td class="fs-5"><?= $siswa['no'] ?></td>
             <td class="fs-5"><?= $siswa['nama'] ?></td>
             <td class="fs-5"><?= $siswa['nis'] ?></td>
-            <td>
+            <td>  
               <div class="d-flex flex-column flex-md-row gap-2">
                 <a href="teacher/scorestudentdetail" class="btn btn-primary btn-sm w-100 w-md-auto">Detail</a>
                 <a href="teacher/inputnilai" class="btn btn-secondary btn-sm w-100 w-md-auto">Edit</a>
