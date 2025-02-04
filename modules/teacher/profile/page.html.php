@@ -22,10 +22,15 @@ switch ($gender) {
         $gender_text = "Tidak diketahui";
         break;
 }
+
+setlocale(LC_TIME, 'id_ID.utf8');
+$date = $teacher['birthday'] ?? null;
+$formatted_date = strftime("%d %B %Y", strtotime($date));
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -155,31 +160,31 @@ switch ($gender) {
         }
 
         /* Footer */
-    .footer {
-        margin-top: 20px;
-        font-size: 14px;
-        color: #777;
-        text-align: center;
-    }
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #777;
+            text-align: center;
+        }
 
-    .sidebar .logout-link a {
-        color: red;
-        background-color: transparent;
-        padding: 12px 15px;
-        border-radius: 5px;
-        font-weight: bold;
-        display: block;
-    }
+        .sidebar .logout-link a {
+            color: red;
+            background-color: transparent;
+            padding: 12px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            display: block;
+        }
 
-    .sidebar .logout-link a:hover {
-        text-decoration: none;
-        background-color: red;
-        color: white;
-    }
+        .sidebar .logout-link a:hover {
+            text-decoration: none;
+            background-color: red;
+            color: white;
+        }
 
-    .logout-link {
-        margin-top: auto;
-    }
+        .logout-link {
+            margin-top: auto;
+        }
 
         h2 {
             font-size: 16px;
@@ -227,6 +232,7 @@ switch ($gender) {
         }
     </style>
 </head>
+
 <body>
     <!-- Sidebar & Hamburger Button -->
     <div class="overlay" id="overlay"></div>
@@ -268,7 +274,7 @@ switch ($gender) {
         <div class="profile-info">
             <div class="profile-item">
                 <span class="txt1">Nama</span>
-                        <span class="txt"><?php echo htmlspecialchars($teacher['name'] ?? 'Tidak ditemukan'); ?></span>
+                <span class="txt"><?php echo htmlspecialchars($teacher['name'] ?? 'Tidak ditemukan'); ?></span>
             </div>
             <div class="profile-item">
                 <span class="txt1">NIP</span>
@@ -283,13 +289,13 @@ switch ($gender) {
                 <span class="txt"><?php echo htmlspecialchars($teacher['position'] ?? 'Tidak ditemukan'); ?></span>
             </div>
             <div class="profile-item">
-            <span class="txt1">Gender</span> 
-            <span class="txt"><?php echo htmlspecialchars($gender_text); ?></span>
-                
+                <span class="txt1">Gender</span>
+                <span class="txt"><?php echo htmlspecialchars($gender_text); ?></span>
+
             </div>
             <div class="profile-item">
                 <span class="txt1">Tanggal Lahir</span>
-                <span class="txt"><?php echo htmlspecialchars($teacher['birthday'] ?? 'Tidak ditemukan'); ?></span>
+                <span class="txt"><?php echo htmlspecialchars($formatted_date ?? 'Tidak ditemukan'); ?></span>
             </div>
         </div>
     </div>
@@ -331,4 +337,5 @@ switch ($gender) {
         });
     </script>
 </body>
+
 </html>
