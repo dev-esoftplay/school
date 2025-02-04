@@ -4,98 +4,56 @@ if (!defined('_VALID_BBC'))
 
 // Mengatur layout halaman
 $sys->set_layout('teacher.php');
+
+// Mendefinisikan data siswa sebagai array multidimensi
+$dataSiswa = [
+  ['no' => 1, 'nama' => 'Arkyn the Root-digger', 'nis' => '92400'],
+  ['no' => 2, 'nama' => 'Oddrun the Fierce', 'nis' => '98657'],
+  ['no' => 3, 'nama' => 'Ragnor the Winter-survivor', 'nis' => '98657'],
+  ['no' => 4, 'nama' => 'Askr the Fire-hearted', 'nis' => '98657',]
+];
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <title>Daftar Siswa</title>
     <style>
-
-      .header {
-        display: flex;
-        align-items: center;
-        margin-bottom: 20px;
-        justify-content: space-between;
-        background-color: #fff;
-        padding: 20px 20px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      }
-
-      .header .back-btn {
-        font-size: 18px;
-        color: #333;
-        text-decoration: none;
-      }
-
-      .header .back-btn i {
-        margin-right: 5px;
-      }
-
-      .header h1 {
-        font-size: 18px;
-        margin: 0;
-        color: #333;
-        flex-grow: 1;
-        text-align: right;
-      }
-
-      .header .menu-btn {
-        font-size: 20px;
-        color: #333;
-        background: none;
-        border: none;
-        cursor: pointer;
-      }      
     </style>
   </head>
   <body>
     <!-- Header -->
-    <div class="header">
-      <a href="teacher/score" onclick="redirectAndClose(event, 'score.php')" class="back-btn" ><i class="fas fa-arrow-left"></i> Kembali</a>
-      <h1>Kelas 1A</h1>
+    <div class="header d-flex align-items-center justify-content-between bg-white p-3 px-4 mb-4 shadow-sm">
+      <a href="teacher/score" onclick="redirectAndClose(event, 'score.php')" class="fs-3 text-decoration-none text-dark cursor-pointer"><i class="fas fa-arrow-left"></i> Kembali</a>
+      <h1 class="fs-3">Kelas 1A</h1>
     </div>
     <div class="container mt-4">
-    <table class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Nama</th>
-                <th>NIS</th>
-                <th>Aksi</th>
-            </tr>
+      <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+          <tr class="fs-5">
+            <th>No</th>
+            <th>Nama</th>
+            <th>NIS</th>
+            <th>Aksi</th>
+          </tr>
         </thead>
         <tbody>
-            <!-- Contoh data statis, bisa diganti dengan data dinamis -->
+          <?php foreach ($dataSiswa as $siswa): ?>
             <tr>
-            <td class="text-center">1</td>
-            <td>Arkyn the Root-digger</td>
-            <td>92400</td>
-            <td><a href="teacher/scorestudentdetail"" class="btn btn-primary btn-sm">Edit</a></td>
-          </tr>
-          <tr>
-            <td class="text-center">2</td>
-            <td>Oddrun the Fierce</td>
-            <td>98657</td>
-            <td><a href="#" class="btn btn-primary btn-sm">Edit</a></td>
-          </tr>
-          <tr>
-            <td class="text-center">3</td>
-            <td>Ragnor the Winter-survivor</td>
-            <td>98657</td>
-            <td><a href="#" class="btn btn-primary btn-sm">Edit</a></td>
-          </tr>
-          <tr>
-            <td class="text-center">4</td>
-            <td>Askr the Fire-hearted</td>
-            <td>98657</td>
-            <td><a href="#" class="btn btn-primary btn-sm">Edit</a></td>
-          </tr>
-            <!-- Tambahkan data dinamis di sini -->
+              <td class="fs-5"><?= $siswa['no'] ?></td>
+              <td class="fs-5"><?= $siswa['nama'] ?></td>
+              <td class="fs-5"><?= $siswa['nis'] ?></td>
+              <td>
+                <a href="teacher/inputnilai" class="btn btn-primary btn-md">Edit</a>
+              </td>
+            </tr>
+          <?php endforeach; ?>
         </tbody>
-    </table>
+      </table>
     </div>
   </body>
 </html>
