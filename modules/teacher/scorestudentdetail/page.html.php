@@ -93,7 +93,6 @@ $nama_siswa = "Arkyn the Root-digger";
                         <th>No</th>
                         <th>Mata Pelajaran</th>
                         <th>Nilai</th>
-                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -117,7 +116,6 @@ $nama_siswa = "Arkyn the Root-digger";
                             <td>" . ($index + 1) . "</td>
                             <td>{$row['asli']}</td>
                             <td id='nilai-{$index}'>{$row['nilai']}</td>
-                            <td><button class='btn btn-primary btn-sm' onclick='editNilai({$index})'>Ubah</button></td>
                         </tr>";
                     }
                     ?>
@@ -127,14 +125,6 @@ $nama_siswa = "Arkyn the Root-digger";
     </div>
 
     <script>
-        function editNilai(id) {
-            let nilai = document.getElementById("nilai-" + id);
-            let newValue = prompt("Masukkan nilai baru:", nilai.innerText);
-            if (newValue !== null && !isNaN(newValue) && newValue !== "") {
-                nilai.innerText = newValue;
-            }
-        }
-
         function adjustFontSize() {
             let container = document.querySelector(".container");
             let fontSize = Math.min(container.clientWidth * 0.02, container.clientHeight * 0.04);
