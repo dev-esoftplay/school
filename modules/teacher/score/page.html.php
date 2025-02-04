@@ -4,6 +4,12 @@ if (!defined('_VALID_BBC'))
 
 // Mengatur layout halaman
 $sys->set_layout('teacher.php');
+
+$dataKelas = [
+    ['no' => 1, 'kelas' => '1A', 'siswa' => 2, 'wali_kelas' => 'Budi Wahyudi'],
+    ['no' => 2, 'kelas' => '2A', 'siswa' => 2, 'wali_kelas' => 'Atiek Khusniyati'],
+];
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +19,7 @@ $sys->set_layout('teacher.php');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Input Nilai</title>
     <!-- Link to Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Styles -->
     <style>
         /* General Styles */
@@ -213,42 +219,32 @@ $sys->set_layout('teacher.php');
             </ol>
         </nav>
 
-        <h2 class="mb-4">Daftar kelas yang diampu</h2>
-        <table class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Kelas</th>
-                    <th>Siswa</th>
-                    <th>Wali Kelas</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Contoh data statis, bisa diganti dengan data dinamis -->
-                <tr>
-                    <td>1</td>
-                    <td>1A</td>
-                    <td>2</td>
-                    <td>Budi Wahyudi</td>
-                    <td>
-                        <a href="#" class="btn btn-primary btn-sm">Lihat</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>2A</td>
-                    <td>2</td>
-                    <td>Atiek Khusniyati</td>
-                    <td>
-                        <a href="teacher/scoredetail" class="btn btn-primary btn-sm">Lihat</a>
-                    </td>
-                </tr>
-                <!-- Tambahkan data dinamis di sini -->
-            </tbody>
-        </table>
-    </div>
-
+    <h2 class="mb-4 mt-4 fw-semibold fs-1">Daftar kelas yang diampu</h2>
+    <table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr class="fs-5">
+            <th>No</th>
+            <th>Kelas</th>
+            <th>Siswa</th>
+            <th>Wali Kelas</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($dataKelas as $kelas) : ?>
+            <tr>
+                <td class="fs-5"><?= $kelas['no'] ?></td>
+                <td class="fs-5"><?= $kelas['kelas'] ?></td>
+                <td class="fs-5"><?= $kelas['siswa'] ?></td>
+                <td class="fs-5"><?= $kelas['wali_kelas'] ?></td>
+                <td>
+                    <a href="teacher/scoredetail" class="btn btn-primary btn-md">Lihat</a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+</div>
 
     <!-- Scripts -->
     <script>

@@ -17,6 +17,7 @@ $classes = $db->getAll("SELECT grade, label FROM school_class WHERE id = $teache
 
 
 pr($data, $_SESSION, $user->id, $teacher_id, $position, $class_ids, $student_count);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
