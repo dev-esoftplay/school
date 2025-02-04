@@ -2,6 +2,26 @@
 if (!defined('_VALID_BBC')) exit('No direct script access allowed');
 
 $sys->set_layout('teacher.php');
+
+$user_id = intval($user->id); // Pastikan user_id dalam bentuk angka
+$sql = sprintf("SELECT * FROM school_teacher WHERE user_id = %d", $user_id);
+$teacher = $db->getRow($sql); // Ambil data guru berdasarkan user_id
+
+// Pastikan $teacher ada sebelum mengambil gender
+$gender = $teacher['gender'] ?? null;
+
+// Konversi gender ke teks yang mudah dibaca
+switch ($gender) {
+    case 1:
+        $gender_text = "Laki-laki";
+        break;
+    case 2:
+        $gender_text = "Perempuan";
+        break;
+    default:
+        $gender_text = "Tidak diketahui";
+        break;
+}
 ?>
 
 <!DOCTYPE html>
@@ -248,27 +268,28 @@ $sys->set_layout('teacher.php');
         <div class="profile-info">
             <div class="profile-item">
                 <span class="txt1">Nama</span>
-                <span class="txt">Budi Santoso</span>
+                        <span class="txt"><?php echo htmlspecialchars($teacher['name'] ?? 'Tidak ditemukan'); ?></span>
             </div>
             <div class="profile-item">
                 <span class="txt1">NIP</span>
-                <span class="txt">123456789</span>
+                <span class="txt"><?php echo htmlspecialchars($teacher['nip'] ?? 'Tidak ditemukan'); ?></span>
             </div>
             <div class="profile-item">
                 <span class="txt1">No HP</span>
-                <span class="txt">081234567890</span>
+                <span class="txt"><?php echo htmlspecialchars($teacher['phone'] ?? 'Tidak ditemukan'); ?></span>
             </div>
             <div class="profile-item">
-                <span class="txt1">Jabatan</span>
-                <span class="txt">Guru Matematika</span>
+                <span class="txt1">Posisi</span>
+                <span class="txt"><?php echo htmlspecialchars($teacher['position'] ?? 'Tidak ditemukan'); ?></span>
             </div>
             <div class="profile-item">
-                <span class="txt1">Gender</span>
-                <span class="txt">Laki-laki</span>
+            <span class="txt1">Gender</span> 
+            <span class="txt"><?php echo htmlspecialchars($gender_text); ?></span>
+                
             </div>
             <div class="profile-item">
                 <span class="txt1">Tanggal Lahir</span>
-                <span class="txt">1 Januari 1980</span>
+                <span class="txt"><?php echo htmlspecialchars($teacher['birthday'] ?? 'Tidak ditemukan'); ?></span>
             </div>
         </div>
     </div>
