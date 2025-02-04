@@ -290,6 +290,14 @@ $sys->set_layout('teacher.php');
             </div> 
         </div>
     </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="custom-card">
+                <h2 class="card-title">12 pplg 3</h2>
+                <div class="profile-circle">F</div> 
+            </div> 
+        </div>
+    </div>
 </div>
 
     <!-- Scripts -->
