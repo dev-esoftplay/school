@@ -190,115 +190,133 @@ $sys->set_layout('teacher.php');
         </div>
     </div>
 
-    <!-- Content Area -->
+<!-- Content Area -->
 <div class="container mt-4">
     <!-- Breadcrumb for Title -->
     <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="teacher/dashboard" class="breadcrumb-item-dashboard">Daftar Kelas</a></li>
-        <!-- <li class="breadcrumb-item active" aria-current="page">Input Nilai</li> -->
-    </ol>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="teacher/dashboard" class="breadcrumb-item-dashboard">Daftar Kelas</a></li>
+        </ol>
     </nav>
 
     <style>
-    .custom-card {
-        border: 2px solid #e0e0e0; 
-        border-radius: 20px; 
-        padding: 20px;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); 
-        background: white;
-        margin-bottom: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
 
-    .profile-circle {
-        width: 40px;
-        height: 40px;
-        background-color: #f0f0f0; 
-        border-radius: 50%; 
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        font-size: 16px;
-        color: #555;
-    }
+        .custom-card {
+            width: 100%;
+            max-width: 370px;
+            border: none;
+            border-radius: 15px;
+            padding: 20px;
+            background: white;
+            box-shadow: 0px 5px 15px rgba(44, 44, 44, 0.18);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            position: relative;
+        }
 
-    .profile-img {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        object-fit: cover;
-    }
-</style>
+        .custom-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+        }
 
-<div class="container mt-4">
-    <!-- Breadcrumb for Title -->
-    <nav aria-label="breadcrumb"></nav>
+        .profile-circle {
+            width: 45px;
+            height: 45px;
+            background-color:rgb(170, 170, 170);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 16px;
+            position: absolute;
+            right: 15px;
+            top: 15px;
+        }
 
-    <div class="row">
-        <div class="col-12">
-            <div class="custom-card">
-                <h2 class="card-title">10 pplg 1</h2>
-                <div class="profile-circle">A</div> 
-                <!-- Bisa diganti dengan gambar -->
-                <!-- <img src="profile.jpg" alt="Profile" class="profile-img"> -->
-            </div>
-        </div>
-    </div>
+        .profile-img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #fff;
+            box-shadow: 0px 2px 5px rgba(255, 255, 255, 0.1);
+        }
 
-    <div class="row">
-        <div class="col-12">
-            <div class="custom-card">
-                <h2 class="card-title">10 pplg 2</h2>
-                <div class="profile-circle">B</div> 
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <div class="custom-card">
-                <h2 class="card-title">11 pplg 1</h2>
-                <div class="profile-circle">C</div> 
-            </div> 
-        </div>
-    </div>
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #333;
+        }
 
-    <div class="row">
-        <div class="col-12">
-            <div class="custom-card">
-                <h2 class="card-title">11 pplg 2</h2>
-                <div class="profile-circle">D</div> 
-            </div> 
+        .lihat-siswa-btn {
+            margin-top: 15px;
+            padding: 8px 15px;
+            background-color:rgba(8, 86, 170, 0.94);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.3s ease-in-out;
+        }
+
+        .lihat-siswa-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .info-text {
+            text-align: start;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 20px;
+            color: #333;
+            padding-left: 15px;
+        }
+    </style>
+
+    <div class="card-container">
+        <div class="custom-card">
+            <span class="card-title">10 PPLG 1</span>
+            <div class="profile-circle">A</div> 
+            <a href="#" class="lihat-siswa-btn">Lihat Siswa</a>
         </div>
-    </div>    
-    <div class="row">
-        <div class="col-12">
-            <div class="custom-card">
-                <h2 class="card-title">12 pplg a</h2>
-                <div class="profile-circle">E</div> 
-            </div> 
+
+        <div class="custom-card">
+            <span class="card-title">10 PPLG 2</span>
+            <div class="profile-circle">B</div> 
+            <a href="#" class="lihat-siswa-btn">Lihat Siswa</a>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <div class="custom-card">
-                <h2 class="card-title">12 pplg 2</h2>
-                <div class="profile-circle">F</div> 
-            </div> 
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <div class="custom-card">
-                <h2 class="card-title">12 pplg 3</h2>
-                <div class="profile-circle">F</div> 
-            </div> 
+
+        <div class="custom-card">
+            <span class="card-title">11 PPLG 1</span>
+            <div class="profile-circle">C</div> 
+            <td>
+                    <a href="teacher/classdetail" class="lihat-siswa-btn">Lihat Siswa</a>
+                </td>
         </div>
     </div>
 </div>
+
+
 
     <!-- Scripts -->
     <script>
