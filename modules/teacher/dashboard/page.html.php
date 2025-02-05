@@ -5,18 +5,7 @@ if (!defined('_VALID_BBC'))
 // Set the layout for the teacher dashboard
 $sys->set_layout('teacher.php');
 
-$user_id = $user->id;
-$teacher_id = $db->getOne("SELECT id FROM school_teacher WHERE user_id = $user_id", array($user->id));
-$position = $db->getOne("SELECT position FROM school_teacher WHERE id = $teacher_id", array($teacher_id));
-$classes = $db->getAll("SELECT grade, label FROM school_class WHERE id = $teacher_id", array($teacher_id));
-
-// $class_ids = $db->getCol("SELECT class_id FROM school_student_class WHERE class_id = $user_id", array($user->id));
-
-// // Count how many times the $user_id appears in the class_ids
-// $student_count = $db->getOne("SELECT COUNT(*) FROM school_student_class WHERE class_id = ? AND student_id = ?", array($class_ids, $user_id));
-
-
-pr($data, $_SESSION, $user->id, $teacher_id, $position, $class_ids, $student_count);
+pr($data, $_SESSION, $user->id, $teacher_id, $position, $studentCounts, $classes, $teacherClasses, $teacherId);
 
 ?>
 <!DOCTYPE html>
@@ -68,7 +57,7 @@ pr($data, $_SESSION, $user->id, $teacher_id, $position, $class_ids, $student_cou
 
         .dashboard-section h2 {
             font-size: 1.4em;
-            margin-bottom: 10px;
+            margin-top: 0px;
             color: #333;
         }
 
@@ -77,16 +66,7 @@ pr($data, $_SESSION, $user->id, $teacher_id, $position, $class_ids, $student_cou
             padding: 0;
         }
 
-        .dashboard-section ul li {
-            margin: 5px 0;
-            padding: 10px;
-            background: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1em;
-        }
-
-        .dashboard-section ul li:not(:last-child) {
+        .dashboard-section ul p:not(:last-child) {
             margin-bottom: 10px;
         }
 
@@ -232,6 +212,48 @@ pr($data, $_SESSION, $user->id, $teacher_id, $position, $class_ids, $student_cou
             margin-top: 20px;
             text-align: center;
         }
+
+        /* Scrollable Announcement Section */
+        .announcement-section {
+            max-height: 200px;
+            overflow: auto;
+            white-space: nowrap;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .announcement-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 10px;
+        }
+
+        .announcement-item {
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+            min-width: 100%;
+        }
+
+        .announcement-item h3 {
+            font-size: 1em;
+            margin: 0;
+            color: #006400;
+        }
+
+        .announcement-item p {
+            font-size: 0.9em;
+            color: #333;
+            margin: 5px 0;
+        }
+
+        .announcement-item small {
+            font-size: 0.8em;
+            color: #777;
+        }
     </style>
 </head>
 <body>
@@ -273,27 +295,26 @@ pr($data, $_SESSION, $user->id, $teacher_id, $position, $class_ids, $student_cou
         <div class="dashboard-grid">
             <!-- First Dashboard Section -->
             <div class="dashboard-section">
-                <h2>Loading...</h2>
+                <h2>Jumlah Siswa per Kelas</h2>
                 <ul>
-                    <?php if (!empty($claswdadwawdses)) { ?>
-                        <?php foreach ($dwadw as $class) { ?>
-                            <li><?php echo htmlspecialchars($class['name']); ?></li>
+                    <?php if (!empty($studentCounts)) { ?>
+                        <?php foreach ($studentCounts as $class) { ?>
+                            <p>Kelas <?php echo htmlspecialchars($class['grade']); ?><?php echo htmlspecialchars($class['label']); ?> : <?php echo htmlspecialchars($class['total_students']); ?> siswa</p>
                         <?php } ?>
                     <?php } else { ?>
-                        <p>Jumlah Siswa di Kelas yang Diampu</p>
+                        <p>Tidak ada data siswa.</p>
                     <?php } ?>
                 </ul>
             </div>
 
             <!-- Second Dashboard Section -->
-            <!-- Second Dashboard Section -->
             <div class="dashboard-section">
-                <h2>Position</h2>
+                <h2>Posisi yang di pegang</h2>
                 <ul>
                     <?php if (!empty($position)) { ?>
                         <p><?php echo htmlspecialchars($position); ?></p>
                     <?php } else { ?>
-                        <p>No position available</p>
+                        <p>Belum memiliki jabatan</p>
                     <?php } ?>
                 </ul>
             </div>
@@ -303,37 +324,59 @@ pr($data, $_SESSION, $user->id, $teacher_id, $position, $class_ids, $student_cou
         <div class="dashboard-grid">
             <!-- Third Dashboard Section -->
             <div class="dashboard-section">
-                <h2>Loading...</h2>
-                <ul>
-                    <?php if (!empty($students)) { ?>
-                        <?php foreach ($students as $student) { ?>
-                            <li><?php echo htmlspecialchars($student['name']); ?></li>
-                        <?php } ?>
+                <h2>Jumlah Kelas yang Diampu</h2>
+                <p>
+                    <?php if (!empty($teacherClasses)) { ?>
+                        <?php echo htmlspecialchars($teacherClasses); ?> kelas
                     <?php } else { ?>
-                        <p>Jumlah Kelas yang Diampu</p>
+                        <p>Tidak ada kelas yang diampu.</p>
                     <?php } ?>
-                </ul>
+                </p>
             </div>
 
             <!-- Fourth Dashboard Section -->
             <div class="dashboard-section">
-                <h2>Kelas Yang Diampu</h2>
+                <h2>Anda adalah wali kelas dari</h2>
                 <ul>
                     <?php if (!empty($classes)) { ?>
                         <?php foreach ($classes as $class) { ?>
                             <p>Kelas <?php echo htmlspecialchars($class['grade']); ?><?php echo htmlspecialchars($class['label']); ?></p>
                         <?php } ?>
                     <?php } else { ?>
-                        <p>No classes available.</p>
+                        <p>Tidak ada</p>
                     <?php } ?>
                 </ul>
             </div>
-
         </div>
 
         <!-- Bar Chart Section (Below the Cards) -->
         <div class="chart-section">
             <canvas id="performanceChart"></canvas>
+        </div>
+
+        <!-- Announcements Section (Scrollable) -->
+        <div class="dashboard-section announcements">
+            <h2>Pengumuman</h2>
+            <div class="announcement-container">
+                <?php
+                // Dummy announcement data
+                $announcements = [
+                    ["title" => "Libur Nasional", "content" => "Sekolah akan diliburkan pada tanggal 17 Agustus untuk memperingati Hari Kemerdekaan."],
+                    ["title" => "Rapat Guru", "content" => "Rapat rutin guru akan diadakan pada hari Senin, 5 Februari 2024 pukul 10:00."],
+                    ["title" => "Ujian Tengah Semester", "content" => "UTS akan dilaksanakan mulai 12 Februari hingga 16 Februari. Mohon dipersiapkan dengan baik."],
+                    ["title" => "Kegiatan Ekstrakurikuler", "content" => "Pendaftaran ekstrakurikuler telah dibuka. Silakan daftar di bagian administrasi sekolah."],
+                    ["title" => "Perubahan Jadwal Pelajaran", "content" => "Jadwal pelajaran untuk kelas 6 mengalami perubahan. Silakan cek di papan pengumuman."]
+                ];
+
+                // Display dummy announcements
+                foreach ($announcements as $announcement) {
+                    echo "<div class='announcement-box'>";
+                    echo "<h3>" . htmlspecialchars($announcement["title"]) . "</h3>";
+                    echo "<p>" . htmlspecialchars($announcement["content"]) . "</p>";
+                    echo "</div>";
+                }
+                ?>
+            </div>
         </div>
     </div>
 
@@ -389,40 +432,40 @@ pr($data, $_SESSION, $user->id, $teacher_id, $position, $class_ids, $student_cou
             new Chart(ctx, config);
         </script>
 
-    <script>
-            const hamburger = document.getElementById('hamburger');
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('overlay');
+        <script>
+                const hamburger = document.getElementById('hamburger');
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('overlay');
 
-            const activePage = window.location.pathname;
-            const navLinks = document.querySelectorAll('.menu-list ul li a');
+                const activePage = window.location.pathname;
+                const navLinks = document.querySelectorAll('.menu-list ul li a');
 
-            navLinks.forEach(link => {
-                if (link.href.includes(${activePage})) {
-                    link.classList.add('active');
-                }
-            });
+                navLinks.forEach(link => {
+                    if (link.href.includes(${activePage})) {
+                        link.classList.add('active');
+                    }
+                });
 
-            hamburger.addEventListener('click', () => {
-                if (sidebar.classList.contains('active')) {
+                hamburger.addEventListener('click', () => {
+                    if (sidebar.classList.contains('active')) {
+                        sidebar.classList.remove('active');
+                        overlay.classList.remove('active');
+                        hamburger.textContent = '☰';
+                        hamburger.classList.remove('open');
+                    } else {
+                        sidebar.classList.add('active');
+                        overlay.classList.add('active');
+                        hamburger.textContent = '×';
+                        hamburger.classList.add('open');
+                    }
+                });
+
+                overlay.addEventListener('click', () => {
                     sidebar.classList.remove('active');
                     overlay.classList.remove('active');
                     hamburger.textContent = '☰';
                     hamburger.classList.remove('open');
-                } else {
-                    sidebar.classList.add('active');
-                    overlay.classList.add('active');
-                    hamburger.textContent = '×';
-                    hamburger.classList.add('open');
-                }
-            });
-
-            overlay.addEventListener('click', () => {
-                sidebar.classList.remove('active');
-                overlay.classList.remove('active');
-                hamburger.textContent = '☰';
-                hamburger.classList.remove('open');
-            });
+                });
         </script>
 </body>
 </html>
