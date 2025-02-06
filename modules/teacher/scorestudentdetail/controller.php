@@ -31,4 +31,4 @@ $teacherId = $db->getOne("SELECT `id` FROM `school_teacher` WHERE `user_id` = $u
 link_js('script.js');
 link_js(_ROOT . 'templates/eraport-sdit/js/jspdf.umd.min.js');
 
-include tpl('page.html.php' , compact('class_id', 'teacherClass'));
+include tpl('page.html.php');

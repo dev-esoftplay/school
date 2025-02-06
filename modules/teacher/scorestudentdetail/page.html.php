@@ -82,7 +82,7 @@ $nama_siswa = "Arkyn the Root-digger";
                 <li class="breadcrumb-item"><a href="teacher/dashboard">Dashboard</a></li>
                 <li class="breadcrumb-item"><a href="teacher/score">Input Nilai</a></li>
                 <!-- <li class="breadcrumb-item"><a href="teacher/scoredetail?class_id=<?= $teacherClass['id'] ?>">Daftar Siswa</a></li> -->
-                <li class="breadcrumb-item"><a href="teacher/scoredetail?class_id=1">Daftar Siswa</a></li> //sementara
+                <li class="breadcrumb-item"><a href="teacher/scoredetail?class_id=1">Daftar Siswa</a></li> 
                 <li class="breadcrumb-item breadcrumb-item-active" aria-current="page">Daftar Nilai</li>
             </ol>
         </nav>
