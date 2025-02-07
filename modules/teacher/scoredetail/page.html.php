@@ -48,9 +48,9 @@ $dataSiswa = [
           <?php $no = 1; ?>
           <?php foreach ($students as $student) : ?>
             <tr>
-              <td><?= $no++ . '.' ?></td>
-              <td><?= htmlspecialchars($student['name']) ?></td>
-              <td><?= htmlspecialchars($student['nis']) ?></td>
+              <td class="fs-4"><?= $no++ . '.' ?></td>
+              <td class="fs-4"><?= htmlspecialchars($student['name']) ?></td>
+              <td class="fs-4"><?= htmlspecialchars($student['nis']) ?></td>
               <td>
                 <a href="teacher/inputnilai" class="btn btn-warning btn-md">Edit</a>
                 <!-- <a href="teacher/scorestudentdetail<?= $student['id'] ?>" class="btn btn-primary btn-md">Lihat</a> -->

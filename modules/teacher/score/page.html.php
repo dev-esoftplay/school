@@ -219,7 +219,7 @@ $sys->set_layout('teacher.php');
         <h2 class="mb-4 mt-4 fw-semibold fs-1">Daftar kelas yang diampu</h2>
         <table class="table table-bordered table-striped">
             <thead class="table-dark">
-                <tr class="fs-5">
+                <tr class="fs-4">
                     <th>No</th>
                     <th>Kelas</th>
                     <th>Siswa</th>
@@ -232,10 +232,10 @@ $sys->set_layout('teacher.php');
                     <?php $no = 1; ?>
                     <?php foreach ($teacherClass as $kelas) : ?>
                         <tr>
-                            <td class="fs-5"><?= $no++ . '.' ?></td>
-                            <td class="fs-5">kelas <?= htmlspecialchars($kelas['kelas']) ?></td>
-                            <td class="fs-5"><?= $kelas['siswa'] ?> siswa</td>
-                            <td class="fs-5"><?= htmlspecialchars($kelas['wali_kelas']) ?></td>
+                            <td class="fs-4"><?= $no++ . '.' ?></td>
+                            <td class="fs-4">kelas <?= htmlspecialchars($kelas['kelas']) ?></td>
+                            <td class="fs-4"><?= $kelas['siswa'] ?> siswa</td>
+                            <td class="fs-4"><?= htmlspecialchars($kelas['wali_kelas']) ?></td>
                             <td>
                                 <a href="teacher/scoredetail?class_id=<?= $kelas['id'] ?>" class="btn btn-primary btn-md">Lihat</a>
                             </td>
