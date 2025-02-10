@@ -23,8 +23,8 @@ if ($teacherId <= 0) {
     exit;
 }
 
-// Ambil daftar kelas yang diampu oleh guru (Tanpa Parameter Binding)
-// $teacherClass = $db->getAll("
+// // Ambil daftar kelas yang diampu oleh guru berdasarkan walikelas
+// $teacherlass = $db->getAll("
 //     SELECT DISTINCT 
 //         sc.id, 
 //         sc.grade AS kelas, 
@@ -35,21 +35,21 @@ if ($teacherId <= 0) {
 //     WHERE sc.teacher_id = $teacherId
 // ");
 
-// Ambil daftar kelas yang diampu oleh guru, baik yang jadi wali kelas maupun yang diajar per mapel
+// Ambil daftar kelas yang diampu oleh guru, baik yang jadi wali kelas maupun yang diajar per mapel (jika ada)
 $teacherClass = $db->getAll("
     SELECT DISTINCT 
         sc.id, 
         sc.grade AS kelas, 
-        (SELECT COUNT(*) FROM school_student_class WHERE class_id = sc.id) AS  siswa,
+        (SELECT COUNT(*) FROM school_student_class WHERE class_id = sc.id) AS siswa,
         st.name AS wali_kelas,
-        ts.course_id,
-        c.name AS course_name
+        COALESCE(ts.course_id, NULL) AS course_id,
+        COALESCE(c.name, '-') AS course_name
     FROM school_class sc
     LEFT JOIN school_teacher st ON sc.teacher_id = st.id
     LEFT JOIN school_teacher_subject ts ON ts.teacher_id = st.id
     LEFT JOIN school_course c ON ts.course_id = c.id
     LEFT JOIN school_teacher_subject ssc ON sc.id = ssc.class_id
-    WHERE (ssc.teacher_id = $teacherId OR ts.teacher_id = $teacherId)
+    WHERE (ssc.teacher_id = $teacherId OR sc.teacher_id = $teacherId);
 ");
 
 link_js('script.js');
