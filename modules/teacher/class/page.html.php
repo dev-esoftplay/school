@@ -194,7 +194,7 @@ $sys->set_layout('teacher.php');
 <div class="container mt-4">
     <!-- Breadcrumb for Title -->
     <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
+        <ol class="breadcrumb"> 
             <li class="breadcrumb-item"><a href="teacher/dashboard" class="breadcrumb-item-dashboard">Daftar Kelas</a></li>
         </ol>
     </nav>
@@ -219,7 +219,7 @@ $sys->set_layout('teacher.php');
             align-items: flex-start;
             position: relative;
         }
-
+  
         .custom-card:hover {
             transform: translateY(-5px);
             box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
@@ -313,6 +313,13 @@ $sys->set_layout('teacher.php');
                     <a href="teacher/classdetail" class="lihat-siswa-btn">Lihat Siswa</a>
                 </td>
         </div>
+        <div class="custom-card">
+            <span class="card-title">11 PPLG 1</span>
+            <div class="profile-circle">C</div> 
+            <td>
+                    <a href="teacher/classdetail" class="lihat-siswa-btn">Lihat Siswa</a>
+                </td>
+        </div>
     </div>
 </div>
 
@@ -342,7 +349,7 @@ $sys->set_layout('teacher.php');
             } else {
                 sidebar.classList.add('active');
                 overlay.classList.add('active');
-                hamburger.textContent = '×';
+                hamburger.textContent = '×';    
                 hamburger.classList.add('open');
             }
         });
