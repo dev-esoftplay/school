@@ -15,8 +15,29 @@ if (empty($user->id)) {
 }
 
 $teacherId = $db->getOne("SELECT `id` FROM `school_teacher` WHERE `user_id` = $user->id");
+$class_id = isset($_GET['class_id']) ? intval($_GET['class_id']) : 0;
+$className = $db->getOne("SELECT `grade` FROM `school_class` WHERE `id` = $class_id");
+
+if ($class_id <= 0) {
+    echo "<p style='color: red;'>Kelas tidak ditemukan.</p>";
+    exit;
+}
+
+$students = $db->getAll("
+    SELECT 
+        ssc.id, 
+        ssc.student_id, 
+        ssc.number, 
+        ss.name, 
+        ss.nis, 
+        ss.gender 
+    FROM school_student_class ssc
+    JOIN school_student ss ON ssc.student_id = ss.id
+    WHERE ssc.class_id = $class_id
+");
 
 link_js('script.js');
 link_js(_ROOT . 'templates/eraport-sdit/js/jspdf.umd.min.js');
 
-include tpl('page.html.php');
+// include tpl('page.html.php');
+include tpl('page.html.php', compact('className', 'students'));

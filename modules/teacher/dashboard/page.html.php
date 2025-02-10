@@ -5,7 +5,7 @@ if (!defined('_VALID_BBC'))
 // Set the layout for the teacher dashboard
 $sys->set_layout('teacher.php');
 
-pr($data, $_SESSION, $user->id, $teacher_id, $position, $studentCounts, $classes, $teacherClasses, $teacherId);
+// pr($data, $_SESSION, $user->id, $teacher_id, $position, $studentCounts, $classes, $teacherClasses, $teacherId);
 
 ?>
 <!DOCTYPE html>
@@ -441,7 +441,7 @@ pr($data, $_SESSION, $user->id, $teacher_id, $position, $studentCounts, $classes
                 const navLinks = document.querySelectorAll('.menu-list ul li a');
 
                 navLinks.forEach(link => {
-                    if (link.href.includes(${activePage})) {
+                    if (link.href.includes(`${activePage}`)) {
                         link.classList.add('active');
                     }
                 });

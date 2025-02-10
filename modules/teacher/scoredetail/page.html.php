@@ -31,7 +31,7 @@ $dataSiswa = [
   <!-- Header -->
   <div class="header d-flex align-items-center justify-content-between bg-white p-3 px-4 mb-4 shadow-sm">
     <a href="teacher/score" onclick="redirectAndClose(event, 'score.php')" class="fs-3 text-decoration-none text-dark cursor-pointer"><i class="fas fa-arrow-left"></i> Kembali</a>
-    <h1 class="fs-3">Kelas 1A</h1>
+    <h1 class="fs-3">Kelas <?= htmlspecialchars($className); ?></h1>
   </div>
   <div class="container mt-4">
     <table class="table table-bordered table-striped">
@@ -44,19 +44,25 @@ $dataSiswa = [
         </tr>
       </thead>
       <tbody>
-        <?php foreach ($dataSiswa as $siswa): ?>
+        <?php if (!empty($students)) : ?>
+          <?php $no = 1; ?>
+          <?php foreach ($students as $student) : ?>
+            <tr>
+              <td><?= $no++ . '.' ?></td>
+              <td><?= htmlspecialchars($student['name']) ?></td>
+              <td><?= htmlspecialchars($student['nis']) ?></td>
+              <td>
+                <a href="teacher/inputnilai" class="btn btn-warning btn-md">Edit</a>
+                <!-- <a href="teacher/scorestudentdetail<?= $student['id'] ?>" class="btn btn-primary btn-md">Lihat</a> -->
+                <a href="teacher/scorestudentdetail" class="btn btn-primary btn-md">Lihat</a>
+
+            </tr>
+          <?php endforeach; ?>
+        <?php else : ?>
           <tr>
-            <td class="fs-5"><?= $siswa['no'] ?></td>
-            <td class="fs-5"><?= $siswa['nama'] ?></td>
-            <td class="fs-5"><?= $siswa['nis'] ?></td>
-            <td>  
-              <div class="d-flex flex-column flex-md-row gap-2">
-                <a href="teacher/scorestudentdetail" class="btn btn-primary btn-sm w-100 w-md-auto">Detail</a>
-                <a href="teacher/inputnilai" class="btn btn-secondary btn-sm w-100 w-md-auto">Edit</a>
-              </div>
-            </td>
+            <td colspan="4" class="text-center">Tidak ada siswa dalam kelas ini.</td>
           </tr>
-        <?php endforeach; ?>
+        <?php endif; ?>
       </tbody>
     </table>
   </div>

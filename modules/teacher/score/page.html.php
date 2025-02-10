@@ -5,11 +5,6 @@ if (!defined('_VALID_BBC'))
 // Mengatur layout halaman
 $sys->set_layout('teacher.php');
 
-$dataKelas = [
-    ['no' => 1, 'kelas' => '1A', 'siswa' => 2, 'wali_kelas' => 'Budi Wahyudi'],
-    ['no' => 2, 'kelas' => '2A', 'siswa' => 2, 'wali_kelas' => 'Atiek Khusniyati'],
-];
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -221,32 +216,39 @@ $dataKelas = [
             </ol>
         </nav>
 
-    <h2 class="mb-4 mt-4 fw-semibold fs-1">Daftar kelas yang diampu</h2>
-    <table class="table table-bordered table-striped">
-    <thead class="table-dark">
-        <tr class="fs-5">
-            <th>No</th>
-            <th>Kelas</th>
-            <th>Siswa</th>
-            <th>Wali Kelas</th>
-            <th>Aksi</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($dataKelas as $kelas) : ?>
-            <tr>
-                <td class="fs-5"><?= $kelas['no'] ?></td>
-                <td class="fs-5"><?= $kelas['kelas'] ?></td>
-                <td class="fs-5"><?= $kelas['siswa'] ?></td>
-                <td class="fs-5"><?= $kelas['wali_kelas'] ?></td>
-                <td>
-                    <a href="teacher/scoredetail" class="btn btn-primary btn-md">Lihat</a>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
-</div>
+        <h2 class="mb-4 mt-4 fw-semibold fs-1">Daftar kelas yang diampu</h2>
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr class="fs-5">
+                    <th>No</th>
+                    <th>Kelas</th>
+                    <th>Siswa</th>
+                    <th>Wali Kelas</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (!empty($teacherClass)) : ?>
+                    <?php $no = 1; ?>
+                    <?php foreach ($teacherClass as $kelas) : ?>
+                        <tr>
+                            <td class="fs-5"><?= $no++ . '.' ?></td>
+                            <td class="fs-5">kelas <?= htmlspecialchars($kelas['kelas']) ?></td>
+                            <td class="fs-5"><?= $kelas['siswa'] ?> siswa</td>
+                            <td class="fs-5"><?= htmlspecialchars($kelas['wali_kelas']) ?></td>
+                            <td>
+                                <a href="teacher/scoredetail?class_id=<?= $kelas['id'] ?>" class="btn btn-primary btn-md">Lihat</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else : ?>
+                    <tr>
+                        <td colspan="5" class="text-center fs-5">Tidak ada kelas yang diampu</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
 
     <!-- Scripts -->
     <script>
