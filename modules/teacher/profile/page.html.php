@@ -296,7 +296,7 @@ $sys->set_layout('teacher.php');
                 sidebar.classList.remove('active');
                 overlay.classList.remove('active');
                 hamburger.textContent = '☰';
-                hamburger.classList.remove('open');
+                hamburger.classList.remove('open'); 
             } else {
                 sidebar.classList.add('active');
                 overlay.classList.add('active');

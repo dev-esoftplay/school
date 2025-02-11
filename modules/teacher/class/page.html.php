@@ -291,35 +291,46 @@ $sys->set_layout('teacher.php');
             color: #333;
             padding-left: 15px;
         }
+        .wali-kelas {
+    font-size: 14px;
+    color: #555;
+    display: flex;
+    font-weight: 600;
+    align-items: center;
+    gap: 8px;
+}
+
+.wali-kelas i {
+    color:rgb(0, 35, 100);
+}
     </style>
 
-    <div class="card-container">
-        <div class="custom-card">
-            <span class="card-title">10 PPLG 1</span>
-            <div class="profile-circle">A</div> 
-            <a href="#" class="lihat-siswa-btn">Lihat Siswa</a>
+<div class="card-container">
+    <div class="custom-card">
+        <span class="card-title">10 PPLG 1</span>
+        <div class="profile-circle">A</div> 
+        <div class="wali-kelas">
+            <i class="fas fa-user"></i> Wali Kelas: Pak Budi
         </div>
+        <a href="#" class="lihat-siswa-btn">Lihat Siswa</a>
+    </div>
 
-        <div class="custom-card">
-            <span class="card-title">10 PPLG 2</span>
-            <div class="profile-circle">B</div> 
-            <a href="#" class="lihat-siswa-btn">Lihat Siswa</a>
+    <div class="custom-card">
+        <span class="card-title">10 PPLG 2</span>
+        <div class="profile-circle">B</div> 
+        <div class="wali-kelas">
+            <i class="fas fa-user"></i> Wali Kelas: Bu Siti
         </div>
+        <a href="#" class="lihat-siswa-btn">Lihat Siswa</a>
+    </div>
 
-        <div class="custom-card">
-            <span class="card-title">11 PPLG 1</span>
-            <div class="profile-circle">C</div> 
-            <td>
-                    <a href="teacher/classdetail" class="lihat-siswa-btn">Lihat Siswa</a>
-                </td>
+    <div class="custom-card">
+        <span class="card-title">11 PPLG 1</span>
+        <div class="profile-circle">C</div> 
+        <div class="wali-kelas">
+            <i class="fas fa-user"></i> Wali Kelas: Pak Joko
         </div>
-        <div class="custom-card">
-            <span class="card-title">11 PPLG 1</span>
-            <div class="profile-circle">C</div> 
-            <td>
-                    <a href="teacher/classdetail" class="lihat-siswa-btn">Lihat Siswa</a>
-                </td>
-        </div>
+        <a href="teacher/classdetail" class="lihat-siswa-btn">Lihat Siswa</a>
     </div>
 </div>
 
@@ -343,7 +354,7 @@ $sys->set_layout('teacher.php');
         hamburger.addEventListener('click', () => {
             if (sidebar.classList.contains('active')) {
                 sidebar.classList.remove('active');
-                overlay.classList.remove('active');
+                overlay.classList.remove('active'); 
                 hamburger.textContent = '☰';
                 hamburger.classList.remove('open');
             } else {
