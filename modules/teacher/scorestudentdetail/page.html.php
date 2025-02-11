@@ -21,17 +21,12 @@ $nama_siswa = "Arkyn the Root-digger";
 </head>
 
 <body>
-<<<<<<< HEAD
     <div class="container mt-4">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="teacher/dashboard">Dashboard</a></li>
-                <li class="breadcrumb-item"><a href="teacher/score">Input Nilai</a></li>
-                <!-- <li class="breadcrumb-item"><a href="teacher/scoredetail?class_id=<?= $teacherClass['id'] ?>">Daftar Siswa</a></li> -->
-                <li class="breadcrumb-item"><a href="teacher/scoredetail?class_id=1">Daftar Siswa</a></li> 
-                <li class="breadcrumb-item breadcrumb-item-active" aria-current="page">Daftar Nilai</li>
-            </ol>
-        </nav>
+    <div class="header d-flex mb-4">
+        <a href="teacher/scoredetail?class_id=1" class="btn btn-link text-dark d-flex align-items-center text-decoration-none" style="font-size: 15px;">
+            <i class="fas fa-arrow-left" style="margin-right: 5px;"></i> Kembali
+        </a>
+    </div>
         <h4>Daftar Nilai <?php echo $nama_siswa; ?></h4>
         <div class="table-responsive">
             <table class="table table-bordered table-striped">
