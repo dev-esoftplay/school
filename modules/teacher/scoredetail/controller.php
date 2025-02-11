@@ -17,6 +17,7 @@ if (empty($user->id)) {
 $teacherId = $db->getOne("SELECT `id` FROM `school_teacher` WHERE `user_id` = $user->id");
 $class_id = isset($_GET['class_id']) ? intval($_GET['class_id']) : 0;
 $className = $db->getOne("SELECT `grade` FROM `school_class` WHERE `id` = $class_id");
+$labelClass = $db->getOne("SELECT `label` FROM `school_class` WHERE `id` = $class_id");
 
 if ($class_id <= 0) {
     echo "<p style='color: red;'>Kelas tidak ditemukan.</p>";
@@ -40,4 +41,4 @@ link_js('script.js');
 link_js(_ROOT . 'templates/eraport-sdit/js/jspdf.umd.min.js');
 
 // include tpl('page.html.php');
-include tpl('page.html.php', compact('className', 'students'));
+include tpl('page.html.php', compact('className', 'students', 'labelClass'));

@@ -37,17 +37,18 @@ $sys->set_layout('teacher.php');
             /* Warna Hijau Army */
             font-weight: bold;
             font-size: min(3vw, 2vh, 18px);
+            text-decoration: none;
         }
 
         .breadcrumb-item+.breadcrumb-item::before {
             font-size: min(3vw, 2vh, 18px);
             color: #4B5320;
             font-weight: 600;
+            text-decoration: none;
         }
 
         .breadcrumb-item-dashboard:hover {
             color: #3E4C23;
-            /* Warna hijau lebih gelap saat hover */
             font-size: min(3vw, 2vh, 18px);
         }
 
@@ -233,7 +234,9 @@ $sys->set_layout('teacher.php');
                     <?php foreach ($teacherClass as $kelas) : ?>
                         <tr>
                             <td class="fs-5"><?= $no++ . '.' ?></td>
-                            <td class="fs-5">kelas <?= htmlspecialchars($kelas['kelas']) ?></td>
+                            <td class="fs-5">
+                                kelas <?= htmlspecialchars(str_replace(' ', '', "{$kelas['kelas']}{$kelas['label']}"), ENT_QUOTES, 'UTF-8') ?>
+                            </td>
                             <td class="fs-5"><?= $kelas['siswa'] ?> siswa</td>
                             <td class="fs-5"><?= htmlspecialchars($kelas['wali_kelas']) ?></td>
                             <td>

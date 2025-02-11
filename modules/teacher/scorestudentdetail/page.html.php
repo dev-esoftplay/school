@@ -14,83 +14,24 @@ $nama_siswa = "Arkyn the Root-digger";
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Nilai Siswa</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
-        body {
-            background-color: #f8f9fa;
-            font-size: min(10px, 2vh, 18px);
-        }
 
-        .breadcrumb {
-            display: flex;
-            align-items: center;
-            flex-wrap: nowrap;
-            gap: 1px;
-            background-color: #ffffff;
-            border-radius: 5px;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .breadcrumb-item a {
-            color: #4B5320;
-            font-weight: 600;
-            text-decoration: none;
-            font-size: min(3vw, 2vh, 18px);
-        }
-
-        .breadcrumb-item a:hover {
-            color: #3E4C23;
-            text-decoration: underline;
-        }
-
-        .breadcrumb-item-active {
-            color: grey;
-            font-weight: 600;
-            font-size: min(3vw, 2vh, 18px);
-            text-decoration: none;
-        }
-
-        .breadcrumb-item+.breadcrumb-item::before {
-            font-size: min(3vw, 2vh, 18px);
-            color: #4B5320;
-            font-weight: 600;
-        }
-
-
-        .table-responsive {
-            margin-top: 10px;
-        }
-
-        .table th,
-        .table td {
-            font-size: clamp(10px, 1.5vw, 18px);
-            justify-content: center;
-            justify-items: center;
-        }
-
-        .btn {
-            padding: 10px 12px;
-            font-size: 10px;
-        }
     </style>
 </head>
 
 <body>
     <div class="container mt-4">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="teacher/dashboard">Dashboard</a></li>
-                <li class="breadcrumb-item"><a href="teacher/score">Input Nilai</a></li>
-                <!-- <li class="breadcrumb-item"><a href="teacher/scoredetail?class_id=<?= $teacherClass['id'] ?>">Daftar Siswa</a></li> -->
-                <li class="breadcrumb-item"><a href="teacher/scoredetail?class_id=1">Daftar Siswa</a></li> 
-                <li class="breadcrumb-item breadcrumb-item-active" aria-current="page">Daftar Nilai</li>
-            </ol>
-        </nav>
+    <div class="header d-flex mb-4">
+        <a href="teacher/scoredetail?class_id=1" class="btn btn-link text-dark d-flex align-items-center text-decoration-none" style="font-size: 15px;">
+            <i class="fas fa-arrow-left" style="margin-right: 5px;"></i> Kembali
+        </a>
+    </div>
         <h4>Daftar Nilai <?php echo $nama_siswa; ?></h4>
         <div class="table-responsive">
             <table class="table table-bordered table-striped">
                 <thead class="table-dark">
-                    <tr>
+                    <tr class='fs-5'>
                         <th>No</th>
                         <th>Mata Pelajaran</th>
                         <th>Nilai</th>
@@ -113,10 +54,10 @@ $nama_siswa = "Arkyn the Root-digger";
                     ];
 
                     foreach ($mapel as $index => $row) {
-                        echo "<tr>
-                            <td>" . ($index + 1) . "</td>
+                        echo "<tr class='fs-5'>
+                            <td class='text-center'>" . ($index + 1) . "</td>
                             <td>{$row['asli']}</td>
-                            <td id='nilai-{$index}'>{$row['nilai']}</td>
+                            <td id='nilai-{$index}' class='text-center'>{$row['nilai']}</td>
                         </tr>";
                     }
                     ?>
