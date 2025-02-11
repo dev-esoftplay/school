@@ -40,6 +40,7 @@ $teacherClass = $db->getAll("
     SELECT DISTINCT 
         sc.id, 
         sc.grade AS kelas, 
+        sc.label AS label,
         (SELECT COUNT(*) FROM school_student_class WHERE class_id = sc.id) AS siswa,
         st.name AS wali_kelas,
         COALESCE(ts.course_id, NULL) AS course_id,

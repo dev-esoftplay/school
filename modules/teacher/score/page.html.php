@@ -37,17 +37,18 @@ $sys->set_layout('teacher.php');
             /* Warna Hijau Army */
             font-weight: bold;
             font-size: min(3vw, 2vh, 18px);
+            text-decoration: none;
         }
 
         .breadcrumb-item+.breadcrumb-item::before {
             font-size: min(3vw, 2vh, 18px);
             color: #4B5320;
             font-weight: 600;
+            text-decoration: none;
         }
 
         .breadcrumb-item-dashboard:hover {
             color: #3E4C23;
-            /* Warna hijau lebih gelap saat hover */
             font-size: min(3vw, 2vh, 18px);
         }
 
@@ -219,7 +220,7 @@ $sys->set_layout('teacher.php');
         <h2 class="mb-4 mt-4 fw-semibold fs-1">Daftar kelas yang diampu</h2>
         <table class="table table-bordered table-striped">
             <thead class="table-dark">
-                <tr class="fs-4">
+                <tr class="fs-5">
                     <th>No</th>
                     <th>Kelas</th>
                     <th>Siswa</th>
@@ -232,10 +233,12 @@ $sys->set_layout('teacher.php');
                     <?php $no = 1; ?>
                     <?php foreach ($teacherClass as $kelas) : ?>
                         <tr>
-                            <td class="fs-4"><?= $no++ . '.' ?></td>
-                            <td class="fs-4">kelas <?= htmlspecialchars($kelas['kelas']) ?></td>
-                            <td class="fs-4"><?= $kelas['siswa'] ?> siswa</td>
-                            <td class="fs-4"><?= htmlspecialchars($kelas['wali_kelas']) ?></td>
+                            <td class="fs-5"><?= $no++ . '.' ?></td>
+                            <td class="fs-5">
+                                kelas <?= htmlspecialchars(str_replace(' ', '', "{$kelas['kelas']}{$kelas['label']}"), ENT_QUOTES, 'UTF-8') ?>
+                            </td>
+                            <td class="fs-5"><?= $kelas['siswa'] ?> siswa</td>
+                            <td class="fs-5"><?= htmlspecialchars($kelas['wali_kelas']) ?></td>
                             <td>
                                 <a href="teacher/scoredetail?class_id=<?= $kelas['id'] ?>" class="btn btn-primary btn-md">Lihat</a>
                             </td>
