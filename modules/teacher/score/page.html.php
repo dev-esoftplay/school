@@ -225,7 +225,7 @@ $sys->set_layout('teacher.php');
                     <th>Kelas</th>
                     <th>Siswa</th>
                     <th>Wali Kelas</th>
-                    <th>Aksi</th>
+                    <th>Aksi</th>  
                 </tr>
             </thead>
             <tbody>

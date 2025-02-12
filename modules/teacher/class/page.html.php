@@ -17,12 +17,12 @@ $sys->set_layout('teacher.php');
     <style>
     /* General Styles */
     .container {
-        padding: 15px;
+        padding: 15px; 
     }
 
     .breadcrumb {
         font-size: 16px;
-        color: #666;
+        color: #666;     
         margin-bottom: 10px;
         padding-left: 0px; 
         background: none;
@@ -72,7 +72,7 @@ $sys->set_layout('teacher.php');
     }
 
     .sidebar {
-        position: fixed;
+        position: fixed; 
         top: 0;
         right: -250px;
         width: 250px;
@@ -83,7 +83,7 @@ $sys->set_layout('teacher.php');
         transition: right 0.3s ease;
         padding: 15px;
         display: flex;
-        flex-direction: column;
+        flex-direction: column; 
     }
 
     .sidebar.active {
@@ -306,25 +306,34 @@ $sys->set_layout('teacher.php');
 }
     </style>
 
-<?php if (!empty($teacherClass)) : ?>
-    <div class="row">
-        <?php foreach ($teacherClass as $kelas) : ?>
-            <div class="col-md-4">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">Kelas <?= htmlspecialchars($kelas['kelas'] . $kelas['label'], ENT_QUOTES, 'UTF-8') ?></h5>
-                        <p class="card-text">Jumlah Siswa: <?= $kelas['siswa'] ?></p>
-                        <a href="detail.php?kelas=<?= urlencode($kelas['kelas'] . $kelas['label']) ?>" class="btn btn-primary">Lihat Detail</a>
-                        <a href="edit.php?kelas=<?= urlencode($kelas['kelas'] . $kelas['label']) ?>" class="btn btn-warning">Edit</a>
-                        <a href="delete.php?kelas=<?= urlencode($kelas['kelas'] . $kelas['label']) ?>" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus kelas ini?');">Hapus</a>
-                    </div>
-                </div>
-            </div>
-        <?php endforeach; ?>
+<div class="card-container">
+    <div class="custom-card">
+        <span class="card-title">10 PPLG 1</span>
+        <div class="profile-circle">A</div> 
+        <div class="wali-kelas">
+            <i class="fas fa-user"></i> Wali Kelas: Pak Budi
+        </div>
+        <a href="#" class="lihat-siswa-btn">Lihat Siswa</a>
     </div>
-<?php else : ?>
-    <p class="text-center">Tidak ada kelas yang diampu</p>
-<?php endif; ?>
+
+    <div class="custom-card">
+        <span class="card-title">10 PPLG 2</span>
+        <div class="profile-circle">B</div> 
+        <div class="wali-kelas">
+            <i class="fas fa-user"></i> Wali Kelas: Bu Siti
+        </div>
+        <a href="#" class="lihat-siswa-btn">Lihat Siswa</a>
+    </div>
+
+    <div class="custom-card">
+        <span class="card-title">11 PPLG 1</span>
+        <div class="profile-circle">C</div> 
+        <div class="wali-kelas">
+            <i class="fas fa-user"></i> Wali Kelas: Pak Joko
+        </div>  
+        <a href="teacher/classdetail" class="lihat-siswa-btn">Lihat Siswa</a>
+    </div>
+</div>
 
 
 
