@@ -14,29 +14,45 @@ if (empty($user->id)) {
     redirect(_URL);
 }
 
-$teacherId = $db->getOne("SELECT `id` FROM `school_teacher` WHERE `user_id` = $user->id");
+// Ambil ID guru berdasarkan user_id
+$teacherId = intval($db->getOne("SELECT `id` FROM `school_teacher` WHERE `user_id` = $user->id"));
 
-$user_id = $user->id;
-$teacher_id = $db->getOne("SELECT id FROM school_teacher WHERE user_id = $user_id", array($user->id));
-$position = $db->getOne("SELECT position FROM school_teacher WHERE id = $teacher_id", array($teacher_id));
-$classes = $db->getAll("SELECT grade, label FROM school_class WHERE id = $teacher_id", array($teacher_id));
-$teacherClasses = $db->getOne("
-    SELECT COUNT(*) AS total_classes 
-    FROM school_class 
-    WHERE teacher_id = $teacher_id", 
-    array($teacher_id)
-);
+// Pastikan $teacherId valid
+if ($teacherId <= 0) {
+    echo "<p style='color: red;'>Data guru tidak ditemukan.</p>";
+    exit;
+}
 
+// Ambil daftar kelas yang diampu oleh guru (Tanpa Parameter Binding)
+// $teacherClass = $db->getAll("
+//     SELECT DISTINCT 
+//         sc.id, 
+//         sc.grade AS kelas, 
+//         (SELECT COUNT(*) FROM school_student_class WHERE class_id = sc.id) AS siswa,
+//         st.name AS wali_kelas
+//     FROM school_class sc
+//     LEFT JOIN school_teacher st ON sc.teacher_id = st.id
+//     WHERE sc.teacher_id = $teacherId
+// ");
 
-// Fetch the summarized data grouped by class_id
-$studentCounts = $db->getAll("
-    SELECT sc.id AS class_id, sc.grade, sc.label, SUM(ssc.number) AS total_students 
-    FROM school_student_class ssc
-    JOIN school_class sc ON ssc.class_id = sc.id
-    GROUP BY ssc.class_id
+// Ambil daftar kelas yang diampu oleh guru, baik yang jadi wali kelas maupun yang diajar per mapel
+$teacherClass = $db->getAll("
+    SELECT DISTINCT 
+        sc.id, 
+        sc.grade AS kelas, 
+        (SELECT COUNT(*) FROM school_student_class WHERE class_id = sc.id) AS  siswa,
+        st.name AS wali_kelas,
+        ts.course_id,
+        c.name AS course_name
+    FROM school_class sc
+    LEFT JOIN school_teacher st ON sc.teacher_id = st.id
+    LEFT JOIN school_teacher_subject ts ON ts.teacher_id = st.id
+    LEFT JOIN school_course c ON ts.course_id = c.id
+    LEFT JOIN school_teacher_subject ssc ON sc.id = ssc.class_id
+    WHERE (ssc.teacher_id = $teacherId OR ts.teacher_id = $teacherId)
 ");
 
 link_js('script.js');
-link_js(_ROOT . 'templates/eraport-sdit/js/chart.umd.min.js');
+link_js(_ROOT . 'templates/eraport-sdit/js/jspdf.umd.min.js');
 
 include tpl('page.html.php');
