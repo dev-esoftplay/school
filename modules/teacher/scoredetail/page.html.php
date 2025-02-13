@@ -4,15 +4,6 @@ if (!defined('_VALID_BBC'))
 
 // Mengatur layout halaman
 $sys->set_layout('teacher.php');
-
-// Mendefinisikan data siswa sebagai array multidimensi
-$dataSiswa = [
-  ['no' => 1, 'nama' => 'Arkyn the Root-digger', 'nis' => '92400'],
-  ['no' => 2, 'nama' => 'Oddrun the Fierce', 'nis' => '98657'],
-  ['no' => 3, 'nama' => 'Ragnor the Winter-survivor', 'nis' => '98657'],
-  ['no' => 4, 'nama' => 'Askr the Fire-hearted', 'nis' => '98657',]
-];
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -55,9 +46,7 @@ $dataSiswa = [
               <td class="fs-5"><?= htmlspecialchars($student['nis']) ?></td>
               <td>
                 <a href="teacher/inputnilai" class="btn btn-warning btn-md">Edit</a>
-                <!-- <a href="teacher/scorestudentdetail<?= $student['id'] ?>" class="btn btn-primary btn-md">Lihat</a> -->
-                <a href="teacher/scorestudentdetail" class="btn btn-primary btn-md">Lihat</a>
-
+                <a href="teacher/scorestudentdetail/?student_id=<?= $student['student_id'] ?>&class_id=<?= $class_id ?>" class="btn btn-primary btn-md">Lihat</a>
             </tr>
           <?php endforeach; ?>
         <?php else : ?>

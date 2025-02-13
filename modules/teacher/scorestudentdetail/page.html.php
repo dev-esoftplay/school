@@ -3,7 +3,6 @@ if (!defined('_VALID_BBC'))
     exit('No direct script access allowed');
 
 $sys->set_layout('teacher.php');
-$nama_siswa = "Arkyn the Root-digger";
 ?>
 
 <!DOCTYPE html>
@@ -15,52 +14,43 @@ $nama_siswa = "Arkyn the Root-digger";
     <title>Nilai Siswa</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <style>
-
-    </style>
 </head>
 
 <body>
     <div class="container mt-4">
-    <div class="header d-flex mb-4">
-        <a href="teacher/scoredetail?class_id=1" class="btn btn-link text-dark d-flex align-items-center text-decoration-none" style="font-size: 15px;">
-            <i class="fas fa-arrow-left" style="margin-right: 5px;"></i> Kembali
-        </a>
-    </div>
-        <h4>Daftar Nilai <?php echo $nama_siswa; ?></h4>
+        <div class="header d-flex mb-4">
+            <a href="teacher/scoredetail?class_id=<?= intval($_GET['class_id']) ?>"
+                class="btn btn-link text-dark d-flex align-items-center text-decoration-none" style="font-size: 15px;">
+                <i class="fas fa-arrow-left" style="margin-right: 5px;"></i> Kembali
+            </a>
+        </div>
+        <h4 class="fs-3">Daftar Nilai - <?= htmlspecialchars($student_name) ?></h4>
         <div class="table-responsive">
             <table class="table table-bordered table-striped">
                 <thead class="table-dark">
-                    <tr class='fs-5'>
+                    <tr class="fs-5">
                         <th>No</th>
                         <th>Mata Pelajaran</th>
                         <th>Nilai</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                    $mapel = [
-                        ["nama" => "PAI", "asli" => "Pendidikan Agama Islam", "nilai" => 85],
-                        ["nama" => "PPKn", "asli" => "Pendidikan Pancasila", "nilai" => 90],
-                        ["nama" => "B.Indo", "asli" => "Bahasa Indonesia", "nilai" => 88],
-                        ["nama" => "B.Ing", "asli" => "Bahasa Inggris", "nilai" => 87],
-                        ["nama" => "B.Jawa", "asli" => "Bahasa Jawa", "nilai" => 75],
-                        ["nama" => "MTK", "asli" => "Matematika", "nilai" => 80],
-                        ["nama" => "IPAS", "asli" => "Ilmu Pengetahuan Alam & Sosial", "nilai" => 78],
-                        ["nama" => "SB", "asli" => "Seni Budaya", "nilai" => 85],
-                        ["nama" => "PJOK", "asli" => "Pendidikan Jasmani Olahraga & Kesehatan", "nilai" => 82],
-                        ["nama" => "B.Arab", "asli" => "Bahasa Arab", "nilai" => 80],
-                        ["nama" => "TIK", "asli" => "Teknologi Informasi & Komunikasi", "nilai" => 83],
-                    ];
-
-                    foreach ($mapel as $index => $row) {
-                        echo "<tr class='fs-5'>
-                            <td class='text-center'>" . ($index + 1) . "</td>
-                            <td>{$row['asli']}</td>
-                            <td id='nilai-{$index}' class='text-center'>{$row['nilai']}</td>
-                        </tr>";
-                    }
-                    ?>
+                    <?php if (empty($data) || array_sum(array_column($data, 'total_weighted_score')) == 0) : ?>
+                        <tr>
+                            <td colspan="3" class="text-center fs-5">Data nilai kosong</td>
+                        </tr>
+                    <?php else : ?>
+                        <?php $no = 1; ?>
+                        <?php foreach ($data as $score) : ?>
+                            <tr class="fs-5">
+                                <td><?= $no++ ?>.</td>
+                                <td><?= htmlspecialchars($score['course_name']) ?></td>
+                                <td id="nilai-<?= $score['course_id'] ?>" class="text-center">
+                                    <?= number_format($score['total_weighted_score'], 2, ',', '.') ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>

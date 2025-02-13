@@ -231,16 +231,16 @@ $sys->set_layout('teacher.php');
             <tbody>
                 <?php if (!empty($teacherClass)) : ?>
                     <?php $no = 1; ?>
-                    <?php foreach ($teacherClass as $kelas) : ?>
+                    <?php foreach ($teacherClass as $data) : ?>
                         <tr>
                             <td class="fs-5"><?= $no++ . '.' ?></td>
                             <td class="fs-5">
-                                kelas <?= htmlspecialchars(str_replace(' ', '', "{$kelas['kelas']}{$kelas['label']}"), ENT_QUOTES, 'UTF-8') ?>
+                                kelas <?= htmlspecialchars(str_replace(' ', '', "{$data['kelas']}{$data['label']}"), ENT_QUOTES, 'UTF-8') ?>
                             </td>
-                            <td class="fs-5"><?= $kelas['siswa'] ?> siswa</td>
-                            <td class="fs-5"><?= htmlspecialchars($kelas['wali_kelas']) ?></td>
+                            <td class="fs-5"><?= $data['siswa'] ?> siswa</td>
+                            <td class="fs-5"><?= htmlspecialchars($data['wali_kelas']) ?></td>
                             <td>
-                                <a href="teacher/scoredetail?class_id=<?= $kelas['id'] ?>" class="btn btn-primary btn-md">Lihat</a>
+                                <a href="teacher/scoredetail?class_id=<?= $data['id'] ?>" class="btn btn-primary btn-md">Lihat</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

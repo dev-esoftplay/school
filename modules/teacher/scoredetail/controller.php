@@ -19,6 +19,7 @@ $class_id = isset($_GET['class_id']) ? intval($_GET['class_id']) : 0;
 $className = $db->getOne("SELECT `grade` FROM `school_class` WHERE `id` = $class_id");
 $labelClass = $db->getOne("SELECT `label` FROM `school_class` WHERE `id` = $class_id");
 
+
 if ($class_id <= 0) {
     echo "<p style='color: red;'>Kelas tidak ditemukan.</p>";
     exit;
