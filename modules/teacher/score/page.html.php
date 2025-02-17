@@ -16,6 +16,7 @@ $sys->set_layout('teacher.php');
     <!-- Link to Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Styles -->
     <style>
         /* General Styles */
@@ -172,6 +173,10 @@ $sys->set_layout('teacher.php');
         .logout-link {
             margin-top: auto;
         }
+
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 
@@ -217,10 +222,33 @@ $sys->set_layout('teacher.php');
             </ol>
         </nav>
 
-        <h2 class="mb-4 mt-4 fw-semibold fs-1">Daftar kelas yang diampu</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">Nilai Mapel</div>
+                    <div class="card-body">
+                        <p>Menampilkan data kelas & siswa</p>
+                        <button class="btn btn-primary" id="showClassTable">Tampilkan Data</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-success text-white">Bobot Nilai</div>
+                    <div class="card-body">
+                        <p>Atur bobot nilai untuk setiap kategori</p>
+                        <button class="btn btn-success" id="showWeightTable">Tampilkan Bobot Nilai</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div id="classTableContainer" class="hidden container mt-2">
+        <h2 class="mb-4 fw-semibold fs-1">Daftar kelas yang diampu</h2>
         <table class="table table-bordered table-striped">
             <thead class="table-dark">
-                <tr class="fs-5">
+                <tr class="fs-4">
                     <th>No</th>
                     <th>Kelas</th>
                     <th>Siswa</th>
@@ -252,7 +280,38 @@ $sys->set_layout('teacher.php');
             </tbody>
         </table>
     </div>
-
+    <!-- Tabel Bobot Nilai -->
+    <div id="weightTableContainer" class="hidden container mt-2">
+        <h3 class="mb-4 fw-semibold fs-1">Bobot Nilai Mata Pelajaran</h3>
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>No</th>
+                    <th>id</th>
+                    <th>Kategori</th>
+                    <th>Bobot (%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (!empty($scoreWeights)) : ?>
+                    <?php $no = 1; ?>
+                    <?php foreach ($scoreWeights as $weight) : ?>
+                        <tr>
+                            <td><?= $no++ ?></td>
+                            <td><?= htmlspecialchars($weight['id']) ?></td>
+                            <td><?= htmlspecialchars($weight['name']) ?></td>
+                            <td><?= $weight['weight'] ?>%</td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else : ?>
+                    <tr>
+                        <td colspan="4" class="text-center">Belum ada bobot nilai yang diatur</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+    </div>
     <!-- Scripts -->
     <script>
         const hamburger = document.getElementById('hamburger');
@@ -287,6 +346,18 @@ $sys->set_layout('teacher.php');
             overlay.classList.remove('active');
             hamburger.textContent = '☰';
             hamburger.classList.remove('open');
+        });
+
+        $(document).ready(function() {
+            $("#showClassTable").click(function() {
+                $("#classTableContainer").removeClass("hidden");
+                $("#weightTableContainer").addClass("hidden");
+            });
+
+            $("#showWeightTable").click(function() {
+                $("#weightTableContainer").removeClass("hidden");
+                $("#classTableContainer").addClass("hidden");
+            });
         });
     </script>
 </body>

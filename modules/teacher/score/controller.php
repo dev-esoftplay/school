@@ -48,10 +48,20 @@ $teacherClass = $db->getAll("
     FROM school_class sc
     LEFT JOIN school_teacher st ON sc.teacher_id = st.id
     LEFT JOIN school_teacher_subject ts ON ts.teacher_id = st.id
-    LEFT JOIN school_course c ON ts.course_id = c.id
+    LEFT JOIN school_course c ON ts.course_id = c.id 
     LEFT JOIN school_teacher_subject ssc ON sc.id = ssc.class_id
     WHERE (ssc.teacher_id = $teacherId OR sc.teacher_id = $teacherId);
 ");
+
+$scoreWeights = $db->getAll("
+    SELECT 
+        sw.id, 
+        sw.name, 
+        sw.weight
+    FROM school_score_cat sw
+");
+
+
 
 link_js('script.js');
 link_js(_ROOT . 'templates/eraport-sdit/js/jspdf.umd.min.js');
