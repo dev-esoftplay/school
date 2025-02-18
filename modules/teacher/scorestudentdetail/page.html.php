@@ -14,21 +14,23 @@ $sys->set_layout('teacher.php');
     <title>Nilai Siswa</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+
+    </style>
 </head>
 
 <body>
     <div class="container mt-4">
         <div class="header d-flex mb-4">
-            <a href="teacher/scoredetail?class_id=<?= intval($_GET['class_id']) ?>"
-                class="btn btn-link text-dark d-flex align-items-center text-decoration-none" style="font-size: 15px;">
-                <i class="fas fa-arrow-left" style="margin-right: 5px;"></i> Kembali
+            <a href="teacher/scoredetail?class_id=<?= $class_id ?>" class="fs-3 text-decoration-none text-dark cursor-pointer">
+                <i class="fas fa-arrow-left"></i> Kembali
             </a>
         </div>
         <h4 class="fs-3">Daftar Nilai - <?= htmlspecialchars($student_name) ?></h4>
         <div class="table-responsive">
             <table class="table table-bordered table-striped">
                 <thead class="table-dark">
-                    <tr class="fs-5">
+                    <tr class='fs-5'>
                         <th>No</th>
                         <th>Mata Pelajaran</th>
                         <th>Nilai</th>
@@ -52,17 +54,16 @@ $sys->set_layout('teacher.php');
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </tbody>
+
             </table>
         </div>
     </div>
-
     <script>
         function adjustFontSize() {
             let container = document.querySelector(".container");
             let fontSize = Math.min(container.clientWidth * 0.02, container.clientHeight * 0.04);
             document.body.style.fontSize = fontSize + "px";
         }
-
         window.onload = adjustFontSize;
         window.onresize = adjustFontSize;
     </script>

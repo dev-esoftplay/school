@@ -32,9 +32,11 @@ switch ($Bbc->mod['task']) {
          include 'input_nilai/controller.php';
         break;
     case 'classdetail':
-        include 'classdetail/controller.php';
+        include 'classdetail/controller.php';  
         break;
-           
+    case 'inputweight':
+        include 'input_weight/controller.php';
+        break;
     case 'logout':
         user_logout($user->id);
         redirect(_URL);

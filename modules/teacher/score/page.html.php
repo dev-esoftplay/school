@@ -16,6 +16,7 @@ $sys->set_layout('teacher.php');
     <!-- Link to Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Styles -->
     <style>
         /* General Styles */
@@ -172,6 +173,10 @@ $sys->set_layout('teacher.php');
         .logout-link {
             margin-top: auto;
         }
+
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 
@@ -217,42 +222,96 @@ $sys->set_layout('teacher.php');
             </ol>
         </nav>
 
-        <h2 class="mb-4 mt-4 fw-semibold fs-1">Daftar kelas yang diampu</h2>
-        <table class="table table-bordered table-striped">
-            <thead class="table-dark">
-                <tr class="fs-5">
-                    <th>No</th>
-                    <th>Kelas</th>
-                    <th>Siswa</th>
-                    <th>Wali Kelas</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if (!empty($teacherClass)) : ?>
-                    <?php $no = 1; ?>
-                    <?php foreach ($teacherClass as $data) : ?>
-                        <tr>
-                            <td class="fs-5"><?= $no++ . '.' ?></td>
-                            <td class="fs-5">
-                                kelas <?= htmlspecialchars(str_replace(' ', '', "{$data['kelas']}{$data['label']}"), ENT_QUOTES, 'UTF-8') ?>
-                            </td>
-                            <td class="fs-5"><?= $data['siswa'] ?> siswa</td>
-                            <td class="fs-5"><?= htmlspecialchars($data['wali_kelas']) ?></td>
-                            <td>
-                                <a href="teacher/scoredetail?class_id=<?= $data['id'] ?>" class="btn btn-primary btn-md">Lihat</a>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php else : ?>
-                    <tr>
-                        <td colspan="5" class="text-center fs-5">Tidak ada kelas yang diampu</td>
-                    </tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
-    </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">Nilai Mapel</div>
+                    <div class="card-body">
+                        <p>Menampilkan data kelas & siswa</p>
+                        <button class="btn btn-primary" id="showClassTable">Tampilkan Data</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-success text-white">Bobot Nilai</div>
+                    <div class="card-body">
+                        <p>Atur bobot nilai untuk setiap kategori</p>
+                        <button class="btn btn-success" id="showWeightTable">Tampilkan Bobot Nilai</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div id="classTableContainer" class="hidden container mt-2">
+            <h2 class="mb-4 fw-semibold fs-1">Daftar kelas yang diampu</h2>
+            <table class="table table-bordered table-striped">
+                <thead class="table-dark">
+                    <tr class="fs-4">
+                        <th>No</th>
+                        <th>Kelas</th>
+                        <th>Siswa</th>
+                        <th>Wali Kelas</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (!empty($teacherClass)) : ?>
+                        <?php $no = 1; ?>
+                        <?php foreach ($teacherClass as $data) : ?>
+                            <tr>
+                                <td class="fs-5"><?= $no++ . '.' ?></td>
+                                <td class="fs-5">
+                                    kelas <?= htmlspecialchars(str_replace(' ', '', "{$data['kelas']}{$data['label']}"), ENT_QUOTES, 'UTF-8') ?>
+                                </td>
+                                <td class="fs-5"><?= $data['siswa'] ?> siswa</td>
+                                <td class="fs-5"><?= htmlspecialchars($data['wali_kelas']) ?></td>
+                                <td>
+                                    <a href="teacher/scoredetail?class_id=<?= $data['id'] ?>" class="btn btn-primary btn-md">Lihat</a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else : ?>
+                        <tr>
+                            <td colspan="5" class="text-center fs-5">Tidak ada kelas yang diampu</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+        <!-- Tabel Bobot Nilai -->
+        <div id="weightTableContainer" class="hidden container mt-2">
+            <h3 class="mb-4 fw-semibold fs-1">Bobot Nilai Mata Pelajaran</h3>
+            <table class="table table-bordered table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>id</th>
+                        <th>Kategori</th>
+                        <th>Bobot (%)</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (!empty($scoreWeights)) : ?>
+                        <?php foreach ($scoreWeights as $weight) : ?>
+                            <tr>
+                                <td><?= htmlspecialchars($weight['id']) ?></td>
+                                <td><?= htmlspecialchars($weight['name']) ?></td>
+                                <td><?= $weight['weight'] ?>%</td>
+                                <td>
+                                    <a href="teacher/scoreweight/edit?id=<?= $weight['id'] ?>" class="btn btn-primary btn-sm">Edit</a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else : ?>
+                        <tr>
+                            <td colspan="4" class="text-center">Belum ada bobot nilai yang diatur</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
     <!-- Scripts -->
     <script>
         const hamburger = document.getElementById('hamburger');
@@ -287,6 +346,18 @@ $sys->set_layout('teacher.php');
             overlay.classList.remove('active');
             hamburger.textContent = '☰';
             hamburger.classList.remove('open');
+        });
+
+        $("#showClassTable").click(function() {
+            console.log("Class Table Button Clicked");
+            $("#classTableContainer").removeClass("hidden");
+            $("#weightTableContainer").addClass("hidden");
+        });
+
+        $("#showWeightTable").click(function() {
+            console.log("Weight Table Button Clicked");
+            $("#weightTableContainer").removeClass("hidden");
+            $("#classTableContainer").addClass("hidden");
         });
     </script>
 </body>

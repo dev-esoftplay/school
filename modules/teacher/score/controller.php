@@ -53,6 +53,14 @@ $teacherClass = $db->getAll("
     WHERE (ssc.teacher_id = $teacherId OR sc.teacher_id = $teacherId);
 ");
 
+$scoreWeights = $db->getAll("
+    SELECT 
+        sw.id, 
+        sw.name, 
+        sw.weight
+    FROM school_score_cat sw
+");
+
 link_js('script.js');
 link_js(_ROOT . 'templates/eraport-sdit/js/jspdf.umd.min.js');
 

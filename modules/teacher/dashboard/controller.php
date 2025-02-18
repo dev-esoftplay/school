@@ -36,6 +36,8 @@ $studentCounts = $db->getAll("
     GROUP BY ssc.class_id
 ");
 
+$announcements = $db->getAll("SELECT * FROM school_announcement_latest_news");
+
 link_js('script.js');
 link_js(_ROOT . 'templates/eraport-sdit/js/chart.umd.min.js');
 

@@ -19,6 +19,9 @@ if (empty($user->id)) {
 // Get teacher ID based on the user
 $teacherId = $db->getOne("SELECT `id` FROM `school_teacher` WHERE `user_id` = " . intval($user->id));
 
+// Get the class ID from GET parameter
+$class_id = isset($_GET['class_id']) ? intval($_GET['class_id']) : 0;
+
 // Get the student ID from GET parameter
 $student_id = isset($_GET['student_id']) ? intval($_GET['student_id']) : 0;
 
@@ -30,26 +33,25 @@ if ($student_id == 0) {
 }
 
 // Retrieve data from the school_score, school_score_cat, school_course, school_student, school_student_class, and school_teacher tables
-$data = $db->getAll("
-    SELECT 
-        ss.id AS score_id,
-        ss.score,
-        ss.type_id,
-        sc.name AS course_name,
-        ss.student_id,
-        st.name AS student_name,
-        stc.grade,
-        stc.label AS class_label,
-        stc.teacher_id,
-        t.name AS teacher_name
-    FROM school_score ss
-    JOIN school_course sc ON ss.course_id = sc.id
-    JOIN school_student st ON ss.student_id = st.id
-    JOIN school_class stc ON st.id = stc.teacher_id
-    JOIN school_teacher t ON stc.teacher_id = t.id
-    WHERE ss.student_id = " . intval($student_id));
+// $data = $db->getAll("
+//     SELECT 
+//         ss.id AS score_id,
+//         ss.score,
+//         ss.type_id,
+//         sc.name AS course_name,
+//         ss.student_id,
+//         st.name AS student_name,
+//         stc.grade,
+//         stc.label AS class_label,
+//         stc.teacher_id,
+//         t.name AS teacher_name
+//     FROM school_score ss
+//     JOIN school_course sc ON ss.course_id = sc.id
+//     JOIN school_student st ON ss.student_id = st.id
+//     JOIN school_class stc ON st.id = stc.teacher_id
+//     JOIN school_teacher t ON stc.teacher_id = t.id
+//     WHERE ss.student_id = " . intval($student_id));
 
-// Include necessary JS scripts
     $data = $db->getAll("
     SELECT 
         sc.id AS course_id,
@@ -62,12 +64,13 @@ $data = $db->getAll("
     ORDER BY sc.name ASC
 ");
 
-//ambil nama siswa
+// Ambil informasi siswa sebelum query kedua menimpa $data
 $student_info = $db->getRow("
     SELECT st.name AS student_name
     FROM school_student st
     WHERE st.id = " . intval($student_id)
 );
+
 $student_name = isset($student_info['student_name']) ? $student_info['student_name'] : 'Nama Tidak Diketahui';
 
 // Include necessary JS scripts

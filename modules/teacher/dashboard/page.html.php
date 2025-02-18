@@ -254,6 +254,48 @@ $sys->set_layout('teacher.php');
             font-size: 0.8em;
             color: #777;
         }
+
+        /* Announcement Section */
+        .announcement-section {
+            max-height: 200px;
+            overflow: auto;
+            white-space: nowrap;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .announcement-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 10px;
+        }
+
+        .announcement-item {
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+            min-width: 100%;
+        }
+
+        .announcement-item h3 {
+            font-size: 1em;
+            margin: 0;
+            color: #006400;
+        }
+
+        .announcement-item p {
+            font-size: 0.9em;
+            color: #333;
+            margin: 5px 0;
+        }
+
+        .announcement-item small {
+            font-size: 0.8em;
+            color: #777;
+        }
     </style>
 </head>
 <body>
@@ -354,28 +396,23 @@ $sys->set_layout('teacher.php');
             <canvas id="performanceChart"></canvas>
         </div>
 
-        <!-- Announcements Section (Scrollable) -->
-        <div class="dashboard-section announcements">
-            <h2>Pengumuman</h2>
-            <div class="announcement-container">
-                <?php
-                // Dummy announcement data
-                $announcements = [
-                    ["title" => "Libur Nasional", "content" => "Sekolah akan diliburkan pada tanggal 17 Agustus untuk memperingati Hari Kemerdekaan."],
-                    ["title" => "Rapat Guru", "content" => "Rapat rutin guru akan diadakan pada hari Senin, 5 Februari 2024 pukul 10:00."],
-                    ["title" => "Ujian Tengah Semester", "content" => "UTS akan dilaksanakan mulai 12 Februari hingga 16 Februari. Mohon dipersiapkan dengan baik."],
-                    ["title" => "Kegiatan Ekstrakurikuler", "content" => "Pendaftaran ekstrakurikuler telah dibuka. Silakan daftar di bagian administrasi sekolah."],
-                    ["title" => "Perubahan Jadwal Pelajaran", "content" => "Jadwal pelajaran untuk kelas 6 mengalami perubahan. Silakan cek di papan pengumuman."]
-                ];
+        <!-- Announcements and Notifications -->
+        <div class="dashboard-section">
+            <h2>Announcements</h2>
+            <div class="announcement-section">
+                <div class="announcement-container">
+                    <?php foreach ($announcements as $announcement): ?>
+                        <div class="announcement-item">
+                            <div class="announcement-category">
+                                <?php echo htmlspecialchars($announcement['category']); ?>
+                            </div>
 
-                // Display dummy announcements
-                foreach ($announcements as $announcement) {
-                    echo "<div class='announcement-box'>";
-                    echo "<h3>" . htmlspecialchars($announcement["title"]) . "</h3>";
-                    echo "<p>" . htmlspecialchars($announcement["content"]) . "</p>";
-                    echo "</div>";
-                }
-                ?>
+                            <h3><?php echo htmlspecialchars($announcement['title']); ?></h3>
+
+                            <small><?php echo date('F j, Y', strtotime($announcement['created_at'])); ?></small>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
             </div>
         </div>
     </div>
