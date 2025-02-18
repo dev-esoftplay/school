@@ -286,21 +286,22 @@ $sys->set_layout('teacher.php');
         <table class="table table-bordered table-striped">
             <thead class="table-dark">
                 <tr>
-                    <th>No</th>
                     <th>id</th>
                     <th>Kategori</th>
                     <th>Bobot (%)</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 <?php if (!empty($scoreWeights)) : ?>
-                    <?php $no = 1; ?>
                     <?php foreach ($scoreWeights as $weight) : ?>
                         <tr>
-                            <td><?= $no++ ?></td>
                             <td><?= htmlspecialchars($weight['id']) ?></td>
                             <td><?= htmlspecialchars($weight['name']) ?></td>
                             <td><?= $weight['weight'] ?>%</td>
+                            <td>
+                                <a href="teacher/scoreweight/edit?id=<?= $weight['id'] ?>" class="btn btn-primary btn-sm">Edit</a>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else : ?>
