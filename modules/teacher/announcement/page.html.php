@@ -18,10 +18,6 @@ $sys->set_layout('teacher.php');
             width: 100%;
         }
 
-        h2{
-            margin: 0px;
-        }
-
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -339,6 +335,7 @@ $sys->set_layout('teacher.php');
             gap: 15px;
             justify-content: center;
             margin: 20px auto;
+            margin: 20px auto;
             max-width: 90%;
         }
 
@@ -422,6 +419,40 @@ $sys->set_layout('teacher.php');
             .news-card {
                 min-width: 100%;
             }
+        }
+
+
+        /* Bubble Filter Buttons */
+        .filter-container {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 10px;
+            white-space: nowrap;
+            scrollbar-width: none;
+            background: white;
+            margin-bottom: 20px;
+        }
+
+        .filter-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #eee;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #555;
+            transition: background 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .filter-button:hover, .filter-button.active {
+            background-color: #007bff;
+            color: white;
         }
 
 
