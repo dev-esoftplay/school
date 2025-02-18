@@ -55,9 +55,7 @@ $dataSiswa = [
               <td class="fs-5"><?= htmlspecialchars($student['nis']) ?></td>
               <td>
                 <a href="teacher/inputnilai" class="btn btn-warning btn-md">Edit</a>
-                <!-- <a href="teacher/scorestudentdetail<?= $student['id'] ?>" class="btn btn-primary btn-md">Lihat</a> -->
-                <a href="teacher/scorestudentdetail" class="btn btn-primary btn-md">Lihat</a>
-
+                <a href="teacher/scorestudentdetail/?student_id=<?= $student['student_id'] ?>&class_id=<?= $class_id ?>" class="btn btn-primary btn-md">Lihat</a>
             </tr>
           <?php endforeach; ?>
         <?php else : ?>
