@@ -16,6 +16,11 @@ $sys->set_layout('teacher.php');
         html, body {
             overflow-x: hidden;
             width: 100%;
+            scroll-behavior: smooth; /* Smooth scrolling */
+        }
+
+        h2{
+            margin: 0px;
         }
 
         body {
@@ -133,6 +138,13 @@ $sys->set_layout('teacher.php');
 
         .logout-link {
             margin-top: auto;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #777;
+            text-align: center;
         }
 
         /* Header */
@@ -329,14 +341,14 @@ $sys->set_layout('teacher.php');
             margin: 50px auto;
             margin-bottom: 10px;
         }
+
         .featured-news {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 15px;
             justify-content: center;
-            margin: 20px auto;
-            margin: 20px auto;
             max-width: 90%;
+            margin-left: 15px;
         }
 
         .featured-card {
@@ -420,108 +432,6 @@ $sys->set_layout('teacher.php');
                 min-width: 100%;
             }
         }
-
-
-        /* Bubble Filter Buttons */
-        .filter-container {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            padding: 10px;
-            white-space: nowrap;
-            scrollbar-width: none;
-            background: white;
-            margin-bottom: 20px;
-        }
-
-        .filter-container::-webkit-scrollbar {
-            display: none;
-        }
-
-        .filter-button {
-            padding: 10px 20px;
-            border: none;
-            background-color: #eee;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 14px;
-            color: #555;
-            transition: background 0.3s ease;
-            flex-shrink: 0;
-        }
-
-        .filter-button:hover, .filter-button.active {
-            background-color: #007bff;
-            color: white;
-        }
-
-
-        /* Bubble Filter Buttons */
-        .filter-container {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            padding: 10px;
-            white-space: nowrap;
-            scrollbar-width: none;
-            background: white;
-            margin-bottom: 20px;
-        }
-
-        .filter-container::-webkit-scrollbar {
-            display: none;
-        }
-
-        .filter-button {
-            padding: 10px 20px;
-            border: none;
-            background-color: #eee;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 14px;
-            color: #555;
-            transition: background 0.3s ease;
-            flex-shrink: 0;
-        }
-
-        .filter-button:hover, .filter-button.active {
-            background-color: #007bff;
-            color: white;
-        }
-
-
-        /* Bubble Filter Buttons */
-        .filter-container {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            padding: 10px;
-            white-space: nowrap;
-            scrollbar-width: none;
-            background: white;
-            margin-bottom: 20px;
-        }
-
-        .filter-container::-webkit-scrollbar {
-            display: none;
-        }
-
-        .filter-button {
-            padding: 10px 20px;
-            border: none;
-            background-color: #eee;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 14px;
-            color: #555;
-            transition: background 0.3s ease;
-            flex-shrink: 0;
-        }
-
-        .filter-button:hover, .filter-button.active {
-            background-color: #007bff;
-            color: white;
-        }
     </style>
 </head>
 <body>
@@ -589,7 +499,6 @@ $sys->set_layout('teacher.php');
 
 
     <!-- Featured News Section -->
-
     <section class="featured-news-section">
         <div class="latest-news-header">
             <h2>Featured News</h2>
@@ -612,23 +521,6 @@ $sys->set_layout('teacher.php');
     <button id="back-to-top" title="Go to top">
         <i class="fas fa-arrow-up"></i>
     </button>
-    <div class="featured-news">
-        <?php foreach ($featured_news as $item): ?>
-            <div class="featured-card" data-category="<?php echo $item['category']; ?>">
-                <img src="<?php echo $item['image']; ?>" alt="News Image">
-                <div class="featured-overlay">
-                    <div class="featured-category"><?php echo $item['category']; ?> | <?php echo $item['time']; ?></div>
-                    <div class="featured-title"><?php echo $item['title']; ?></div>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    </div>
-
-    <!-- Bubble Filter Buttons (Now placed under Featured News) -->
-    <div class="filter-container">
-        <button class="filter-button active" onclick="filterNews('All')">All</button>
-        <button class="filter-button" onclick="filterNews('Olympics')">Olympics</button>
-    </div>
 
     <script>
         // Sidebar Toggle
