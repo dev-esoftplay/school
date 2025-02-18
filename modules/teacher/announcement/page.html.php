@@ -87,10 +87,6 @@ $featured_news = [
             width: 100%;
         }
 
-        h2{
-            margin: 0px;
-        }
-
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -230,13 +226,6 @@ $featured_news = [
             margin-top: auto;
         }
 
-        .footer {
-            margin-top: 20px;
-            font-size: 14px;
-            color: #777;
-            text-align: center;
-        }
-
         /* Header */
         .header-container {
             background: rgba(217, 217, 217, .3);
@@ -366,21 +355,13 @@ $featured_news = [
         }
 
         /* Featured News Section */
-
-        .featured-news-section {
-            max-width: 90%;
-            margin: 50px auto;
-            margin-bottom: 10px;
-        }
-
-
         .featured-news {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Dynamic grid */
             gap: 15px;
             justify-content: center;
+            margin: 20px auto;
             max-width: 90%;
-            margin-left: 15px;
         }
 
         /* Featured News Cards */
@@ -439,6 +420,40 @@ $featured_news = [
                 grid-template-columns: 1fr; /* One item per row on mobile */
             }
         }
+
+
+        /* Bubble Filter Buttons */
+        .filter-container {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 10px;
+            white-space: nowrap;
+            scrollbar-width: none;
+            background: white;
+            margin-bottom: 20px;
+        }
+
+        .filter-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #eee;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #555;
+            transition: background 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .filter-button:hover, .filter-button.active {
+            background-color: #007bff;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -458,11 +473,6 @@ $featured_news = [
         </div>
         <div class="logout-link">
             <a href="teacher/logout"><i class="fas fa-sign-out-alt"></i> Keluar</a>
-        </div>
-
-        <div class="footer">
-            <?php echo config('site', 'footer'); ?>
-            <?php echo $sys->block_show('footer'); ?>
         </div>
     </div>
 
@@ -502,22 +512,22 @@ $featured_news = [
     </div>
 
     <!-- Featured News Section -->
-    <div class="featured-news-section">
-        <div class="latest-news-header">
-            <h2>Featured News</h2>
-            <a href="all-featured-news.php" class="see-all">See all →</a>
-        </div>
-        <div class="featured-news">
-            <?php foreach ($featured_news as $item): ?>
-                <div class="featured-card" data-category="<?php echo $item['category']; ?>">
-                    <img src="<?php echo $item['image']; ?>" alt="News Image">
-                    <div class="featured-overlay">
-                        <div class="featured-category"><?php echo $item['category']; ?> | <?php echo $item['time']; ?></div>
-                        <div class="featured-title"><?php echo $item['title']; ?></div>
-                    </div>
+    <div class="featured-news">
+        <?php foreach ($featured_news as $item): ?>
+            <div class="featured-card" data-category="<?php echo $item['category']; ?>">
+                <img src="<?php echo $item['image']; ?>" alt="News Image">
+                <div class="featured-overlay">
+                    <div class="featured-category"><?php echo $item['category']; ?> | <?php echo $item['time']; ?></div>
+                    <div class="featured-title"><?php echo $item['title']; ?></div>
                 </div>
-            <?php endforeach; ?>
-        </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+
+    <!-- Bubble Filter Buttons (Now placed under Featured News) -->
+    <div class="filter-container">
+        <button class="filter-button active" onclick="filterNews('All')">All</button>
+        <button class="filter-button" onclick="filterNews('Olympics')">Olympics</button>
     </div>
 
     <script>
