@@ -281,12 +281,15 @@ $sys->set_layout('teacher.php');
         </div>
         <!-- Tabel Bobot Nilai -->
         <div id="weightTableContainer" class="hidden container mt-2">
-            <h3 class="mb-4 fw-semibold fs-1">Bobot Nilai Mata Pelajaran</h3>
+            <div class="d-flex align-items-center">
+                <h3 class="mb-4 fw-semibold fs-1 me-3">Bobot Nilai Mata Pelajaran</h3>
+                <a href="teacher/inputweight/add" class="btn btn-success mb-3 ms-auto">Tambah Bobot Nilai</a>
+            </div>
             <table class="table table-bordered table-striped">
                 <thead class="table-dark">
                     <tr>
                         <th>id</th>
-                        <th>Kategori</th>
+                        <th>Nama Kategori</th>
                         <th>Bobot (%)</th>
                         <th>Aksi</th>
                     </tr>
@@ -299,7 +302,10 @@ $sys->set_layout('teacher.php');
                                 <td><?= htmlspecialchars($weight['name']) ?></td>
                                 <td><?= $weight['weight'] ?>%</td>
                                 <td>
-                                    <a href="teacher/scoreweight/edit?id=<?= $weight['id'] ?>" class="btn btn-primary btn-sm">Edit</a>
+                                    <a href="teacher/inputweight?id=<?= $weight['id'] ?>" class="btn btn-primary btn-md">Edit</a>
+                                    <!-- <a onclick="return confirm('Are you sure you want to delete this data?');">
+                                        Delete
+                                    </a> -->
                                 </td>
                             </tr>
                         <?php endforeach; ?>
