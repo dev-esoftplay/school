@@ -19,6 +19,9 @@ switch ($Bbc->mod['task']) {
     case 'announcement':
         include 'announcement/controller.php';
         break;
+    case 'latestnews':
+        include 'latest-news/controller.php';
+        break;
     case 'profile':
         include 'profile/controller.php';
         break;

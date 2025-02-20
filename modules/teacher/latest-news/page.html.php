@@ -22,21 +22,28 @@ $sys->set_layout('teacher.php');
 
         /* Container */
         .container {
-            max-width: 90%;
+            max-width: 100%;
             margin: 50px auto;
         }
 
         h1 {
-            font-size: 24px;
-            text-align: center;
-            margin-bottom: 30px;
+            font-size: 32px;
+            text-align: left;
+            margin-bottom: 0px;
+            font-weight: bold;
+        }
+
+        h4 {
+            font-size: 12px;
+            color: gray;
+            margin-top: 0px;
         }
 
         /* Main News Section */
         .main-news {
             display: grid;
             grid-template-columns: 3fr 2fr;
-            gap: 15px;
+            gap: 50px;
             margin-bottom: 30px;
         }
 
@@ -54,6 +61,8 @@ $sys->set_layout('teacher.php');
 
         .main-news .main-article-content {
             padding: 20px;
+            padding-left: 0px;
+            padding-left: 0px;
         }
 
         .main-news .main-article .news-category {
@@ -133,19 +142,85 @@ $sys->set_layout('teacher.php');
             font-size: 14px;
         }
 
-        /* Responsive Grid */
+        /* Make the secondary news scrollable on small screens */
         @media (max-width: 768px) {
             .main-news {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr; /* Stack main news on mobile */
             }
 
-            .secondary-news .secondary-article {
-                flex-direction: column;
+            .main-news .main-article {
+                display: flex;
+                flex-direction: column-reverse; /* Swap image and text */
+            }
+
+            .main-news .main-article img {
+                width: 100%; /* Full width on mobile */
+                height: auto;
+            }
+
+            .main-news .main-article-content {
+                padding: 15px;
+            }
+
+            .secondary-news {
+                display: flex;
+                overflow-x: auto; /* Enable horizontal scrolling */
+                gap: 10px;
+                padding-bottom: 10px;
+                scroll-snap-type: x mandatory; /* Smooth snapping effect */
+            }
+
+            .secondary-article {
+                flex: 0 0 auto;
+                width: 300px; /* Set a fixed width */
+                min-width: 280px; /* Ensures consistent size */
+                scroll-snap-align: start; /* Snap to each article */
+                display: flex;
+                flex-direction: row;
+                border-radius: 10px;
+                overflow: hidden;
+                background: white;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                height: auto;
             }
 
             .secondary-news .secondary-article img {
-                width: 100%;
+                width: 40%; /* Keep image on the left */
+                height: 180px;
+                object-fit: cover;
             }
+
+            .secondary-news .secondary-article-content {
+                padding: 15px;
+                padding-bottom: 0px;
+                padding-top: 5px;
+                width: 70%; /* Keep text on the right */
+                height: 180px;
+                max-width: 300px;
+                overflow: hidden;
+                display: block;
+            }
+
+            /* Hide scrollbar for a cleaner look */
+            .secondary-news::-webkit-scrollbar {
+                display: none;
+            }
+        }
+
+        /* Search Bar */
+        .search-container {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        #searchInput {
+            width: 100%;
+            max-width: 400px;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
         }
     </style>
 </head>
@@ -153,7 +228,12 @@ $sys->set_layout('teacher.php');
 
     <div class="container">
         <h1>All Latest News</h1>
+        <h4>Latest news related to the school in recent times</h4>
 
+        <!-- Search Bar -->
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search news..." onkeyup="searchNews()">
+        </div>
         <!-- Main News Section -->
         <div class="main-news">
             <!-- Main Article -->
@@ -177,7 +257,7 @@ $sys->set_layout('teacher.php');
                         <div class="secondary-article-content">
                             <div class="news-category"><?php echo $school_news[$i]['category']; ?></div>
                             <div class="news-title"><?php echo $school_news[$i]['title']; ?></div>
-                            <div class="news-description"><?php echo $school_news[$i]['description']; ?></div>
+                            <div class="news-description"><?php echo limitWords($school_news[$i]['description'], 8); ?></div>
                             <div class="news-meta"><?php echo date('F j, Y, g:i a', strtotime($school_news[$i]['created_at'])); ?></div>
                         </div>
                     </div>
@@ -189,6 +269,61 @@ $sys->set_layout('teacher.php');
             <a href="teacher/announcement" onclick="redirectAndClose(event, 'announcement.php')">← Back to Home</a>
         </div>
     </div>
+    <script>
+        function searchNews() {
+            let input = document.getElementById("searchInput").value.toLowerCase();
+            let mainArticle = document.querySelector(".main-article");
+            let secondaryNews = document.querySelector(".secondary-news");
+            let articles = document.querySelectorAll(".secondary-article");
+            let hasResults = false;
 
+            if (input.trim() !== "") {
+                // Hide main article during search
+                mainArticle.style.display = "none";
+
+                // Adjust secondary news layout for search results
+                secondaryNews.style.flexDirection = "column"; // Stack articles vertically
+                secondaryNews.style.overflowX = "unset"; // Remove horizontal scroll
+                secondaryNews.style.overflowY = "auto"; // Enable vertical scroll
+
+                articles.forEach(article => {
+                    article.style.marginTop = "15px"; // Add spacing between articles
+                });
+            } else {
+                // Restore main article and default layout
+                mainArticle.style.display = "flex"; // Ensure main article is visible
+                mainArticle.style.flexDirection = "column-reverse"; // Ensure image is above text on mobile
+
+                // Restore default desktop & mobile layout
+                if (window.innerWidth >= 768) {
+                    secondaryNews.style.flexDirection = "column"; // Default vertical for desktop
+                    secondaryNews.style.overflowX = "unset";
+                    secondaryNews.style.overflowY = "unset"; // Remove forced scrolling
+                } else {
+                    secondaryNews.style.flexDirection = "row"; // Restore horizontal for mobile
+                    secondaryNews.style.overflowX = "auto";
+                    secondaryNews.style.overflowY = "unset";
+                    secondaryNews.style.scrollSnapType = "x mandatory"; // Restore smooth scrolling
+                }
+
+                articles.forEach(article => {
+                    article.style.marginTop = "0"; // Reset margin
+                });
+            }
+
+            // Filter articles based on search input
+            articles.forEach(article => {
+                let title = article.querySelector(".news-title").textContent.toLowerCase();
+                let description = article.querySelector(".news-description").textContent.toLowerCase();
+
+                if (title.includes(input) || description.includes(input)) {
+                    article.style.display = "flex"; // Show matching articles
+                    hasResults = true;
+                } else {
+                    article.style.display = "none"; // Hide non-matching articles
+                }
+            });
+        }
+    </script>
 </body>
 </html>

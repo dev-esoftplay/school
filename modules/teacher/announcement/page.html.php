@@ -477,7 +477,7 @@ $sys->set_layout('teacher.php');
     <section class="latest-news">
         <div class="latest-news-header">
             <h2>Latest School Updates</h2>
-            <a href="teacher/latest-news" class="see-all">See all →</a>
+            <a href="teacher/latestnews" class="see-all">See all →</a>
         </div>
         <div class="news-container">
             <?php foreach ($school_news as $item): ?>

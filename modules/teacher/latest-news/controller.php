@@ -16,6 +16,11 @@ if (empty($user->id)) {
 
 $school_news = $db->getAll("SELECT * FROM school_announcement_latest_news");
 
+function limitWords($text, $limit = 8) {
+    $words = explode(" ", $text);
+    return count($words) > $limit ? implode(" ", array_slice($words, 0, $limit)) . "..." : $text;
+}
+
 link_js('script.js');
 link_js(_ROOT . 'templates/eraport-sdit/js/chart.umd.min.js');
 
