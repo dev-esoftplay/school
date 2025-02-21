@@ -4,16 +4,8 @@ if (!defined('_VALID_BBC'))
 
 // Mengatur layout halaman
 $sys->set_layout('teacher.php');
-
-// Mendefinisikan data siswa sebagai array multidimensi
-$dataSiswa = [
-  ['no' => 1, 'nama' => 'Arkyn the Root-digger', 'nis' => '92400'],
-  ['no' => 2, 'nama' => 'Oddrun the Fierce', 'nis' => '98657'],
-  ['no' => 3, 'nama' => 'Ragnor the Winter-survivor', 'nis' => '98657'],
-  ['no' => 4, 'nama' => 'Askr the Fire-hearted', 'nis' => '98657']
-];
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -71,7 +63,9 @@ $dataSiswa = [
     <a href="teacher/class" onclick="redirectAndClose(event, 'score.php')" class="btn-back text-decoration-none">
       <i class="fas fa-arrow-left"></i> Kembali
     </a>
-    <h1 class="fs-3">Kelas 1A</h1>
+    <h1 class="fs-3">
+      Kelas <?= htmlspecialchars(($className ?? 'Tidak Ada') . ' ' . ($labelClass ?? ''), ENT_QUOTES, 'UTF-8') ?>
+    </h1>
   </div>
 
   <div class="container mt-4">
@@ -85,13 +79,20 @@ $dataSiswa = [
           </tr>
         </thead>
         <tbody>
-          <?php foreach ($dataSiswa as $siswa): ?>
-            <tr class="text-center">
-              <td class="fs-5"><?= $siswa['no'] ?></td>
-              <td class="fs-5"><?= $siswa['nama'] ?></td>
-              <td class="fs-5"><?= $siswa['nis'] ?></td>
+          <?php if (!empty($students)) : ?>
+            <?php $no = 1; ?>
+            <?php foreach ($students as $student) : ?>
+              <tr class="text-center">
+                <td class="fs-5"><?= $no++ ?></td>
+                <td class="fs-5"><?= htmlspecialchars($student['name']) ?></td>
+                <td class="fs-5"><?= htmlspecialchars($student['nis']) ?></td>
+              </tr>
+            <?php endforeach; ?>
+          <?php else : ?>
+            <tr>
+              <td colspan="3" class="text-center">Tidak ada siswa dalam kelas ini.</td>
             </tr>
-          <?php endforeach; ?>
+          <?php endif; ?>
         </tbody>
       </table>
     </div>

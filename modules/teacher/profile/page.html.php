@@ -314,4 +314,4 @@ $sys->set_layout('teacher.php');
     </script>
 </body>
 
-</html>
+</html> 
