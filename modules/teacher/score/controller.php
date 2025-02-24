@@ -61,6 +61,24 @@ $scoreWeights = $db->getAll("
     FROM school_score_cat sw
 ");
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_id'])) {
+    $id = intval($_POST['delete_id']);
+
+    if ($id > 0) {
+        $result = $db->Execute("DELETE FROM `school_score_cat` WHERE `id` = {$id}");
+
+        if ($result) {
+            echo "Bobot nilai berhasil dihapus.";
+        } else {
+            echo "Gagal menghapus bobot nilai.";
+        }
+    } else {
+        echo "ID tidak valid.";
+    }
+    exit; 
+}
+
+
 link_js('script.js');
 link_js(_ROOT . 'templates/eraport-sdit/js/jspdf.umd.min.js');
 
