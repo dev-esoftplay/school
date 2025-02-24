@@ -5,16 +5,6 @@ if (!defined('_VALID_BBC'))
 // Mengatur layout halaman
 $sys->set_layout('teacher.php');
 
-// Array nilai default untuk setiap mata pelajaran
-$nilaiSiswa = [
-    'matematika' => 90,
-    'ipa' => 80,
-    'ips' => null,
-    'bahasa_inggris' => null,
-    'pendidikan_agama' => null,
-    'ppkn' => null,
-    'seni_budaya' => null,
-];
 
 ?>
 <!DOCTYPE html>
@@ -34,18 +24,17 @@ $nilaiSiswa = [
     </div>
 
     <div class="p-4">
-        <h1 class="mb-4">Masukkan Nilai Najwa Alexander</h1>
-        <form id="scoreForm">
-         <?php foreach ($nilaiSiswa as $mapel => $nilai): ?>
-            <div class="mb-4">
-            <label for="<?= $mapel ?>" class="form-label fs-5"><?= ucfirst(str_replace('_', ' ', $mapel)) ?></label>
-            <input type="number" class="form-control form-control-lg" id="<?= $mapel ?>" name="<?= $mapel ?>" 
-                   placeholder="Masukkan nilai" max="100" value="<?= isset($nilai) ? $nilai : '' ?>" />
-            </div>
-         <?php endforeach; ?>
-        <button type="submit" class="btn btn-primary btn-lg w-100">Simpan</button>
+    <h1 class="mb-4">Masukkan Nilai <?= $student_name ?></h1>
+        <form id="scoreForm" method="POST" action="">
+    <?php foreach ($mataPelajaran as $mapel): ?>
+        <div class="mb-4">
+            <label for="<?= $mapel['name'] ?>" class="form-label fs-5"><?= $mapel['name'] ?></label>
+            <input type="number" class="form-control form-control-lg" id="<?= $mapel['name'] ?>" name="<?= $mapel['id'] ?>" 
+                   placeholder="Masukkan nilai" max="100" value="<?= isset($nilaiSiswa[$mapel['id']]) ? $nilaiSiswa[$mapel['id']] : '' ?>" />
+        </div>
+    <?php endforeach; ?>
+    <button type="submit" class="btn btn-primary btn-lg w-100">Simpan</button>
     </form>
-
     </div>
 
     <div id="popupModal" class="modal" tabindex="-1" aria-labelledby="popupModalLabel" aria-hidden="true">
@@ -60,7 +49,7 @@ $nilaiSiswa = [
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="button" class="btn btn-primary" onclick="window.location.reload();">Lanjut</button>
+                    <button type="button" class="btn btn-primary" onclick="document.getElementById('scoreForm').submit();">Lanjut</button>
                 </div>
             </div>
         </div>

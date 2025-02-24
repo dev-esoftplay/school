@@ -303,9 +303,7 @@ $sys->set_layout('teacher.php');
                                 <td><?= $weight['weight'] ?>%</td>
                                 <td>
                                     <a href="teacher/inputweight?id=<?= $weight['id'] ?>" class="btn btn-primary btn-md">Edit</a>
-                                    <!-- <a onclick="return confirm('Are you sure you want to delete this data?');">
-                                        Delete
-                                    </a> -->
+                                    <button class="btn btn-danger btn-md delete-weight" data-id="<?= $weight['id'] ?>">Hapus</button>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -364,6 +362,27 @@ $sys->set_layout('teacher.php');
             console.log("Weight Table Button Clicked");
             $("#weightTableContainer").removeClass("hidden");
             $("#classTableContainer").addClass("hidden");
+        });
+
+        $(document).on("click", ".delete-weight", function() {
+            let weightId = $(this).data("id");
+
+            if (confirm("Apakah Anda yakin ingin menghapus bobot nilai ini?")) {
+                $.ajax({
+                    url: window.location.href, // Arahkan ke controller yang sama
+                    type: "POST",
+                    data: {
+                        delete_id: weightId
+                    },
+                    success: function(response) {
+                        alert(response);
+                        location.reload(); // Refresh halaman setelah hapus
+                    },
+                    error: function() {
+                        alert("Gagal menghapus data. Coba lagi.");
+                    },
+                });
+            }
         });
     </script>
 </body>

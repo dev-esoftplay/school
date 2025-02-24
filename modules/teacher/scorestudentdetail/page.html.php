@@ -46,7 +46,22 @@ $sys->set_layout('teacher.php');
                         <?php foreach ($data as $score) : ?>
                             <tr class="fs-5">
                                 <td><?= $no++ ?>.</td>
-                                <td><?= htmlspecialchars($score['course_name']) ?></td>
+                                <td>
+                                    <?php
+                                    $courseAbbreviations = [
+                                        "Ilmu Pengetahuan Alam dan Sosial" => "IPAS",
+                                        "Pendidikan Agama Islam dan Budi Pekerti" => "PAI",
+                                        "Pendidikan Jasmani Olahraga dan Kesehatan" => "PJOK",
+                                        "Teknologi Informasi dan Komunikasi" => "TIK"
+                                    ];
+                                    $courseName = htmlspecialchars($score['course_name']);
+                                    if (array_key_exists($courseName, $courseAbbreviations)) {
+                                        echo $courseAbbreviations[$courseName];
+                                    } else {
+                                        echo $courseName; 
+                                    }
+                                    ?>
+                                </td>
                                 <td id="nilai-<?= $score['course_id'] ?>" class="text-center">
                                     <?= number_format($score['total_weighted_score'], 2, ',', '.') ?>
                                 </td>
