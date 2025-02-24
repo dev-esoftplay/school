@@ -339,7 +339,7 @@ $sys->set_layout('teacher.php');
                             <div class="wali-kelas">
                                 <i class="fas fa-user"></i> Wali Kelas: <?= htmlspecialchars($class['wali_kelas']) ?>
                             </div>
-                            <a href="lihat_siswa.php?class_id=<?= $class['id'] ?>" class="lihat-siswa-btn">Lihat Siswa</a>
+                            <a href="teacher/classdetail?class_id=<?= $class['id'] ?>" class="lihat-siswa-btn">Lihat Siswa</a>
                         </div>
                     </div>
                 </div>
@@ -350,7 +350,7 @@ $sys->set_layout('teacher.php');
         <!-- Scripts -->
         <script>
             const hamburger = document.getElementById('hamburger');
-            const sidebar = document.getElementById('sidebar');
+            const sidebar = document.getElementById('sidebar');   
             const overlay = document.getElementById('overlay');
 
             const activePage = window.location.pathname;
