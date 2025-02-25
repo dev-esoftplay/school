@@ -40,6 +40,9 @@ switch ($Bbc->mod['task']) {
     case 'inputweight':
         include 'input_weight/controller.php';
         break;
+    case 'newsdetailpage':
+        include 'latest-news/detail-news-controller.php';
+        break;
     case 'logout':
         user_logout($user->id);
         redirect(_URL);

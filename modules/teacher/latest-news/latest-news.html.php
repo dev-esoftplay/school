@@ -3,6 +3,7 @@ if (!defined('_VALID_BBC'))
     exit('No direct script access allowed');
 
 $sys->set_layout('teacher.php');
+$_GET['id'] = !empty($_GET['id']) ? $_GET['id'] : 0;
 ?>
 
 <!DOCTYPE html>
@@ -74,6 +75,17 @@ $sys->set_layout('teacher.php');
             font-size: 22px;
             font-weight: bold;
             margin: 10px 0;
+        }
+
+        .news-title a {
+            text-decoration: none; /* Remove default underline */
+            color: black; /* Default color */
+            transition: color 0.3s ease, text-decoration 0.3s ease;
+        }
+
+        .news-title a:hover {
+            text-decoration: underline; /* Underline on hover */
+            color: green; /* Change color on hover */
         }
 
         .main-news .main-article .news-description {
@@ -240,12 +252,12 @@ $sys->set_layout('teacher.php');
             <?php if (!empty($school_news)): ?>
                 <div class="main-article">
                     <div class="main-article-content">
-                        <div class="news-category"><?php echo $school_news[0]['category']; ?></div>
-                        <div class="news-title"><?php echo $school_news[0]['title']; ?></div>
-                        <div class="news-description"><?php echo $school_news[0]['description']; ?></div>
-                        <div class="news-meta"><?php echo date('F j, Y, g:i a', strtotime($school_news[0]['created_at'])); ?></div>
+                        <div class="news-category"><?php echo $school_news[$_GET['id']]['category']; ?></div>
+                        <div class="news-title"><a href="teacher/newsdetailpage/<?php echo $school_news[$_GET['id']]['id']; ?>"><?php echo $school_news[$_GET['id']]['title']; ?></a></div>
+                        <div class="news-description"><?php echo $school_news[$_GET['id']]['description']; ?></div>
+                        <div class="news-meta"><?php echo date('F j, Y, g:i a', strtotime($school_news[$_GET['id']]['created_at'])); ?></div>
                     </div>
-                    <img src="<?php echo $school_news[0]['image']; ?>" alt="Main News Image">
+                    <img src="<?php echo $school_news[$_GET['id']]['image']; ?>" alt="Main News Image">
                 </div>
             <?php endif; ?>
             
@@ -256,7 +268,7 @@ $sys->set_layout('teacher.php');
                         <img src="<?php echo $school_news[$i]['image']; ?>" alt="Secondary News Image">
                         <div class="secondary-article-content">
                             <div class="news-category"><?php echo $school_news[$i]['category']; ?></div>
-                            <div class="news-title"><?php echo $school_news[$i]['title']; ?></div>
+                            <div class="news-title"><a href="teacher/newsdetailpage/<?php echo $school_news[$i]['id'];?>"><?php echo $school_news[$i]['title']; ?></a></div>
                             <div class="news-description"><?php echo limitWords($school_news[$i]['description'], 8); ?></div>
                             <div class="news-meta"><?php echo date('F j, Y, g:i a', strtotime($school_news[$i]['created_at'])); ?></div>
                         </div>

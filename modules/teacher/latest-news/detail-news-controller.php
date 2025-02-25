@@ -15,6 +15,8 @@ if (empty($user->id)) {
 }
 
 $school_news = $db->getAll("SELECT * FROM school_announcement_latest_news");
+$teacherId = $db->getOne("SELECT `id` FROM `school_teacher` WHERE `user_id` = $user->id");
+$teacherName = $db->getOne("SELECT `name` FROM `school_teacher` WHERE `id` = $teacherId");
 
 function limitWords($text, $limit = 8) {
     $words = explode(" ", $text);
@@ -24,4 +26,4 @@ function limitWords($text, $limit = 8) {
 link_js('script.js');
 link_js(_ROOT . 'templates/eraport-sdit/js/chart.umd.min.js');
 
-include tpl('latest-news.html.php');
+include tpl('detail-news.html.php');

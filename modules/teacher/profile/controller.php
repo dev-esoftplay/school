@@ -36,9 +36,11 @@ switch ($gender) {
         break;
 }
 
-setlocale(LC_TIME, 'id_ID.utf8');
 $date = $teacher['birthday'] ?? null;
 $formatted_date = (new DateTime($date))->format("d F Y");
+
+setlocale(LC_TIME, 'id_ID.UTF-8', 'Indonesian', 'Indonesia');
+$formatted_date = strftime('%d %B %Y', strtotime($formatted_date ?? 'now'));
 
 link_js('script.js');
 
