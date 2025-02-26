@@ -4,8 +4,6 @@ if (!defined('_VALID_BBC'))
 
 // Mengatur layout halaman
 $sys->set_layout('teacher.php');
-
-
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -24,19 +22,29 @@ $sys->set_layout('teacher.php');
     </div>
 
     <div class="p-4">
-    <h1 class="mb-4">Masukkan Nilai <?= $student_name ?></h1>
+        <h1 class="mb-4">Masukkan Nilai <?= $student_name ?></h1>
+
         <form id="scoreForm" method="POST" action="">
-    <?php foreach ($mataPelajaran as $mapel): ?>
-        <div class="mb-4">
-            <label for="<?= $mapel['name'] ?>" class="form-label fs-5"><?= $mapel['name'] ?></label>
-            <input type="number" class="form-control form-control-lg" id="<?= $mapel['name'] ?>" name="<?= $mapel['id'] ?>" 
-                   placeholder="Masukkan nilai" max="100" value="<?= isset($nilaiSiswa[$mapel['id']]) ? $nilaiSiswa[$mapel['id']] : '' ?>" />
-        </div>
-    <?php endforeach; ?>
-    <button type="submit" class="btn btn-primary btn-lg w-100">Simpan</button>
-    </form>
+            <!-- Dropdown untuk memilih bobot nilai -->
+            <div class="mb-4">
+                <label for="sizeSelection" class="form-label fs-5">Bobot Nilai</label>
+                <select id="sizeSelection" name="score_weight" class="form-select form-select-lg">
+                    <?= $scoreWeightsOptions ?> <!-- Menampilkan semua pilihan bobot nilai -->
+                </select>
+            </div>
+
+            <?php foreach ($mataPelajaran as $mapel): ?>
+                <div class="mb-4">
+                    <label for="<?= $mapel['name'] ?>" class="form-label fs-5"><?= $mapel['name'] ?></label>
+                    <input type="number" class="form-control form-control-lg" id="<?= $mapel['name'] ?>" name="<?= $mapel['id'] ?>" 
+                    placeholder="Masukkan nilai" max="100" value="<?= isset($nilaiSiswa[$mapel['id']]) ? $nilaiSiswa[$mapel['id']] : '' ?>" />
+                </div>
+            <?php endforeach; ?>
+            <button type="submit" class="btn btn-primary btn-lg w-100">Simpan</button>
+        </form>
     </div>
 
+    <!-- Modal untuk konfirmasi sebelum submit -->
     <div id="popupModal" class="modal" tabindex="-1" aria-labelledby="popupModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
