@@ -1,5 +1,9 @@
 <?php
 
+
+if (!defined('_VALID_BBC'))
+    exit('No direct script access allowed');
+
 // Memeriksa apakah user aktif
 $userExist = $db->getOne("SELECT COUNT(*) FROM `bbc_user` WHERE `id` = $user->id AND `active` = 1");
 
