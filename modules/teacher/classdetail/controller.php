@@ -26,15 +26,16 @@ if ($class_id <= 0) {
 
 $students = $db->getAll("
     SELECT 
-        ssc.id, 
+        ssc.id,     
         ssc.student_id, 
         ssc.number, 
         ss.name, 
-        ss.nis,  
+        ss.nis  
     FROM school_student_class ssc
     JOIN school_student ss ON ssc.student_id = ss.id
     WHERE ssc.class_id = $class_id
 ");
+
 
 link_js('script.js');
 link_js(_ROOT . 'templates/eraport-sdit/js/jspdf.umd.min.js');
