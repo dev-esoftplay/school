@@ -1,4 +1,7 @@
 <?php
+
+use Google\Api\ResourceDescriptor\Style;
+
 if (!defined('_VALID_BBC'))
     exit('No direct script access allowed');
 
@@ -10,6 +13,7 @@ $sys->set_layout('teacher.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
@@ -21,7 +25,7 @@ $sys->set_layout('teacher.php');
         body {
             margin: 0;
             padding: 0;
-            max-width: 375px; /* Simulate mobile screen width */
+            /* max-width: 375px; Simulate mobile screen width */
             margin: 0 auto;
             background-color: #f4f4f4;
             overflow-x: hidden;
@@ -36,23 +40,26 @@ $sys->set_layout('teacher.php');
             font-size: 16px;
             color: #666;
             margin-bottom: 10px;
-            padding-left: 0px; 
+            padding-left: 0px;
         }
 
         /* Create a 2x2 grid for the dashboard sections */
         .dashboard-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px; /* Space between the grid items */
+            grid-template-columns: 2fr 2fr;
+            gap: 20px;
+            /* Space between the grid items */
         }
 
         /* Dashboard Section (Card) Styles */
         .dashboard-section {
             background: white;
-            padding: 20px; /* Padding inside each card */
+            padding: 20px;
+            /* Padding inside each card */
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px; /* Space between cards */
+            margin-bottom: 20px;
+            /* Space between cards */
         }
 
         .dashboard-section h2 {
@@ -158,26 +165,38 @@ $sys->set_layout('teacher.php');
 
         /* Default styles for anchor links in the sidebar */
         .sidebar .menu-list ul li a {
-            text-decoration: none; /* Remove underline by default */
-            color: black; /* Set text color to black */
-            padding: 10px; /* Add padding for better spacing */
-            border-radius: 5px; /* Rounded corners */
-            display: block; /* Make the anchor a block element for full-width */
+            text-decoration: none;
+            /* Remove underline by default */
+            color: black;
+            /* Set text color to black */
+            padding: 10px;
+            /* Add padding for better spacing */
+            border-radius: 5px;
+            /* Rounded corners */
+            display: block;
+            /* Make the anchor a block element for full-width */
         }
 
         /* Hover effect for the links */
         .sidebar .menu-list ul li a:hover {
-            background-color: #d3f4d1; /* Light green background */
-            color: #3E7B27; /* Dark green text color */
-            text-decoration: none; /* Ensure no underline on hover */
+            background-color: #d3f4d1;
+            /* Light green background */
+            color: #3E7B27;
+            /* Dark green text color */
+            text-decoration: none;
+            /* Ensure no underline on hover */
         }
 
         /* Active link (current page) style */
         .sidebar .menu-list ul li a.active {
-            background-color: #d3f4d1; /* Light green background */
-            color: #3E7B27; /* Dark green text color */
-            font-weight: bold; /* Optionally bold the active link */
-            text-decoration: none; /* Ensure no underline */
+            background-color: #d3f4d1;
+            /* Light green background */
+            color: #3E7B27;
+            /* Dark green text color */
+            font-weight: bold;
+            /* Optionally bold the active link */
+            text-decoration: none;
+            /* Ensure no underline */
         }
 
         /* Footer */
@@ -231,11 +250,25 @@ $sys->set_layout('teacher.php');
         }
 
         .announcement-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
             background: #f9f9f9;
-            padding: 10px;
+            padding: 15px;
             border-radius: 8px;
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
             min-width: 100%;
+        }
+
+        .announcement-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .announcement-text {
+            flex-grow: 1;
         }
 
         .announcement-item h3 {
@@ -257,7 +290,7 @@ $sys->set_layout('teacher.php');
 
         /* Announcement Section */
         .announcement-section {
-            max-height: 200px;
+            max-height: 380px;
             overflow: auto;
             white-space: nowrap;
             display: flex;
@@ -269,42 +302,64 @@ $sys->set_layout('teacher.php');
             display: flex;
             flex-direction: column;
             gap: 15px;
-            padding: 10px;
+            padding: 15px;
         }
 
         .announcement-item {
             background: #f9f9f9;
-            padding: 10px;
+            padding: 15px;
             border-radius: 8px;
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
             min-width: 100%;
         }
 
         .announcement-item h3 {
-            font-size: 1em;
+            font-size: 1.2em;
             margin: 0;
             color: #006400;
         }
 
         .announcement-item p {
-            font-size: 0.9em;
+            font-size: 1em;
             color: #333;
             margin: 5px 0;
         }
 
         .announcement-item small {
-            font-size: 0.8em;
+            font-size: 0.9em;
             color: #777;
+        }
+
+        .dashboard-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid-2 {
+                display: grid;
+                grid-template-columns: 1fr;
+            }
+
+            .chart-section canvas {
+                width: 100% !important;
+                height: auto !important;
+                max-width: 500px;
+                max-height: 400px;
+            }
         }
     </style>
 </head>
+
 <body>
     <!-- Sidebar and Hamburger Button -->
     <div class="overlay" id="overlay"></div>
     <button class="hamburger" id="hamburger">☰</button>
     <div class="sidebar" id="sidebar">
         <div class="menu-title">SDIT ERAPORT</div>
-        
+
         <div class="menu-list">
             <div class="menu-separator">
                 <div class="menu-1">
@@ -337,7 +392,7 @@ $sys->set_layout('teacher.php');
         <div class="dashboard-grid">
             <!-- First Dashboard Section -->
             <div class="dashboard-section">
-                <h2>Jumlah Siswa per Kelas</h2>
+                <h2>Jumlah siswa di kelas</h2>
                 <ul>
                     <?php if (!empty($studentCounts)) { ?>
                         <?php foreach ($studentCounts as $class) { ?>
@@ -366,19 +421,19 @@ $sys->set_layout('teacher.php');
         <div class="dashboard-grid">
             <!-- Third Dashboard Section -->
             <div class="dashboard-section">
-                <h2>Jumlah Kelas yang Diampu</h2>
+                <h2>Jumlah kelas yang diampu</h2>
                 <p>
                     <?php if (!empty($teacherClasses)) { ?>
                         <?php echo htmlspecialchars($teacherClasses); ?> kelas
                     <?php } else { ?>
-                        <p>Tidak ada kelas yang diampu.</p>
-                    <?php } ?>
-                </p>
+                <p>Tidak ada kelas yang diampu.</p>
+            <?php } ?>
+            </p>
             </div>
 
             <!-- Fourth Dashboard Section -->
             <div class="dashboard-section">
-                <h2>Anda adalah wali kelas dari</h2>
+                <h2>Anda adalah wali kelas</h2>
                 <ul>
                     <?php if (!empty($classes)) { ?>
                         <?php foreach ($classes as $class) { ?>
@@ -392,38 +447,40 @@ $sys->set_layout('teacher.php');
         </div>
 
         <!-- Bar Chart Section (Below the Cards) -->
-        <div class="chart-section">
-            <canvas id="performanceChart"></canvas>
-        </div>
+        <div class="dashboard-grid-2">
+            <div class="chart-section">
+                <canvas id="performanceChart"></canvas>
+            </div>
 
-        <!-- Announcements and Notifications -->
-        <div class="dashboard-section">
-            <h2>Announcements</h2>
-            <div class="announcement-section">
-                <div class="announcement-container">
-                    <?php foreach ($announcements as $announcement): ?>
-                        <div class="announcement-item">
-                            <div class="announcement-category">
-                                <?php echo htmlspecialchars($announcement['category']); ?>
+            <div class="dashboard-section">
+                <h2>Pengumuman</h2>
+                <div class="announcement-section">
+                    <div class="announcement-container">
+                        <?php foreach ($announcements as $announcement): ?>
+                            <div class="announcement-item">
+                                <img src="<?php echo htmlspecialchars($announcement['image'], ENT_QUOTES, 'UTF-8'); ?>"
+                                    alt="<?php echo htmlspecialchars($announcement['title'], ENT_QUOTES, 'UTF-8'); ?>"
+                                    loading="lazy">
+                                <div class="announcement-text">
+                                    <small><?php echo htmlspecialchars($announcement['category']) ?></small>
+                                    <h3><?php echo htmlspecialchars($announcement['title']); ?></h3>
+                                    <small><?php echo date('F j, Y', strtotime($announcement['created_at'])); ?></small>
+                                </div>
                             </div>
-
-                            <h3><?php echo htmlspecialchars($announcement['title']); ?></h3>
-
-                            <small><?php echo date('F j, Y', strtotime($announcement['created_at'])); ?></small>
-                        </div>
-                    <?php endforeach; ?>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
             // Data for the bar chart (Average grades for each class)
             const data = {
                 labels: ['Class 1', 'Class 2', 'Class 3', 'Class 4'], // Example class names
                 datasets: [{
-                    label: 'Average Grades', // The name of the dataset
+                    label: 'Rata-rata kelas', // The name of the dataset
                     data: [85, 75, 90, 80], // Example average grades for the classes
                     backgroundColor: '#36A2EB', // Bar color
                     borderColor: '#36A2EB', // Border color for the bars
@@ -470,39 +527,40 @@ $sys->set_layout('teacher.php');
         </script>
 
         <script>
-                const hamburger = document.getElementById('hamburger');
-                const sidebar = document.getElementById('sidebar');
-                const overlay = document.getElementById('overlay');
+            const hamburger = document.getElementById('hamburger');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
 
-                const activePage = window.location.pathname;
-                const navLinks = document.querySelectorAll('.menu-list ul li a');
+            const activePage = window.location.pathname;
+            const navLinks = document.querySelectorAll('.menu-list ul li a');
 
-                navLinks.forEach(link => {
-                    if (link.href.includes(`${activePage}`)) {
-                        link.classList.add('active');
-                    }
-                });
+            navLinks.forEach(link => {
+                if (link.href.includes(`${activePage}`)) {
+                    link.classList.add('active');
+                }
+            });
 
-                hamburger.addEventListener('click', () => {
-                    if (sidebar.classList.contains('active')) {
-                        sidebar.classList.remove('active');
-                        overlay.classList.remove('active');
-                        hamburger.textContent = '☰';
-                        hamburger.classList.remove('open');
-                    } else {
-                        sidebar.classList.add('active');
-                        overlay.classList.add('active');
-                        hamburger.textContent = '×';
-                        hamburger.classList.add('open');
-                    }
-                });
-
-                overlay.addEventListener('click', () => {
+            hamburger.addEventListener('click', () => {
+                if (sidebar.classList.contains('active')) {
                     sidebar.classList.remove('active');
                     overlay.classList.remove('active');
                     hamburger.textContent = '☰';
                     hamburger.classList.remove('open');
-                });
+                } else {
+                    sidebar.classList.add('active');
+                    overlay.classList.add('active');
+                    hamburger.textContent = '×';
+                    hamburger.classList.add('open');
+                }
+            });
+
+            overlay.addEventListener('click', () => {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+                hamburger.textContent = '☰';
+                hamburger.classList.remove('open');
+            });
         </script>
 </body>
+
 </html>
