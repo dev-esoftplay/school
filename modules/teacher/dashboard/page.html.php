@@ -29,6 +29,13 @@ $sys->set_layout('teacher.php');
             margin: 0 auto;
             background-color: #f4f4f4;
             overflow-x: hidden;
+            display: flex;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 15px;
+            transition: margin-left 0.3s ease;
         }
 
         .dashboard {
@@ -85,6 +92,7 @@ $sys->set_layout('teacher.php');
 
         /* Hamburger Button */
         .hamburger {
+            display: none;
             font-size: 20px;
             background: none;
             border: none;
@@ -119,22 +127,20 @@ $sys->set_layout('teacher.php');
 
         /* Sidebar Styles */
         .sidebar {
-            position: fixed;
-            top: 0;
-            right: -250px;
             width: 250px;
-            height: 100%;
+            height: 100vh;
             background: white;
-            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
             z-index: 999;
-            transition: right 0.3s ease;
             padding: 15px;
             display: flex;
             flex-direction: column;
+            position: sticky;
+            top: 0;
         }
 
         .sidebar.active {
-            right: 0;
+            transform: translateX(0);
         }
 
         .sidebar .menu-title {
@@ -166,37 +172,25 @@ $sys->set_layout('teacher.php');
         /* Default styles for anchor links in the sidebar */
         .sidebar .menu-list ul li a {
             text-decoration: none;
-            /* Remove underline by default */
             color: black;
-            /* Set text color to black */
             padding: 10px;
-            /* Add padding for better spacing */
             border-radius: 5px;
-            /* Rounded corners */
             display: block;
-            /* Make the anchor a block element for full-width */
         }
 
         /* Hover effect for the links */
         .sidebar .menu-list ul li a:hover {
             background-color: #d3f4d1;
-            /* Light green background */
             color: #3E7B27;
-            /* Dark green text color */
             text-decoration: none;
-            /* Ensure no underline on hover */
         }
 
         /* Active link (current page) style */
         .sidebar .menu-list ul li a.active {
             background-color: #d3f4d1;
-            /* Light green background */
             color: #3E7B27;
-            /* Dark green text color */
             font-weight: bold;
-            /* Optionally bold the active link */
             text-decoration: none;
-            /* Ensure no underline */
         }
 
         /* Footer */
@@ -239,30 +233,30 @@ $sys->set_layout('teacher.php');
             white-space: nowrap;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 5px; 
         }
 
         .announcement-container {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 10px; 
             padding: 10px;
         }
 
         .announcement-item {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px; /* Reduced gap between image and text */
             background: #f9f9f9;
-            padding: 15px;
+            padding: 10px; /* Reduced padding */
             border-radius: 8px;
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
             min-width: 100%;
         }
 
         .announcement-item img {
-            width: 80px;
-            height: 80px;
+            width: 75px;
+            height: 75px;
             object-fit: cover;
             border-radius: 8px;
         }
@@ -290,7 +284,7 @@ $sys->set_layout('teacher.php');
 
         /* Announcement Section */
         .announcement-section {
-            max-height: 380px;
+            max-height: 350px;
             overflow: auto;
             white-space: nowrap;
             display: flex;
@@ -338,13 +332,36 @@ $sys->set_layout('teacher.php');
         }
 
         @media (max-width: 768px) {
+            body {
+                display: block;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .sidebar {
+                position: fixed;
+                right: -250px; /* Start off-screen to the right */
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.active {
+                transform: translateX(-250px); /* Slide in from the right */
+            }
+
+            .overlay.active {
+                display: block;
+            }
+
+
             .dashboard-grid-2 {
                 display: grid;
                 grid-template-columns: 1fr;
             }
 
             .chart-section canvas {
-                width: 100% !important;
+                width: 65% !important;
                 height: auto !important;
                 max-width: 500px;
                 max-height: 400px;
@@ -354,12 +371,14 @@ $sys->set_layout('teacher.php');
 </head>
 
 <body>
-    <!-- Sidebar and Hamburger Button -->
+    <!-- Overlay for mobile -->
+    <div class="overlay"></div>
+    <!-- Hamburger Button  -->
     <div class="overlay" id="overlay"></div>
     <button class="hamburger" id="hamburger">☰</button>
+    <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="menu-title">SDIT ERAPORT</div>
-
         <div class="menu-list">
             <div class="menu-separator">
                 <div class="menu-1">
@@ -373,11 +392,9 @@ $sys->set_layout('teacher.php');
                 </div>
             </div>
         </div>
-
         <div class="logout-link">
             <a href="teacher/logout" onclick="redirectAndClose(event, 'logout.php')"><i class="fas fa-sign-out-alt"></i> Keluar</a>
         </div>
-
         <div class="footer">
             <?php echo config('site', 'footer'); ?>
             <?php echo $sys->block_show('footer'); ?>
@@ -385,89 +402,85 @@ $sys->set_layout('teacher.php');
     </div>
 
     <!-- Page Content -->
-    <div class="dashboard">
-        <div class="breadcrumb">Teacher Dashboard</div>
-
-        <!-- Create the Grid Layout for the 4 Cards -->
-        <div class="dashboard-grid">
-            <!-- First Dashboard Section -->
-            <div class="dashboard-section">
-                <h2>Jumlah siswa di kelas</h2>
-                <ul>
-                    <?php if (!empty($studentCounts)) { ?>
-                        <?php foreach ($studentCounts as $class) { ?>
-                            <p>Kelas <?php echo htmlspecialchars($class['grade']); ?><?php echo htmlspecialchars($class['label']); ?> : <?php echo htmlspecialchars($class['total_students']); ?> siswa</p>
+    <div class="main-content">
+        <div class="dashboard">
+            <div class="breadcrumb">Teacher Dashboard</div>
+            <!-- Create the Grid Layout for the 4 Cards -->
+            <div class="dashboard-grid">
+                <!-- First Dashboard Section -->
+                <div class="dashboard-section">
+                    <h2>Jumlah siswa di kelas</h2>
+                    <ul>
+                        <?php if (!empty($studentCounts)) { ?>
+                            <?php foreach ($studentCounts as $class) { ?>
+                                <p>Kelas <?php echo htmlspecialchars($class['grade']); ?><?php echo htmlspecialchars($class['label']); ?> : <?php echo htmlspecialchars($class['total_students']); ?> siswa</p>
+                            <?php } ?>
+                        <?php } else { ?>
+                            <p>Tidak ada data siswa.</p>
                         <?php } ?>
-                    <?php } else { ?>
-                        <p>Tidak ada data siswa.</p>
-                    <?php } ?>
-                </ul>
-            </div>
-
-            <!-- Second Dashboard Section -->
-            <div class="dashboard-section">
-                <h2>Posisi yang di pegang</h2>
-                <ul>
-                    <?php if (!empty($position)) { ?>
-                        <p><?php echo htmlspecialchars($position); ?></p>
-                    <?php } else { ?>
-                        <p>Belum memiliki jabatan</p>
-                    <?php } ?>
-                </ul>
-            </div>
-
-        </div>
-
-        <div class="dashboard-grid">
-            <!-- Third Dashboard Section -->
-            <div class="dashboard-section">
-                <h2>Jumlah kelas yang diampu</h2>
-                <p>
-                    <?php if (!empty($teacherClasses)) { ?>
-                        <?php echo htmlspecialchars($teacherClasses); ?> kelas
-                    <?php } else { ?>
-                <p>Tidak ada kelas yang diampu.</p>
-            <?php } ?>
-            </p>
-            </div>
-
-            <!-- Fourth Dashboard Section -->
-            <div class="dashboard-section">
-                <h2>Anda adalah wali kelas</h2>
-                <ul>
-                    <?php if (!empty($classes)) { ?>
-                        <?php foreach ($classes as $class) { ?>
-                            <p>Kelas <?php echo htmlspecialchars($class['grade']); ?><?php echo htmlspecialchars($class['label']); ?></p>
+                    </ul>
+                </div>
+                <!-- Second Dashboard Section -->
+                <div class="dashboard-section">
+                    <h2>Posisi yang di pegang</h2>
+                    <ul>
+                        <?php if (!empty($position)) { ?>
+                            <p><?php echo htmlspecialchars($position); ?></p>
+                        <?php } else { ?>
+                            <p>Belum memiliki jabatan</p>
                         <?php } ?>
-                    <?php } else { ?>
-                        <p>Tidak ada</p>
-                    <?php } ?>
-                </ul>
+                    </ul>
+                </div>
             </div>
-        </div>
-
-        <!-- Bar Chart Section (Below the Cards) -->
-        <div class="dashboard-grid-2">
-            <div class="chart-section">
-                <canvas id="performanceChart"></canvas>
+            <div class="dashboard-grid">
+                <!-- Third Dashboard Section -->
+                <div class="dashboard-section">
+                    <h2>Jumlah kelas yang diampu</h2>
+                    <p>
+                        <?php if (!empty($teacherClasses)) { ?>
+                            <?php echo htmlspecialchars($teacherClasses); ?> kelas
+                        <?php } else { ?>
+                    <p>Tidak ada kelas yang diampu.</p>
+                <?php } ?>
+                </p>
+                </div>
+                <!-- Fourth Dashboard Section -->
+                <div class="dashboard-section">
+                    <h2>Anda adalah wali kelas</h2>
+                    <ul>
+                        <?php if (!empty($classes)) { ?>
+                            <?php foreach ($classes as $class) { ?>
+                                <p>Kelas <?php echo htmlspecialchars($class['grade']); ?><?php echo htmlspecialchars($class['label']); ?></p>
+                            <?php } ?>
+                        <?php } else { ?>
+                            <p>Tidak ada</p>
+                        <?php } ?>
+                    </ul>
+                </div>
             </div>
+            <!-- Bar Chart Section (Below the Cards) -->
+            <div class="dashboard-grid-2">
+                <div class="chart-section">
+                    <canvas id="performanceChart"></canvas>
+                </div>
 
-            <div class="dashboard-section">
-                <h2>Pengumuman</h2>
-                <div class="announcement-section">
-                    <div class="announcement-container">
-                        <?php foreach ($announcements as $announcement): ?>
-                            <div class="announcement-item">
-                                <img src="<?php echo htmlspecialchars($announcement['image'], ENT_QUOTES, 'UTF-8'); ?>"
-                                    alt="<?php echo htmlspecialchars($announcement['title'], ENT_QUOTES, 'UTF-8'); ?>"
-                                    loading="lazy">
-                                <div class="announcement-text">
-                                    <small><?php echo htmlspecialchars($announcement['category']) ?></small>
-                                    <h3><?php echo htmlspecialchars($announcement['title']); ?></h3>
-                                    <small><?php echo date('F j, Y', strtotime($announcement['created_at'])); ?></small>
+                <div class="dashboard-section">
+                    <h2>Berita Terkini</h2>
+                    <div class="announcement-section">
+                        <div class="announcement-container">
+                            <?php foreach ($announcements as $announcement): ?>
+                                <div class="announcement-item">
+                                    <img src="<?php echo htmlspecialchars($announcement['image'], ENT_QUOTES, 'UTF-8'); ?>"
+                                        alt="<?php echo htmlspecialchars($announcement['title'], ENT_QUOTES, 'UTF-8'); ?>"
+                                        loading="lazy">
+                                    <div class="announcement-text">
+                                        <small><?php echo htmlspecialchars($announcement['category']) ?></small>
+                                        <h3><?php echo htmlspecialchars($announcement['title']); ?></h3>
+                                        <small><?php echo date('F j, Y', strtotime($announcement['created_at'])); ?></small>
+                                    </div>
                                 </div>
-                            </div>
-                        <?php endforeach; ?>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
                 </div>
             </div>
