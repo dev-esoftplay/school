@@ -70,6 +70,22 @@ $sys->set_layout('teacher.php');
             var popupModal = new bootstrap.Modal(document.getElementById('popupModal'));
             popupModal.show();
         });
+
+        // Fungsi untuk memindahkan fokus ke input berikutnya ketika menekan Enter
+        document.querySelectorAll('input').forEach((input, index, inputs) => {
+            input.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault(); // Mencegah form submit ketika Enter ditekan
+                    if (inputs[index + 1]) {
+                        inputs[index + 1].focus(); // Pindah ke input selanjutnya
+                    } else {
+                        // Tampilkan modal ketika menekan Enter di input terakhir
+                        var popupModal = new bootstrap.Modal(document.getElementById('popupModal'));
+                        popupModal.show();
+                    }
+                }
+            });
+        });
     </script>
 </body>
 </html>
