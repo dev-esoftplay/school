@@ -78,4 +78,4 @@ link_js('script.js');
 link_js(_ROOT . 'templates/eraport-sdit/js/jspdf.umd.min.js');
 
 // Load the page template
-include tpl('page.html.php');
+include tpl('scorestudent.html.php');

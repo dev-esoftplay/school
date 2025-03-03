@@ -14,7 +14,7 @@ switch ($Bbc->mod['task']) {
         include 'class/controller.php';
         break;
     case 'score':
-        include 'score/controller.php';
+        include 'score/score-controller.php';
         break;
     case 'announcement':
         include 'announcement/controller.php';
@@ -26,10 +26,10 @@ switch ($Bbc->mod['task']) {
         include 'profile/controller.php';
         break;
     case 'scoredetail':
-         include 'scoredetail/controller.php';
+         include 'score/scoredetail-controller.php';
         break;
     case 'scorestudentdetail':
-        include 'scorestudentdetail/controller.php';
+        include 'score/scorestudent-controller.php';
         break;
     case 'inputnilai':
          include 'input_nilai/controller.php';
