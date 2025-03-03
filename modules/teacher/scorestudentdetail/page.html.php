@@ -15,12 +15,37 @@ $sys->set_layout('teacher.php');
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
+        /* Besarkan font hanya untuk desktop */
+        @media (min-width: 768px) {
+            body {
+                font-size: 1.2rem; /* Besarkan font di desktop */
+            }
+            .fs-3 {
+                font-size: 2.5rem; 
+            }
+            .table th, .table td {
+                font-size: 1.8rem;
+            }
+            .col-no {
+                width: 1%;
+            }
 
+            .col-nilai {
+                width: 10%;
+            }
+        }
+
+        /* Ukuran font untuk mobile dan tablet */
+        @media (max-width: 767px) {
+            .table th, .table td {
+                font-size: 1.5rem; /* Ukuran font lebih kecil di perangkat kecil */
+            }
+        }
     </style>
 </head>
 
 <body>
-    <div class="container mt-4">
+    <div class="mx-md-5 mx-3 mt-4">
         <div class="header d-flex mb-4">
             <a href="teacher/scoredetail?class_id=<?= $class_id ?>" class="fs-3 text-decoration-none text-dark cursor-pointer">
                 <i class="fas fa-arrow-left"></i> Kembali
@@ -31,9 +56,9 @@ $sys->set_layout('teacher.php');
             <table class="table table-bordered table-striped">
                 <thead class="table-dark">
                     <tr class='fs-5'>
-                        <th>No</th>
+                        <th class="col-no">No</th>
                         <th>Mata Pelajaran</th>
-                        <th>Nilai</th>
+                        <th class="col-nilai">Nilai</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -45,7 +70,7 @@ $sys->set_layout('teacher.php');
                         <?php $no = 1; ?>
                         <?php foreach ($data as $score) : ?>
                             <tr class="fs-5">
-                                <td><?= $no++ ?>.</td>
+                                <td class="col-no"><?= $no++ ?>.</td>
                                 <td>
                                     <?php
                                     $courseAbbreviations = [
@@ -62,17 +87,18 @@ $sys->set_layout('teacher.php');
                                     }
                                     ?>
                                 </td>
-                                <td id="nilai-<?= $score['course_id'] ?>" class="text-center">
+                                <td id="nilai-<?= $score['course_id'] ?>" class="text-center col-nilai">
                                     <?= number_format($score['total_weighted_score'], 2, ',', '.') ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
+
                     <?php endif; ?>
                 </tbody>
-
             </table>
         </div>
     </div>
+
     <script>
         function adjustFontSize() {
             let container = document.querySelector(".container");

@@ -16,7 +16,7 @@ $sys->set_layout('teacher.php');
 </head>
 <body>
     <div class="header d-flex align-items-center p-3 px-md-5">
-        <a href="teacher/scoredetail?class_id=1" class="btn btn-link text-dark d-flex align-items-center text-decoration-none" style="font-size: 15px;">
+        <a href="teacher/scoredetail?class_id=1" class="btn btn-link text-dark d-flex align-items-center text-decoration-none" style="font-size: 16px;">
             <i class="fas fa-arrow-left" style="margin-right: 5px;"></i> Kembali
         </a>
     </div>
