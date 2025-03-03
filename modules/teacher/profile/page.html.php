@@ -11,19 +11,13 @@ $sys->set_layout('teacher.php');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Halaman Profil</title>
+    <!-- <title>Input Nilai</title> -->
     <!-- Link to Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <!-- Styles -->
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* General Styles */
         .container {
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             padding: 15px;
         }
 
@@ -37,15 +31,18 @@ $sys->set_layout('teacher.php');
 
         .breadcrumb-item-dashboard {
             color: #4B5320;
+            /* Warna Hijau Army */
             font-weight: bold;
         }
 
         .breadcrumb-item-dashboard:hover {
             color: #3E4C23;
+            /* Warna hijau lebih gelap saat hover */
         }
 
         /* Hamburger Button */
         .hamburger {
+            display: none;
             font-size: 20px;
             background: none;
             border: none;
@@ -57,11 +54,12 @@ $sys->set_layout('teacher.php');
             transition: transform 0.3s ease;
         }
 
+        /* When sidebar is open, rotate the hamburger icon */
         .hamburger.open {
             transform: rotate(90deg);
         }
 
-        /* Sidebar Styles */
+        /* Overlay */
         .overlay {
             position: fixed;
             top: 0;
@@ -77,30 +75,33 @@ $sys->set_layout('teacher.php');
             display: block;
         }
 
+        /* Sidebar Styles */
         .sidebar {
-            position: fixed;
-            top: 0;
-            right: -250px;
             width: 250px;
-            height: 100%;
+            height: 100vh;
             background: white;
-            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
             z-index: 999;
-            transition: right 0.3s ease;
             padding: 15px;
             display: flex;
             flex-direction: column;
         }
-
-        .sidebar.active {
-            right: 0;
-        }
-
+        
         .sidebar .menu-title {
-            font-size: 1.2em;
-            margin: 5px 0 10px;
+            font-size: 1.2em !important;
+            margin-top: 5px;
+            margin-bottom: 10px;
             color: #006400;
             font-weight: bold;
+            text-align: left;
+        }
+
+        .sidebar .menu-list {
+            /* Fixed typo by removing space */
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
         }
 
         .sidebar .menu-list ul {
@@ -110,9 +111,11 @@ $sys->set_layout('teacher.php');
 
         .sidebar .menu-list ul li {
             margin: 10px 0;
+            color: #333;
         }
 
-        .sidebar .menu-list ul li a {
+          /* Default styles for anchor links in the sidebar */
+          .sidebar .menu-list ul li a {
             text-decoration: none;
             color: black;
             padding: 10px;
@@ -120,19 +123,19 @@ $sys->set_layout('teacher.php');
             display: block;
         }
 
+        /* Hover effect for the links */
         .sidebar .menu-list ul li a:hover {
             background-color: #d3f4d1;
             color: #3E7B27;
+            text-decoration: none;
         }
 
+        /* Active link (current page) style */
         .sidebar .menu-list ul li a.active {
             background-color: #d3f4d1;
             color: #3E7B27;
             font-weight: bold;
-        }
-
-        .sidebar .menu-list ul li a i {
-            margin-right: 10px;
+            text-decoration: none;
         }
 
         /* Footer */
@@ -160,6 +163,34 @@ $sys->set_layout('teacher.php');
 
         .logout-link {
             margin-top: auto;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                display: block;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .sidebar {
+                position: fixed;
+                right: -250px;
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.active {
+                transform: translateX(-250px);
+            }
+
+            .overlay.active {
+                display: block;
+            }
         }
 
         h2 {
@@ -195,21 +226,16 @@ $sys->set_layout('teacher.php');
             font-size: 13px;
             font-weight: bold;
         }
-
-        @media (max-width: 480px) {
-            .profile-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .txt {
-                margin-bottom: 5px;
+        
+        @media (min-width: 769px) {
+            .sidebar {
+                position: fixed;
+                left: 0;
+                transition: transform 0.3s ease;
             }
         }
     </style>
 </head>
-
-<body>
     <!-- Sidebar & Hamburger Button -->
     <div class="overlay" id="overlay"></div>
     <button class="hamburger" id="hamburger">☰</button>

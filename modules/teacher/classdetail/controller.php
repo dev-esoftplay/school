@@ -21,12 +21,12 @@ $labelClass = $db->getOne("SELECT `label` FROM `school_class` WHERE `id` = $clas
 
 if ($class_id <= 0) {
     echo "<p style='color: red;'>Kelas tidak ditemukan.</p>";
-    exit;
+    exit; 
 }
 
 $students = $db->getAll("
     SELECT 
-        ssc.id,     
+        ssc.id, 
         ssc.student_id, 
         ssc.number, 
         ss.name, 
