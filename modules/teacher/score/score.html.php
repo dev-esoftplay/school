@@ -29,6 +29,7 @@ $sys->set_layout('teacher.php');
             flex: 1;
             padding: 15px;
             transition: margin-left 0.3s ease;
+            margin-left: 250px;
         }
 
         .breadcrumb {
