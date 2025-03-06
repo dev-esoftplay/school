@@ -14,11 +14,17 @@ $sys->set_layout('teacher.php');
     <!-- <title>Input Nilai</title> -->
     <!-- Link to Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-        <!-- Styles -->
+    <!-- Styles -->
     <style>
         /* General Styles */
         .container {
             padding: 15px;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 15px;
+            transition: margin-left 0.3s ease;
         }
 
         .breadcrumb {
@@ -86,7 +92,7 @@ $sys->set_layout('teacher.php');
             display: flex;
             flex-direction: column;
         }
-        
+
         .sidebar .menu-title {
             font-size: 1.2em !important;
             margin-top: 5px;
@@ -114,8 +120,8 @@ $sys->set_layout('teacher.php');
             color: #333;
         }
 
-          /* Default styles for anchor links in the sidebar */
-          .sidebar .menu-list ul li a {
+        /* Default styles for anchor links in the sidebar */
+        .sidebar .menu-list ul li a {
             text-decoration: none;
             color: black;
             padding: 10px;
@@ -226,43 +232,70 @@ $sys->set_layout('teacher.php');
             font-size: 13px;
             font-weight: bold;
         }
-        
+
         @media (min-width: 769px) {
             .sidebar {
                 position: fixed;
                 left: 0;
                 transition: transform 0.3s ease;
             }
+
+            .main-content {
+                margin-left: 230px;
+            }
+
+            .profile-item {
+                display: flex;
+                justify-content: flex-start;
+                border-bottom: 1px solid #ddd;
+                padding: 10px;
+            }
+
+            .txt {
+                color: #333;
+                font-size: 14px;
+                margin-left: 10px;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .profile-item {
+                display: flex;
+                justify-content: space-between;
+                border-bottom: 1px solid #ddd;
+                padding: 10px 0;
+            }
         }
     </style>
 </head>
-    <!-- Sidebar & Hamburger Button -->
-    <div class="overlay" id="overlay"></div>
-    <button class="hamburger" id="hamburger">☰</button>
+<!-- Sidebar & Hamburger Button -->
+<div class="overlay" id="overlay"></div>
+<button class="hamburger" id="hamburger">☰</button>
 
-    <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-        <div class="menu-title">SDIT ERAPORT</div>
-        <div class="menu-list">
-            <ul>
-                <li><a href="teacher/dashboard" onclick="redirectAndClose(event, 'dashboard.php')"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                <li><a href="teacher/class" onclick="redirectAndClose(event, 'class.php')"><i class="fas fa-chalkboard"></i> Kelas</a></li>
-                <li><a href="teacher/announcement" onclick="redirectAndClose(event, 'announcement.php')"><i class="fas fa-bullhorn"></i> Pengumuman</a></li>
-                <li><a href="teacher/score" onclick="redirectAndClose(event, 'score.php')"><i class="fas fa-pencil-alt"></i> Input Nilai</a></li>
-                <li><a href="teacher/profile" onclick="redirectAndClose(event, 'profile.php')"><i class="fas fa-user"></i> Profil</a></li>
-            </ul>
-        </div>
-
-        <div class="logout-link">
-            <a href="teacher/logout" onclick="redirectAndClose(event, 'logout.php')"><i class="fas fa-sign-out-alt"></i> Keluar</a>
-        </div>
-
-        <div class="footer">
-            <?php echo config('site', 'footer'); ?>
-            <?php echo $sys->block_show('footer'); ?>
-        </div>
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+    <div class="menu-title">SDIT ERAPORT</div>
+    <div class="menu-list">
+        <ul>
+            <li><a href="teacher/dashboard" onclick="redirectAndClose(event, 'dashboard.php')"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="teacher/class" onclick="redirectAndClose(event, 'class.php')"><i class="fas fa-chalkboard"></i> Kelas</a></li>
+            <li><a href="teacher/announcement" onclick="redirectAndClose(event, 'announcement.php')"><i class="fas fa-bullhorn"></i> Pengumuman</a></li>
+            <li><a href="teacher/score" onclick="redirectAndClose(event, 'score.php')"><i class="fas fa-pencil-alt"></i> Input Nilai</a></li>
+            <li><a href="teacher/profile" onclick="redirectAndClose(event, 'profile.php')"><i class="fas fa-user"></i> Profil</a></li>
+        </ul>
     </div>
 
+    <div class="logout-link">
+        <a href="teacher/logout" onclick="redirectAndClose(event, 'logout.php')"><i class="fas fa-sign-out-alt"></i> Keluar</a>
+    </div>
+
+    <div class="footer">
+        <?php echo config('site', 'footer'); ?>
+        <?php echo $sys->block_show('footer'); ?>
+    </div>
+</div>
+
+<div class="main-content">
     <div class="container mt-4">
         <!-- Breadcrumb for Title -->
         <nav aria-label="breadcrumb">
@@ -293,7 +326,6 @@ $sys->set_layout('teacher.php');
             <div class="profile-item">
                 <span class="txt1">Gender</span>
                 <span class="txt"><?php echo htmlspecialchars($gender_text); ?></span>
-
             </div>
             <div class="profile-item">
                 <span class="txt1">Tanggal Lahir</span>
@@ -301,43 +333,44 @@ $sys->set_layout('teacher.php');
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Scripts -->
-    <script>
-        const hamburger = document.getElementById('hamburger');
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('overlay');
+<!-- Scripts -->
+<script>
+    const hamburger = document.getElementById('hamburger');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
 
-        const activePage = window.location.pathname;
-        const navLinks = document.querySelectorAll('.menu-list ul li a');
+    const activePage = window.location.pathname;
+    const navLinks = document.querySelectorAll('.menu-list ul li a');
 
-        navLinks.forEach(link => {
-            if (link.href.includes(`${activePage}`)) {
-                link.classList.add('active');
-            }
-        });
+    navLinks.forEach(link => {
+        if (link.href.includes(`${activePage}`)) {
+            link.classList.add('active');
+        }
+    });
 
-        hamburger.addEventListener('click', () => {
-            if (sidebar.classList.contains('active')) {
-                sidebar.classList.remove('active');
-                overlay.classList.remove('active');
-                hamburger.textContent = '☰';
-                hamburger.classList.remove('open'); 
-            } else {
-                sidebar.classList.add('active');
-                overlay.classList.add('active');
-                hamburger.textContent = '×';
-                hamburger.classList.add('open');
-            }
-        });
-
-        overlay.addEventListener('click', () => {
+    hamburger.addEventListener('click', () => {
+        if (sidebar.classList.contains('active')) {
             sidebar.classList.remove('active');
             overlay.classList.remove('active');
             hamburger.textContent = '☰';
             hamburger.classList.remove('open');
-        });
-    </script>
+        } else {
+            sidebar.classList.add('active');
+            overlay.classList.add('active');
+            hamburger.textContent = '×';
+            hamburger.classList.add('open');
+        }
+    });
+
+    overlay.addEventListener('click', () => {
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+        hamburger.textContent = '☰';
+        hamburger.classList.remove('open');
+    });
+</script>
 </body>
 
-</html> 
+</html>
