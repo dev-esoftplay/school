@@ -16,7 +16,7 @@ $sys->set_layout('student.php');
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teacher Dashboard</title>
+    <title>Student Dashboard</title>
     <style>
         /* General Styles */
         body {
@@ -399,7 +399,7 @@ $sys->set_layout('student.php');
     <!-- Page Content -->
     <div class="main-content">
         <div class="dashboard">
-            <div class="breadcrumb">Student Dashboard</div>
+            <div class="breadcrumb">Studentsg Dashboard</div>
 
         <script>
             const hamburger = document.getElementById('hamburger');
