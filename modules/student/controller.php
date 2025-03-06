@@ -5,6 +5,7 @@ if (!defined('_VALID_BBC'))
 
 $userExist = $db->getOne("SELECT COUNT(*) FROM `bbc_user` WHERE `id` = $user->id AND `active` = 1");
 
+
 if ($userExist != 1) {
     user_logout($user->id);
     redirect(_URL);
@@ -18,5 +19,6 @@ if (empty($user->id)) {
 if (strpos($user->group_id, '5') !== false) {
     redirect(_URL . 'teacher/dashboard');
 } else if (strpos($user->group_id, '7') !== false) {
-    redirect(_URL . 'student');
+    pr('sudah masuk', $user->group_id);die();    
+    // redirect(_URL . 'student');
 }
