@@ -20,7 +20,7 @@ switch ($Bbc->mod['task']) {
         include 'announcement/controller.php';
         break;
     case 'latestnews':
-        include 'latest-news/controller.php';
+        include 'latest-news/latest-news-controller.php';
         break;
     case 'profile':
         include 'profile/controller.php';

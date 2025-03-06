@@ -17,71 +17,35 @@ $sys->set_layout('teacher.php');
             overflow-x: hidden;
             width: 100%;
             scroll-behavior: smooth; /* Smooth scrolling */
+            margin: 0;
+            padding: 0;
+            height: 100%; /* Ensure full height */
         }
 
-        h2{
+        h2 {
             margin: 0px;
         }
 
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
             background-color: #f5f5f5;
             overflow-x: hidden;
-        }
-
-        /* Hamburger Button */
-        .hamburger {
-            font-size: 20px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            position: fixed;
-            top: 15px;
-            right: 20px;
-            z-index: 1000;
-            transition: transform 0.3s ease;
-        }
-
-        .hamburger.open {
-            transform: rotate(90deg);
-        }
-
-        /* Overlay */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 998;
-            display: none;
-        }
-
-        .overlay.active {
-            display: block;
+            display: flex; /* Use flexbox for layout */
+            min-height: 100vh; /* Ensure body takes full viewport height */
         }
 
         /* Sidebar Styles */
         .sidebar {
-            position: fixed;
-            top: 0;
-            right: -250px;
             width: 250px;
-            height: 100%;
             background: white;
             box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
-            z-index: 999;
-            transition: right 0.3s ease;
             padding: 15px;
             display: flex;
             flex-direction: column;
-        }
-
-        .sidebar.active {
-            right: 0;
+            position: sticky;
+            top: 0;
+            height: 100vh; /* Full height */
+            overflow-y: auto; /* Enable scrolling if content overflows */
         }
 
         .sidebar .menu-title {
@@ -147,26 +111,35 @@ $sys->set_layout('teacher.php');
             text-align: center;
         }
 
+        /* Main Content */
+        .main-content {
+            flex: 1; /* Take remaining space */
+            display: flex;
+            flex-direction: column;
+            height: 100vh; /* Match sidebar height */
+            overflow-y: auto; /* Enable scrolling if content overflows */
+        }
+
         /* Header */
         header.header-container {
             background: rgba(217, 217, 217, .3);
             padding: 15px;
             border-radius: 8px;
-            margin-top: 0px;
-            margin: auto;
+            margin: 20px auto;
             max-width: 90%;
+            text-align: left; /* Align header text to the left */
         }
 
         header.header-container h2 {
             font-size: 18px;
             color: red;
-            text-align: center;
+            text-align: left; /* Align header text to the left */
         }
 
         /* Article Container */
         section.article-wrapper {
             max-width: 90%;
-            margin: 50px auto;
+            margin: 20px auto;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -182,7 +155,7 @@ $sys->set_layout('teacher.php');
         .article-content {
             max-width: 500px;
             min-width: 380px;
-            text-align: center;
+            text-align: center; /* Align text to the left */
             padding: 20px;
         }
 
@@ -204,10 +177,18 @@ $sys->set_layout('teacher.php');
             margin-top: 10px;
         }
 
+        /* News Sections Container */
+        .news-sections-container {
+            display: flex; /* Use flexbox to split the screen */
+            gap: 50px; /* Space between latest news and featured news */
+            max-width: 90%;
+            margin: 20px auto;
+        }
+
         /* Latest News Section */
         section.latest-news {
-            max-width: 90%;
-            margin: 50px auto;
+            flex: 1; /* Take up 50% of the space */
+            text-align: left; /* Align content to the left */
         }
 
         .latest-news-header {
@@ -220,6 +201,7 @@ $sys->set_layout('teacher.php');
         .latest-news-header h2 {
             font-size: 20px;
             font-weight: bold;
+            text-align: left; /* Align text to the left */
         }
 
         .see-all {
@@ -295,60 +277,16 @@ $sys->set_layout('teacher.php');
             color: gray;
         }
 
-        /* Responsive Adjustments */
-        @media (max-width: 768px) {
-            .news-container {
-                display: flex;
-                flex-direction: column; /* Stack items vertically on tablets */
-            }
-
-            .news-card {
-                max-width: 100%; /* Full width */
-                flex-direction: row; /* Keep image left, text right */
-            }
-
-            .news-card img {
-                width: 60px; /* Slightly smaller */
-                height: 60px;
-            }
-        }
-
-        @media (min-width: 1024px) {
-            .news-container {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr); /* Two columns on large screens */
-                gap: 15px;
-            }
-
-            .news-card {
-                flex-direction: row; /* Keep layout same */
-                max-width: 100%;
-            }
-
-            .news-card img {
-                width: 80px; /* Slightly bigger for desktop */
-                height: 80px;
-            }
-
-            .news-title {
-                font-size: 18px; /* Slightly larger title */
-            }
-        }
-
         /* Featured News Section */
         section.featured-news-section {
-            max-width: 90%;
-            margin: 50px auto;
-            margin-bottom: 10px;
+            flex: 1; /* Take up 50% of the space */
+            text-align: left; /* Align content to the left */
         }
 
         .featured-news {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 15px;
-            justify-content: center;
-            max-width: 90%;
-            margin-left: 15px;
         }
 
         .featured-card {
@@ -415,29 +353,28 @@ $sys->set_layout('teacher.php');
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .featured-news {
-                grid-template-columns: repeat(2, 1fr);
+            body {
+                flex-direction: column; /* Stack sidebar and main content vertically */
             }
-        }
 
-        @media (max-width: 480px) {
-            .featured-news {
-                grid-template-columns: 1fr;
+            .sidebar {
+                width: 100%; /* Full width on mobile */
+                height: auto; /* Auto height on mobile */
+                position: relative; /* Remove fixed positioning */
             }
-            .article-content {
-                min-width: 100%;
-                padding: 10px;
+
+            .main-content {
+                height: auto; /* Auto height on mobile */
             }
-            .news-card {
-                min-width: 100%;
+
+            .news-sections-container {
+                flex-direction: column; /* Stack latest news and featured news vertically on mobile */
             }
         }
     </style>
 </head>
 <body>
     <!-- Sidebar -->
-    <div class="overlay" id="overlay"></div>
-    <button class="hamburger" id="hamburger" aria-label="Toggle Sidebar">☰</button>
     <div class="sidebar" id="sidebar">
         <div class="menu-title">SDIT ERAPORT</div>
         <div class="menu-list">
@@ -458,69 +395,74 @@ $sys->set_layout('teacher.php');
         </div>
     </div>
 
-    <!-- Header -->
-    <header class="header-container">
-        <h2>WELCOME TO SCHOOL BULLETIN</h2>
-    </header>
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <header class="header-container">
+            <h2>WELCOME TO SCHOOL BULLETIN</h2>
+        </header>
 
-    <!-- Article Container -->
-    <section class="article-wrapper">
-        <img src="<?php echo htmlspecialchars($article['image'], ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($article['title'], ENT_QUOTES, 'UTF-8'); ?>">
-        <div class="article-content">
-            <div class="article-title"><?php echo htmlspecialchars($article['title'], ENT_QUOTES, 'UTF-8'); ?></div>
-            <div class="article-description"><?php echo htmlspecialchars($article['description'], ENT_QUOTES, 'UTF-8'); ?></div>
-            <div class="article-meta"><?php echo htmlspecialchars($article['category'], ENT_QUOTES, 'UTF-8'); ?> • <?php echo htmlspecialchars($article['read_time'], ENT_QUOTES, 'UTF-8'); ?></div>
-        </div>
-    </section>
+        <!-- Article Container -->
+        <section class="article-wrapper">
+            <img src="<?php echo htmlspecialchars($article['image'], ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($article['title'], ENT_QUOTES, 'UTF-8'); ?>">
+            <div class="article-content">
+                <div class="article-title"><?php echo htmlspecialchars($article['title'], ENT_QUOTES, 'UTF-8'); ?></div>
+                <div class="article-description"><?php echo htmlspecialchars($article['description'], ENT_QUOTES, 'UTF-8'); ?></div>
+                <div class="article-meta"><?php echo htmlspecialchars($article['category'], ENT_QUOTES, 'UTF-8'); ?> • <?php echo htmlspecialchars($article['read_time'], ENT_QUOTES, 'UTF-8'); ?></div>
+            </div>
+        </section>
 
-    <!-- Latest News Section -->
-    <section class="latest-news">
-        <div class="latest-news-header">
-            <h2>Latest School Updates</h2>
-            <a href="teacher/latestnews" class="see-all">See all →</a>
-        </div>
-        <div class="news-container">
-            <?php foreach ($school_news as $item): ?>
-                <div class="news-card">
-                    <img src="<?php echo htmlspecialchars($item['image'], ENT_QUOTES, 'UTF-8'); ?>" 
-                        alt="<?php echo htmlspecialchars($item['title'], ENT_QUOTES, 'UTF-8'); ?>" loading="lazy">
-                    <div class="news-content">
-                        <div class="news-category"><?php echo htmlspecialchars($item['category'], ENT_QUOTES, 'UTF-8'); ?></div>
-                        <div class="news-title"><?php echo htmlspecialchars($item['title'], ENT_QUOTES, 'UTF-8'); ?></div>
-                        <div class="news-meta">
-                            <span class="news-author">By <?php echo htmlspecialchars($item['author'], ENT_QUOTES, 'UTF-8'); ?></span> • 
-                            <?php echo date('F j, Y', strtotime($item['created_at'])); ?>
+        <!-- News Sections Container -->
+        <div class="news-sections-container">
+            <!-- Latest News Section -->
+            <section class="latest-news">
+                <div class="latest-news-header">
+                    <h2>Latest School Updates</h2>
+                    <a href="teacher/latestnews" class="see-all">See all →</a>
+                </div>
+                <div class="news-container">
+                    <?php foreach ($school_news as $item): ?>
+                        <div class="news-card">
+                            <img src="<?php echo htmlspecialchars($item['image'], ENT_QUOTES, 'UTF-8'); ?>" 
+                                alt="<?php echo htmlspecialchars($item['title'], ENT_QUOTES, 'UTF-8'); ?>" loading="lazy">
+                            <div class="news-content">
+                                <div class="news-category"><?php echo htmlspecialchars($item['category'], ENT_QUOTES, 'UTF-8'); ?></div>
+                                <div class="news-title"><?php echo htmlspecialchars($item['title'], ENT_QUOTES, 'UTF-8'); ?></div>
+                                <div class="news-meta">
+                                    <span class="news-author">By <?php echo htmlspecialchars($item['author'], ENT_QUOTES, 'UTF-8'); ?></span> • 
+                                    <?php echo date('F j, Y', strtotime($item['created_at'])); ?>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
-            <?php endforeach; ?>
-        </div>
-    </section>
+            </section>
 
-
-    <!-- Featured News Section -->
-    <section class="featured-news-section">
-        <div class="latest-news-header">
-            <h2>Featured News</h2>
-            <a href="all-featured-news.php" class="see-all">See all →</a>
-        </div>
-        <div class="featured-news">
-            <?php foreach ($featured_news as $item): ?>
-                <div class="featured-card" data-category="<?php echo htmlspecialchars($item['category'], ENT_QUOTES, 'UTF-8'); ?>">
-                    <img src="<?php echo htmlspecialchars($item['image'], ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($item['title'], ENT_QUOTES, 'UTF-8'); ?>" loading="lazy">
-                    <div class="featured-overlay">
-                        <div class="featured-category"><?php echo htmlspecialchars($item['category'], ENT_QUOTES, 'UTF-8'); ?> | <?php echo date('F j, Y, g:i a', strtotime($item['created_at'])); ?></div>
-                        <div class="featured-title"><?php echo htmlspecialchars($item['title'], ENT_QUOTES, 'UTF-8'); ?></div>
-                    </div>
+            <!-- Featured News Section -->
+            <section class="featured-news-section">
+                <div class="latest-news-header">
+                    <h2>Featured News</h2>
+                    <a href="all-featured-news.php" class="see-all">See all →</a>
                 </div>
-            <?php endforeach; ?>
+                <div class="featured-news">
+                    <?php foreach ($featured_news as $item): ?>
+                        <div class="featured-card" data-category="<?php echo htmlspecialchars($item['category'], ENT_QUOTES, 'UTF-8'); ?>">
+                            <img src="<?php echo htmlspecialchars($item['image'], ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($item['title'], ENT_QUOTES, 'UTF-8'); ?>" loading="lazy">
+                            <div class="featured-overlay">
+                                <div class="featured-category"><?php echo htmlspecialchars($item['category'], ENT_QUOTES, 'UTF-8'); ?> | <?php echo date('F j, Y, g:i a', strtotime($item['created_at'])); ?></div>
+                                <div class="featured-title"><?php echo htmlspecialchars($item['title'], ENT_QUOTES, 'UTF-8'); ?></div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </section>
         </div>
-    </section>
 
-    <!-- Back to Top Button -->
-    <button id="back-to-top" title="Go to top">
-        <i class="fas fa-arrow-up"></i>
-    </button>
+        <!-- Back to Top Button -->
+        <button id="back-to-top" title="Go to top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
 
     <script>
         // Sidebar Toggle
@@ -531,8 +473,13 @@ $sys->set_layout('teacher.php');
         hamburger.addEventListener('click', () => {
             sidebar.classList.toggle('active');
             overlay.classList.toggle('active');
-            hamburger.textContent = sidebar.classList.contains('active') ? '×' : '☰';
             hamburger.classList.toggle('open');
+            
+            if (sidebar.classList.contains('active')) {
+                sidebar.style.right = "0";
+            } else {
+                sidebar.style.right = "-250px";
+            }
         });
 
         overlay.addEventListener('click', () => {

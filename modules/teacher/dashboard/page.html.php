@@ -8,8 +8,6 @@ if (!defined('_VALID_BBC'))
 // Set the layout for the teacher dashboard
 $sys->set_layout('teacher.php');
 
-// pr($data, $_SESSION, $user->id, $teacher_id, $position, $studentCounts, $classes, $teacherClasses, $teacherId);
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -73,6 +71,7 @@ $sys->set_layout('teacher.php');
             font-size: 1.4em;
             margin-top: 0px;
             color: #333;
+            margin-bottom: 0px;
         }
 
         .dashboard-section ul {
@@ -241,6 +240,7 @@ $sys->set_layout('teacher.php');
             flex-direction: column;
             gap: 10px; 
             padding: 10px;
+            padding-top : 0px;
         }
 
         .announcement-item {
@@ -297,11 +297,14 @@ $sys->set_layout('teacher.php');
             flex-direction: column;
             gap: 15px;
             padding: 15px;
+            padding-top: 0px;
+            padding-left: 0px;
         }
 
         .announcement-item {
             background: #f9f9f9;
             padding: 15px;
+            padding-left: 0px;
             border-radius: 8px;
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
             min-width: 100%;
