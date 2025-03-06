@@ -18,7 +18,6 @@ if (empty($user->id)) {
 
 if (strpos($user->group_id, '5') !== false) {
     redirect(_URL . 'teacher/dashboard');
-} else if (strpos($user->group_id, '7') !== false) {
-    pr('sudah masuk', $user->group_id);die();    
-    // redirect(_URL . 'student');
+} else if (strpos($user->group_id, '7') !== false) {  
+    redirect(_URL . 'student/dashboard');
 }
