@@ -15,17 +15,16 @@ $sys->set_layout('teacher.php');
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-    <div class="header d-flex align-items-center p-3">
-        <a href="teacher/scoredetail?class_id=1" class="btn btn-link text-dark d-flex align-items-center text-decoration-none" style="font-size: 15px;">
+    <div class="header d-flex align-items-center p-3 px-md-5">
+        <a href="teacher/scoredetail?class_id=1" class="btn btn-link text-dark d-flex align-items-center text-decoration-none" style="font-size: 16px;">
             <i class="fas fa-arrow-left" style="margin-right: 5px;"></i> Kembali
         </a>
     </div>
 
-    <div class="p-4">
+    <div class="p-4 mx-0 mx-md-5">
         <h1 class="mb-4">Masukkan Nilai <?= $student_name ?></h1>
 
         <form id="scoreForm" method="POST" action="">
-            <!-- Dropdown untuk memilih bobot nilai -->
             <div class="mb-4">
                 <label for="sizeSelection" class="form-label fs-5">Bobot Nilai</label>
                 <select id="sizeSelection" name="score_weight" class="form-select form-select-lg">
@@ -33,14 +32,19 @@ $sys->set_layout('teacher.php');
                 </select>
             </div>
 
-            <?php foreach ($mataPelajaran as $mapel): ?>
-                <div class="mb-4">
-                    <label for="<?= $mapel['name'] ?>" class="form-label fs-5"><?= $mapel['name'] ?></label>
-                    <input type="number" class="form-control form-control-lg" id="<?= $mapel['name'] ?>" name="<?= $mapel['id'] ?>" 
-                    placeholder="Masukkan nilai" max="100" value="<?= isset($nilaiSiswa[$mapel['id']]) ? $nilaiSiswa[$mapel['id']] : '' ?>" />
-                </div>
-            <?php endforeach; ?>
-            <button type="submit" class="btn btn-primary btn-lg w-100">Simpan</button>
+            <div class="row">
+                <?php foreach ($mataPelajaran as $index => $mapel): ?>
+                    <!-- Membagi input menjadi dua kolom pada desktop mode -->
+                    <div class="col-12 col-md-6 mb-4">
+                        <label for="<?= $mapel['name'] ?>" class="form-label fs-5"><?= $mapel['name'] ?></label>
+                        <input type="number" class="form-control form-control-lg" id="<?= $mapel['name'] ?>" name="<?= $mapel['id'] ?>" 
+                        placeholder="Masukkan nilai" max="100" value="<?= isset($nilaiSiswa[$mapel['id']]) ? $nilaiSiswa[$mapel['id']] : '' ?>" />
+                    </div>
+                <?php endforeach; ?>
+            </div>
+
+            <!-- Button dengan kelas w-auto untuk panjang otomatis -->
+            <button type="submit" class="btn btn-primary btn-lg w-auto">Simpan</button>
         </form>
     </div>
 
@@ -69,6 +73,22 @@ $sys->set_layout('teacher.php');
             event.preventDefault(); // Mencegah form dari pengiriman langsung
             var popupModal = new bootstrap.Modal(document.getElementById('popupModal'));
             popupModal.show();
+        });
+
+        // Fungsi untuk memindahkan fokus ke input berikutnya ketika menekan Enter
+        document.querySelectorAll('input').forEach((input, index, inputs) => {
+            input.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault(); // Mencegah form submit ketika Enter ditekan
+                    if (inputs[index + 1]) {
+                        inputs[index + 1].focus(); // Pindah ke input selanjutnya
+                    } else {
+                        // Tampilkan modal ketika menekan Enter di input terakhir
+                        var popupModal = new bootstrap.Modal(document.getElementById('popupModal'));
+                        popupModal.show();
+                    }
+                }
+            });
         });
     </script>
 </body>

@@ -41,4 +41,4 @@ link_js('script.js');
 link_js(_ROOT . 'templates/eraport-sdit/js/jspdf.umd.min.js');
 
 // include tpl('page.html.php');
-include tpl('page.html.php', compact('className', 'students', 'labelClass'));
+include tpl('scoredetail.html.php', compact('className', 'students', 'labelClass'));
