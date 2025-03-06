@@ -22,7 +22,6 @@ $sys->set_layout('student.php');
         body {
             margin: 0;
             padding: 0;
-            /* max-width: 375px; Simulate mobile screen width */
             margin: 0 auto;
             background-color: #f4f4f4;
             overflow-x: hidden;
@@ -47,23 +46,20 @@ $sys->set_layout('student.php');
             padding-left: 0px;
         }
 
-        /* Create a 2x2 grid for the dashboard sections */
+        /* Dashboard Grid */
         .dashboard-grid {
             display: grid;
             grid-template-columns: 2fr 2fr;
             gap: 20px;
-            /* Space between the grid items */
         }
 
         /* Dashboard Section (Card) Styles */
         .dashboard-section {
             background: white;
             padding: 20px;
-            /* Padding inside each card */
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
-            /* Space between cards */
         }
 
         .dashboard-section h2 {
@@ -101,7 +97,6 @@ $sys->set_layout('student.php');
             transition: transform 0.3s ease;
         }
 
-        /* When sidebar is open, rotate the hamburger icon */
         .hamburger.open {
             transform: rotate(90deg);
         }
@@ -126,14 +121,15 @@ $sys->set_layout('student.php');
         .sidebar {
             width: 250px;
             height: 100vh;
-            background: white;
+            background: linear-gradient(135deg, #3E7B27, #66BB6A); /* Gradient background */
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
             z-index: 999;
-            padding: 15px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             position: sticky;
             top: 0;
+            color: white; /* Text color for better contrast */
         }
 
         .sidebar.active {
@@ -141,12 +137,11 @@ $sys->set_layout('student.php');
         }
 
         .sidebar .menu-title {
-            font-size: 1.2em;
-            margin-top: 5px;
-            margin-bottom: 10px;
-            color: #006400;
+            font-size: 1.5em; /* Increased font size */
+            margin-bottom: 20px;
             font-weight: bold;
             text-align: left;
+            color: white; /* White text for contrast */
         }
 
         .sidebar .menu-list {
@@ -162,172 +157,51 @@ $sys->set_layout('student.php');
         }
 
         .sidebar .menu-list ul li {
-            margin: 10px 0;
-            color: #333;
+            margin: 15px 0;
         }
 
-        /* Default styles for anchor links in the sidebar */
         .sidebar .menu-list ul li a {
             text-decoration: none;
-            color: black;
-            padding: 10px;
-            border-radius: 5px;
+            color: white;
+            padding: 12px 15px;
+            border-radius: 8px;
             display: block;
+            transition: background-color 0.3s ease;
         }
 
-        /* Hover effect for the links */
-        .sidebar .menu-list ul li a:hover {
-            background-color: #d3f4d1;
-            color: #3E7B27;
-            text-decoration: none;
-        }
-
-        /* Active link (current page) style */
+        .sidebar .menu-list ul li a:hover,
         .sidebar .menu-list ul li a.active {
-            background-color: #d3f4d1;
-            color: #3E7B27;
-            font-weight: bold;
-            text-decoration: none;
-        }
-
-        /* Footer */
-        .footer {
-            margin-top: 20px;
-            font-size: 14px;
-            color: #777;
-            text-align: center;
+            background-color: rgba(255, 255, 255, 0.15); /* Subtle hover effect */
+            color: #E0F2E7; /* Light green on hover */
         }
 
         .sidebar .logout-link a {
-            color: red;
-            background-color: transparent;
+            background-color: #DC143C; /* Red background */
+            color: white; /* White text */
             padding: 12px 15px;
-            border-radius: 5px;
+            border-radius: 8px;
             font-weight: bold;
             display: block;
+            transition: background-color 0.3s ease;
         }
 
         .sidebar .logout-link a:hover {
-            text-decoration: none;
-            background-color: red;
-            color: white;
+            background-color: #B80F0A; /* Darker red on hover */
         }
 
         .logout-link {
             margin-top: auto;
         }
 
-        /* Bar Chart Section */
-        .chart-section {
+        /* Footer */
+        .footer {
             margin-top: 20px;
+            font-size: 14px;
+            color: #E0F2E7;
             text-align: center;
         }
 
-        /* Scrollable Announcement Section */
-        .announcement-section {
-            max-height: 200px;
-            overflow: auto;
-            white-space: nowrap;
-            display: flex;
-            flex-direction: column;
-            gap: 5px; 
-        }
-
-        .announcement-container {
-            display: flex;
-            flex-direction: column;
-            gap: 10px; 
-            padding: 10px;
-        }
-
-        .announcement-item {
-            display: flex;
-            align-items: center;
-            gap: 10px; /* Reduced gap between image and text */
-            background: #f9f9f9;
-            padding: 10px; /* Reduced padding */
-            border-radius: 8px;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-            min-width: 100%;
-        }
-
-        .announcement-item img {
-            width: 75px;
-            height: 75px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        .announcement-text {
-            flex-grow: 1;
-        }
-
-        .announcement-item h3 {
-            font-size: 1em;
-            margin: 0;
-            color: #006400;
-        }
-
-        .announcement-item p {
-            font-size: 0.9em;
-            color: #333;
-            margin: 5px 0;
-        }
-
-        .announcement-item small {
-            font-size: 0.8em;
-            color: #777;
-        }
-
-        /* Announcement Section */
-        .announcement-section {
-            max-height: 350px;
-            overflow: auto;
-            white-space: nowrap;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .announcement-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            padding: 15px;
-        }
-
-        .announcement-item {
-            background: #f9f9f9;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-            min-width: 100%;
-        }
-
-        .announcement-item h3 {
-            font-size: 1.2em;
-            margin: 0;
-            color: #006400;
-        }
-
-        .announcement-item p {
-            font-size: 1em;
-            color: #333;
-            margin: 5px 0;
-        }
-
-        .announcement-item small {
-            font-size: 0.9em;
-            color: #777;
-        }
-
-        .dashboard-grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-top: 20px;
-        }
-
+        /* Responsive Styles */
         @media (max-width: 768px) {
             body {
                 display: block;
@@ -339,18 +213,17 @@ $sys->set_layout('student.php');
 
             .sidebar {
                 position: fixed;
-                right: -250px; /* Start off-screen to the right */
+                right: -250px;
                 transition: transform 0.3s ease;
             }
 
             .sidebar.active {
-                transform: translateX(-250px); /* Slide in from the right */
+                transform: translateX(-250px);
             }
 
             .overlay.active {
                 display: block;
             }
-
 
             .dashboard-grid-2 {
                 display: grid;
@@ -368,12 +241,9 @@ $sys->set_layout('student.php');
 </head>
 
 <body>
-    <!-- Overlay for mobile -->
     <div class="overlay"></div>
-    <!-- Hamburger Button  -->
     <div class="overlay" id="overlay"></div>
     <button class="hamburger" id="hamburger">☰</button>
-    <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="menu-title">SDIT ERAPORT</div>
         <div class="menu-list">
@@ -381,7 +251,7 @@ $sys->set_layout('student.php');
                 <div class="menu-1">
                     <ul>
                         <li><a href="student/dashboard" onclick="redirectAndClose(event, 'dashboard.php')"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                        <li><a href="student/score" onclick="redirectAndClose(event, 'score.php')"><i class="fas fa-book"></i></> Raport</a></li>
+                        <li><a href="student/score" onclick="redirectAndClose(event, 'score.php')"><i class="fas fa-book"></i> Raport</a></li>
                         <li><a href="student/profile" onclick="redirectAndClose(event, 'profile.php')"><i class="fas fa-user"></i> Profil</a></li>
                     </ul>
                 </div>
@@ -396,46 +266,45 @@ $sys->set_layout('student.php');
         </div>
     </div>
 
-    <!-- Page Content -->
     <div class="main-content">
         <div class="dashboard">
-            <div class="breadcrumb">Studentsg Dashboard</div>
+            <div class="breadcrumb">Student Dashboard</div>
 
-        <script>
-            const hamburger = document.getElementById('hamburger');
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('overlay');
+            <script>
+                const hamburger = document.getElementById('hamburger');
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('overlay');
 
-            const activePage = window.location.pathname;
-            const navLinks = document.querySelectorAll('.menu-list ul li a');
+                const activePage = window.location.pathname;
+                const navLinks = document.querySelectorAll('.menu-list ul li a');
 
-            navLinks.forEach(link => {
-                if (link.href.includes(`${activePage}`)) {
-                    link.classList.add('active');
-                }
-            });
+                navLinks.forEach(link => {
+                    if (link.href.includes(`${activePage}`)) {
+                        link.classList.add('active');
+                    }
+                });
 
-            hamburger.addEventListener('click', () => {
-                if (sidebar.classList.contains('active')) {
+                hamburger.addEventListener('click', () => {
+                    if (sidebar.classList.contains('active')) {
+                        sidebar.classList.remove('active');
+                        overlay.classList.remove('active');
+                        hamburger.textContent = '☰';
+                        hamburger.classList.remove('open');
+                    } else {
+                        sidebar.classList.add('active');
+                        overlay.classList.add('active');
+                        hamburger.textContent = '×';
+                        hamburger.classList.add('open');
+                    }
+                });
+
+                overlay.addEventListener('click', () => {
                     sidebar.classList.remove('active');
                     overlay.classList.remove('active');
                     hamburger.textContent = '☰';
                     hamburger.classList.remove('open');
-                } else {
-                    sidebar.classList.add('active');
-                    overlay.classList.add('active');
-                    hamburger.textContent = '×';
-                    hamburger.classList.add('open');
-                }
-            });
-
-            overlay.addEventListener('click', () => {
-                sidebar.classList.remove('active');
-                overlay.classList.remove('active');
-                hamburger.textContent = '☰';
-                hamburger.classList.remove('open');
-            });
-        </script>
+                });
+            </script>
 </body>
 
 </html>
