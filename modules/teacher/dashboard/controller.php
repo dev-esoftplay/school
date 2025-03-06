@@ -38,6 +38,16 @@ $studentCounts = $db->getAll("
 
 $announcements = $db->getAll("SELECT * FROM school_announcement_latest_news");
 
+$class_scores = $db->getAll("
+    SELECT sc.id AS class_id, sc.grade, sc.label, AVG(ss.score) AS avg_score 
+    FROM school_score ss
+    JOIN school_student_class ssc ON ss.student_id = ssc.student_id
+    JOIN school_class sc ON ssc.class_id = sc.id
+    GROUP BY sc.id
+");
+
+
+
 link_js('script.js');
 link_js(_ROOT . 'templates/eraport-sdit/js/chart.umd.min.js');
 

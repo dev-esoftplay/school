@@ -7,7 +7,6 @@ if (!defined('_VALID_BBC'))
 
 // Set the layout for the teacher dashboard
 $sys->set_layout('teacher.php');
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -492,54 +491,60 @@ $sys->set_layout('teacher.php');
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
-            // Data for the bar chart (Average grades for each class)
+            // Convert PHP data to JavaScript
+            const classScores = <?php echo json_encode($class_scores); ?>;
+
+            // Extract labels (Class Grade & Label) and average scores
+            const labels = classScores.map(item => `Class ${item.grade}${item.label}`);
+            const avgScores = classScores.map(item => parseFloat(item.avg_score));
+
+            // Debugging in browser console
+            console.log('Processed Labels:', labels);
+            console.log('Processed Scores:', avgScores);
+
+            // Chart.js setup
             const data = {
-                labels: ['Class 1', 'Class 2', 'Class 3', 'Class 4'], // Example class names
+                labels: labels,
                 datasets: [{
-                    label: 'Rata-rata kelas', // The name of the dataset
-                    data: [85, 75, 90, 80], // Example average grades for the classes
-                    backgroundColor: '#36A2EB', // Bar color
-                    borderColor: '#36A2EB', // Border color for the bars
-                    borderWidth: 1, // Width of the border
-                    barThickness: 20 // Narrow the bars by reducing the thickness
+                    label: 'Rata-rata kelas',
+                    data: avgScores,
+                    backgroundColor: '#36A2EB',
+                    borderColor: '#36A2EB',
+                    borderWidth: 1,
+                    barThickness: 20
                 }]
             };
 
-            // Configuration options for the bar chart
-            const config = {
-                type: 'bar', // Change the chart type to 'bar'
+            // Create the bar chart
+            const ctx = document.getElementById('performanceChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
                 data: data,
                 options: {
                     responsive: true,
                     plugins: {
-                        legend: {
-                            position: 'top',
-                        },
+                        legend: { position: 'top' },
                         tooltip: {
                             callbacks: {
                                 label: function(tooltipItem) {
-                                    return tooltipItem.raw + '%'; // Format the tooltip to show percentage
+                                    return tooltipItem.raw + '%';
                                 }
                             }
                         }
                     },
                     scales: {
                         y: {
-                            beginAtZero: true, // Start the Y-axis from 0
+                            beginAtZero: true,
                             ticks: {
-                                stepSize: 10, // Set the step size for ticks (e.g., 10, 20, 30)
+                                stepSize: 10,
                                 callback: function(value) {
-                                    return value + '%'; // Show percentage on the Y-axis
+                                    return value + '%';
                                 }
                             }
                         }
                     }
                 }
-            };
-
-            // Create the bar chart using the canvas element
-            const ctx = document.getElementById('performanceChart').getContext('2d');
-            new Chart(ctx, config);
+            });
         </script>
 
         <script>
