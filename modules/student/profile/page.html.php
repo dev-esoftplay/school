@@ -240,6 +240,32 @@ $sys->set_layout('student.php');
             font-weight: bold;
         }
 
+        .dropdown {
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .dropdown-header {
+            background: #f9f9f9;
+            color: black;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: normal;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dropdown-content {
+            display: none;
+            padding: 10px;
+            background: #f9f9f9;
+        }
+
         /* Responsive Styles */
         @media (max-width: 768px) {
             body {
@@ -262,18 +288,6 @@ $sys->set_layout('student.php');
 
             .overlay.active {
                 display: block;
-            }
-
-            .dashboard-grid-2 {
-                display: grid;
-                grid-template-columns: 1fr;
-            }
-
-            .chart-section canvas {
-                width: 65% !important;
-                height: auto !important;
-                max-width: 500px;
-                max-height: 400px;
             }
         }
     </style>
@@ -315,19 +329,11 @@ $sys->set_layout('student.php');
                     <span class="txt"><?php echo htmlspecialchars($profileData['name'] ?? 'Tidak ditemukan'); ?></span>
                 </div>
                 <div class="profile-item">
-                    <span class="txt1">Nama Ayah: </span>
-                    <span class="txt"><?php echo htmlspecialchars($father_name  ?? 'Tidak ditemukan'); ?></span>
-                </div>
-                <div class="profile-item">
-                    <span class="txt1">Nama Ibu: </span>
-                    <span class="txt"><?php echo htmlspecialchars($mother_name  ?? 'Tidak ditemukan'); ?></span>
-                </div>
-                <div class="profile-item">
                     <span class="txt1">Alamat: </span>
                     <span class="txt"><?php echo htmlspecialchars($profileData['address'] ?? 'Tidak ditemukan'); ?></span>
                 </div>
                 <div class="profile-item">
-                    <span class="txt1">Gender: </span>
+                    <span class="txt1">Jenis Kelamin: </span>
                     <span class="txt"><?php echo htmlspecialchars($gender_text); ?></span>
                 </div>
                 <div class="profile-item">
@@ -336,70 +342,100 @@ $sys->set_layout('student.php');
                 </div>
             </div>
             <h2>Profil Orang Tua</h2>
-            <h5>Data diri ayah</h5>
-            <div class="profile-info">
-                <div class="profile-item">
-                    <span class="txt1">Nama Ayah: </span>
-                    <span class="txt"><?php echo htmlspecialchars($father_name  ?? 'Tidak ditemukan'); ?></span>
+            <div class="dropdown">
+                <div class="dropdown-header" onclick="toggleDropdown('father-details')">
+                    Data Ayah <i class="fas fa-chevron-down"></i>
                 </div>
-                <div class="profile-item">
-                    <span class="txt1">No.Hp Ayah: </span>
-                    <span class="txt"><?php echo htmlspecialchars($parentfatherData['phone'] ?? 'Tidak ditemukan'); ?></span>
-                </div>
-                <div class="profile-item">
-                    <span class="txt1">Pekerjaan Ayah: </span>
-                    <span class="txt"><?php echo htmlspecialchars($parentfatherData['profession'] ?? 'Tidak ditemukan'); ?></span>
-                </div>
-                <h5>Data diri ibu</h5>
-                <div class="profile-item">
-                    <span class="txt1">Nama Ibu: </span>
-                    <span class="txt"><?php echo htmlspecialchars($mother_name  ?? 'Tidak ditemukan'); ?></span>
-                </div>
-                <div class="profile-item">
-                    <span class="txt1">No.Hp Ibu: </span>
-                    <span class="txt"><?php echo htmlspecialchars($parentmotherData['phone']  ?? 'Tidak ditemukan'); ?></span>
-                </div>
-                <div class="profile-item">
-                    <span class="txt1">Pekerjaan Ibu: </span>
-                    <span class="txt"><?php echo htmlspecialchars($parentmotherData['profession']  ?? 'Tidak ditemukan'); ?></span>
+                <div class="dropdown-content" id="father-details">
+                    <div class="profile-info">
+                        <div class="profile-item">
+                            <span class="txt1">Nama Ayah:</span>
+                            <span class="txt"><?php echo htmlspecialchars($father_name ?? 'Tidak ditemukan'); ?></span>
+                        </div>
+                        <div class="profile-item">
+                            <span class="txt1">No.Hp Ayah:</span>
+                            <span class="txt"><?php echo htmlspecialchars($parentfatherData['phone'] ?? 'Tidak ditemukan'); ?></span>
+                        </div>
+                        <div class="profile-item">
+                            <span class="txt1">Pekerjaan Ayah:</span>
+                            <span class="txt"><?php echo htmlspecialchars($parentfatherData['profession'] ?? 'Tidak ditemukan'); ?></span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <script>
-                const hamburger = document.getElementById('hamburger');
-                const sidebar = document.getElementById('sidebar');
-                const overlay = document.getElementById('overlay');
 
-                const activePage = window.location.pathname;
-                const navLinks = document.querySelectorAll('.menu-list ul li a');
-
-                navLinks.forEach(link => {
-                    if (link.href.includes(`${activePage}`)) {
-                        link.classList.add('active');
-                    }
-                });
-
-                hamburger.addEventListener('click', () => {
-                    if (sidebar.classList.contains('active')) {
-                        sidebar.classList.remove('active');
-                        overlay.classList.remove('active');
-                        hamburger.textContent = '☰';
-                        hamburger.classList.remove('open');
-                    } else {
-                        sidebar.classList.add('active');
-                        overlay.classList.add('active');
-                        hamburger.textContent = '×';
-                        hamburger.classList.add('open');
-                    }
-                });
-
-                overlay.addEventListener('click', () => {
-                    sidebar.classList.remove('active');
-                    overlay.classList.remove('active');
-                    hamburger.textContent = '☰';
-                    hamburger.classList.remove('open');
-                });
-            </script>
+            <div class="dropdown">
+                <div class="dropdown-header" onclick="toggleDropdown('mother-details')">
+                    Data Ibu <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="dropdown-content" id="mother-details">
+                    <div class="profile-info">
+                        <div class="profile-item">
+                            <span class="txt1">Nama Ibu:</span>
+                            <span class="txt"><?php echo htmlspecialchars($mother_name ?? 'Tidak ditemukan'); ?></span>
+                        </div>
+                        <div class="profile-item">
+                            <span class="txt1">No.Hp Ibu:</span>
+                            <span class="txt"><?php echo htmlspecialchars($parentmotherData['phone'] ?? 'Tidak ditemukan'); ?></span>
+                        </div>
+                        <div class="profile-item">
+                            <span class="txt1">Pekerjaan Ibu:</span>
+                            <span class="txt"><?php echo htmlspecialchars($parentmotherData['profession'] ?? 'Tidak ditemukan'); ?></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-</body>
+    </div>
+    </div>
+    <script>
+        function toggleDropdown(id) {
+            var content = document.getElementById(id);
+            var icon = content.previousElementSibling.querySelector("i");
+            if (content.style.display === "block") {
+                content.style.display = "none";
+                icon.classList.remove("fa-chevron-up");
+                icon.classList.add("fa-chevron-down");
+            } else {
+                content.style.display = "block";
+                icon.classList.remove("fa-chevron-down");
+                icon.classList.add("fa-chevron-up");
+            }
+        }
 
+        const hamburger = document.getElementById('hamburger');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        const activePage = window.location.pathname;
+        const navLinks = document.querySelectorAll('.menu-list ul li a');
+
+        navLinks.forEach(link => {
+            if (link.href.includes(`${activePage}`)) {
+                link.classList.add('active');
+            }
+        });
+
+        hamburger.addEventListener('click', () => {
+            if (sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+                hamburger.textContent = '☰';
+                hamburger.classList.remove('open');
+            } else {
+                sidebar.classList.add('active');
+                overlay.classList.add('active');
+                hamburger.textContent = '×';
+                hamburger.classList.add('open');
+            }
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            hamburger.textContent = '☰';
+            hamburger.classList.remove('open');
+        });
+    </script>
+</body>
 </html>
