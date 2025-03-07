@@ -46,43 +46,6 @@ $sys->set_layout('student.php');
             padding-left: 0px;
         }
 
-        /* Dashboard Grid */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 2fr 2fr;
-            gap: 20px;
-        }
-
-        /* Dashboard Section (Card) Styles */
-        .dashboard-section {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-
-        .dashboard-section h2 {
-            font-size: 1.4em;
-            margin-top: 0px;
-            color: #333;
-        }
-
-        .dashboard-section ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .dashboard-section ul p:not(:last-child) {
-            margin-bottom: 10px;
-        }
-
-        p {
-            margin: 0;
-            font-size: 1em;
-            color: #666;
-        }
-
         /* Hamburger Button */
         .hamburger {
             display: none;
