@@ -191,6 +191,17 @@ $sys->set_layout('teacher.php');
             .overlay.active {
                 display: block;
             }
+            .col-md-4 {
+            width: 100%;
+            padding: 10px; /* Menambahkan padding horizontal untuk margin */
+            box-sizing: border-box; /* Memastikan padding dan border tidak menambah lebar */
+        }
+
+        .custom-card {
+            max-width: 100%;
+            box-sizing: border-box; /* Memastikan padding dan border tidak menambah lebar */
+        }
+    
         }
 
         @media (min-width: 769px) {
