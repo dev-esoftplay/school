@@ -16,7 +16,7 @@ $sys->set_layout('student.php');
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Dashboard</title>
+    <title>Student Profile</title>
     <style>
         /* General Styles */
         body {
@@ -121,7 +121,8 @@ $sys->set_layout('student.php');
         .sidebar {
             width: 250px;
             height: 100vh;
-            background: linear-gradient(135deg, #3E7B27, #66BB6A); /* Gradient background */
+            background: linear-gradient(135deg, #3E7B27, #66BB6A);
+            /* Gradient background */
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
             z-index: 999;
             padding: 20px;
@@ -129,7 +130,8 @@ $sys->set_layout('student.php');
             flex-direction: column;
             position: sticky;
             top: 0;
-            color: white; /* Text color for better contrast */
+            color: white;
+            /* Text color for better contrast */
         }
 
         .sidebar.active {
@@ -137,11 +139,13 @@ $sys->set_layout('student.php');
         }
 
         .sidebar .menu-title {
-            font-size: 1.5em; /* Increased font size */
+            font-size: 1.5em;
+            /* Increased font size */
             margin-bottom: 20px;
             font-weight: bold;
             text-align: left;
-            color: white; /* White text for contrast */
+            color: white;
+            /* White text for contrast */
         }
 
         .sidebar .menu-list {
@@ -170,15 +174,15 @@ $sys->set_layout('student.php');
         }
 
         .sidebar .menu-list ul li a:hover,
-.sidebar .menu-list ul li a.active {
-    background-color: rgba(220, 245, 203, 0.5); /* Light green hover */
-    color: white; /* Tetap kontras dengan warna putih */
-}
+        .sidebar .menu-list ul li a.active {
+            background-color: rgba(220, 245, 203, 0.5);
+            color: white;
+        }
 
 
         .sidebar .logout-link a {
-            background-color: #DC143C; /* Red background */
-            color: white; /* White text */
+            background-color: #DC143C;
+            color: white;
             padding: 12px 15px;
             border-radius: 8px;
             font-weight: bold;
@@ -187,7 +191,7 @@ $sys->set_layout('student.php');
         }
 
         .sidebar .logout-link a:hover {
-            background-color: #B80F0A; /* Darker red on hover */
+            background-color: #B80F0A;
         }
 
         .logout-link {
@@ -200,6 +204,40 @@ $sys->set_layout('student.php');
             font-size: 14px;
             color: #E0F2E7;
             text-align: center;
+        }
+
+        h2 {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .profile-item {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+
+        .profile-item:last-child {
+            border-bottom: none;
+        }
+
+        .txt {
+            color: #333;
+            font-size: 14px;
+        }
+
+        .txt1 {
+            color: #333;
+            font-size: 13px;
+            font-weight: bold;
         }
 
         /* Responsive Styles */
@@ -270,7 +308,62 @@ $sys->set_layout('student.php');
     <div class="main-content">
         <div class="dashboard">
             <div class="breadcrumb">Student Profile</div>
-
+            <h2>Profil Siswa</h2>
+            <div class="profile-info">
+                <div class="profile-item">
+                    <span class="txt1">Nama: </span>
+                    <span class="txt"><?php echo htmlspecialchars($profileData['name'] ?? 'Tidak ditemukan'); ?></span>
+                </div>
+                <div class="profile-item">
+                    <span class="txt1">Nama Ayah: </span>
+                    <span class="txt"><?php echo htmlspecialchars($father_name  ?? 'Tidak ditemukan'); ?></span>
+                </div>
+                <div class="profile-item">
+                    <span class="txt1">Nama Ibu: </span>
+                    <span class="txt"><?php echo htmlspecialchars($mother_name  ?? 'Tidak ditemukan'); ?></span>
+                </div>
+                <div class="profile-item">
+                    <span class="txt1">Alamat: </span>
+                    <span class="txt"><?php echo htmlspecialchars($profileData['address'] ?? 'Tidak ditemukan'); ?></span>
+                </div>
+                <div class="profile-item">
+                    <span class="txt1">Gender: </span>
+                    <span class="txt"><?php echo htmlspecialchars($gender_text); ?></span>
+                </div>
+                <div class="profile-item">
+                    <span class="txt1">Tanggal Lahir: </span>
+                    <span class="txt"><?php echo htmlspecialchars($formatted_date ?? 'Tidak ditemukan'); ?></span>
+                </div>
+            </div>
+            <h2>Profil Orang Tua</h2>
+            <h5>Data diri ayah</h5>
+            <div class="profile-info">
+                <div class="profile-item">
+                    <span class="txt1">Nama Ayah: </span>
+                    <span class="txt"><?php echo htmlspecialchars($father_name  ?? 'Tidak ditemukan'); ?></span>
+                </div>
+                <div class="profile-item">
+                    <span class="txt1">No.Hp Ayah: </span>
+                    <span class="txt"><?php echo htmlspecialchars($parentfatherData['phone'] ?? 'Tidak ditemukan'); ?></span>
+                </div>
+                <div class="profile-item">
+                    <span class="txt1">Pekerjaan Ayah: </span>
+                    <span class="txt"><?php echo htmlspecialchars($parentfatherData['profession'] ?? 'Tidak ditemukan'); ?></span>
+                </div>
+                <h5>Data diri ibu</h5>
+                <div class="profile-item">
+                    <span class="txt1">Nama Ibu: </span>
+                    <span class="txt"><?php echo htmlspecialchars($mother_name  ?? 'Tidak ditemukan'); ?></span>
+                </div>
+                <div class="profile-item">
+                    <span class="txt1">No.Hp Ibu: </span>
+                    <span class="txt"><?php echo htmlspecialchars($parentmotherData['phone']  ?? 'Tidak ditemukan'); ?></span>
+                </div>
+                <div class="profile-item">
+                    <span class="txt1">Pekerjaan Ibu: </span>
+                    <span class="txt"><?php echo htmlspecialchars($parentmotherData['profession']  ?? 'Tidak ditemukan'); ?></span>
+                </div>
+            </div>
             <script>
                 const hamburger = document.getElementById('hamburger');
                 const sidebar = document.getElementById('sidebar');
@@ -306,6 +399,7 @@ $sys->set_layout('student.php');
                     hamburger.classList.remove('open');
                 });
             </script>
+        </div>
 </body>
 
 </html>
