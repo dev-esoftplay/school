@@ -38,6 +38,12 @@ $sys->set_layout('teacher.php');
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      overflow-x: auto; /* Menambahkan scroll horizontal untuk mobile */
+    }
+
+    .table {
+      width: 100%; /* Membuat tabel mengisi kontainer */
+      min-width: 600px; /* Opsional: Menetapkan lebar minimum untuk mencegah tabel terlalu sempit di mobile */
     }
 
     .table tbody tr:hover {
@@ -58,7 +64,6 @@ $sys->set_layout('teacher.php');
 
 <body>
 
-  <!-- Header -->
   <div class="header d-flex align-items-center justify-content-between p-3 px-4 mb-4">
     <a href="teacher/class" onclick="redirectAndClose(event, 'score.php')" class="btn-back text-decoration-none">
       <i class="fas fa-arrow-left"></i> Kembali
