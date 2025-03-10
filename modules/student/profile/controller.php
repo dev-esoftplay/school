@@ -49,6 +49,59 @@ $formatted_date = (new DateTime($date))->format("d F Y");
 setlocale(LC_TIME, 'id_ID.UTF-8', 'Indonesian', 'Indonesia');
 $formatted_date = strftime('%d %B %Y', strtotime($formatted_date ?? 'now'));
 
+//student name
+$name = htmlspecialchars($profileData['name'] ?? 'Tidak ditemukan');
+$nameParts = explode(" ", $name); 
+$firstName = $nameParts[0];  
+$middleName = (count($nameParts) > 2) ? implode(" ", array_slice($nameParts, 1, -1)) : '';
+$lastName = end($nameParts);  
+
+//father name
+$fa_nameParts = explode(" ", $father_name); 
+$fa_firstName = $fa_nameParts[0];  
+
+if (count($fa_nameParts) > 2) {
+    $fa_middleName = implode(" ", array_slice($fa_nameParts, 1, -1));
+    $fa_lastName = end($fa_nameParts);
+} elseif (count($fa_nameParts) === 2) {
+    $fa_middleName = '';
+    $fa_lastName = $fa_nameParts[1];
+} else {
+    $fa_middleName = '';
+    $fa_lastName = '-'; // Jika hanya ada satu kata
+}
+
+//mother name
+$mo_nameParts = explode(" ", $mother_name); 
+$mo_firstName = $mo_nameParts[0];  
+
+if (count($mo_nameParts) > 2) {
+    $mo_middleName = implode(" ", array_slice($mo_nameParts, 1, -1));
+    $mo_lastName = end($mo_nameParts);
+} elseif (count($mo_nameParts) === 2) {
+    $mo_middleName = '';
+    $mo_lastName = $mo_nameParts[1];
+} else {
+    $mo_middleName = '';
+    $mo_lastName = '-'; // Jika hanya ada satu kata
+}
+
+// Memeriksa gender dan menampilkan gambar yang sesuai
+if ($profileData['gender'] == 1) {
+    // Gambar untuk gender 1 (Male)
+    $imageURL = 'https://imgur.com/0VsSkKI.jpg';  // Ganti dengan link gambar yang sesuai
+} else {
+    // Gambar untuk gender 2 (Female)
+    $imageURL = 'https://imgur.com/Lt6iDTy.jpg';  // Ganti dengan link gambar yang sesuai
+}
+
+$phoneNumber = $parentmotherData['phone'] ?? "Tidak diketahui"; 
+$formattedPhoneNumber = '+62 ' . substr($phoneNumber, 2, 2) . ' ' . substr($phoneNumber, 4);
+
+$imageURL_father = 'https://imgur.com/FZG63Ky'; 
+$imageURL_mother = 'https://imgur.com/yXkwgbw';
+
+
 link_js('script.js');
 
 include tpl('page.html.php');
