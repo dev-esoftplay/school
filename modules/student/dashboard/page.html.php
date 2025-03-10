@@ -7,7 +7,7 @@ if (!defined('_VALID_BBC'))
 
 // Set the layout for the teacher dashboard
 $sys->set_layout('student.php');
-pr($_GET, $id);
+// pr($_GET, $id);
 ?>
 <!DOCTYPE html>
 <html lang="en">

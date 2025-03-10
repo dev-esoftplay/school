@@ -95,12 +95,15 @@ if ($profileData['gender'] == 1) {
     $imageURL = 'https://imgur.com/Lt6iDTy.jpg';  // Ganti dengan link gambar yang sesuai
 }
 
-$phoneNumber = $parentmotherData['phone'] ?? "Tidak diketahui"; 
-$formattedPhoneNumber = '+62 ' . substr($phoneNumber, 2, 2) . ' ' . substr($phoneNumber, 4);
+//photo profil parent
+$fatherPhoto = 'https://imgur.com/FZG63Ky.jpg';
+$motherPhoto = 'https://imgur.com/yXkwgbw.jpg';
 
-$imageURL_father = 'https://imgur.com/FZG63Ky'; 
-$imageURL_mother = 'https://imgur.com/yXkwgbw';
-
+//Memeriksa apakah nomor telepon ayah dan ibu ada
+$motherPhoneNumber = $parentmotherData['phone'] ?? "Tidak diketahui"; 
+$fatherPhoneNumber = $parentfatherData['phone'] ?? "Tidak diketahui"; 
+$formattedMotherPhoneNumber = $motherPhoneNumber !== "Tidak diketahui" ? '+62 ' . substr($motherPhoneNumber, 2, 2) . ' ' . substr($motherPhoneNumber, 4) : "Tidak diketahui";
+$formattedFatherPhoneNumber = $fatherPhoneNumber !== "Tidak diketahui" ? '+62 ' . substr($fatherPhoneNumber, 2, 2) . ' ' . substr($fatherPhoneNumber, 4) : "Tidak diketahui";
 
 link_js('script.js');
 

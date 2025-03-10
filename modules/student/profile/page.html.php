@@ -203,7 +203,7 @@ $sys->set_layout('student.php');
 
         /* Profile Content */
         .profile-section {
-            width: 70%;
+            width: 100%;
             background-color: #fff;
             padding: 30px;
             border-radius: 8px;
@@ -342,8 +342,8 @@ $sys->set_layout('student.php');
                             <input type="text" id="fullname" name="fullname" value="<?php echo $lastName; ?>" disabled>
                         </div>
                         <div class="input-group">
-                            <label for="email">NIS</label>
-                            <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($profileData['nis'] ?? 'Tidak ditemukan'); ?>" disabled>
+                            <label for="num">NIS</label>
+                            <input type="number" id="num" name="num" value="<?php echo htmlspecialchars($profileData['nis'] ?? 'Tidak ditemukan'); ?>" disabled>
                         </div>
                         <div class="input-group">
                             <label for="gender">Jenis Kelamin</label>
@@ -369,7 +369,7 @@ $sys->set_layout('student.php');
             <div class="dropdown-content" id="father-details">
                 <div class="profile-section">
                     <div class="profile-header">
-                        <img src="<?php echo $imageURL; ?>" alt="Profile Picture">
+                        <img src="<?php echo $fatherPhoto; ?>" alt="Profile Picture">
                         <div>
                             <h1><?php echo htmlspecialchars($parentfatherData['name'] ?? 'Tidak ditemukan'); ?></h1>
                             <p><?php echo htmlspecialchars($parentfatherData['address'] ?? 'Tidak ditemukan'); ?></p>
@@ -391,7 +391,7 @@ $sys->set_layout('student.php');
                             </div>
                             <div class="input-group">
                                 <label for="phone">No.Telepon</label>
-                                <input type="text" id="phone" name="phone" value="<?php echo htmlspecialchars($formattedPhoneNumber); ?>" disabled>
+                                <input type="text" id="phone" name="phone" value="<?php echo htmlspecialchars($formattedFatherPhoneNumber); ?>" disabled>
                             </div>
                         </div>
                     </form>
@@ -405,7 +405,7 @@ $sys->set_layout('student.php');
                 <div class="dropdown-content" id="mother-details">
                     <div class="profile-section">
                         <div class="profile-header">
-                            <img src="<?php echo $imageURL; ?>" alt="Profile Picture">
+                            <img src="<?php echo $motherPhoto; ?>" alt="Profile Picture ibu">
                             <div>
                                 <h1><?php echo htmlspecialchars($parentmotherData['name'] ?? 'Tidak ditemukan'); ?></h1>
                                 <p><?php echo htmlspecialchars($parentmotherData['address'] ?? 'Tidak ditemukan'); ?></p>
@@ -427,7 +427,7 @@ $sys->set_layout('student.php');
                                 </div>
                                 <div class="input-group">
                                     <label for="phone">No.Telepon</label>
-                                    <input type="text" id="phone" name="phone" value="<?php echo htmlspecialchars($formattedPhoneNumber); ?>" disabled>
+                                    <input type="text" id="phone" name="phone" value="<?php echo htmlspecialchars($formattedMotherPhoneNumber); ?>" disabled>
                                 </div>
                             </div>
                         </form>
