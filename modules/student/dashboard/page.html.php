@@ -7,6 +7,7 @@ if (!defined('_VALID_BBC'))
 
 // Set the layout for the teacher dashboard
 $sys->set_layout('student.php');
+pr($_GET, $id);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -42,45 +43,13 @@ $sys->set_layout('student.php');
         .breadcrumb {
             font-size: 16px;
             color: #666;
-            margin-bottom: 10px;
-            padding-left: 0px;
-        }
-
-        /* Dashboard Grid */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 2fr 2fr;
-            gap: 20px;
-        }
-
-        /* Dashboard Section (Card) Styles */
-        .dashboard-section {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
-        }
-
-        .dashboard-section h2 {
-            font-size: 1.4em;
-            margin-top: 0px;
-            color: #333;
-        }
-
-        .dashboard-section ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .dashboard-section ul p:not(:last-child) {
-            margin-bottom: 10px;
         }
 
         p {
             margin: 0;
             font-size: 1em;
-            color: #666;
+            color: white;
         }
 
         /* Hamburger Button */
@@ -170,11 +139,10 @@ $sys->set_layout('student.php');
         }
 
         .sidebar .menu-list ul li a:hover,
-.sidebar .menu-list ul li a.active {
-    background-color: rgba(220, 245, 203, 0.5); /* Light green hover */
-    color: white; /* Tetap kontras dengan warna putih */
-}
-
+        .sidebar .menu-list ul li a.active {
+            background-color: rgba(220, 245, 203, 0.5); /* Light green hover */
+            color: white; /* Tetap kontras dengan warna putih */
+        }
 
         .sidebar .logout-link a {
             background-color: #DC143C; /* Red background */
@@ -238,6 +206,139 @@ $sys->set_layout('student.php');
                 max-height: 400px;
             }
         }
+
+        /* Welcome Message */
+        .welcome-message {
+            background: linear-gradient(135deg, #3E7B27, #66BB6A);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .welcome-message h1 {
+            margin: 0;
+            font-size: 1.8em;
+        }
+
+        .welcome-message p {
+            margin: 5px 0 0;
+            font-size: 1.1em;
+        }
+
+        /* Student Details Section */
+        .student-details {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .student-details h2 {
+            font-size: 1.4em;
+            margin-top: 0;
+            color: #333;
+            border-bottom: 2px solid #3E7B27;
+            padding-bottom: 10px;
+        }
+
+        .student-details p {
+            margin: 10px 0;
+            font-size: 1em;
+            color: #666;
+        }
+
+        .student-details p strong {
+            color: #333;
+        }
+
+        /* Quick Links Section */
+        .quick-links {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .quick-links h2 {
+            font-size: 1.4em;
+            margin-top: 0;
+            color: #333;
+            border-bottom: 2px solid #3E7B27;
+            padding-bottom: 10px;
+        }
+
+        .quick-links ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .quick-links ul li {
+            margin: 10px 0;
+        }
+
+        .quick-links ul li a {
+            text-decoration: none;
+            color: #3E7B27;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .quick-links ul li a:hover {
+            color: #66BB6A;
+        }
+
+        /* Recent Activities Section */
+        .recent-activities {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .recent-activities h2 {
+            font-size: 1.4em;
+            margin-top: 0;
+            color: #333;
+            border-bottom: 2px solid #3E7B27;
+            padding-bottom: 10px;
+        }
+
+        .recent-activities ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .recent-activities ul li {
+            margin: 10px 0;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .recent-activities ul li:last-child {
+            border-bottom: none;
+        }
+
+        .recent-activities ul li p {
+            margin: 0;
+            font-size: 1em;
+            color: #666;
+        }
+
+        .recent-activities ul li p strong {
+            color: #333;
+        }
+
+        #profile_text {
+            margin-left:2px ;
+        }
     </style>
 </head>
 
@@ -269,43 +370,83 @@ $sys->set_layout('student.php');
 
     <div class="main-content">
         <div class="dashboard">
+            <!-- Breadcrumb -->
             <div class="breadcrumb">Student Dashboard</div>
 
-            <script>
-                const hamburger = document.getElementById('hamburger');
-                const sidebar = document.getElementById('sidebar');
-                const overlay = document.getElementById('overlay');
+            <!-- Welcome Message -->
+            <div class="welcome-message">
+                <h1>Welcome, <?php echo $student_name; ?>!</h1>
+                <p>Stay updated with your academic progress and activities.</p>
+            </div>
 
-                const activePage = window.location.pathname;
-                const navLinks = document.querySelectorAll('.menu-list ul li a');
+            <!-- Student Details -->
+            <div class="student-details">
+                <h2>Student Details</h2>
+                <p><strong>Class:</strong> <?php echo $student_class; ?></p>
+                <p><strong>Homeroom Teacher:</strong> <?php echo $homeroom_teacher; ?></p>
+                <p><strong>Current Semester:</strong> <?php echo $current_semester; ?></p>
+            </div>
 
-                navLinks.forEach(link => {
-                    if (link.href.includes(`${activePage}`)) {
-                        link.classList.add('active');
-                    }
-                });
+            <!-- Quick Links -->
+            <div class="quick-links">
+                <h2>Quick Links</h2>
+                <ul>
+                    <li><a href="student/score"><i class="fas fa-book"></i> View Report Card</a></li>
+                    <li><a href="student/profile"><i class="fas fa-user"></i><span id="profile_text">Profile</span></a></li>
+                    <li><a href="student/classes"><i class="fas fa-chalkboard-teacher"></i> List of Classes</a></li>
+                </ul>
+            </div>
 
-                hamburger.addEventListener('click', () => {
-                    if (sidebar.classList.contains('active')) {
-                        sidebar.classList.remove('active');
-                        overlay.classList.remove('active');
-                        hamburger.textContent = '☰';
-                        hamburger.classList.remove('open');
-                    } else {
-                        sidebar.classList.add('active');
-                        overlay.classList.add('active');
-                        hamburger.textContent = '×';
-                        hamburger.classList.add('open');
-                    }
-                });
+            <!-- Recent Activities -->
+            <div class="recent-activities">
+                <h2>Recent Activities</h2>
+                <ul>
+                    <?php foreach ($recent_activities as $activity): ?>
+                        <li>
+                            <p><strong><?php echo $activity['title']; ?></strong></p>
+                            <p><?php echo date('F j, Y', strtotime($activity['date'])); ?></p>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </div>
 
-                overlay.addEventListener('click', () => {
+        <script>
+            const hamburger = document.getElementById('hamburger');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+
+            const activePage = window.location.pathname;
+            const navLinks = document.querySelectorAll('.menu-list ul li a');
+
+            navLinks.forEach(link => {
+                if (link.href.includes(`${activePage}`)) {
+                    link.classList.add('active');
+                }
+            });
+
+            hamburger.addEventListener('click', () => {
+                if (sidebar.classList.contains('active')) {
                     sidebar.classList.remove('active');
                     overlay.classList.remove('active');
                     hamburger.textContent = '☰';
                     hamburger.classList.remove('open');
-                });
-            </script>
+                } else {
+                    sidebar.classList.add('active');
+                    overlay.classList.add('active');
+                    hamburger.textContent = '×';
+                    hamburger.classList.add('open');
+                }
+            });
+
+            overlay.addEventListener('click', () => {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+                hamburger.textContent = '☰';
+                hamburger.classList.remove('open');
+            });
+        </script>
+    </div>
 </body>
 
 </html>

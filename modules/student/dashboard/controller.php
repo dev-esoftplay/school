@@ -16,6 +16,16 @@ if (empty($user->id)) {
 
 $teacherId = $db->getOne("SELECT `id` FROM `school_teacher` WHERE `user_id` = $user->id");
 
+$student_name = $db->getOne("SELECT `name` FROM `school_student` WHERE `user_id` = $user->id");
+$student_class = "Grade 10-A";
+$homeroom_teacher = "Ms. Jane Smith";
+$current_semester = "Semester 1, 2023";
+$recent_activities = [
+    ["title" => "Math Assignment Submitted", "date" => "2023-10-15"],
+    ["title" => "Science Quiz Completed", "date" => "2023-10-14"],
+    ["title" => "Parent-Teacher Meeting", "date" => "2023-10-10"]
+];
+
 link_js('script.js');
 link_js(_ROOT . 'templates/eraport-sdit/js/chart.umd.min.js');
 
