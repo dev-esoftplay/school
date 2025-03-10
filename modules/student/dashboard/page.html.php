@@ -170,10 +170,11 @@ $sys->set_layout('student.php');
         }
 
         .sidebar .menu-list ul li a:hover,
-        .sidebar .menu-list ul li a.active {
-            background-color: rgba(255, 255, 255, 0.15); /* Subtle hover effect */
-            color: #E0F2E7; /* Light green on hover */
-        }
+.sidebar .menu-list ul li a.active {
+    background-color: rgba(220, 245, 203, 0.5); /* Light green hover */
+    color: white; /* Tetap kontras dengan warna putih */
+}
+
 
         .sidebar .logout-link a {
             background-color: #DC143C; /* Red background */
