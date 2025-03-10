@@ -288,6 +288,10 @@ $sys->set_layout('student.php');
             .profile-section {
                 width: 100%;
             }
+
+            .profile-info {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
