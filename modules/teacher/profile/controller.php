@@ -20,6 +20,13 @@ $user_id = intval($user->id); // Pastikan user_id dalam bentuk angka
 $sql = sprintf("SELECT * FROM school_teacher WHERE user_id = %d", $user_id);
 $teacher = $db->getRow($sql); // Ambil data guru berdasarkan user_id
 
+//teacher name
+$name = htmlspecialchars($teacher['name'] ?? 'Tidak ditemukan');
+$nameParts = explode(" ", $name); 
+$firstName = $nameParts[0];  
+$middleName = (count($nameParts) > 2) ? implode(" ", array_slice($nameParts, 1, -1)) : '';
+$lastName = end($nameParts);  
+
 // Pastikan $teacher ada sebelum mengambil gender
 $gender = $teacher['gender'] ?? null;
 
@@ -34,6 +41,12 @@ switch ($gender) {
     default:
         $gender_text = "Tidak diketahui";
         break;
+}
+
+if ($teacher['gender'] == 1) {
+    $imageurl = 'https://imgur.com/FZG63Ky.jpg';
+} else {
+    $imageurl = 'https://imgur.com/yXkwgbw.jpg';
 }
 
 $date = $teacher['birthday'] ?? null;

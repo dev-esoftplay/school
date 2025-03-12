@@ -11,7 +11,6 @@ $sys->set_layout('teacher.php');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Halaman Profil</title>
-    <!-- <title>Input Nilai</title> -->
     <!-- Link to Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Styles -->
@@ -37,13 +36,11 @@ $sys->set_layout('teacher.php');
 
         .breadcrumb-item-dashboard {
             color: #4B5320;
-            /* Warna Hijau Army */
             font-weight: bold;
         }
 
         .breadcrumb-item-dashboard:hover {
             color: #3E4C23;
-            /* Warna hijau lebih gelap saat hover */
         }
 
         /* Hamburger Button */
@@ -60,7 +57,6 @@ $sys->set_layout('teacher.php');
             transition: transform 0.3s ease;
         }
 
-        /* When sidebar is open, rotate the hamburger icon */
         .hamburger.open {
             transform: rotate(90deg);
         }
@@ -103,7 +99,6 @@ $sys->set_layout('teacher.php');
         }
 
         .sidebar .menu-list {
-            /* Fixed typo by removing space */
             flex-grow: 1;
             display: flex;
             flex-direction: column;
@@ -120,7 +115,6 @@ $sys->set_layout('teacher.php');
             color: #333;
         }
 
-        /* Default styles for anchor links in the sidebar */
         .sidebar .menu-list ul li a {
             text-decoration: none;
             color: black;
@@ -129,14 +123,12 @@ $sys->set_layout('teacher.php');
             display: block;
         }
 
-        /* Hover effect for the links */
         .sidebar .menu-list ul li a:hover {
             background-color: #d3f4d1;
             color: #3E7B27;
             text-decoration: none;
         }
 
-        /* Active link (current page) style */
         .sidebar .menu-list ul li a.active {
             background-color: #d3f4d1;
             color: #3E7B27;
@@ -144,7 +136,6 @@ $sys->set_layout('teacher.php');
             text-decoration: none;
         }
 
-        /* Footer */
         .footer {
             margin-top: 20px;
             font-size: 14px;
@@ -205,35 +196,77 @@ $sys->set_layout('teacher.php');
             margin-bottom: 20px;
         }
 
-        .profile-info {
+        /* Profile Content */
+        .profile-section {
+            width: 100%;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-header {
             display: flex;
-            flex-direction: column;
-            gap: 10px;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
         }
 
-        .profile-item {
-            display: flex;
-            justify-content: space-between;
-            border-bottom: 1px solid #ddd;
-            padding: 10px 0;
+        /* Loading Indicator */
+        .loading-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 16px;
+            color: #3E7B27;
+            font-weight: bold;
+            display: block;
         }
 
-        .profile-item:last-child {
-            border-bottom: none;
+        .profile-header img {
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            margin-right: 20px;
+            display: none; /* Initially hidden until image loads */
         }
 
-        .txt {
-            color: #333;
-            font-size: 14px;
-        }
-
-        .txt1 {
-            color: #333;
-            font-size: 13px;
+        .profile-header h1 {
+            font-size: 1.8rem;
             font-weight: bold;
         }
 
-        @media (min-width: 769px) {
+        .profile-header p {
+            font-size: 14px;
+            color: #777;
+        }
+
+        .profile-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .profile-info .input-group {
+            margin-bottom: 15px;
+        }
+
+        .profile-info .input-group label {
+            font-size: 14px;
+            color: #777;
+        }
+
+        .profile-info .input-group input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+        }
+
+        @media (min-width: 768px) {
             .sidebar {
                 position: fixed;
                 left: 0;
@@ -244,133 +277,146 @@ $sys->set_layout('teacher.php');
                 margin-left: 230px;
             }
 
-            .profile-item {
-                display: flex;
-                justify-content: flex-start;
-                border-bottom: 1px solid #ddd;
-                padding: 10px;
+            .profile-section {
+                width: 100%;
             }
 
-            .txt {
-                color: #333;
-                font-size: 14px;
-                margin-left: 10px;
-            }
-        }
-
-        @media (min-width: 992px) {
-            .profile-item {
-                display: flex;
-                justify-content: space-between;
-                border-bottom: 1px solid #ddd;
-                padding: 10px 0;
+            .profile-info {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
-<!-- Sidebar & Hamburger Button -->
-<div class="overlay" id="overlay"></div>
-<button class="hamburger" id="hamburger">☰</button>
 
-<!-- Sidebar -->
-<div class="sidebar" id="sidebar">
-    <div class="menu-title">SDIT ERAPORT</div>
-    <div class="menu-list">
-        <ul>
-            <li><a href="teacher/dashboard" onclick="redirectAndClose(event, 'dashboard.php')"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-            <li><a href="teacher/class" onclick="redirectAndClose(event, 'class.php')"><i class="fas fa-chalkboard"></i> Kelas</a></li>
-            <li><a href="teacher/announcement" onclick="redirectAndClose(event, 'announcement.php')"><i class="fas fa-bullhorn"></i> Pengumuman</a></li>
-            <li><a href="teacher/score" onclick="redirectAndClose(event, 'score.php')"><i class="fas fa-pencil-alt"></i> Input Nilai</a></li>
-            <li><a href="teacher/profile" onclick="redirectAndClose(event, 'profile.php')"><i class="fas fa-user"></i> Profil</a></li>
-        </ul>
+<body>
+    <!-- Sidebar & Hamburger Button -->
+    <div class="overlay" id="overlay"></div>
+    <button class="hamburger" id="hamburger">☰</button>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="menu-title">SDIT ERAPORT</div>
+        <div class="menu-list">
+            <ul>
+                <li><a href="teacher/dashboard" onclick="redirectAndClose(event, 'dashboard.php')"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="teacher/class" onclick="redirectAndClose(event, 'class.php')"><i class="fas fa-chalkboard"></i> Kelas</a></li>
+                <li><a href="teacher/announcement" onclick="redirectAndClose(event, 'announcement.php')"><i class="fas fa-bullhorn"></i> Pengumuman</a></li>
+                <li><a href="teacher/score" onclick="redirectAndClose(event, 'score.php')"><i class="fas fa-pencil-alt"></i> Input Nilai</a></li>
+                <li><a href="teacher/profile" onclick="redirectAndClose(event, 'profile.php')"><i class="fas fa-user"></i> Profil</a></li>
+            </ul>
+        </div>
+
+        <div class="logout-link">
+            <a href="teacher/logout" onclick="redirectAndClose(event, 'logout.php')"><i class="fas fa-sign-out-alt"></i> Keluar</a>
+        </div>
+
+        <div class="footer">
+            <?php echo config('site', 'footer'); ?>
+            <?php echo $sys->block_show('footer'); ?>
+        </div>
     </div>
 
-    <div class="logout-link">
-        <a href="teacher/logout" onclick="redirectAndClose(event, 'logout.php')"><i class="fas fa-sign-out-alt"></i> Keluar</a>
-    </div>
+    <div class="main-content">
+        <div class="container mt-4">
+            <!-- Breadcrumb for Title -->
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="teacher/dashboard" class="breadcrumb-item-dashboard">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Profil</li>
+                </ol>
+            </nav>
 
-    <div class="footer">
-        <?php echo config('site', 'footer'); ?>
-        <?php echo $sys->block_show('footer'); ?>
-    </div>
-</div>
+            <div class="profile-section">
+                <div class="profile-header">
+                    <!-- Loading Indicator -->
+                    <div id="loading" class="loading-indicator">Loading...</div>
 
-<div class="main-content">
-    <div class="container mt-4">
-        <!-- Breadcrumb for Title -->
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="teacher/dashboard" class="breadcrumb-item-dashboard">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Profil</li>
-            </ol>
-        </nav>
+                    <!-- Profile Picture -->
+                    <img src="<?php echo $imageurl; ?>" alt="Profile Picture" id="profile-picture">
+                    
+                    <div>
+                        <h1><?php echo htmlspecialchars($teacher['name'] ?? 'Tidak ditemukan'); ?></h1>
+                        <p><?php echo htmlspecialchars($teacher['phone'] ?? 'Tidak ditemukan'); ?></p>
+                    </div>
+                </div>
 
-        <h2>Profil Guru</h2>
-        <div class="profile-info">
-            <div class="profile-item">
-                <span class="txt1">Nama</span>
-                <span class="txt"><?php echo htmlspecialchars($teacher['name'] ?? 'Tidak ditemukan'); ?></span>
-            </div>
-            <div class="profile-item">
-                <span class="txt1">NIP</span>
-                <span class="txt"><?php echo htmlspecialchars($teacher['nip'] ?? 'Tidak ditemukan'); ?></span>
-            </div>
-            <div class="profile-item">
-                <span class="txt1">No HP</span>
-                <span class="txt"><?php echo htmlspecialchars($teacher['phone'] ?? 'Tidak ditemukan'); ?></span>
-            </div>
-            <div class="profile-item">
-                <span class="txt1">Posisi</span>
-                <span class="txt"><?php echo htmlspecialchars($teacher['position'] ?? 'Tidak ditemukan'); ?></span>
-            </div>
-            <div class="profile-item">
-                <span class="txt1">Gender</span>
-                <span class="txt"><?php echo htmlspecialchars($gender_text); ?></span>
-            </div>
-            <div class="profile-item">
-                <span class="txt1">Tanggal Lahir</span>
-                <span class="txt"><?php echo htmlspecialchars($formatted_date ?? 'Tidak ditemukan'); ?></span>
+                <form>
+                    <div class="profile-info">
+                        <div class="input-group">
+                            <label for="name">Nama Depan</label>
+                            <input type="text" id="name" name="name" value="<?php echo $firstName; ?>" disabled>
+                        </div>
+                        <div class="input-group">
+                            <label for="fullname">Nama Belakang</label>
+                            <input type="text" id="fullname" name="fullname" value="<?php echo $lastName; ?>" disabled>
+                        </div>
+                        <div class="input-group">
+                            <label for="num">NIP</label>
+                            <input type="number" id="num" name="num" value="<?php echo htmlspecialchars($teacher['nip'] ?? 'Tidak ditemukan'); ?>" disabled>
+                        </div>
+                        <div class="input-group">
+                            <label for="gender">Jenis Kelamin</label>
+                            <input type="text" id="gender" name="phone" value="<?php echo htmlspecialchars($gender_text); ?>" disabled>
+                        </div>
+                        <div class="input-group">
+                            <label for="birth">Tanggal Lahir</label>
+                            <input type="text" id="birth" name="birth" value="<?php echo htmlspecialchars($formatted_date ?? 'Tidak ditemukan'); ?>" disabled>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Scripts -->
-<script>
-    const hamburger = document.getElementById('hamburger');
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
+    <!-- Scripts -->
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
 
-    const activePage = window.location.pathname;
-    const navLinks = document.querySelectorAll('.menu-list ul li a');
+        const activePage = window.location.pathname;
+        const navLinks = document.querySelectorAll('.menu-list ul li a');
 
-    navLinks.forEach(link => {
-        if (link.href.includes(`${activePage}`)) {
-            link.classList.add('active');
-        }
-    });
+        navLinks.forEach(link => {
+            if (link.href.includes(`${activePage}`)) {
+                link.classList.add('active');
+            }
+        });
 
-    hamburger.addEventListener('click', () => {
-        if (sidebar.classList.contains('active')) {
+        hamburger.addEventListener('click', () => {
+            if (sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+                hamburger.textContent = '☰';
+                hamburger.classList.remove('open');
+            } else {
+                sidebar.classList.add('active');
+                overlay.classList.add('active');
+                hamburger.textContent = '×';
+                hamburger.classList.add('open');
+            }
+        });
+
+        overlay.addEventListener('click', () => {
             sidebar.classList.remove('active');
             overlay.classList.remove('active');
             hamburger.textContent = '☰';
             hamburger.classList.remove('open');
-        } else {
-            sidebar.classList.add('active');
-            overlay.classList.add('active');
-            hamburger.textContent = '×';
-            hamburger.classList.add('open');
-        }
-    });
+        });
 
-    overlay.addEventListener('click', () => {
-        sidebar.classList.remove('active');
-        overlay.classList.remove('active');
-        hamburger.textContent = '☰';
-        hamburger.classList.remove('open');
-    });
-</script>
+        // JavaScript to show the image once it's loaded
+        const profilePicture = document.getElementById('profile-picture');
+        const loadingIndicator = document.getElementById('loading');
+
+        profilePicture.onload = function() {
+            loadingIndicator.style.display = 'none';
+            profilePicture.style.display = 'block';
+        };
+
+        profilePicture.onerror = function() {
+            loadingIndicator.style.display = 'none';
+        };
+    </script>
 </body>
 
 </html>
