@@ -7,7 +7,7 @@ if (!defined('_VALID_BBC'))
 
 // Set the layout for the teacher dashboard
 $sys->set_layout('student.php');
-// pr($_GET, $id);
+// pr($_GET, $user->id, $teacherData, $classes, $recent_announcement);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -294,8 +294,8 @@ $sys->set_layout('student.php');
             color: #66BB6A;
         }
 
-        /* Recent Activities Section */
-        .recent-activities {
+        /* Recent announcement Section */
+        .recent-announcement {
             background: white;
             padding: 20px;
             border-radius: 8px;
@@ -303,7 +303,7 @@ $sys->set_layout('student.php');
             margin-bottom: 20px;
         }
 
-        .recent-activities h2 {
+        .recent-announcement h2 {
             font-size: 1.4em;
             margin-top: 0;
             color: #333;
@@ -311,28 +311,28 @@ $sys->set_layout('student.php');
             padding-bottom: 10px;
         }
 
-        .recent-activities ul {
+        .recent-announcement ul {
             list-style-type: none;
             padding: 0;
         }
 
-        .recent-activities ul li {
+        .recent-announcement ul li {
             margin: 10px 0;
             padding: 10px;
             border-bottom: 1px solid #eee;
         }
 
-        .recent-activities ul li:last-child {
+        .recent-announcement ul li:last-child {
             border-bottom: none;
         }
 
-        .recent-activities ul li p {
+        .recent-announcement ul li p {
             margin: 0;
             font-size: 1em;
             color: #666;
         }
 
-        .recent-activities ul li p strong {
+        .recent-announcement ul li p strong {
             color: #333;
         }
 
@@ -376,14 +376,14 @@ $sys->set_layout('student.php');
             <!-- Welcome Message -->
             <div class="welcome-message">
                 <h1>Welcome, <?php echo $student_name; ?>!</h1>
-                <p>Stay updated with your academic progress and activities.</p>
+                <p>Stay updated with your academic progress and announcement.</p>
             </div>
 
             <!-- Student Details -->
             <div class="student-details">
                 <h2>Student Details</h2>
-                <p><strong>Class:</strong> <?php echo $student_class; ?></p>
-                <p><strong>Homeroom Teacher:</strong> <?php echo $homeroom_teacher; ?></p>
+                <p><strong>Class:</strong> <?php echo htmlspecialchars($classes['grade']) . " " . htmlspecialchars($classes['label']); ?></p>
+                <p><strong>Homeroom Teacher:</strong> <?php echo htmlspecialchars($teacherData[0]['name']); ?></p>
                 <p><strong>Current Semester:</strong> <?php echo $current_semester; ?></p>
             </div>
 
@@ -397,14 +397,14 @@ $sys->set_layout('student.php');
                 </ul>
             </div>
 
-            <!-- Recent Activities -->
-            <div class="recent-activities">
-                <h2>Recent Activities</h2>
+            <!-- Recent announcement -->
+            <div class="recent-announcement">
+                <h2>Recent Announcement</h2>
                 <ul>
-                    <?php foreach ($recent_activities as $activity): ?>
+                    <?php foreach ($recent_announcement as $announcement): ?>
                         <li>
-                            <p><strong><?php echo $activity['title']; ?></strong></p>
-                            <p><?php echo date('F j, Y', strtotime($activity['date'])); ?></p>
+                            <p><strong><?php echo $announcement['title']; ?></strong></p>
+                            <p><?php echo date('F j, Y', strtotime($announcement['created_at'])); ?></p>
                         </li>
                     <?php endforeach; ?>
                 </ul>

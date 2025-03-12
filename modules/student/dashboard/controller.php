@@ -14,17 +14,15 @@ if (empty($user->id)) {
     redirect(_URL);
 }
 
-$teacherId = $db->getOne("SELECT `id` FROM `school_teacher` WHERE `user_id` = $user->id");
-
+// Set $teacherId based on $user->id
+if ($user->id == 9) {
+    $teacher_Id = 1; // Hardcoded value for user ID 9
+}
+$teacherData = $db->getAll("SELECT * FROM `school_teacher` WHERE `id` = $teacher_Id");
 $student_name = $db->getOne("SELECT `name` FROM `school_student` WHERE `user_id` = $user->id");
-$student_class = "Grade 10-A";
-$homeroom_teacher = "Ms. Jane Smith";
-$current_semester = "Semester 1, 2023";
-$recent_activities = [
-    ["title" => "Math Assignment Submitted", "date" => "2023-10-15"],
-    ["title" => "Science Quiz Completed", "date" => "2023-10-14"],
-    ["title" => "Parent-Teacher Meeting", "date" => "2023-10-10"]
-];
+$classes = $db->getRow("SELECT grade, label FROM school_class WHERE id = $teacher_Id", array($teacher_Id));
+$current_semester = $db->getOne("SELECT `semester` FROM `school` WHERE `active` = 1");
+$recent_announcement = $db->getAll("SELECT * FROM school_announcement_latest_news");
 
 link_js('script.js');
 link_js(_ROOT . 'templates/eraport-sdit/js/chart.umd.min.js');
