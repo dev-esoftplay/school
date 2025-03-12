@@ -16,7 +16,7 @@ $sys->set_layout('student.php');
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Profile</title>
+    <title>Profil Siswa</title>
     <style>
         /* General Styles */
         body {
@@ -324,7 +324,7 @@ $sys->set_layout('student.php');
 
     <div class="main-content">
         <div class="dashboard">
-            <div class="breadcrumb">Student Profile</div>
+            <div class="breadcrumb">Profil Siswa</div>
             <!-- Profile Section -->
             <div class="profile-section">
                 <div class="profile-header">
@@ -364,44 +364,44 @@ $sys->set_layout('student.php');
                     </div>
                 </form>
             </div>
-        </div>
-        <h2>Profil Orang Tua</h2>
-        <div class="dropdown">
-            <div class="dropdown-header" onclick="toggleDropdown('father-details')">
-                Data Ayah <i class="fas fa-chevron-down"></i>
-            </div>
-            <div class="dropdown-content" id="father-details">
-                <div class="profile-section">
-                    <div class="profile-header">
-                        <img src="<?php echo $fatherPhoto; ?>" alt="Profile Picture">
-                        <div>
-                            <h1><?php echo htmlspecialchars($parentfatherData['name'] ?? 'Tidak ditemukan'); ?></h1>
-                            <p><?php echo htmlspecialchars($parentfatherData['address'] ?? 'Tidak ditemukan'); ?></p>
+
+            <h5 class="breadcrumb">Profil Orang Tua</h5>
+            <div class="dropdown">
+                <div class="dropdown-header" onclick="toggleDropdown('father-details')">
+                    Data Ayah <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="dropdown-content" id="father-details">
+                    <div class="profile-section">
+                        <div class="profile-header">
+                            <img src="<?php echo $fatherPhoto; ?>" alt="Profile Picture">
+                            <div>
+                                <h1><?php echo htmlspecialchars($parentfatherData['name'] ?? 'Tidak ditemukan'); ?></h1>
+                                <p><?php echo htmlspecialchars($parentfatherData['address'] ?? 'Tidak ditemukan'); ?></p>
+                            </div>
                         </div>
+                        <form>
+                            <div class="profile-info">
+                                <div class="input-group">
+                                    <label for="name">Nama Depan</label>
+                                    <input type="text" id="name" name="name" value="<?php echo $fa_firstName; ?>" disabled>
+                                </div>
+                                <div class="input-group">
+                                    <label for="fullname">Nama Belakang</label>
+                                    <input type="text" id="fullname" name="fullname" value="<?php echo $fa_lastName; ?>" disabled>
+                                </div>
+                                <div class="input-group">
+                                    <label for="location">ALamat</label>
+                                    <input type="text" id="location" name="location" value="<?php echo htmlspecialchars($parentfatherData['address'] ?? 'Tidak ditemukan'); ?>" disabled>
+                                </div>
+                                <div class="input-group">
+                                    <label for="phone">No.Telepon</label>
+                                    <input type="text" id="phone" name="phone" value="<?php echo htmlspecialchars($formattedFatherPhoneNumber); ?>" disabled>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                    <form>
-                        <div class="profile-info">
-                            <div class="input-group">
-                                <label for="name">Nama Depan</label>
-                                <input type="text" id="name" name="name" value="<?php echo $fa_firstName; ?>" disabled>
-                            </div>
-                            <div class="input-group">
-                                <label for="fullname">Nama Belakang</label>
-                                <input type="text" id="fullname" name="fullname" value="<?php echo $fa_lastName; ?>" disabled>
-                            </div>
-                            <div class="input-group">
-                                <label for="location">ALamat</label>
-                                <input type="text" id="location" name="location" value="<?php echo htmlspecialchars($parentfatherData['address'] ?? 'Tidak ditemukan'); ?>" disabled>
-                            </div>
-                            <div class="input-group">
-                                <label for="phone">No.Telepon</label>
-                                <input type="text" id="phone" name="phone" value="<?php echo htmlspecialchars($formattedFatherPhoneNumber); ?>" disabled>
-                            </div>
-                        </div>
-                    </form>
                 </div>
             </div>
-
             <div class="dropdown">
                 <div class="dropdown-header" onclick="toggleDropdown('mother-details')">
                     Data Ibu <i class="fas fa-chevron-down"></i>

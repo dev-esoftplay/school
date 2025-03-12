@@ -43,7 +43,7 @@ $father_name = $parentfatherData['name'] ?? "Tidak diketahui";
 $mother_name = $parentmotherData['name'] ?? "Tidak diketahui";
 
 // Mengambil tanggal lahir guru (jika ada)
-$date = $teacher['birthday'] ?? null;
+$date = $profileData['birthday'] ?? null;
 $formatted_date = (new DateTime($date))->format("d F Y");
 
 setlocale(LC_TIME, 'id_ID.UTF-8', 'Indonesian', 'Indonesia');
@@ -83,16 +83,16 @@ if (count($mo_nameParts) > 2) {
     $mo_lastName = $mo_nameParts[1];
 } else {
     $mo_middleName = '';
-    $mo_lastName = '-'; // Jika hanya ada satu kata
+    $mo_lastName = '-'; 
 }
 
-// Memeriksa gender dan menampilkan gambar yang sesuai
+
 if ($profileData['gender'] == 1) {
     // Gambar untuk gender 1 (Male)
-    $imageURL = 'https://imgur.com/0VsSkKI.jpg';  // Ganti dengan link gambar yang sesuai
+    $imageURL = 'https://imgur.com/0VsSkKI.jpg';  
 } else {
     // Gambar untuk gender 2 (Female)
-    $imageURL = 'https://imgur.com/Lt6iDTy.jpg';  // Ganti dengan link gambar yang sesuai
+    $imageURL = 'https://imgur.com/Lt6iDTy.jpg';  
 }
 
 //photo profil parent
