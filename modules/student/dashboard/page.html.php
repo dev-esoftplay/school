@@ -90,7 +90,8 @@ $sys->set_layout('student.php');
         .sidebar {
             width: 250px;
             height: 100vh;
-            background: linear-gradient(135deg, #3E7B27, #66BB6A); /* Gradient background */
+            background: linear-gradient(135deg, #3E7B27, #66BB6A);
+            /* Gradient background */
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
             z-index: 999;
             padding: 20px;
@@ -98,7 +99,8 @@ $sys->set_layout('student.php');
             flex-direction: column;
             position: sticky;
             top: 0;
-            color: white; /* Text color for better contrast */
+            color: white;
+            /* Text color for better contrast */
         }
 
         .sidebar.active {
@@ -106,11 +108,13 @@ $sys->set_layout('student.php');
         }
 
         .sidebar .menu-title {
-            font-size: 1.5em; /* Increased font size */
+            font-size: 1.5em;
+            /* Increased font size */
             margin-bottom: 20px;
             font-weight: bold;
             text-align: left;
-            color: white; /* White text for contrast */
+            color: white;
+            /* White text for contrast */
         }
 
         .sidebar .menu-list {
@@ -140,13 +144,17 @@ $sys->set_layout('student.php');
 
         .sidebar .menu-list ul li a:hover,
         .sidebar .menu-list ul li a.active {
-            background-color: rgba(220, 245, 203, 0.5); /* Light green hover */
-            color: white; /* Tetap kontras dengan warna putih */
+            background-color: rgba(220, 245, 203, 0.5);
+            /* Light green hover */
+            color: white;
+            /* Tetap kontras dengan warna putih */
         }
 
         .sidebar .logout-link a {
-            background-color: #DC143C; /* Red background */
-            color: white; /* White text */
+            background-color: #DC143C;
+            /* Red background */
+            color: white;
+            /* White text */
             padding: 12px 15px;
             border-radius: 8px;
             font-weight: bold;
@@ -155,7 +163,8 @@ $sys->set_layout('student.php');
         }
 
         .sidebar .logout-link a:hover {
-            background-color: #B80F0A; /* Darker red on hover */
+            background-color: #B80F0A;
+            /* Darker red on hover */
         }
 
         .logout-link {
@@ -337,7 +346,7 @@ $sys->set_layout('student.php');
         }
 
         #profile_text {
-            margin-left:2px ;
+            margin-left: 2px;
         }
     </style>
 </head>
@@ -375,31 +384,31 @@ $sys->set_layout('student.php');
 
             <!-- Welcome Message -->
             <div class="welcome-message">
-                <h1>Welcome, <?php echo $student_name; ?>!</h1>
-                <p>Stay updated with your academic progress and announcement.</p>
+                <h1>Halo, <?php echo $student_name; ?>! 👋</h1>
+                <p>Selalu terinformasi mengenai perkembangan akademik dan pengumuman terkini.</p>
             </div>
 
             <!-- Student Details -->
             <div class="student-details">
                 <h2>Student Details</h2>
-                <p><strong>Class:</strong> <?php echo htmlspecialchars($classes['grade']) . " " . htmlspecialchars($classes['label']); ?></p>
-                <p><strong>Homeroom Teacher:</strong> <?php echo htmlspecialchars($teacherData[0]['name']); ?></p>
-                <p><strong>Current Semester:</strong> <?php echo $current_semester; ?></p>
+                <p><strong>Kelas:</strong> <?= htmlspecialchars(str_replace(' ', '', $className . $labelClass), ENT_QUOTES, 'UTF-8') ?></p>
+                <p><strong>Wali Kelas:</strong> <?php echo $teacher_Name; ?></p>
+                <p><strong>Semester:</strong> Semester <?php echo $current_semester; ?></p>
             </div>
 
             <!-- Quick Links -->
             <div class="quick-links">
-                <h2>Quick Links</h2>
+                <h2>Tautan</h2>
                 <ul>
-                    <li><a href="student/score"><i class="fas fa-book"></i> View Report Card</a></li>
-                    <li><a href="student/profile"><i class="fas fa-user"></i><span id="profile_text">Profile</span></a></li>
-                    <li><a href="student/classes"><i class="fas fa-chalkboard-teacher"></i> List of Classes</a></li>
+                    <li><a href="student/score"><i class="fas fa-book"></i> Lihat Raport</a></li>
+                    <li><a href="student/profile"><i class="fas fa-user"></i><span id="profile_text">Profil</span></a></li>
+                    <li><a href="student/classes"><i class="fas fa-chalkboard-teacher"></i>List Kelas</a></li>
                 </ul>
             </div>
 
             <!-- Recent announcement -->
             <div class="recent-announcement">
-                <h2>Recent Announcement</h2>
+                <h2>Pemberitahuan Terbaru</h2>
                 <ul>
                     <?php foreach ($recent_announcement as $announcement): ?>
                         <li>
