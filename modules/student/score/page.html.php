@@ -13,6 +13,17 @@ $sys->set_layout('student.php');
 
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    />
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,6 +37,8 @@ $sys->set_layout('student.php');
             background-color: #f4f4f4;
             overflow-x: hidden;
             display: flex;
+            font-size: 14px; /* atau ukuran font yang Anda inginkan */
+            font-family: Arial, sans-serif; /* atau font family yang Anda inginkan */
         }
 
         .main-content {
@@ -231,6 +244,8 @@ $sys->set_layout('student.php');
                 grid-template-columns: 1fr;
             }
 
+            
+
             .chart-section canvas {
                 width: 65% !important;
                 height: auto !important;
@@ -270,6 +285,121 @@ $sys->set_layout('student.php');
     <div class="main-content">
         <div class="dashboard">
             <div class="breadcrumb">Student E-Rapor</div>
+
+            <div class="container-fluid p-0">
+      <div>
+        <div class="card mb-4">
+          <div class="card-body">
+            <div
+              class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center mb-3"
+            >
+              <div class="d-flex align-items-center mb-2 mb-sm-0">
+                <i class="bi bi-mortarboard-fill text-primary me-2 fs-4"></i>
+                <h1 class="h3 mb-0 fs-4 fs-md-3">E-Raport Siswa</h1>
+              </div>
+              <div class="text-start text-sm-end">
+                <p class="small text-muted mb-0">Semester <?= $semesterName ?></p>
+                <p class="small text-muted mb-0">Tahun Ajaran 2023/2024</p>
+              </div>
+            </div>
+
+            <!-- Student Info -->
+            <div class="bg-light p-3 rounded">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="info-field">
+                    <span class="info-icon"
+                      ><i class="bi bi-person text-secondary"></i
+                    ></span>
+                    <span class="text-muted small info-label">Nama:</span>
+                    <span class="ms-2 fw-medium"><?php echo htmlspecialchars($studentName); ?></span>
+                  </div>
+                  <div class="info-field">
+                    <span class="info-icon"
+                      ><i class="bi bi-book text-secondary"></i
+                    ></span>
+                    <span class="text-muted small info-label">Kelas:</span>
+                    <span class="ms-2 fw-medium"><?= $fullClassName ?></span>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="info-field">
+                    <span class="info-icon"
+                      ><i class="bi bi-card-heading text-secondary"></i
+                    ></span>
+                    <span class="text-muted small info-label">NISN:</span>
+                    <span class="ms-2 fw-medium"><?php echo htmlspecialchars($nisn); ?></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Akademik Card -->
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="d-flex align-items-center mb-3">
+              <i class="bi bi-award text-primary me-2 fs-4"></i>
+              <h2 class="h4 mb-0">Nilai Akademik</h2>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead class="table-light">
+                  <tr>
+                    <th>Mata Pelajaran</th>
+                    <th>Nilai</th>
+                    <th>Grade</th>
+                    <th>Guru</th>
+                  </tr>
+                </thead>
+                <tbody>
+    <?php if (!empty($academicScores)): ?>
+        <?php foreach ($academicScores as $score): ?>
+            <tr>
+                <td class="fw-medium">
+                    <?php 
+                        // Mapping untuk course_name dan singkatannya
+                        $courseName = strtolower(trim($score['course_name']));
+                        
+                        switch ($courseName) {
+                            case 'pendidikan pancasila':
+                                echo 'PPKN';
+                                break;
+                            case 'ilmu pengetahuan alam dan sosial':
+                                echo 'IPAS';
+                                break;
+                            case 'pendidikan agama islam dan budi pekerti':
+                                echo 'PAI';
+                                break;
+                            case 'pendidikan jasmani olahraga dan kesehatan':
+                                echo 'PJOK';
+                                break;
+                            case 'teknologi informasi dan komunikasi':
+                                echo 'TIK';
+                                break;
+                            default:
+                                echo htmlspecialchars($score['course_name']);
+                        }
+                    ?>
+                </td>
+                <td><?= htmlspecialchars($score['score']) ?></td>
+                <td class="fw-medium"><?= calculateGrade($score['score']) ?></td>
+                <td><?= htmlspecialchars($score['teacher_name']) ?></td>
+            </tr>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <tr>
+            <td colspan="4">Tidak ada data nilai.</td>
+        </tr>
+    <?php endif; ?>
+</tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
             <script>
                 const hamburger = document.getElementById('hamburger');
