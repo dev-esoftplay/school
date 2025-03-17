@@ -442,7 +442,7 @@ $sys->set_layout('teacher.php');
             <section class="featured-news-section">
                 <div class="latest-news-header">
                     <h2>Featured News</h2>
-                    <a href="all-featured-news.php" class="see-all">See all →</a>
+                    <a href="teacher/featurednews" class="see-all">See all →</a>
                 </div>
                 <div class="featured-news">
                     <?php foreach ($featured_news as $item): ?>

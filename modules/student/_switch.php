@@ -13,6 +13,9 @@ switch ($Bbc->mod['task']) {
     case 'score':
         include 'score/controller.php';
         break;
+    case 'raport':
+        include 'score/raport_controller.php';
+        break;
     case 'announcement':
         include 'announcement/controller.php';
         break;
