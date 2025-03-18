@@ -229,7 +229,8 @@ $sys->set_layout('teacher.php');
             width: 80px;
             height: 80px;
             margin-right: 20px;
-            display: none; /* Initially hidden until image loads */
+            display: none;
+            /* Initially hidden until image loads */
         }
 
         .profile-header h1 {
@@ -266,6 +267,11 @@ $sys->set_layout('teacher.php');
             font-size: 14px;
         }
 
+        .profile-info .input-group input#num {
+            width: 120%;
+            /* Menambah lebar input NIP */
+        }
+
         @media (min-width: 768px) {
             .sidebar {
                 position: fixed;
@@ -281,6 +287,9 @@ $sys->set_layout('teacher.php');
                 width: 100%;
             }
 
+            .profile-info .input-group input#num {
+                width: 100%;
+            }
             .profile-info {
                 grid-template-columns: 1fr;
             }
@@ -289,11 +298,8 @@ $sys->set_layout('teacher.php');
 </head>
 
 <body>
-    <!-- Sidebar & Hamburger Button -->
     <div class="overlay" id="overlay"></div>
     <button class="hamburger" id="hamburger">☰</button>
-
-    <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="menu-title">SDIT ERAPORT</div>
         <div class="menu-list">
@@ -305,17 +311,14 @@ $sys->set_layout('teacher.php');
                 <li><a href="teacher/profile" onclick="redirectAndClose(event, 'profile.php')"><i class="fas fa-user"></i> Profil</a></li>
             </ul>
         </div>
-
         <div class="logout-link">
             <a href="teacher/logout" onclick="redirectAndClose(event, 'logout.php')"><i class="fas fa-sign-out-alt"></i> Keluar</a>
         </div>
-
         <div class="footer">
             <?php echo config('site', 'footer'); ?>
             <?php echo $sys->block_show('footer'); ?>
         </div>
     </div>
-
     <div class="main-content">
         <div class="container mt-4">
             <!-- Breadcrumb for Title -->
@@ -325,7 +328,6 @@ $sys->set_layout('teacher.php');
                     <li class="breadcrumb-item active" aria-current="page">Profil</li>
                 </ol>
             </nav>
-
             <div class="profile-section">
                 <div class="profile-header">
                     <!-- Loading Indicator -->
@@ -333,13 +335,12 @@ $sys->set_layout('teacher.php');
 
                     <!-- Profile Picture -->
                     <img src="<?php echo $imageurl; ?>" alt="Profile Picture" id="profile-picture">
-                    
+
                     <div>
                         <h1><?php echo htmlspecialchars($teacher['name'] ?? 'Tidak ditemukan'); ?></h1>
                         <p><?php echo htmlspecialchars($teacher['phone'] ?? 'Tidak ditemukan'); ?></p>
                     </div>
                 </div>
-
                 <form>
                     <div class="profile-info">
                         <div class="input-group">
@@ -351,10 +352,6 @@ $sys->set_layout('teacher.php');
                             <input type="text" id="fullname" name="fullname" value="<?php echo $lastName; ?>" disabled>
                         </div>
                         <div class="input-group">
-                            <label for="num">NIP</label>
-                            <input type="number" id="num" name="num" value="<?php echo htmlspecialchars($teacher['nip'] ?? 'Tidak ditemukan'); ?>" disabled>
-                        </div>
-                        <div class="input-group">
                             <label for="gender">Jenis Kelamin</label>
                             <input type="text" id="gender" name="phone" value="<?php echo htmlspecialchars($gender_text); ?>" disabled>
                         </div>
@@ -362,13 +359,15 @@ $sys->set_layout('teacher.php');
                             <label for="birth">Tanggal Lahir</label>
                             <input type="text" id="birth" name="birth" value="<?php echo htmlspecialchars($formatted_date ?? 'Tidak ditemukan'); ?>" disabled>
                         </div>
+                        <div class="input-group">
+                            <label for="num">NIP</label>
+                            <input type="number" id="num" name="num" value="<?php echo htmlspecialchars($teacher['nip'] ?? 'Tidak ditemukan'); ?>" disabled>
+                        </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
-    <!-- Scripts -->
     <script>
         const hamburger = document.getElementById('hamburger');
         const sidebar = document.getElementById('sidebar');
@@ -404,7 +403,6 @@ $sys->set_layout('teacher.php');
             hamburger.classList.remove('open');
         });
 
-        // JavaScript to show the image once it's loaded
         const profilePicture = document.getElementById('profile-picture');
         const loadingIndicator = document.getElementById('loading');
 
