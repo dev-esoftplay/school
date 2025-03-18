@@ -2,66 +2,49 @@
 if (!defined('_VALID_BBC'))
     exit('No direct script access allowed');
 
-// Mengatur layout halaman
 $sys->set_layout('teacher.php');
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Input Nilai</title>
-    <!-- Link to Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Styles -->
     <style>
-        /* General Styles */
         body {
             margin: 0;
             display: flex;
+            padding: 0;
         }
 
         .main-content {
             flex: 1;
             padding: 15px;
             transition: margin-left 0.3s ease;
-            /* margin-left: 250px; */
         }
 
         .breadcrumb {
             font-size: 16px;
             color: #666;
             margin-bottom: 10px;
-            padding-left: 0px;
+            padding-left: 0;
             background: none;
-            font-size: min(3vw, 2vh, 18px);
         }
 
         .breadcrumb-item-dashboard {
             color: #4B5320;
-            /* Warna Hijau Army */
             font-weight: bold;
-            font-size: min(3vw, 2vh, 18px);
-            text-decoration: none;
-        }
-
-        .breadcrumb-item+.breadcrumb-item::before {
-            font-size: min(3vw, 2vh, 18px);
-            color: #4B5320;
-            font-weight: 600;
             text-decoration: none;
         }
 
         .breadcrumb-item-dashboard:hover {
             color: #3E4C23;
-            font-size: min(3vw, 2vh, 18px);
         }
 
-        /* Hamburger Button */
         .hamburger {
             display: none;
             font-size: 20px;
@@ -75,12 +58,10 @@ $sys->set_layout('teacher.php');
             transition: transform 0.3s ease;
         }
 
-        /* When sidebar is open, rotate the hamburger icon */
         .hamburger.open {
             transform: rotate(90deg);
         }
 
-        /* Overlay */
         .overlay {
             position: fixed;
             top: 0;
@@ -96,7 +77,6 @@ $sys->set_layout('teacher.php');
             display: block;
         }
 
-        /* Sidebar Styles */
         .sidebar {
             width: 250px;
             height: 100vh;
@@ -107,22 +87,22 @@ $sys->set_layout('teacher.php');
             display: flex;
             flex-direction: column;
         }
-
+        
         .sidebar .menu-title {
-            font-size: 1.2em !important;
+            font-size: 16.8px !important;
             margin-top: 5px;
-            margin-bottom: 10px;
+            margin-bottom: 1px;
             color: #006400;
             font-weight: bold;
             text-align: left;
         }
 
         .sidebar .menu-list {
-            /* Fixed typo by removing space */
             flex-grow: 1;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
+            font-size: 14px;
         }
 
         .sidebar .menu-list ul {
@@ -135,7 +115,6 @@ $sys->set_layout('teacher.php');
             color: #333;
         }
 
-        /* Default styles for anchor links in the sidebar */
         .sidebar .menu-list ul li a {
             text-decoration: none;
             color: black;
@@ -144,14 +123,12 @@ $sys->set_layout('teacher.php');
             display: block;
         }
 
-        /* Hover effect for the links */
         .sidebar .menu-list ul li a:hover {
             background-color: #d3f4d1;
             color: #3E7B27;
             text-decoration: none;
         }
 
-        /* Active link (current page) style */
         .sidebar .menu-list ul li a.active {
             background-color: #d3f4d1;
             color: #3E7B27;
@@ -159,7 +136,6 @@ $sys->set_layout('teacher.php');
             text-decoration: none;
         }
 
-        /* Footer */
         .footer {
             margin-top: 20px;
             font-size: 14px;
@@ -174,6 +150,7 @@ $sys->set_layout('teacher.php');
             border-radius: 5px;
             font-weight: bold;
             display: block;
+            font-size: 14px;
         }
 
         .sidebar .logout-link a:hover {
@@ -203,7 +180,6 @@ $sys->set_layout('teacher.php');
                 position: fixed;
                 right: -250px;
                 transition: transform 0.3s ease;
-                font-size: 1.2em !important;
             }
 
             .sidebar.active {
@@ -213,31 +189,13 @@ $sys->set_layout('teacher.php');
             .overlay.active {
                 display: block;
             }
-        }
-
-        @media (min-width: 769px) {
-            .sidebar {
-                position: fixed;
-                left: 0;
-                transition: transform 0.3s ease;
-                font-size: 1.4em !important;
-            }
-
-            .main-content {
-                flex: 1;
-                padding: 15px;
-                transition: margin-left 0.3s ease;
-            }
-        }
+        } 
     </style>
 </head>
 
 <body>
-    <!-- Overlay for mobile -->
     <div class="overlay" id="overlay"></div>
-    <!-- Hamburger Button  -->
     <button class="hamburger" id="hamburger">☰</button>
-    <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="menu-title">SDIT ERAPORT</div>
         <div class="menu-list">
@@ -261,17 +219,14 @@ $sys->set_layout('teacher.php');
             <?php echo $sys->block_show('footer'); ?>
         </div>
     </div>
-
     <div class="main-content">
-        <!-- Content Area -->
         <div class="container mt-4">
-            <!-- Breadcrumb for Title -->
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="teacher/dashboard" class="breadcrumb-item-dashboard">Dashboard</a></li>
                     <li class="breadcrumb-item active " aria-current="page">Input Nilai</li>
-                </ol </nav>
-
+                </ol 
+            </nav>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="card">
@@ -328,7 +283,6 @@ $sys->set_layout('teacher.php');
                         </tbody>
                     </table>
                 </div>
-                <!-- Tabel Bobot Nilai -->
                 <div id="weightTableContainer" class="hidden container mt-2">
                     <div class="d-flex align-items-center">
                         <h3 class="mb-4 fw-semibold fs-1 me-3">Bobot Nilai Mata Pelajaran</h3>
@@ -365,7 +319,6 @@ $sys->set_layout('teacher.php');
                     </table>
                 </div>
         </div>
-        <!-- Scripts -->
         <script>
             const hamburger = document.getElementById('hamburger');
             const sidebar = document.getElementById('sidebar');
@@ -402,15 +355,12 @@ $sys->set_layout('teacher.php');
             });
 
             $(document).ready(function() {
-                // Show class table by default when page loads
                 $("#classTableContainer").removeClass("hidden");
-
                 $("#showClassTable").click(function() {
                     console.log("Class Table Button Clicked");
                     $("#classTableContainer").removeClass("hidden");
                     $("#weightTableContainer").addClass("hidden");
                 });
-
                 $("#showWeightTable").click(function() {
                     console.log("Weight Table Button Clicked");
                     $("#weightTableContainer").removeClass("hidden");
@@ -420,7 +370,6 @@ $sys->set_layout('teacher.php');
 
             $(document).on("click", ".delete-weight", function() {
                 let weightId = $(this).data("id");
-
                 if (confirm("Apakah Anda yakin ingin menghapus bobot nilai ini?")) {
                     $.ajax({
                         url: window.location.href,
@@ -441,5 +390,4 @@ $sys->set_layout('teacher.php');
         </script>
     </div>
 </body>
-
 </html>
