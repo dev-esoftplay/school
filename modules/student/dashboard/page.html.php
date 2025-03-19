@@ -394,7 +394,16 @@ $sys->set_layout('student.php');
                 <p><strong>Semester:</strong> Semester <?php echo $current_semester; ?></p>
             </div>
 
-           
+            <!-- Quick Links
+            <div class="quick-links">
+                <h2>Tautan</h2>
+                <ul>
+                    <li><a href="student/score"><i class="fas fa-book"></i> Lihat Raport</a></li>
+                    <li><a href="student/profile"><i class="fas fa-user"></i><span id="profile_text">Profil</span></a></li>
+                    <li><a href="student/classes"><i class="fas fa-chalkboard-teacher"></i>List Kelas</a></li>
+                </ul>
+            </div> -->
+
             <!-- Recent announcement -->
             <div class="recent-announcement">
                 <h2>Pemberitahuan Terbaru</h2>
