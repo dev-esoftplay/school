@@ -15,14 +15,15 @@ if (empty($user->id)) {
 }
 
 $article = [
-    "title" => "Important Announcement from the Principal",
-    "description" => "Dear students and teachers, we are pleased to announce that the annual school event will take place next month. Please stay tuned for further details. Attendance is mandatory for all staff and students.",
-    "category" => "School Announcement",
-    "read_time" => "2 min read",
+    "title" => "Pengumuman Penting dari Kepala Sekolah",
+    "description" => "Kepada siswa dan guru yang terhormat, kami dengan senang hati mengumumkan bahwa acara tahunan sekolah akan dilaksanakan bulan depan. Mohon untuk tetap memantau informasi lebih lanjut. Kehadiran wajib untuk semua staf dan siswa.",
+    "category" => "Pengumuman Sekolah",
+    "read_time" => "2 menit bacaan",
     "image" => "https://img.freepik.com/free-photo/group-students-graduation-gown-standing-campus_1150-11021.jpg",
-    "source" => "Principal's Office",
-    "time" => "1 hour ago"
+    "source" => "Kantor Kepala Sekolah",
+    "time" => "1 jam yang lalu"
 ];
+
 
 $school_news = $db->getAll("SELECT * FROM school_announcement_latest_news");
 

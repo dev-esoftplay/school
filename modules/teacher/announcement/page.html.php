@@ -6,6 +6,7 @@ $sys->set_layout('teacher.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,13 +14,16 @@ $sys->set_layout('teacher.php');
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         /* General Styles */
-        html, body {
+        html,
+        body {
             overflow-x: hidden;
             width: 100%;
-            scroll-behavior: smooth; /* Smooth scrolling */
+            scroll-behavior: smooth;
+            /* Smooth scrolling */
             margin: 0;
             padding: 0;
-            height: 100%; /* Ensure full height */
+            height: 100%;
+            /* Ensure full height */
         }
 
         h2 {
@@ -30,31 +34,70 @@ $sys->set_layout('teacher.php');
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
             overflow-x: hidden;
-            display: flex; /* Use flexbox for layout */
-            min-height: 100vh; /* Ensure body takes full viewport height */
+            display: flex;
+            /* Use flexbox for layout */
+            min-height: 100vh;
+            /* Ensure body takes full viewport height */
         }
 
-        /* Sidebar Styles */
+        .hamburger {
+            display: none;
+            font-size: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: fixed;
+            top: 15px;
+            right: 20px;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .hamburger.open {
+            transform: rotate(90deg);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+            display: none;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
         .sidebar {
             width: 250px;
+            height: 100vh;
             background: white;
-            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            z-index: 999;
             padding: 15px;
             display: flex;
             flex-direction: column;
-            position: sticky;
-            top: 0;
-            height: 100vh; /* Full height */
-            overflow-y: auto; /* Enable scrolling if content overflows */
         }
 
         .sidebar .menu-title {
-            font-size: 1.2em;
+            font-size: 16.8px !important;
             margin-top: 5px;
-            margin-bottom: 10px;
+            margin-bottom: 1px;
             color: #006400;
             font-weight: bold;
             text-align: left;
+        }
+
+        .sidebar .menu-list {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            font-size: 14px;
         }
 
         .sidebar .menu-list ul {
@@ -64,6 +107,7 @@ $sys->set_layout('teacher.php');
 
         .sidebar .menu-list ul li {
             margin: 10px 0;
+            color: #333;
         }
 
         .sidebar .menu-list ul li a {
@@ -77,12 +121,21 @@ $sys->set_layout('teacher.php');
         .sidebar .menu-list ul li a:hover {
             background-color: #d3f4d1;
             color: #3E7B27;
+            text-decoration: none;
         }
 
         .sidebar .menu-list ul li a.active {
             background-color: #d3f4d1;
             color: #3E7B27;
             font-weight: bold;
+            text-decoration: none;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #777;
+            text-align: center;
         }
 
         .sidebar .logout-link a {
@@ -92,6 +145,7 @@ $sys->set_layout('teacher.php');
             border-radius: 5px;
             font-weight: bold;
             display: block;
+            font-size: 14px;
         }
 
         .sidebar .logout-link a:hover {
@@ -104,20 +158,20 @@ $sys->set_layout('teacher.php');
             margin-top: auto;
         }
 
-        .footer {
-            margin-top: 20px;
-            font-size: 14px;
-            color: #777;
-            text-align: center;
+        .hidden {
+            display: none;
         }
 
         /* Main Content */
         .main-content {
-            flex: 1; /* Take remaining space */
+            flex: 1;
+            /* Take remaining space */
             display: flex;
             flex-direction: column;
-            height: 100vh; /* Match sidebar height */
-            overflow-y: auto; /* Enable scrolling if content overflows */
+            height: 100vh;
+            /* Match sidebar height */
+            overflow-y: auto;
+            /* Enable scrolling if content overflows */
         }
 
         /* Header */
@@ -127,13 +181,15 @@ $sys->set_layout('teacher.php');
             border-radius: 8px;
             margin: 20px auto;
             max-width: 90%;
-            text-align: left; /* Align header text to the left */
+            text-align: left;
+            /* Align header text to the left */
         }
 
         header.header-container h2 {
             font-size: 18px;
             color: red;
-            text-align: left; /* Align header text to the left */
+            text-align: left;
+            /* Align header text to the left */
         }
 
         /* Article Container */
@@ -155,7 +211,8 @@ $sys->set_layout('teacher.php');
         .article-content {
             max-width: 500px;
             min-width: 380px;
-            text-align: center; /* Align text to the left */
+            text-align: center;
+            /* Align text to the left */
             padding: 20px;
         }
 
@@ -179,16 +236,20 @@ $sys->set_layout('teacher.php');
 
         /* News Sections Container */
         .news-sections-container {
-            display: flex; /* Use flexbox to split the screen */
-            gap: 50px; /* Space between latest news and featured news */
+            display: flex;
+            /* Use flexbox to split the screen */
+            gap: 50px;
+            /* Space between latest news and featured news */
             max-width: 90%;
             margin: 20px auto;
         }
 
         /* Latest News Section */
         section.latest-news {
-            flex: 1; /* Take up 50% of the space */
-            text-align: left; /* Align content to the left */
+            flex: 1;
+            /* Take up 50% of the space */
+            text-align: left;
+            /* Align content to the left */
         }
 
         .latest-news-header {
@@ -201,7 +262,8 @@ $sys->set_layout('teacher.php');
         .latest-news-header h2 {
             font-size: 20px;
             font-weight: bold;
-            text-align: left; /* Align text to the left */
+            text-align: left;
+            /* Align text to the left */
         }
 
         .see-all {
@@ -218,7 +280,8 @@ $sys->set_layout('teacher.php');
         /* News Container - Responsive Grid */
         .news-container {
             display: flex;
-            flex-direction: column; /* Default: Vertical for small screens */
+            flex-direction: column;
+            /* Default: Vertical for small screens */
             gap: 10px;
         }
 
@@ -227,7 +290,8 @@ $sys->set_layout('teacher.php');
             display: flex;
             align-items: center;
             width: 100%;
-            max-width: 600px; /* Adjusted width */
+            max-width: 600px;
+            /* Adjusted width */
             background: white;
             padding: 10px;
             border-radius: 8px;
@@ -243,7 +307,8 @@ $sys->set_layout('teacher.php');
 
         /* Image Styling */
         .news-card img {
-            width: 70px; /* Adjusted for better scaling */
+            width: 70px;
+            /* Adjusted for better scaling */
             height: 70px;
             object-fit: cover;
             border-radius: 5px;
@@ -279,8 +344,10 @@ $sys->set_layout('teacher.php');
 
         /* Featured News Section */
         section.featured-news-section {
-            flex: 1; /* Take up 50% of the space */
-            text-align: left; /* Align content to the left */
+            flex: 1;
+            /* Take up 50% of the space */
+            text-align: left;
+            /* Align content to the left */
         }
 
         .featured-news {
@@ -354,27 +421,44 @@ $sys->set_layout('teacher.php');
         /* Responsive Design */
         @media (max-width: 768px) {
             body {
-                flex-direction: column; /* Stack sidebar and main content vertically */
-            }
-
-            .sidebar {
-                width: 100%; /* Full width on mobile */
-                height: auto; /* Auto height on mobile */
-                position: relative; /* Remove fixed positioning */
+                flex-direction: column;
+                /* Stack sidebar and main content vertically */
             }
 
             .main-content {
-                height: auto; /* Auto height on mobile */
+                height: auto;
+                /* Auto height on mobile */
             }
 
             .news-sections-container {
-                flex-direction: column; /* Stack latest news and featured news vertically on mobile */
+                flex-direction: column;
+                /* Stack latest news and featured news vertically on mobile */
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .sidebar {
+                position: fixed;
+                right: -250px;
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.active {
+                transform: translateX(-250px);
+            }
+
+            .overlay.active {
+                display: block;
             }
         }
     </style>
 </head>
+
 <body>
-    <!-- Sidebar -->
+    <div class="overlay" id="overlay"></div>
+    <button class="hamburger" id="hamburger">☰</button>
     <div class="sidebar" id="sidebar">
         <div class="menu-title">SDIT ERAPORT</div>
         <div class="menu-list">
@@ -399,7 +483,7 @@ $sys->set_layout('teacher.php');
     <div class="main-content">
         <!-- Header -->
         <header class="header-container">
-            <h2>WELCOME TO SCHOOL BULLETIN</h2>
+            <h2>SELAMAT DATANG DI BULETIN SEKOLAH</h2>
         </header>
 
         <!-- Article Container -->
@@ -417,19 +501,19 @@ $sys->set_layout('teacher.php');
             <!-- Latest News Section -->
             <section class="latest-news">
                 <div class="latest-news-header">
-                    <h2>Latest School Updates</h2>
-                    <a href="teacher/latestnews" class="see-all">See all →</a>
+                    <h2>Pembaruan Terbaru Sekolah</h2>
+                    <a href="teacher/latestnews" class="see-all">Lihat →</a>
                 </div>
                 <div class="news-container">
                     <?php foreach ($school_news as $item): ?>
                         <div class="news-card">
-                            <img src="<?php echo htmlspecialchars($item['image'], ENT_QUOTES, 'UTF-8'); ?>" 
+                            <img src="<?php echo htmlspecialchars($item['image'], ENT_QUOTES, 'UTF-8'); ?>"
                                 alt="<?php echo htmlspecialchars($item['title'], ENT_QUOTES, 'UTF-8'); ?>" loading="lazy">
                             <div class="news-content">
                                 <div class="news-category"><?php echo htmlspecialchars($item['category'], ENT_QUOTES, 'UTF-8'); ?></div>
                                 <div class="news-title"><?php echo htmlspecialchars($item['title'], ENT_QUOTES, 'UTF-8'); ?></div>
                                 <div class="news-meta">
-                                    <span class="news-author">By <?php echo htmlspecialchars($item['author'], ENT_QUOTES, 'UTF-8'); ?></span> • 
+                                    <span class="news-author">By <?php echo htmlspecialchars($item['author'], ENT_QUOTES, 'UTF-8'); ?></span> •
                                     <?php echo date('F j, Y', strtotime($item['created_at'])); ?>
                                 </div>
                             </div>
@@ -441,8 +525,8 @@ $sys->set_layout('teacher.php');
             <!-- Featured News Section -->
             <section class="featured-news-section">
                 <div class="latest-news-header">
-                    <h2>Featured News</h2>
-                    <a href="teacher/featurednews" class="see-all">See all →</a>
+                    <h2>Berita Unggulan</h2>
+                    <a href="teacher/featurednews" class="see-all">lihat semua →</a>
                 </div>
                 <div class="featured-news">
                     <?php foreach ($featured_news as $item): ?>
@@ -465,20 +549,30 @@ $sys->set_layout('teacher.php');
     </div>
 
     <script>
-        // Sidebar Toggle
         const hamburger = document.getElementById('hamburger');
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('overlay');
 
+        const activePage = window.location.pathname;
+        const navLinks = document.querySelectorAll('.menu-list ul li a');
+
+        navLinks.forEach(link => {
+            if (link.href.includes(`${activePage}`)) {
+                link.classList.add('active');
+            }
+        });
+
         hamburger.addEventListener('click', () => {
-            sidebar.classList.toggle('active');
-            overlay.classList.toggle('active');
-            hamburger.classList.toggle('open');
-            
             if (sidebar.classList.contains('active')) {
-                sidebar.style.right = "0";
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+                hamburger.textContent = '☰';
+                hamburger.classList.remove('open');
             } else {
-                sidebar.style.right = "-250px";
+                sidebar.classList.add('active');
+                overlay.classList.add('active');
+                hamburger.textContent = '×';
+                hamburger.classList.add('open');
             }
         });
 
@@ -500,8 +594,12 @@ $sys->set_layout('teacher.php');
         });
 
         document.getElementById('back-to-top').addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         });
     </script>
 </body>
+
 </html>

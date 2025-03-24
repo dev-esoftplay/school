@@ -8,6 +8,7 @@ $_GET['id'] = !empty($_GET['id']) ? $_GET['id'] : 0;
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -78,14 +79,18 @@ $_GET['id'] = !empty($_GET['id']) ? $_GET['id'] : 0;
         }
 
         .news-title a {
-            text-decoration: none; /* Remove default underline */
-            color: black; /* Default color */
+            text-decoration: none;
+            /* Remove default underline */
+            color: black;
+            /* Default color */
             transition: color 0.3s ease, text-decoration 0.3s ease;
         }
 
         .news-title a:hover {
-            text-decoration: underline; /* Underline on hover */
-            color: green; /* Change color on hover */
+            text-decoration: underline;
+            /* Underline on hover */
+            color: green;
+            /* Change color on hover */
         }
 
         .main-news .main-article .news-description {
@@ -157,16 +162,19 @@ $_GET['id'] = !empty($_GET['id']) ? $_GET['id'] : 0;
         /* Make the secondary news scrollable on small screens */
         @media (max-width: 768px) {
             .main-news {
-                grid-template-columns: 1fr; /* Stack main news on mobile */
+                grid-template-columns: 1fr;
+                /* Stack main news on mobile */
             }
 
             .main-news .main-article {
                 display: flex;
-                flex-direction: column-reverse; /* Swap image and text */
+                flex-direction: column-reverse;
+                /* Swap image and text */
             }
 
             .main-news .main-article img {
-                width: 100%; /* Full width on mobile */
+                width: 100%;
+                /* Full width on mobile */
                 height: auto;
             }
 
@@ -176,17 +184,22 @@ $_GET['id'] = !empty($_GET['id']) ? $_GET['id'] : 0;
 
             .secondary-news {
                 display: flex;
-                overflow-x: auto; /* Enable horizontal scrolling */
+                overflow-x: auto;
+                /* Enable horizontal scrolling */
                 gap: 10px;
                 padding-bottom: 10px;
-                scroll-snap-type: x mandatory; /* Smooth snapping effect */
+                scroll-snap-type: x mandatory;
+                /* Smooth snapping effect */
             }
 
             .secondary-article {
                 flex: 0 0 auto;
-                width: 300px; /* Set a fixed width */
-                min-width: 280px; /* Ensures consistent size */
-                scroll-snap-align: start; /* Snap to each article */
+                width: 300px;
+                /* Set a fixed width */
+                min-width: 280px;
+                /* Ensures consistent size */
+                scroll-snap-align: start;
+                /* Snap to each article */
                 display: flex;
                 flex-direction: row;
                 border-radius: 10px;
@@ -197,7 +210,8 @@ $_GET['id'] = !empty($_GET['id']) ? $_GET['id'] : 0;
             }
 
             .secondary-news .secondary-article img {
-                width: 40%; /* Keep image on the left */
+                width: 40%;
+                /* Keep image on the left */
                 height: 180px;
                 object-fit: cover;
             }
@@ -206,7 +220,8 @@ $_GET['id'] = !empty($_GET['id']) ? $_GET['id'] : 0;
                 padding: 15px;
                 padding-bottom: 0px;
                 padding-top: 5px;
-                width: 70%; /* Keep text on the right */
+                width: 70%;
+                /* Keep text on the right */
                 height: 180px;
                 max-width: 300px;
                 overflow: hidden;
@@ -239,12 +254,12 @@ $_GET['id'] = !empty($_GET['id']) ? $_GET['id'] : 0;
 <body>
 
     <div class="container">
-        <h1>All Latest News</h1>
-        <h4>Latest news related to the school in recent times</h4>
+        <h1>Semua Berita Terbaru</h1>
+        <h4>Berita terbaru terkait sekolah dalam waktu terkini</h4>
 
         <!-- Search Bar -->
         <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Search news..." onkeyup="searchNews()">
+            <input type="text" id="searchInput" placeholder="Cari berita..." onkeyup="searchNews()">
         </div>
         <!-- Main News Section -->
         <div class="main-news">
@@ -260,7 +275,7 @@ $_GET['id'] = !empty($_GET['id']) ? $_GET['id'] : 0;
                     <img src="<?php echo $school_news[$_GET['id']]['image']; ?>" alt="Main News Image">
                 </div>
             <?php endif; ?>
-            
+
             <!-- Secondary Articles -->
             <div class="secondary-news">
                 <?php for ($i = 1; $i < count($school_news); $i++): ?>
@@ -268,7 +283,7 @@ $_GET['id'] = !empty($_GET['id']) ? $_GET['id'] : 0;
                         <img src="<?php echo $school_news[$i]['image']; ?>" alt="Secondary News Image">
                         <div class="secondary-article-content">
                             <div class="news-category"><?php echo $school_news[$i]['category']; ?></div>
-                            <div class="news-title"><a href="teacher/newsdetailpage/<?php echo $school_news[$i]['id'];?>"><?php echo $school_news[$i]['title']; ?></a></div>
+                            <div class="news-title"><a href="teacher/newsdetailpage/<?php echo $school_news[$i]['id']; ?>"><?php echo $school_news[$i]['title']; ?></a></div>
                             <div class="news-description"><?php echo limitWords($school_news[$i]['description'], 8); ?></div>
                             <div class="news-meta"><?php echo date('F j, Y, g:i a', strtotime($school_news[$i]['created_at'])); ?></div>
                         </div>
@@ -278,10 +293,12 @@ $_GET['id'] = !empty($_GET['id']) ? $_GET['id'] : 0;
         </div>
 
         <div class="back-button">
-            <a href="teacher/announcement" onclick="redirectAndClose(event, 'announcement.php')">← Back to Home</a>
+            <a href="teacher/announcement" onclick="redirectAndClose(event, 'announcement.php')">← Kembali ke Beranda</a>
         </div>
     </div>
     <script>
+        let noResultsMessage = null; // Declare outside the function to maintain its state
+
         function searchNews() {
             let input = document.getElementById("searchInput").value.toLowerCase();
             let mainArticle = document.querySelector(".main-article");
@@ -289,6 +306,7 @@ $_GET['id'] = !empty($_GET['id']) ? $_GET['id'] : 0;
             let articles = document.querySelectorAll(".secondary-article");
             let hasResults = false;
 
+            // Handle layout changes when search input is not empty
             if (input.trim() !== "") {
                 // Hide main article during search
                 mainArticle.style.display = "none";
@@ -302,7 +320,7 @@ $_GET['id'] = !empty($_GET['id']) ? $_GET['id'] : 0;
                     article.style.marginTop = "15px"; // Add spacing between articles
                 });
             } else {
-                // Restore main article and default layout
+                // Restore main article and default layout when input is empty
                 mainArticle.style.display = "flex"; // Ensure main article is visible
                 mainArticle.style.flexDirection = "column-reverse"; // Ensure image is above text on mobile
 
@@ -321,6 +339,12 @@ $_GET['id'] = !empty($_GET['id']) ? $_GET['id'] : 0;
                 articles.forEach(article => {
                     article.style.marginTop = "0"; // Reset margin
                 });
+
+                // Remove noResultsMessage if input is empty
+                if (noResultsMessage) {
+                    noResultsMessage.remove();
+                    noResultsMessage = null;
+                }
             }
 
             // Filter articles based on search input
@@ -335,6 +359,24 @@ $_GET['id'] = !empty($_GET['id']) ? $_GET['id'] : 0;
                     article.style.display = "none"; // Hide non-matching articles
                 }
             });
+
+            // Display message if no articles match the search
+            if (!hasResults && input.trim() !== "") {
+                if (!noResultsMessage) {
+                    noResultsMessage = document.createElement("p");
+                    noResultsMessage.textContent = "Berita yang kamu cari tidak ada.";
+                    noResultsMessage.style.position = "fixed";
+                    noResultsMessage.style.top = "50%";
+                    noResultsMessage.style.left = "50%";
+                    noResultsMessage.style.transform = "translate(-50%, -50%)";
+                    noResultsMessage.style.fontSize = "18px";
+                    noResultsMessage.style.color = "black";
+                    noResultsMessage.style.backgroundColor = "rgba(255, 255, 255, 0.8)";
+                    noResultsMessage.style.padding = "20px";
+                    noResultsMessage.style.borderRadius = "5px";
+                    document.body.appendChild(noResultsMessage); // Show the message in the center of the screen
+                }
+            }
         }
     </script>
 </body>
