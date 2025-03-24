@@ -14,16 +14,14 @@ $sys->set_layout('student.php');
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-      crossorigin="anonymous"
-    />
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+        crossorigin="anonymous" />
 
     <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
-    />
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -50,7 +48,7 @@ $sys->set_layout('student.php');
         .dashboard {
             padding: 15px;
         }
-        
+
 
         /* Breadcrumb Style */
         .breadcrumb {
@@ -136,6 +134,7 @@ $sys->set_layout('student.php');
             width: 250px;
             height: 100vh;
             background: linear-gradient(135deg, #3E7B27, #66BB6A);
+            /* Gradient background */
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
             z-index: 999;
             padding: 20px;
@@ -144,6 +143,7 @@ $sys->set_layout('student.php');
             position: sticky;
             top: 0;
             color: white;
+            /* Text color for better contrast */
         }
 
         .sidebar.active {
@@ -152,10 +152,12 @@ $sys->set_layout('student.php');
 
         .sidebar .menu-title {
             font-size: 1.5em;
+            /* Increased font size */
             margin-bottom: 20px;
             font-weight: bold;
             text-align: left;
             color: white;
+            /* White text for contrast */
         }
 
         .sidebar .menu-list {
@@ -188,6 +190,7 @@ $sys->set_layout('student.php');
             background-color: rgba(220, 245, 203, 0.5);
             color: white;
         }
+
 
         .sidebar .logout-link a {
             background-color: #DC143C;
@@ -263,7 +266,7 @@ $sys->set_layout('student.php');
                     </ul>
                 </div>
             </div>
-            </div>
+        </div>
         <div class="logout-link">
             <a href="student/logout" onclick="redirectAndClose(event, 'logout.php')"><i class="fas fa-sign-out-alt"></i> Keluar</a>
         </div>
@@ -394,7 +397,7 @@ $sys->set_layout('student.php');
                 const navLinks = document.querySelectorAll('.menu-list ul li a');
 
                 navLinks.forEach(link => {
-                    if (link.href.includes(${activePage})) {
+                    if (link.href.includes(`${activePage}`)) {
                         link.classList.add('active');
                     }
                 });
