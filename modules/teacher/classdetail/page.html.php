@@ -38,12 +38,11 @@ $sys->set_layout('teacher.php');
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-      overflow-x: auto; /* Menambahkan scroll horizontal untuk mobile */
     }
 
     .table {
-      width: 100%; /* Membuat tabel mengisi kontainer */
-      min-width: 600px; /* Opsional: Menetapkan lebar minimum untuk mencegah tabel terlalu sempit di mobile */
+      width: 100%;
+      min-width: 600px;
     }
 
     .table tbody tr:hover {
@@ -58,6 +57,50 @@ $sys->set_layout('teacher.php');
 
     .btn-back:hover {
       color: #0856aa;
+    }
+
+    /* Mengurangi padding di dalam tabel untuk mendekatkan kolom */
+    .table th, .table td {
+      padding: 8px 10px; /* Menyesuaikan padding agar lebih rapat */
+    }
+
+    /* Media query for desktop */
+    @media (min-width: 768px) {
+      /* Decrease width of specific columns on desktop */
+      .col-no {
+        width: 1%; 
+      }
+
+      .col-nis {
+        width: 15%; 
+      }
+
+      .table th, .table td {
+        font-size: 1.8rem; 
+      }
+    }
+
+    /* Responsive Tabel */
+    @media (max-width: 768px) {
+      .table-container {
+        padding: 10px;
+      }
+
+      .table {
+        font-size: 14px;
+      }
+
+      .table th, .table td {
+        font-size: 1.4rem; 
+      }
+
+      .header h1 {
+        font-size: 1.5rem;
+      }
+
+      .btn-back {
+        font-size: 16px;
+      }
     }
   </style>
 </head>
@@ -75,31 +118,33 @@ $sys->set_layout('teacher.php');
 
   <div class="container mt-4">
     <div class="table-container">
-      <table class="table table-bordered table-striped">
-        <thead class="custom-blue">
-          <tr class="fs-5 text-center">
-            <th>No</th>
-            <th>Nama</th>
-            <th>NIS</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php if (!empty($students)) : ?>
-            <?php $no = 1; ?>
-            <?php foreach ($students as $student) : ?>
-              <tr class="text-center">
-                <td class="fs-5"><?= $no++ ?></td>
-                <td class="fs-5"><?= htmlspecialchars($student['name']) ?></td>
-                <td class="fs-5"><?= htmlspecialchars($student['nis']) ?></td>
-              </tr>
-            <?php endforeach; ?>
-          <?php else : ?>
-            <tr>
-              <td colspan="3" class="text-center">Tidak ada siswa dalam kelas ini.</td>
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+          <thead class="custom-blue">
+            <tr class="fs-5">
+              <th class="col-no">No</th>
+              <th>Nama</th>
+              <th class="col-nis">NIS</th>
             </tr>
-          <?php endif; ?>
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            <?php if (!empty($students)) : ?>
+              <?php $no = 1; ?>
+              <?php foreach ($students as $student) : ?>
+                <tr>
+                  <td class="col-no"><?= $no++ ?></td>
+                  <td> <?= htmlspecialchars($student['name']) ?></td>
+                  <td class="col-nis"><?= htmlspecialchars($student['nis']) ?></td>
+                </tr>
+              <?php endforeach; ?>
+            <?php else : ?>
+              <tr>
+                <td colspan="3" class="text-center">Tidak ada siswa dalam kelas ini.</td>
+              </tr>
+            <?php endif; ?>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 

@@ -182,14 +182,12 @@ $sys->set_layout('teacher.php');
             margin: 20px auto;
             max-width: 90%;
             text-align: left;
-            /* Align header text to the left */
         }
 
         header.header-container h2 {
-            font-size: 18px;
+            font-size: 20px;
             color: red;
-            text-align: left;
-            /* Align header text to the left */
+            text-align: center;
         }
 
         /* Article Container */
@@ -483,7 +481,8 @@ $sys->set_layout('teacher.php');
     <div class="main-content">
         <!-- Header -->
         <header class="header-container">
-            <h2>SELAMAT DATANG DI BULETIN SEKOLAH</h2>
+            <h2>SELAMAT DATANG DI</h2>
+            <h2>BULETIN SEKOLAH</h2>
         </header>
 
         <!-- Article Container -->
@@ -501,8 +500,8 @@ $sys->set_layout('teacher.php');
             <!-- Latest News Section -->
             <section class="latest-news">
                 <div class="latest-news-header">
-                    <h2>Pembaruan Terbaru Sekolah</h2>
-                    <a href="teacher/latestnews" class="see-all">Lihat →</a>
+                    <h2>Berita Terbaru</h2>
+                    <a href="teacher/latestnews" class="see-all">lihat semua →</a>
                 </div>
                 <div class="news-container">
                     <?php foreach ($school_news as $item): ?>
